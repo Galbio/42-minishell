@@ -35,7 +35,7 @@ fclean: clean
 
 $(OBJS)/%.o: $(SRC)/%.c
 	@mkdir -p $(dir $@)
-	$(COMPILATOR) $(FLAGS) $< -c -o $@ -I $(INCLUDE)
+	@$(COMPILATOR) $(FLAGS) $< -c -o $@ -I $(INCLUDE)
 
 re: fclean all
 
