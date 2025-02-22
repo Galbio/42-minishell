@@ -11,7 +11,7 @@ LIBFTI = $(LIBFT)
 FILES = main.c
 OFILES = $(FILES:%.c=$(OBJS)/%.o)
 
-#FLAGS = -Wall -Wextra -Werror -g
+FLAGS = -Wall -Wextra -Werror -g
 COMPILATOR = cc
 
 all: $(NAME)
