@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:21:54 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/22 23:36:44 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/22 23:38:20 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*parse_quotes(char *str, int i)
 	char	cur_quote;
 	int		res;
 
-	dest = malloc(sizeof(char) * (get_parsed_len(str, -1)));
+	dest = malloc(sizeof(char) * (get_parsed_len(str)));
 	if (!dest)
 		return (NULL);
 	res = 0;
