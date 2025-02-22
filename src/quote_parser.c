@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:21:54 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/22 23:29:33 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/22 23:36:44 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ char	check_special_char(char c, char *backslash, char *cur_quote)
 		return (*cur_quote = '"', 0);
 	else if (c == '"')
 		return (*cur_quote = '"', 0);
-	else if (*cur_quote == '\'')
-		return (1);
 	if ((c == '\\') && (*backslash))
 		return (*backslash = 0, 1);
 	else if (c == '\\')
@@ -39,12 +37,14 @@ char	check_special_char(char c, char *backslash, char *cur_quote)
 	return (1);
 }
 
-int	get_parsed_len(char *str, int i)
+int	get_parsed_len(char *str)
 {
 	char	back_slashed;
 	char	cur_quote;
 	int		res;
+	int		i;
 
+	i = -1;
 	res = 0;
 	cur_quote = 0;
 	back_slashed = 0;
