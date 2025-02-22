@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/22 21:20:18 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/22 23:14:20 by lroussel         ###   ########.fr       */
+/*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
+/*   Updated: 2025/02/22 23:44:07 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+void	launch(void)
 {
-	(void)argc;
-	(void)argv;
-	(void)envp;
-	launch();
-	return (0);
+	while (1)
+	{
+		readline("ecris stp > ");
+	}
 }
