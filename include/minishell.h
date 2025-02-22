@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/22 23:26:52 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/22 23:49:01 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,7 @@
 # include <termios.h>
 # include <curses.h>
 # include <term.h>
+
+void	launch(void);
 
 #endif

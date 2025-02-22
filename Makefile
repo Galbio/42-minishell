@@ -8,16 +8,18 @@ LIBFT = libft
 LIBFTA = $(LIBFT)/libft.a
 LIBFTI = $(LIBFT)
 
-FILES = main.c
+FILES = main.c		\
+	minishell.c		
 OFILES = $(FILES:%.c=$(OBJS)/%.o)
 
-FLAGS = -Wall -Wextra -Werror -g
+FLAGS = -Wall -Wextra -Werror
+EXTRA_FLAGS = -l readline -g
 COMPILATOR = cc
 
 all: $(NAME)
 
 $(NAME): $(LIBFTA) $(OFILES)
-	$(COMPILATOR) $(FLAGS) $(OFILES) $(LIBFTA) -o $(NAME) -I $(INCLUDE)
+	$(COMPILATOR) $(FLAGS) $(OFILES) $(LIBFTA) -o $(NAME) -I $(INCLUDE) $(EXTRA_FLAGS)
 
 $(LIBFTA):
 	@make -C libft/ bonus > /dev/null
