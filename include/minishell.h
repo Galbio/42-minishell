@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/22 21:18:56 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/22 23:04:56 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include <dirent.h>
 # include <string.h>
 # include <errno.h>
-# include <sts/ioctl.h>
+# include <sys/ioctl.h>
 # include <termios.h>
 # include <curses.h>
 # include <term.h>
