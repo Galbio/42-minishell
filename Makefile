@@ -4,23 +4,32 @@ INCLUDE = include
 SRC = src
 OBJS = objs
 
+LIBFT = libft
+LIBFTA = $(LIBFT)/libft.a
+LIBFTI = $(LIBFT)
+
 FILES = main.c
 OFILES = $(FILES:%.c=$(OBJS)/%.o)
 
-FLAGS = -Wall -Wextra -Werror -g
+#FLAGS = -Wall -Wextra -Werror -g
 COMPILATOR = cc
 
 all: $(NAME)
 
-$(NAME): $(OFILES)
-	$(COMPILATOR) $(FLAGS) $(OFILES) -o $(NAME) -I $(INCLUDE)
+$(NAME): $(LIBFTA) $(OFILES)
+	$(COMPILATOR) $(FLAGS) $(OFILES) $(LIBFTA) -o $(NAME) -I $(INCLUDE)
+
+$(LIBFTA):
+	@make -C libft/ bonus > /dev/null
 
 clean:
 	@rm -rf $(OFILES)
 	@rm -rf $(OBJS)
+	@make -C $(LIBFT) clean > /dev/null
 
 fclean: clean
 	@rm -rf $(NAME)
+	@make -C $(LIBFT) fclean > /dev/null
 
 $(OBJS)/%.o: $(SRC)/%.c
 	@mkdir -p $(dir $@)
