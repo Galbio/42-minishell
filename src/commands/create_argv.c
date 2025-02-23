@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 08:00:35 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 09:50:44 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/23 13:41:07 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ char	**create_command_argv(char *str, t_list *envp, t_main_envp *imp)
 	int		i;
 	int		size;
 
+	(void)envp;
+	(void)imp;
 	size = get_command_argc(str);
 	dest = malloc(sizeof(char *) * (size + 1));
 	if (!dest)
@@ -83,6 +85,6 @@ char	**create_command_argv(char *str, t_list *envp, t_main_envp *imp)
 	dest[size] = 0;
 	i = -1;
 	while (++i < size)
-		dest[i] = parse_quotes(parsed_quoted_substr(&str), envp, imp);
+		dest[i] = parsed_quoted_substr(&str);
 	return (dest);
 }

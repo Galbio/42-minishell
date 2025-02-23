@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 10:44:14 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/23 15:50:55 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,18 @@
 
 typedef struct s_main_envp
 {
+	char	**envp_cpy;
 	char	**path;
 	char	*home;
 	char	*cwd;
 	int		shell_level;
 }	t_main_envp;
+
+typedef struct s_command
+{
+	char	*command;
+	char	*flags;
+}	t_command;
 
 typedef struct s_int_tab
 {
@@ -63,7 +70,7 @@ typedef struct s_int_tab
 	char	*ptr2;
 }	t_int_tab;
 
-void	launch(void);
+void	launch(t_list *envp, t_main_envp *imp);
 
 char	*parse_quotes(char *str, t_list *envp, t_main_envp *imp);
 char	check_special_char(char c, char *backslash, char *cur_quote);
@@ -80,6 +87,7 @@ int		ft_securelen(char const *str);
 //TODO: move to libft
 int		ft_is_quote(int c);
 int		ft_is_whitespace(int c);
+t_int_tab	init_int_tab(void);
 
 char	*get_next_line(int fd);
 char	*create_line(int byte_read, char **stashed, char **buffer);
@@ -88,6 +96,8 @@ char	*seperate(char *buffer, char **stashed);
 void	*on_error(char **buffer, char **stashed);
 t_list	*parse_envp(char **envp, t_main_envp *imp);
 char	*parse_var(char *var_name, t_list *envp, t_main_envp *imp);
+char	*parse_commands(char *str, t_list *envp, t_main_envp *imp);
+char	check_built_in(char **name);
 
 //exec_command.c
 int		get_command_argc(char *str);

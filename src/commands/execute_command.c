@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 11:06:24 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/23 16:29:20 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,25 +30,16 @@ char	*handle_path_join(char *path, char *str)
 char	*get_command_path(char *str, char **paths)
 {
 	char	*dest;
-	int		fd;
 	int		i;
 
-	fd = open(str, O_RDONLY);
-	if (fd > 0)
-	{
-		close(fd);
+	if (!access(str, X_OK))
 		return (ft_strdup(str));
-	}
 	i = -1;
 	while (paths[++i])
 	{
 		dest = handle_path_join(paths[i], str);
-		fd = open(dest, O_RDONLY);
-		if (fd > 0)
-		{
-			close(fd);
+		if (!access(dest, X_OK))
 			return (dest);
-		}
 		free(dest);
 	}
 	return (NULL);
@@ -71,13 +62,15 @@ char	*read_whole_fd(int fd)
 		free(temp);
 	}
 	close(fd);
-	len = ft_strlen(dest);
+	len = ft_securelen(dest);
+	if (!len)
+		return (NULL);
 	if (dest[len - 1] == '\n')
 		dest[len - 1] = 0;
 	return (dest);
 }
 
-char	*get_command_output(char **argv)
+char	*get_command_output(char **argv, t_main_envp *imp)
 {
 	pid_t	pid;
 	int		i;
@@ -91,9 +84,8 @@ char	*get_command_output(char **argv)
 		return (NULL);
 	if (!pid)
 	{
-		if (ft_strncmp(argv[0], "/bin/curl", 9))
-			dup2(pipes[1], 1);
-		(close(pipes[0]), close(pipes[1]), execve(argv[0], argv, NULL));
+		dup2(pipes[1], 1);
+		(close(pipes[0]), close(pipes[1]), execve(argv[0], argv, imp->envp_cpy));
 		exit(0);
 	}
 	(close(pipes[1]), wait(NULL));
@@ -114,11 +106,12 @@ char	*execute_command(char *str, t_list *envp, t_main_envp *imp)
 	argv = create_command_argv(str, envp, imp);
 	path = get_command_path(argv[0], imp->path);
 	if (!path)
+	{
+		printf("%s: command not found\n", argv[0]);
 		return (NULL);
+	}
 	temp = argv[0];
 	argv[0] = path;
 	free(temp);
-	if (!path)
-		printf("%s: command not found\n", str);
-	return (get_command_output(argv));
+	return (get_command_output(argv, imp));
 }
