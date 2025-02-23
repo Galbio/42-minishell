@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 02:03:48 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/23 05:04:00 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@
 # include "libft.h"
 # include <unistd.h>
 
+//TODO: move gnl to libft
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
+
 typedef struct s_main_envp
 {
 	char	**path;
@@ -49,11 +54,19 @@ typedef struct s_main_envp
 
 void	launch(void);
 
+char	*parse_quotes(char *str, int i);
+char	check_special_char(char c, char *backslash, char *cur_quote);
+
 //TODO: move ft_readline to libft
 char	*ft_readline(const char *prompt);
+int		clean_readed(char **readed);
 
 //TODO: move ft_readline to libft
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
+
+//TODO: move to libft
+int		ft_is_quote(int c);
+int		ft_is_whitespace(int c);
 
 char	*get_next_line(int fd);
 char	*create_line(int byte_read, char **stashed, char **buffer);

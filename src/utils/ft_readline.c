@@ -6,29 +6,30 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 00:23:28 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/23 01:44:15 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/23 05:14:12 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	is_quote(int c)
-{
-	return (c == '"' || c == '\'' || c == '`');
-}
-
 static char	open_quote(char *stashed)
 {
-	int	i;
-	int	v;
+	int		i;
+	int		v;
+	char	cur_quote;
+	char	back_slashed;
+	int		check;
 
 	i = 0;
 	v = 0;
+	cur_quote = 0;
+	back_slashed = 0;
 	while (stashed[i])
 	{
-		if (stashed[i] == v)
+		check = check_special_char(stashed[i], &back_slashed, &cur_quote);
+		if (stashed[i] == v && !check)
 			v = 0;
-		else if (is_quote(stashed[i]) && v == 0)
+		else if (ft_is_quote(stashed[i]) && !check && v == 0)
 			v = stashed[i];
 		i++;
 	}
@@ -52,7 +53,13 @@ char	*ft_readline(const char *prompt)
 		free(res);
 		res = tmp;
 		if (open_quote(res) == 0)
+		{
+			res[ft_strlen(res) - 1] = '\0';
 			break ;
+		}
 	}
+	tmp = ft_strdup(res);
+	free(res);
+	res = tmp;
 	return (res);
 }

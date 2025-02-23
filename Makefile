@@ -13,9 +13,11 @@ FILES = main.c		\
 	envp_parser.c \
 	quote_parser.c \
 	utils/ft_readline.c	\
+	utils/clean_readed.c	\
 	utils/ft_realloc.c	\
-	utils/get_next_line.c
-
+	utils/get_next_line.c	\
+	utils/ft_is_quote.c	\
+	utils/ft_is_whitespace.c
 OFILES = $(FILES:%.c=$(OBJS)/%.o)
 
 FLAGS = -Wall -Wextra -Werror
