@@ -6,13 +6,13 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 18:19:55 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 19:01:05 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/23 21:33:25 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	*ft_cd(char *name)
+char	*ft_cd(char *name)
 {
 	int	res;
 	int	i;

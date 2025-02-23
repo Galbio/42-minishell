@@ -6,13 +6,13 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 06:23:04 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 21:19:13 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/23 21:27:50 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_securejoin(char *s1, char *s2, char must_free)
+char	*ft_securejoin(char const *s1, char const *s2, char must_free)
 {
 	size_t	i;
 	size_t	j;

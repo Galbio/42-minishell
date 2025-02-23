@@ -29,6 +29,9 @@ FILES = main.c		\
 	utils/ft_securejoin.c \
 	utils/ft_securelen.c \
 	utils/init_int_tab.c \
+	builtins/cd.c \
+	builtins/echo.c \
+	builtins/pwd.c \
 	commands/execute_command.c \
 	build_in.c \
 	commands/create_argv.c \
