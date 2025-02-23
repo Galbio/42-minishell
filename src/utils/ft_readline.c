@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 00:23:28 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/23 05:14:12 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/23 11:55:03 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,16 @@ char	*ft_readline(const char *prompt)
 	char	*res;
 	char	*tmp;
 
-	write(1, prompt, ft_strlen(prompt));
+	write(1, prompt, ft_securelen(prompt));
 	res = malloc(sizeof(char));
 	res[0] = '\0';
 	while (1)
 	{
 		line = get_next_line(0);
-		tmp = ft_strjoin(res, line);
-		free(line);
-		free(res);
+		if (!line)
+			return (NULL);
+		tmp = ft_securejoin(res, line, 0);
+		(free(line), free(res));
 		res = tmp;
 		if (open_quote(res) == 0)
 		{

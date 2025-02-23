@@ -1,33 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parse_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/22 21:20:18 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 14:12:48 by gakarbou         ###   ########.fr       */
+/*   Created: 2025/02/23 12:55:20 by gakarbou          #+#    #+#             */
+/*   Updated: 2025/02/23 16:52:49 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+char	*parse_commands(char *str, t_list *envp, t_main_envp *imp)
 {
-	int			i;
-	t_main_envp	imp;
-	t_list		*env;
+	t_int_tab	tabe;
+	char		*commande;
+	char		*dest;
 
-	(void)argc;
-	(void)argv;
-	env = parse_envp(envp, &imp);
-	launch(env, &imp);
-	ft_lstclear(&env, free);
-	i = -1;
-	while (imp.path[++i])
-		free(imp.path[i]);
-	free(imp.path);
-	free(imp.home);
-	free(imp.cwd);
-	return (2);
+	tabe = init_int_tab();
+	commande = parse_quotes(str, envp, imp);
+	tabe.res = check_built_in(&commande);
+	if (tabe.res)
+		return (free(commande), ft_strdup("later"));
+	dest = execute_command(commande, envp, imp);
+	return (free(commande), dest);
 }

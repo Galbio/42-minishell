@@ -1,33 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   init_int_tab.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/22 21:20:18 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 14:12:48 by gakarbou         ###   ########.fr       */
+/*   Created: 2025/02/23 13:13:40 by gakarbou          #+#    #+#             */
+/*   Updated: 2025/02/23 13:33:50 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+t_int_tab	init_int_tab(void)
 {
-	int			i;
-	t_main_envp	imp;
-	t_list		*env;
+	t_int_tab	p;
 
-	(void)argc;
-	(void)argv;
-	env = parse_envp(envp, &imp);
-	launch(env, &imp);
-	ft_lstclear(&env, free);
-	i = -1;
-	while (imp.path[++i])
-		free(imp.path[i]);
-	free(imp.path);
-	free(imp.home);
-	free(imp.cwd);
-	return (2);
+	p.i = -1;
+	p.res = 0;
+	p.ret = 0;
+	p.backslash = 0;
+	p.cur_quote = 0;
+	p.ptr1 = NULL;
+	p.ptr2 = NULL;
+	return (p);
 }
