@@ -1,0 +1,22 @@
+name: Norminette Check
+
+on: 
+  push:
+  pull_request:
+
+jobs:
+  norminette:
+    name: Run Norminette
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Norminette
+        run: |
+          python3 -m pip install --upgrade pip
+          pip install norminette
+
+      - name: Run Norminette
+        run: norminette || exit 1
