@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 08:00:35 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 08:03:00 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/23 09:50:44 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	get_command_argc(char *str)
 			res++;
 		check_special_char(str[i], &back_slashed, &cur_quote);
 	}
-	printf("argc = %d\n", res + 1);
 	return (res + 1);
 }
 
@@ -71,7 +70,7 @@ char	*parsed_quoted_substr(char **str)
 	return (dest);
 }
 
-char	**create_command_argv(char *str)
+char	**create_command_argv(char *str, t_list *envp, t_main_envp *imp)
 {
 	char	**dest;
 	int		i;
@@ -84,6 +83,6 @@ char	**create_command_argv(char *str)
 	dest[size] = 0;
 	i = -1;
 	while (++i < size)
-		dest[i] = parse_quotes(parsed_quoted_substr(&str), -1);
+		dest[i] = parse_quotes(parsed_quoted_substr(&str), envp, imp);
 	return (dest);
 }

@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/23 06:42:00 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/23 10:32:28 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	launch(void)
 	{
 		res = ft_readline("$> ");
 		if (clean_readed(&res))
-			; //TODO: parse with res
+			;
 		free(res);
 	}
 }

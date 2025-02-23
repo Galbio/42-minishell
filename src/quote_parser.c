@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:21:54 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 07:58:05 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/23 11:13:33 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,46 +37,87 @@ char	check_special_char(char c, char *backslash, char *cur_quote)
 	return (1);
 }
 
-int	get_parsed_len(char *str)
+char	*get_var_str(char *str)
 {
-	char	back_slashed;
-	char	cur_quote;
-	int		res;
 	int		i;
+	char	pare;
+	int		pare_count;
 
 	i = -1;
-	res = 0;
-	cur_quote = 0;
-	back_slashed = 0;
+	pare = (str[0] == '(');
+	pare_count = pare;
 	while (str[++i])
 	{
-		if (!check_special_char(str[i], &back_slashed, &cur_quote))
-			continue ;
-		res++;
+		if ((str[i] != '_') && (!ft_isalnum(str[i])) && (!pare))
+			return (ft_substr(str, 0, i));
+		else if (str[i] == ')')
+			return (ft_substr(str, 0, i + 1));
 	}
-	return (res);
+	return (ft_substr(str, 0, i + 1));
 }
 
-char	*parse_quotes(char *str, int i)
+int	get_parsed_len(char *str, t_list *envp, t_main_envp *imp)
 {
-	char	back_slashed;
-	char	*dest;
-	char	cur_quote;
-	int		res;
+	t_int_tab	infos;
 
-	dest = malloc(sizeof(char) * (1 + get_parsed_len(str)));
-	if (!dest)
-		return (NULL);
-	res = 0;
-	cur_quote = 0;
-	back_slashed = 0;
-	while (str[++i])
+	infos.i = -1;
+	infos.res = 0;
+	infos.cur_quote = 0;
+	infos.backslash = 0;
+	while (str[++infos.i])
 	{
-		if (!check_special_char(str[i], &back_slashed, &cur_quote))
+		if (!check_special_char(str[infos.i], &infos.backslash,
+				&infos.cur_quote))
 			continue ;
-		dest[res++] = str[i];
+		if ((infos.cur_quote != '\'') && str[infos.i] == '$')
+		{
+			infos.ptr1 = get_var_str(str + infos.i + 1);
+			infos.ptr2 = parse_var(infos.ptr1, envp, imp);
+			infos.res += ft_securelen(infos.ptr2);
+			infos.i += ft_securelen(infos.ptr1);
+			(free(infos.ptr1), free(infos.ptr2));
+		}
+		else
+			infos.res++;
 	}
-	dest[res] = 0;
+	return (infos.res);
+}
+
+void	handle_var(char *str, t_int_tab *infos, t_list *envp, t_main_envp *imp)
+{
+	char	*temp;
+
+	infos->ptr2 = get_var_str(str + infos->i + 1);
+	temp = parse_var(infos->ptr2, envp, imp);
+	ft_memcpy(infos->ptr1 + infos->res, temp, ft_securelen(temp));
+	infos->res += ft_securelen(temp);
+	infos->i += ft_securelen(infos->ptr2) + (infos->ptr2[0] == '(');
+	free(temp);
+	free(infos->ptr2);
+}
+
+char	*parse_quotes(char *str, t_list *envp, t_main_envp *imp)
+{
+	t_int_tab	infos;
+
+	infos.ptr1 = malloc(sizeof(char) * (1 + get_parsed_len(str, envp, imp)));
+	if (!infos.ptr1)
+		return (NULL);
+	infos.i = -1;
+	infos.res = 0;
+	infos.cur_quote = 0;
+	infos.backslash = 0;
+	while (str[++infos.i])
+	{
+		if (!check_special_char(str[infos.i], &infos.backslash,
+				&infos.cur_quote))
+			continue ;
+		if ((infos.cur_quote != '\'') && str[infos.i] == '$')
+			handle_var(str, &infos, envp, imp);
+		else
+			infos.ptr1[infos.res++] = str[infos.i];
+	}
+	infos.ptr1[infos.res] = 0;
 	free(str);
-	return (dest);
+	return (infos.ptr1);
 }

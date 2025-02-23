@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 02:16:30 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/23 05:15:49 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/23 11:01:34 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,5 @@ int	clean_readed(char **readed)
 	fix_spaces(*readed + i, &cleaned);
 	free(*readed);
 	*readed = cleaned;
-	printf("[%s}\n", *readed);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 08:01:47 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/23 10:44:14 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,20 @@ typedef struct s_main_envp
 	int		shell_level;
 }	t_main_envp;
 
+typedef struct s_int_tab
+{
+	int		i;
+	int		res;
+	int		ret;
+	char	cur_quote;
+	char	backslash;
+	char	*ptr1;
+	char	*ptr2;
+}	t_int_tab;
+
 void	launch(void);
 
-char	*parse_quotes(char *str, int i);
+char	*parse_quotes(char *str, t_list *envp, t_main_envp *imp);
 char	check_special_char(char c, char *backslash, char *cur_quote);
 
 //TODO: move ft_readline to libft
@@ -80,7 +91,7 @@ char	*parse_var(char *var_name, t_list *envp, t_main_envp *imp);
 
 //exec_command.c
 int		get_command_argc(char *str);
-char	**create_command_argv(char *str);
-char	*execute_command(char *str, char **path);
+char	**create_command_argv(char *str, t_list *envp, t_main_envp *imp);
+char	*execute_command(char *str, t_list *envp, t_main_envp *imp);
 
 #endif
