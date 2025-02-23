@@ -22,6 +22,7 @@ FILES = main.c		\
 	readline/display.c	\
 	readline/processing.c	\
 	readline/utils.c	\
+	utils/get_next_line.c	\
 	utils/ft_realloc.c	\
 	utils/ft_is_quote.c	\
 	utils/ft_is_whitespace.c \
