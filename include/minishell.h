@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 01:55:27 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/23 04:18:30 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,14 @@ void	launch(void);
 
 //TODO: move ft_readline to libft
 char	*ft_readline(const char *prompt);
+int		clean_readed(char **readed);
 
 //TODO: move ft_readline to libft
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
+
+//TODO: move to libft
+int		ft_is_quote(int c);
+int		ft_is_whitespace(int c);
 
 //TODO: move gnl to libft
 # ifndef BUFFER_SIZE

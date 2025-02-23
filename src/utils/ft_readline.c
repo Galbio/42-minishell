@@ -6,16 +6,11 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 00:23:28 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/23 01:44:15 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/23 04:09:46 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	is_quote(int c)
-{
-	return (c == '"' || c == '\'' || c == '`');
-}
 
 static char	open_quote(char *stashed)
 {
@@ -28,7 +23,7 @@ static char	open_quote(char *stashed)
 	{
 		if (stashed[i] == v)
 			v = 0;
-		else if (is_quote(stashed[i]) && v == 0)
+		else if (ft_is_quote(stashed[i]) && v == 0)
 			v = stashed[i];
 		i++;
 	}
@@ -52,7 +47,13 @@ char	*ft_readline(const char *prompt)
 		free(res);
 		res = tmp;
 		if (open_quote(res) == 0)
+		{
+			res[ft_strlen(res) - 1] = '\0';
 			break ;
+		}
 	}
+	tmp = ft_strdup(res);
+	free(res);
+	res = tmp;
 	return (res);
 }

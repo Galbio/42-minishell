@@ -1,28 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_is_quote.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/23 04:17:21 by lroussel         ###   ########.fr       */
+/*   Created: 2025/02/23 02:20:16 by lroussel          #+#    #+#             */
+/*   Updated: 2025/02/23 02:46:09 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-void	launch(void)
+int	ft_is_quote(int c)
 {
-	char	*res;
-
-	while (1)
-	{
-		res = ft_readline("$> ");
-		if (clean_readed(&res))
-		{
-			//TODO: parse with res
-		}
-		free(res);
-	}
+	return (c == '"' || c == '\'' || c == '`');
 }
