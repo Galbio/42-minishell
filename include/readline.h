@@ -49,7 +49,6 @@ typedef struct s_readline
 int			process_special_keys(t_readline *data);
 void		handle_key_input(t_readline *data, char buffer[100]);
 
-
 void		add_char_back(t_char *head, t_char *c);
 void		add_char_front(t_char **head, t_char *c);
 void		add_char_after(t_char **element, t_char *c);
@@ -80,6 +79,5 @@ int			count_newlines(t_char *c, t_char *actual, int *lc);
 char		get_open_quote(const char *stashed);
 int			get_terminal_width(void);
 int			count_total_newlines(const char *prompt, t_readline data);
-
 
 #endif
