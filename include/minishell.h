@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 04:24:36 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/23 05:04:00 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,9 @@ typedef struct s_main_envp
 }	t_main_envp;
 
 void	launch(void);
+
+char	*parse_quotes(char *str, int i);
+char	check_special_char(char c, char *backslash, char *cur_quote);
 
 //TODO: move ft_readline to libft
 char	*ft_readline(const char *prompt);
