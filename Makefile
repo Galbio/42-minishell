@@ -10,6 +10,8 @@ LIBFTI = $(LIBFT)
 
 FILES = main.c		\
 	minishell.c	\
+	envp_parser.c \
+	quote_parser.c \
 	utils/ft_readline.c	\
 	utils/clean_readed.c	\
 	utils/ft_realloc.c	\
@@ -19,7 +21,7 @@ FILES = main.c		\
 OFILES = $(FILES:%.c=$(OBJS)/%.o)
 
 FLAGS = -Wall -Wextra -Werror
-EXTRA_FLAGS = -l readline -g
+EXTRA_FLAGS = -g
 COMPILATOR = cc
 
 all: $(NAME)

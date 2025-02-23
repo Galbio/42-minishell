@@ -6,12 +6,17 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 04:18:30 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/23 04:24:36 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+//TODO: move gnl to libft
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
 # include <stdio.h>
 # include <readline/readline.h>
@@ -34,6 +39,19 @@
 # include "libft.h"
 # include <unistd.h>
 
+//TODO: move gnl to libft
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
+
+typedef struct s_main_envp
+{
+	char	**path;
+	char	*home;
+	char	*cwd;
+	int		shell_level;
+}	t_main_envp;
+
 void	launch(void);
 
 //TODO: move ft_readline to libft
@@ -47,17 +65,11 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 int		ft_is_quote(int c);
 int		ft_is_whitespace(int c);
 
-//TODO: move gnl to libft
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
-# endif
-
 char	*get_next_line(int fd);
 char	*create_line(int byte_read, char **stashed, char **buffer);
 char	*recover_stashed(char *buffer, char *stashed);
 char	*seperate(char *buffer, char **stashed);
 void	*on_error(char **buffer, char **stashed);
-
-void	launch(void);
+t_list	*parse_envp(char **envp, t_main_envp *imp);
 
 #endif
