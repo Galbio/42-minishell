@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 12:55:20 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 15:51:52 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/23 16:52:49 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,6 @@ char	*parse_commands(char *str, t_list *envp, t_main_envp *imp)
 	char		*dest;
 
 	tabe = init_int_tab();
-	/*
-	while (str[++tabe.i])
-	{
-		if ((str[tabe.i] == ';') && !tabe.cur_quote)
-		{
-			tabe.ret++;
-			while ((str[tabe.i] == 32) || (str[tabe.i] == ';'))
-			{
-				if (str[tabe.i] == ';')
-					write(2, "minishell: syntax error near", 28);
-				if (str[tabe.i] == ';')
-					write(2, "unexpected token `;'\n", 20);
-				tabe.i++;
-			}
-		}
-		check_special_char(str[tabe.i], &tabe.backslash, &tabe.cur_quote);
-	}
-	*/
 	commande = parse_quotes(str, envp, imp);
 	tabe.res = check_built_in(&commande);
 	if (tabe.res)

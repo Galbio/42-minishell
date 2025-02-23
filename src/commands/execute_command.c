@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 16:29:20 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/23 16:53:20 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ char	*get_command_output(char **argv, t_main_envp *imp)
 	if (!pid)
 	{
 		dup2(pipes[1], 1);
-		(close(pipes[0]), close(pipes[1]), execve(argv[0], argv, imp->envp_cpy));
+		(close(pipes[0]), close(pipes[1]), execve(argv[0], argv,
+				imp->envp_cpy));
 		exit(0);
 	}
 	(close(pipes[1]), wait(NULL));
