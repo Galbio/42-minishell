@@ -30,7 +30,7 @@ FILES = main.c		\
 OFILES = $(FILES:%.c=$(OBJS)/%.o)
 
 FLAGS = -Wall -Wextra -Werror
-EXTRA_FLAGS = -g
+EXTRA_FLAGS = -g #-l history -l readline -lncurses
 COMPILATOR = cc
 
 all: $(NAME)
