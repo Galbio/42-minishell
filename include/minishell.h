@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/22 23:49:01 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/23 01:55:27 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,27 @@
 # include <termios.h>
 # include <curses.h>
 # include <term.h>
+# include "libft.h"
+# include <unistd.h>
+
+void	launch(void);
+
+//TODO: move ft_readline to libft
+char	*ft_readline(const char *prompt);
+
+//TODO: move ft_readline to libft
+void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
+
+//TODO: move gnl to libft
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
+
+char	*get_next_line(int fd);
+char	*create_line(int byte_read, char **stashed, char **buffer);
+char	*recover_stashed(char *buffer, char *stashed);
+char	*seperate(char *buffer, char **stashed);
+void	*on_error(char **buffer, char **stashed);
 
 void	launch(void);
 

@@ -9,7 +9,10 @@ LIBFTA = $(LIBFT)/libft.a
 LIBFTI = $(LIBFT)
 
 FILES = main.c		\
-	minishell.c		
+	minishell.c	\
+	utils/ft_readline.c	\
+	utils/ft_realloc.c	\
+	utils/get_next_line.c
 OFILES = $(FILES:%.c=$(OBJS)/%.o)
 
 FLAGS = -Wall -Wextra -Werror
@@ -19,7 +22,7 @@ COMPILATOR = cc
 all: $(NAME)
 
 $(NAME): $(LIBFTA) $(OFILES)
-	$(COMPILATOR) $(FLAGS) $(OFILES) $(LIBFTA) -o $(NAME) -I $(INCLUDE) $(EXTRA_FLAGS)
+	$(COMPILATOR) $(FLAGS) $(OFILES) $(LIBFTA) -o $(NAME) -I $(INCLUDE) -I $(LIBFTI) $(EXTRA_FLAGS)
 
 $(LIBFTA):
 	@make -C libft/ bonus > /dev/null
@@ -35,7 +38,7 @@ fclean: clean
 
 $(OBJS)/%.o: $(SRC)/%.c
 	@mkdir -p $(dir $@)
-	@$(COMPILATOR) $(FLAGS) $< -c -o $@ -I $(INCLUDE)
+	@$(COMPILATOR) $(FLAGS) $< -c -o $@ -I $(INCLUDE) -I $(LIBFTI) $(EXTRA_FLAGS)
 
 re: fclean all
 
