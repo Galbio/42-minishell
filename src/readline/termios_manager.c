@@ -1,43 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   termios_manager.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/23 13:50:35 by lroussel         ###   ########.fr       */
+/*   Created: 2025/02/23 06:13:23 by lroussel          #+#    #+#             */
+/*   Updated: 2025/02/23 19:46:36 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init(void)
+void	enable_raw_mode(struct termios *raw)
 {
-	struct termios	raw;
-
-	enable_raw_mode(&raw);
+	tcgetattr(STDIN_FILENO, raw);
+	raw->c_lflag &= ~(ECHO | ICANON);
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, raw);
 }
 
-void	launch(t_list *envp, t_main_envp *imp)
+void	disable_raw_mode(struct termios *raw)
 {
-	char	*res;
-	char	*str;
-
-	init();
-	while (1)
-	{
-		res = ft_readline("$> ");
-		if (!res)
-			break ;
-		if (!clean_readed(&res))
-		{
-			free(res);
-			continue ;
-		}
-		str = parse_commands(res, envp, imp);
-		if (str)
-			(printf("%s\n", str), free(str));
-	}
-	printf("\n");
+	tcgetattr(STDIN_FILENO, raw);
+	raw->c_lflag |= (ECHO | ICANON);
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, raw);
 }
