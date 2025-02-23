@@ -12,10 +12,18 @@ FILES = main.c		\
 	minishell.c	\
 	envp_parser.c \
 	quote_parser.c \
-	utils/ft_readline.c	\
-	utils/clean_readed.c	\
-	utils/ft_realloc.c	\
+	readline/actions.c	\
+	readline/char_utils.c	\
+	readline/cursor_position.c	\
+	readline/ft_readline.c	\
+	readline/termios_manager.c	\
+	readline/char_list.c	\
+	readline/clean_readed.c	\
+	readline/display.c	\
+	readline/processing.c	\
+	readline/utils.c	\
 	utils/get_next_line.c	\
+	utils/ft_realloc.c	\
 	utils/ft_is_quote.c	\
 	utils/ft_is_whitespace.c \
 	utils/ft_securejoin.c \

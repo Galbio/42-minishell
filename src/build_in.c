@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 15:22:59 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 16:31:36 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/23 21:13:35 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,10 @@ char	built_in_compare(char *name)
 
 char	check_built_in(char **name)
 {
-	int			len;
 	t_int_tab	tabe;
 	char		*command_name;
 	char		*temp;
 
-	len = ft_securelen(name[0]);
 	tabe = init_int_tab();
 	while (name[0][++tabe.i])
 	{

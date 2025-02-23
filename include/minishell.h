@@ -6,17 +6,12 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 21:10:11 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/23 21:13:09 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
-//TODO: move gnl to libft
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
-# endif
 
 # include <stdio.h>
 # include <readline/readline.h>
@@ -32,12 +27,12 @@
 # include <dirent.h>
 # include <string.h>
 # include <errno.h>
-# include <sys/ioctl.h>
-# include <termios.h>
 # include <curses.h>
 # include <term.h>
-# include "libft.h"
 # include <unistd.h>
+
+# include "libft.h"
+# include "readline.h"
 
 //TODO: move gnl to libft
 # ifndef BUFFER_SIZE
@@ -76,10 +71,6 @@ char		*parse_quotes(char *str, t_list *envp, t_main_envp *imp);
 char		check_special_char(char c, char *backslash, char *cur_quote);
 
 //TODO: move ft_readline to libft
-char		*ft_readline(const char *prompt);
-int			clean_readed(char **readed);
-
-//TODO: move ft_readline to libft
 void		*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 char		*ft_securejoin(char const *s1, char const *s2, char must_free);
 int			ft_securelen(char const *str);
@@ -103,5 +94,6 @@ char		check_built_in(char **name);
 int			get_command_argc(char *str);
 char		**create_command_argv(char *str, t_list *envp, t_main_envp *imp);
 char		*execute_command(char *str, t_list *envp, t_main_envp *imp);
+
 
 #endif
