@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/23 01:35:06 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/23 01:56:04 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ void	launch(void)
 
 	while (1)
 	{
-		res = ft_readline("ecris stp > ");
+		res = ft_readline("$> ");
 		free(res);
-
 	}
 }
