@@ -82,7 +82,6 @@ int			clean_readed(char **readed);
 //TODO: move ft_readline to libft
 void		*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 char		*ft_securejoin(char const *s1, char const *s2, char must_free);
-int			ft_securelen(char const *str);
 
 //TODO: move to libft
 int			ft_is_quote(int c);
