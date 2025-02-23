@@ -17,7 +17,13 @@ FILES = main.c		\
 	utils/ft_realloc.c	\
 	utils/get_next_line.c	\
 	utils/ft_is_quote.c	\
-	utils/ft_is_whitespace.c
+	utils/ft_is_whitespace.c \
+	utils/ft_securejoin.c \
+	utils/ft_securelen.c \
+	commands/execute_command.c \
+	commands/create_argv.c \
+	var_parser.c
+
 OFILES = $(FILES:%.c=$(OBJS)/%.o)
 
 FLAGS = -Wall -Wextra -Werror

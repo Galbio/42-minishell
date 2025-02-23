@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 23:57:32 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 02:19:16 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/23 07:31:46 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*malloc_pathname(char **str)
 	while (str[0][++size])
 		if ((str[0][size] == ':') && (str[0][size - 1] != '\\'))
 			break ;
-	dest = malloc(sizeof(char) * size);
+	dest = malloc(sizeof(char) * (size + 1));
 	if (!dest)
 		return (NULL);
 	dest[size] = 0;

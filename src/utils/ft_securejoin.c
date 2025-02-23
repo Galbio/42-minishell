@@ -1,39 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_securejoin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/22 21:20:18 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 07:54:03 by gakarbou         ###   ########.fr       */
+/*   Created: 2025/02/23 06:23:04 by gakarbou          #+#    #+#             */
+/*   Updated: 2025/02/23 06:24:01 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+char	*ft_securejoin(char const *s1, char const *s2, char must_free)
 {
-	int			i;
-	t_main_envp	imp;
-	char		*temp;
-	t_list		*env;
+	size_t	i;
+	size_t	j;
+	char	*dest;
 
-	(void)argc;
-	(void)envp;
-	(void)argv;
-	env = parse_envp(envp, &imp);
-	temp = ft_readline("$> ");
-	if (!clean_readed(&temp))
-		return (9);
-	parse_var(temp, env, &imp);
-	ft_lstclear(&env, free);
-	free(temp);
-	i = -1;
-	while (imp.path[++i])
-		free(imp.path[i]);
-	free(imp.path);
-	free(imp.home);
-	free(imp.cwd);
-	return (2);
+	dest = malloc((1 + ft_securelen(s1) + ft_securelen(s2)) * sizeof(char));
+	if (!dest)
+		return (NULL);
+	i = 0;
+	while (s1 && s1[i])
+	{
+		dest[i] = s1[i];
+		i++;
+	}
+	if (must_free && s1)
+		free((void *)s1);
+	j = 0;
+	while (s2 && s2[j])
+	{
+		dest[i + j] = s2[j];
+		j++;
+	}
+	dest[i + j] = 0;
+	return (dest);
 }
