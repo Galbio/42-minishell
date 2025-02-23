@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 17:29:54 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/23 20:49:01 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,11 @@
 
 # include "libft.h"
 # include "readline.h"
+
+//TODO: move gnl to libft
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
 typedef struct s_main_envp
 {
@@ -68,6 +73,7 @@ char		check_special_char(char c, char *backslash, char *cur_quote);
 //TODO: move ft_readline to libft
 void		*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 char		*ft_securejoin(char const *s1, char const *s2, char must_free);
+int			ft_securelen(char const *str);
 
 //TODO: move to libft
 int			ft_is_quote(int c);
@@ -83,4 +89,11 @@ char		check_built_in(char **name);
 int			get_command_argc(char *str);
 char		**create_command_argv(char *str, t_list *envp, t_main_envp *imp);
 char		*execute_command(char *str, t_list *envp, t_main_envp *imp);
+
+char		*get_next_line(int fd);
+char		*create_line(int byte_read, char **stashed, char **buffer);
+char		*recover_stashed(char *buffer, char *stashed);
+char		*seperate(char *buffer, char **stashed);
+void		*on_error(char **buffer, char **stashed);
+
 #endif

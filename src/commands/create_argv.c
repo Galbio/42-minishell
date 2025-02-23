@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 08:00:35 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 13:41:07 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/23 20:55:33 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,10 @@ int	get_command_argc(char *str)
 int	get_parsed_substr(char **str)
 {
 	int		i;
-	int		size;
 	char	cur_quote;
 	char	back_slashed;
 
 	i = -1;
-	size = 0;
 	cur_quote = 0;
 	back_slashed = 0;
 	while (str[0][++i])
