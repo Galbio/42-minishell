@@ -15,7 +15,9 @@ FILES = main.c		\
 	readline/actions.c	\
 	readline/char_utils.c	\
 	readline/cursor_position.c	\
+	readline/cursor_manager.c	\
 	readline/ft_readline.c	\
+	readline/handle.c	\
 	readline/termios_manager.c	\
 	readline/char_list.c	\
 	readline/clean_readed.c	\
@@ -24,6 +26,7 @@ FILES = main.c		\
 	readline/utils.c	\
 	utils/get_next_line.c	\
 	utils/ft_realloc.c	\
+	utils/ft_abs.c		\
 	utils/ft_is_quote.c	\
 	utils/ft_is_whitespace.c \
 	utils/ft_securejoin.c \

@@ -6,54 +6,38 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:24 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/23 20:12:50 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:02:17 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-void	clear_terminal(int count, int bn_count)
+void	on_write(t_readline *data)
 {
-	int			width;
-	int			l;
-	int			extra;
+	char	*build;
 
-	width = get_terminal_width();
-	l = count / width - 1 * (count % width == 0) + bn_count;
-	if ((count % width) == 1)
-		write(1, "\n", 1);
-	extra = width;
-	while (extra-- > 0)
-		write(1, "\033[D\033[P", 6);
-	while (l-- > 0)
-		write(1, "\033[A\033[D\033[P", 3);
-}
-
-void	update_cursor_position(const char *prompt, t_readline data)
-{
-	t_vector2	pos;
-	int			i;
-
-	i = get_terminal_width();
-	pos = get_position(prompt, data);
-	pos.y -= 1;
-	while (i-- > 0)
-		write(1, "\033[D", 3);
-	while (pos.x-- > 0)
-		write(1, "\033[C", 3);
-	while (pos.y-- > 0)
-		write(1, "\033[B", 3);
-}
-
-void	update_terminal(t_readline	*data, const char *prompt)
-{
 	if (!data->update)
 		return ;
-	clear_terminal(data->size + ft_strlen(prompt),
-		count_total_newlines(prompt, *data));
-	write(1, prompt, ft_strlen(prompt));
-	ft_putstr_fd(build_result(*data), 1);
-	update_cursor_position(prompt, *data);
+	teleport_cursor(data->pos);
+	build = build_result(*data);
+	ft_putstr_fd(build, 1);
+	free(build);
+	move_cursor(&data->cursor, 1);
+}
+
+void	on_delete(t_readline *data, int deleted)
+{
+	char	*build;
+	int		spaces;
+
+	build = build_result(*data);
+	teleport_cursor(data->pos);
+	ft_putstr_fd(build, 1);
+	spaces = deleted;
+	while (spaces-- > 0)
+		ft_putchar_fd(' ', 1);
+	free(build);
+	move_cursor(&data->cursor, -deleted);
 }
 
 static int	calculate_y(const char *prompt, t_readline data,
@@ -62,7 +46,7 @@ static int	calculate_y(const char *prompt, t_readline data,
 	int	width;
 	int	size;
 
-	width = get_terminal_width();
+	width = get_terminal_size().x;
 	size = data.size;
 	return ((size / width - 1 * (size % width == 0)
 			+ count_total_newlines(prompt, data))
@@ -90,7 +74,7 @@ t_vector2	get_position(const char *prompt, t_readline data)
 		lc++;
 	else if (data.first)
 		lc = ft_strlen(prompt);
-	v.x = lc % get_terminal_width();
+	v.x = lc % get_terminal_size().x;
 	v.y = calculate_y(prompt, data, i, bn_count);
 	return (v);
 }

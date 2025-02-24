@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/24 12:00:10 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/24 14:54:37 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ char		check_special_char(char c, char *backslash, char *cur_quote);
 
 //TODO: move ft_readline to libft
 void		*ft_realloc(void *ptr, size_t old_size, size_t new_size);
+int			ft_abs(int v);
 char		*ft_securejoin(char const *s1, char const *s2, char must_free);
 int			ft_securelen(char const *str);
 
