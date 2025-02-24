@@ -38,7 +38,7 @@ FILES = main.c		\
 OFILES = $(FILES:%.c=$(OBJS)/%.o)
 
 FLAGS = -Wall -Wextra -Werror
-EXTRA_FLAGS = -g -l history -l readline -lncurses
+EXTRA_FLAGS = -g
 COMPILATOR = cc
 
 all: $(NAME)

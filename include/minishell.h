@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 20:49:01 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/24 12:00:10 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define MINISHELL_H
 
 # include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
