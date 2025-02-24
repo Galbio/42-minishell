@@ -6,18 +6,18 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:29:07 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/24 15:00:42 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/24 16:46:17 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-void	fix_coordinate(int *coordinate, int max)
+void	fix_coordinate(int *coordinate, int v1, int v2)
 {
 	if (*coordinate < 1)
-		*coordinate = 1;
-	else if (*coordinate > max)
-		*coordinate = max;
+		*coordinate = v1;
+	else
+		*coordinate = v2;
 }
 
 void	move_cursor(t_vector2 *cursor, int gap)
@@ -39,11 +39,11 @@ void	move_cursor(t_vector2 *cursor, int gap)
 			cursor->y += s;
 			if (cursor->y < 1 || cursor->y > size.y)
 			{
-				fix_coordinate(&cursor->y, size.y);
+				fix_coordinate(&(cursor->y), 1, size.y);
 				cursor->x -= s;
 				break ;
 			}
-			fix_coordinate(&cursor->x, size.x);
+			fix_coordinate(&(cursor->x), size.x, 1);
 		}
 	}
 	teleport_cursor(*cursor);
