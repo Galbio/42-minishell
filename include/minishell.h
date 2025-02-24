@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 21:29:02 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:43:13 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ char		*execute_command(char *str, t_list *envp, t_main_envp *imp);
 char		*ft_cd(char *command);
 char		*ft_echo(char *command);
 char		*ft_pwd(void);
-
+void		*ft_unset(char *name, t_list **envp, t_main_envp *imp);
+char		*ft_exit(char *command);
 
 #endif

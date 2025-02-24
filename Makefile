@@ -31,7 +31,9 @@ FILES = main.c		\
 	utils/init_int_tab.c \
 	builtins/cd.c \
 	builtins/echo.c \
+	builtins/unset.c \
 	builtins/pwd.c \
+	builtins/exit.c \
 	commands/execute_command.c \
 	build_in.c \
 	commands/create_argv.c \

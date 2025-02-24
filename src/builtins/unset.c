@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 19:34:13 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 20:11:20 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:51:00 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	remove_from_envp(t_list **envp, t_main_envp *imp, int i)
 	if (!i)
 	{
 		(free((*envp)->content), temp = *envp);
-		(*envp = (*envp)->next, free(envp));
+		*envp = (*envp)->next;
+		free(envp);
 		return ;
 	}
 	while (--i > 0)

@@ -6,20 +6,24 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 12:55:20 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 21:33:17 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:51:35 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*handle_builtins(int code, char *command)
+char	*handle_builtins(int code, char *cmd, t_list **envp, t_main_envp *imp)
 {
 	if (code == 1)
-		return (ft_echo(command));
+		return (ft_echo(cmd));
+	else if (code == 2)
+		return (ft_cd(cmd));
 	else if (code == 3)
 		return (ft_pwd());
-	else if (code == 2)
-		return (ft_cd(command));
+	else if (code == 5)
+		return (ft_unset(cmd, envp, imp));
+	else if (code == 7)
+		return (ft_exit(cmd));
 	return (NULL);
 }
 
@@ -33,7 +37,7 @@ char	*parse_commands(char *str, t_list *envp, t_main_envp *imp)
 	command = parse_quotes(str, envp, imp);
 	tabe.res = check_built_in(&command);
 	if (tabe.res)
-		return (handle_builtins(tabe.res, command));
+		return (handle_builtins(tabe.res, command, &envp, imp));
 	dest = execute_command(command, envp, imp);
 	return (free(command), dest);
 }
