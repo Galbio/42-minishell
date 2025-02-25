@@ -12,7 +12,7 @@
 
 #include "readline.h"
 
-static void	set_raw_mode(struct termios *old_term)
+static void	set_tcsamow(struct termios *old_term)
 {
 	struct termios	new_term;
 
@@ -67,7 +67,7 @@ int	get_cursor_position(t_vector2 *pos)
 	char			response[32];
 	int				status;
 
-	set_raw_mode(&old_term);
+	set_tcsamow(&old_term);
 	write(STDOUT_FILENO, "\033[6n", 4);
 	status = read_terminal_response(response, sizeof(response));
 	tcsetattr(STDIN_FILENO, TCSANOW, &old_term);

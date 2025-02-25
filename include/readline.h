@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/25 10:55:31 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/25 14:39:42 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ void		clear_terminal(int count, int bn_count);
 void		update_cursor_position(const char *prompt, t_readline data);
 void		on_write(t_readline *data);
 void		on_delete(t_readline *data, int deleted);
-t_vector2	get_position(const char *prompt, t_readline *data);
 
 char		*ft_readline(const char *prompt);
 
@@ -88,7 +87,7 @@ char		get_open_quote(const char *stashed);
 t_vector2	get_terminal_size(t_readline *data);
 int			count_total_newlines(const char *prompt, t_readline data);
 
-void	update_position(t_readline *data, char *build);
+void		update_position(t_readline *data, char *build);
 
 int			ft_abs(int v);
 

@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:29:07 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/25 10:34:55 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/25 14:52:56 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,30 +25,28 @@ void	move_cursor(t_readline *data, int gap)
 	t_vector2	size;
 	int			s;
 	int			v;
-	t_vector2	*cursor;
 
 	if (gap == 0)
 		return ;
 	size = get_terminal_size(data);
 	v = ft_abs(gap);
 	s = 1 - 2 * (gap < 0);
-	cursor = &data->cursor;
 	while (v-- > 0)
 	{
-		cursor->x += s;
-		if (cursor->x < 1 || cursor->x > size.x)
+		data->cursor.x += s;
+		if (data->cursor.x < 1 || data->cursor.x > size.x)
 		{
-			cursor->y += s;
-			if (cursor->y < 1 || cursor->y > size.y)
+			data->cursor.y += s;
+			if (data->cursor.y < 1 || data->cursor.y > size.y)
 			{
-				fix_coordinate(&(cursor->y), 1, size.y);
-				cursor->x -= s;
+				fix_coordinate(&(data->cursor.y), 1, size.y);
+				data->cursor.x -= s;
 				break ;
 			}
-			fix_coordinate(&(cursor->x), size.x, 1);
+			fix_coordinate(&(data->cursor.x), size.x, 1);
 		}
 	}
-	teleport_cursor(*cursor);
+	teleport_cursor(data->cursor);
 }
 
 void	move_x(t_readline *data, int gap)

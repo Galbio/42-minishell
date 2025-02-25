@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:11:11 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/25 14:22:08 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/25 14:46:39 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,32 +57,41 @@ char	get_open_quote(const char *stashed)
 	return (cur_quote);
 }
 
-t_vector2	get_terminal_size(t_readline *data)
+void	fix_cursor(t_readline *data, t_vector2 size)
 {
-	struct winsize	w;
-	t_vector2		pos;
 	static t_vector2	old_size = {0, 0};
-	t_vector2		old_cursor;
+	t_vector2			old_cursor;
+	int					diff;
 
-	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-	pos.x = w.ws_col;
-	pos.y = w.ws_row;
 	if (old_size.y == 0)
-		old_size = pos;
-	if ((pos.x != old_size.x || pos.y != old_size.y))
+		old_size = size;
+	if ((size.x != old_size.x || size.y != old_size.y))
 	{
 		old_cursor = data->cursor;
 		get_cursor_position(&data->cursor);
 		if (data->pos.x != 0)
 		{
-			data->initial_pos.y -= old_cursor.y - data->cursor.y - (((3 + ft_strlen(build_result(*data))) / old_size.x) - ((3 + ft_strlen(build_result(*data))) / pos.x));
-			if (old_size.y < pos.y)
-				data->initial_pos.y -=  (((3 + ft_strlen(build_result(*data))) / old_size.x) - ((3 + ft_strlen(build_result(*data))) / pos.x));
+			diff = (((3 + ft_strlen(build_result(*data))) / old_size.x)
+					- ((3 + ft_strlen(build_result(*data))) / size.x));
+			data->initial_pos.y -= old_cursor.y - data->cursor.y - diff;
+			if (old_size.y < size.y)
+				data->initial_pos.y -= diff;
 		}
-		old_size = pos;
+		old_size = size;
 		data->pos.y = data->initial_pos.y;
 	}
-	return (pos);
+}
+
+t_vector2	get_terminal_size(t_readline *data)
+{
+	struct winsize	w;
+	t_vector2		size;
+
+	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+	size.x = w.ws_col;
+	size.y = w.ws_row;
+	fix_cursor(data, size);
+	return (size);
 }
 
 int	count_total_newlines(const char *prompt, t_readline data)
