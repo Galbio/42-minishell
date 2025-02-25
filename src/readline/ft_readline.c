@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 13:11:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/24 14:26:32 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/24 16:58:03 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static void	init_readline(t_readline *data)
 {
-	get_cursor_position(&data->pos);
+	get_cursor_position(&data->initial_pos);
+	data->pos = data->initial_pos;
 	data->cursor = data->pos;
 	data->first = NULL;
 	data->actual = data->first;

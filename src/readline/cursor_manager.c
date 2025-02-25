@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:29:07 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/24 16:46:17 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/25 10:34:55 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,19 @@ void	fix_coordinate(int *coordinate, int v1, int v2)
 		*coordinate = v2;
 }
 
-void	move_cursor(t_vector2 *cursor, int gap)
+void	move_cursor(t_readline *data, int gap)
 {
 	t_vector2	size;
 	int			s;
 	int			v;
+	t_vector2	*cursor;
 
 	if (gap == 0)
 		return ;
-	size = get_terminal_size();
+	size = get_terminal_size(data);
 	v = ft_abs(gap);
 	s = 1 - 2 * (gap < 0);
+	cursor = &data->cursor;
 	while (v-- > 0)
 	{
 		cursor->x += s;
@@ -49,17 +51,19 @@ void	move_cursor(t_vector2 *cursor, int gap)
 	teleport_cursor(*cursor);
 }
 
-void	move_x(t_vector2 *cursor, int gap)
+void	move_x(t_readline *data, int gap)
 {
 	t_vector2	size;
 	int			s;
 	int			v;
+	t_vector2	*cursor;
 
 	if (gap == 0)
 		return ;
-	size = get_terminal_size();
+	size = get_terminal_size(data);
 	v = ft_abs(gap);
 	s = 1 - 2 * (gap < 0);
+	cursor = &data->cursor;
 	while (v > 0)
 	{
 		v--;
@@ -70,17 +74,19 @@ void	move_x(t_vector2 *cursor, int gap)
 	teleport_cursor(*cursor);
 }
 
-void	move_y(t_vector2 *cursor, int gap)
+void	move_y(t_readline *data, int gap)
 {
 	t_vector2	size;
 	int			s;
 	int			v;
+	t_vector2	*cursor;
 
 	if (gap == 0)
 		return ;
-	size = get_terminal_size();
+	size = get_terminal_size(data);
 	v = ft_abs(gap);
 	s = 1 - 2 * (gap < 0);
+	cursor = &data->cursor;
 	while (v > 0)
 	{
 		v--;
