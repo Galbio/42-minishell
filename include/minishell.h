@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/24 15:43:13 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/24 19:17:38 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ char		check_special_char(char c, char *backslash, char *cur_quote);
 
 //TODO: move ft_readline to libft
 void		*ft_realloc(void *ptr, size_t old_size, size_t new_size);
+char		*ft_strcdup(char *str, char c);
 char		*ft_securejoin(char const *s1, char const *s2, char must_free);
 int			ft_securelen(char const *str);
 
@@ -88,6 +89,7 @@ void		*on_error(char **buffer, char **stashed);
 t_list		*parse_envp(char **envp, t_main_envp *imp);
 char		*parse_var(char *var_name, t_list *envp, t_main_envp *imp);
 char		*parse_commands(char *str, t_list *envp, t_main_envp *imp);
+char		*read_whole_fd(int fd);
 char		check_built_in(char **name);
 
 //exec_command.c
@@ -100,5 +102,6 @@ char		*ft_echo(char *command);
 char		*ft_pwd(void);
 void		*ft_unset(char *name, t_list **envp, t_main_envp *imp);
 char		*ft_exit(char *command);
+char		*ft_export(char *command, t_list **envp);
 
 #endif

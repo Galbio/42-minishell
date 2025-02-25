@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:21:54 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 21:14:38 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/24 23:23:22 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	check_special_char(char c, char *backslash, char *cur_quote)
 		return (*backslash = 0, 1);
 	else if (c == '\\')
 		return (*backslash = 1, 0);
-	else
+	else if (c != '$')
 		*backslash = 0;
 	return (1);
 }
@@ -110,12 +110,14 @@ char	*parse_quotes(char *str, t_list *envp, t_main_envp *imp)
 		if (!check_special_char(str[infos.i], &infos.backslash,
 				&infos.cur_quote))
 			continue ;
-		if ((infos.cur_quote != '\'') && str[infos.i] == '$')
+		if ((infos.cur_quote != '\'') && (str[infos.i] == '$')
+			&& (!infos.backslash))
 			handle_var(str, &infos, envp, imp);
 		else
 			infos.ptr1[infos.res++] = str[infos.i];
 	}
 	infos.ptr1[infos.res] = 0;
+	printf("Before : |%s|\nAfter : |%s|\n", str, infos.ptr1);
 	free(str);
 	return (infos.ptr1);
 }

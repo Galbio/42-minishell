@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:05:06 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/24 15:46:48 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/24 19:15:58 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_exit_str(char *command)
 		write(2, command + tabe.i, 1);
 	}
 	free(command - 5);
-	ft_putstr_fd(": numeric argument required\n");
+	ft_putstr_fd(": numeric argument required\n", 2);
 }
 
 char	check_exit_errors(char *command)

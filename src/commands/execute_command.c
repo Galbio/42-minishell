@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 16:53:20 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/24 19:18:41 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ char	*get_command_path(char *str, char **paths)
 
 char	*read_whole_fd(int fd)
 {
-	int		len;
 	char	*dest;
 	char	*temp;
 
@@ -61,12 +60,6 @@ char	*read_whole_fd(int fd)
 		dest = ft_securejoin(dest, temp, 1);
 		free(temp);
 	}
-	close(fd);
-	len = ft_securelen(dest);
-	if (!len)
-		return (NULL);
-	if (dest[len - 1] == '\n')
-		dest[len - 1] = 0;
 	return (dest);
 }
 
