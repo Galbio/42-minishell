@@ -30,8 +30,8 @@ FILES = main.c		\
 	utils/ft_securelen.c \
 	utils/init_int_tab.c \
 	commands/execute_command.c \
+	argv/create_argv.c \
 	build_in.c \
-	commands/create_argv.c \
 	parse_commands.c \
 	var_parser.c
 
