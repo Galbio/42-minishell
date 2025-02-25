@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 11:04:00 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:42:13 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,19 @@
 
 char	*parse_command(char *command, t_list *envp, t_main_envp *imp)
 {
+	char	**argv;
+	char	*str;
 	int		len;
 
 	len = ft_strlen(command);
 	command[len - 1] = 0;
-	return (execute_command(command, envp, imp));
+	argv = create_command_argv(command, envp, imp);
+	str = execute_command(argv, imp);
+	len = -1;
+	while (argv[++len])
+		free(argv[len]);
+	free(argv);
+	return (str);
 }
 
 char	*parse_var(char *var_name, t_list *envp, t_main_envp *imp)
