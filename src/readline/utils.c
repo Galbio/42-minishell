@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:11:11 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/25 12:13:08 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/25 14:22:08 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ t_vector2	get_terminal_size(t_readline *data)
 		if (data->pos.x != 0)
 		{
 			data->initial_pos.y -= old_cursor.y - data->cursor.y - (((3 + ft_strlen(build_result(*data))) / old_size.x) - ((3 + ft_strlen(build_result(*data))) / pos.x));
+			if (old_size.y < pos.y)
+				data->initial_pos.y -=  (((3 + ft_strlen(build_result(*data))) / old_size.x) - ((3 + ft_strlen(build_result(*data))) / pos.x));
 		}
 		old_size = pos;
 		data->pos.y = data->initial_pos.y;
