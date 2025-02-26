@@ -30,6 +30,7 @@ FILES = main.c		\
 	readline/resize.c	\
 	readline/utils.c	\
 	readline/format.c	\
+	readline/stdin.c	\
 	utils/init_int_tab.c \
 	commands/execute_command.c \
 	argv/create_argv.c \

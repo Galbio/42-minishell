@@ -33,7 +33,7 @@ char	*build_result(t_readline data)
 	return (result);
 }
 
-int	process_input(t_readline *data)
+int	process_input(t_readline *data, char *buffer)
 {
 	char		*build;
 
@@ -43,7 +43,7 @@ int	process_input(t_readline *data)
 		write(1, "\n", 1);
 		return (1);
 	}
-	if (data->c == '\n')
+	if (buffer[0] == '\n')
 		write(1, "\n", 1);
 	free(build);
 	return (0);

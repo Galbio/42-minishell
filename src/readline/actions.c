@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:11:06 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/25 10:33:53 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:30:09 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,22 +58,22 @@ static void	move_cursor_right(t_readline *data)
 	}
 }
 
-int	process_special_keys(t_readline *data)
+int	process_special_keys(t_readline *data, char *buffer)
 {
-	if ((data->c == 127) && data->size > 0)
+	if ((buffer[0] == 127) && data->size > 0)
 	{
 		delete_character(data);
 		return (1);
 	}
-	if (data->c == 4479771)
+	if (buffer[0] == 27 && buffer[1] == 91 && buffer[2] == 68)
 	{
 		move_cursor_left(data);
 		return (1);
 	}
-	if (data->c == 4414235)
+	if (buffer[0] == 27 && buffer[1] == 91 && buffer[2] == 67)
 	{
 		move_cursor_right(data);
 		return (1);
 	}
-	return (!ft_isprint(data->c));
+	return (!ft_isprint(buffer[0]));
 }
