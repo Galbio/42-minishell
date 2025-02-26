@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:11:06 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/23 20:11:06 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:52:50 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,19 +50,19 @@ static void	move_cursor_right(t_readline *data)
 	}
 }
 
-int	process_special_keys(t_readline *data)
+static int	process_special_keys(t_readline *data, char *buffer)
 {
-	if ((data->c == 127) && data->size > 0)
+	if ((buffer[0] == 127) && data->size > 0)
 	{
 		delete_character(data);
 		return (1);
 	}
-	if (data->c == 4479771)
+	if (buffer[0] == 27 && buffer[1] == 91 && buffer[2] == 68)
 	{
 		move_cursor_left(data);
 		return (1);
 	}
-	if (data->c == 4414235)
+	if (buffer[0] == 27 && buffer[1] == 91 && buffer[2] == 67)
 	{
 		move_cursor_right(data);
 		return (1);
@@ -70,25 +70,25 @@ int	process_special_keys(t_readline *data)
 	return (0);
 }
 
-void	handle_key_input(t_readline *data, char buffer[100])
+void	handle_key_input(t_readline *data, char *buffer)
 {
-	if (!process_special_keys(data))
+	if (!process_special_keys(data, buffer))
 	{
 		if (!data->first)
 		{
-			data->first = new_char(*((int *)buffer));
+			data->first = new_char(buffer[0]);
 			data->actual = data->first;
 		}
 		else
 		{
 			if (!data->actual && data->first)
 			{
-				add_char_front(&data->first, new_char(*((int *)buffer)));
+				add_char_front(&data->first, new_char(buffer[0]));
 				write(1, "\033[C", 3);
 			}
 			else
 			{
-				add_char_after(&data->actual, new_char(*((int *)buffer)));
+				add_char_after(&data->actual, new_char(buffer[0]));
 				data->actual = data->actual->next;
 			}
 		}

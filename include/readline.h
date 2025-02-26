@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/23 20:13:59 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:54:38 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,11 @@ typedef struct s_readline
 	t_char		*first;
 	t_char		*actual;
 	int			update;
-	int			c;
 	int			size;
 	t_vector2	pos;
 }	t_readline;
 
-//TODO: move ft_readline to libft
-
-int			process_special_keys(t_readline *data);
-void		handle_key_input(t_readline *data, char buffer[100]);
+void		handle_key_input(t_readline *data, char *buffer);
 
 void		add_char_back(t_char *head, t_char *c);
 void		add_char_front(t_char **head, t_char *c);
@@ -70,10 +66,12 @@ t_vector2	get_position(const char *prompt, t_readline data);
 char		*ft_readline(const char *prompt);
 
 char		*build_result(t_readline data);
-int			process_input(t_readline *data);
+int			process_input(t_readline *data, char *buffer);
 
 void		enable_raw_mode(struct termios *raw);
 void		disable_raw_mode(struct termios *raw);
+
+char		*read_stdin_key(void);
 
 int			count_newlines(t_char *c, t_char *actual, int *lc);
 char		get_open_quote(const char *stashed);
