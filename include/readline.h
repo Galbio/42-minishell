@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/23 20:13:59 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/26 11:39:11 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ void		enable_raw_mode(struct termios *raw);
 void		disable_raw_mode(struct termios *raw);
 
 int			count_newlines(t_char *c, t_char *actual, int *lc);
-char		get_open_quote(const char *stashed);
+char		check_quotes(const char *build);
+char		check_backslashs(const char *build);
 int			get_terminal_width(void);
 int			count_total_newlines(const char *prompt, t_readline data);
 
