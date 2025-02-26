@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 10:22:14 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/26 11:19:03 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:42:37 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	check_resize(t_readline *data, t_vector2 size)
 		{
 			builded = build_result(*data);
 			len = ft_strlen(builded);
-			data->initial_pos.y = data->cursor.y - ((3 + len) / size.x);
+			data->initial_pos.y = data->cursor.y
+				- ((ft_strlen(data->prompt) + len) / size.x);
 			free(builded);
 		}
 		data->old_tsize = size;

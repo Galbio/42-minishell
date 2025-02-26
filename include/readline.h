@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/26 10:36:16 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:40:11 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_char
 
 typedef struct s_readline
 {
+	const char	*prompt;
 	t_char		*first;
 	t_char		*actual;
 	int			update;

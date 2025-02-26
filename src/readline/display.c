@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:24 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/25 11:59:59 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:42:18 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,16 @@
 void	update_position(t_readline *data, char *build)
 {
 	t_vector2	size;
+	int			prompt_len;
 
 	size = get_terminal_size(data);
-	data->pos.y = data->initial_pos.y - ((3 + ft_strlen(build)) / size.x);
+	prompt_len = ft_strlen(data->prompt);
+	data->pos.y = data->initial_pos.y
+		- ((prompt_len + ft_strlen(build)) / size.x);
 	if (data->initial_pos.y != size.y)
 		data->pos.y += size.y - data->initial_pos.y;
 	if (data->pos.y != data->initial_pos.y)
-		data->pos.x = 4;
+		data->pos.x = prompt_len + 1;
 }
 
 void	on_write(t_readline *data)
@@ -34,7 +37,8 @@ void	on_write(t_readline *data)
 	build = build_result(*data);
 	if (data->cursor.y == get_terminal_size(data).y)
 	{
-		if ((3 + (int)ft_strlen(build)) % get_terminal_size(data).x == 0)
+		if ((ft_strlen(data->prompt)
+				+ (int)ft_strlen(build)) % get_terminal_size(data).x == 0)
 		{
 			printf("\n");
 			move_y(data, -1);
