@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/26 18:40:11 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:38:41 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ typedef struct s_readline
 	t_char		*first;
 	t_char		*actual;
 	int			update;
-	int			c;
 	int			size;
 	t_vector2	initial_pos;
 	t_vector2	pos;
@@ -42,10 +41,7 @@ typedef struct s_readline
 	t_vector2	old_tsize;
 }	t_readline;
 
-//TODO: move ft_readline to libft
-
-int			process_special_keys(t_readline *data);
-void		handle_key_input(t_readline *data, char buffer[100]);
+void		handle_key_input(t_readline *data, char *buffer);
 
 void		add_char_back(t_char *head, t_char *c);
 void		add_char_front(t_char **head, t_char *c);
@@ -75,10 +71,14 @@ void		on_delete(t_readline *data, int deleted);
 char		*ft_readline(const char *prompt);
 
 char		*build_result(t_readline data);
-int			process_input(t_readline *data);
+int			process_input(t_readline *data, char *buffer);
 
 void		enable_raw_mode(struct termios *raw);
 void		disable_raw_mode(struct termios *raw);
+
+int			process_special_keys(t_readline *data, char *buffer);
+
+char		*read_stdin_key(void);
 
 int			count_newlines(t_char *c, t_char *actual, int *lc);
 char		get_open_quote(const char *stashed);
