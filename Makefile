@@ -8,6 +8,10 @@ LIBFT = libft
 LIBFTA = $(LIBFT)/libft.a
 LIBFTI = $(LIBFT)
 
+FT_PRINTF = ft_printf
+FT_PRINTFA = $(FT_PRINTF)/libftprintf.a
+FT_PRINTFI = $(FT_PRINTF)/include
+
 FILES = main.c		\
 	minishell.c	\
 	envp_parser.c \
@@ -25,13 +29,6 @@ FILES = main.c		\
 	readline/processing.c	\
 	readline/resize.c	\
 	readline/utils.c	\
-	utils/get_next_line.c	\
-	utils/ft_realloc.c	\
-	utils/ft_abs.c		\
-	utils/ft_is_quote.c	\
-	utils/ft_is_whitespace.c \
-	utils/ft_securejoin.c \
-	utils/ft_securelen.c \
 	utils/init_int_tab.c \
 	commands/execute_command.c \
 	argv/create_argv.c \
@@ -47,20 +44,25 @@ COMPILATOR = cc
 
 all: $(NAME)
 
-$(NAME): $(LIBFTA) $(OFILES)
-	$(COMPILATOR) $(FLAGS) $(OFILES) $(LIBFTA) -o $(NAME) -I $(INCLUDE) -I $(LIBFTI) $(EXTRA_FLAGS)
+$(NAME): $(LIBFTA) $(FT_PRINTFA) $(OFILES)
+	$(COMPILATOR) $(FLAGS) $(OFILES) $(LIBFTA) $(FT_PRINTFA) -o $(NAME) -I $(INCLUDE) -I $(LIBFTI) -I $(FT_PRINTFA) $(EXTRA_FLAGS)
 
 $(LIBFTA):
-	@make -C libft/ bonus > /dev/null
+	@make -C $(LIBFT) bonus > /dev/null
+
+$(FT_PRINTFA):
+	@make -C $(FT_PRINTF) bonus > /dev/null
 
 clean:
 	@rm -rf $(OFILES)
 	@rm -rf $(OBJS)
 	@make -C $(LIBFT) clean > /dev/null
+	@make -C $(FT_PRINTF) clean > /dev/null
 
 fclean: clean
 	@rm -rf $(NAME)
 	@make -C $(LIBFT) fclean > /dev/null
+	@make -C $(FT_PRINTF) fclean > /dev/null
 
 $(OBJS)/%.o: $(SRC)/%.c
 	@mkdir -p $(dir $@)

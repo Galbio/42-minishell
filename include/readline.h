@@ -27,13 +27,6 @@ typedef struct s_char
 	struct s_char	*next;
 }	t_char;
 
-//TODO: libft
-typedef struct s_vector2
-{
-	int	x;
-	int	y;
-}	t_vector2;
-
 typedef struct s_readline
 {
 	t_char		*first;
@@ -91,9 +84,5 @@ char		get_open_quote(const char *stashed);
 void		init_terminal_size(t_vector2 *size);
 t_vector2	get_terminal_size(t_readline *data);
 int			count_total_newlines(const char *prompt, t_readline data);
-
-void		update_position(t_readline *data, char *build);
-
-int			ft_abs(int v);
 
 #endif
