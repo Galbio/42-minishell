@@ -30,12 +30,25 @@ int	count_newlines(t_char *c, t_char *actual, int *lc)
 	return (bn_count);
 }
 
-int	get_terminal_width(void)
+void	init_terminal_size(t_vector2 *size)
 {
 	struct winsize	w;
 
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-	return (w.ws_col);
+	size->x = w.ws_col;
+	size->y = w.ws_row;
+}
+
+t_vector2	get_terminal_size(t_readline *data)
+{
+	struct winsize	w;
+	t_vector2		size;
+
+	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+	size.x = w.ws_col;
+	size.y = w.ws_row;
+	check_resize(data, size);
+	return (size);
 }
 
 int	count_total_newlines(const char *prompt, t_readline data)
