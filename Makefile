@@ -30,17 +30,12 @@ FILES = main.c		\
 	utils/ft_securelen.c \
 	utils/init_int_tab.c \
 	utils/ft_strcdup.c \
-	builtins/cd.c \
-	builtins/echo.c \
-	builtins/unset.c \
-	builtins/pwd.c \
-	builtins/exit.c \
-	builtins/export.c \
 	commands/execute_command.c \
+	argv/create_argv.c \
 	build_in.c \
-	commands/create_argv.c \
 	parse_commands.c \
-	var_parser.c
+	var_parser.c \
+	builtins/echo.c \
 
 OFILES = $(FILES:%.c=$(OBJS)/%.o)
 

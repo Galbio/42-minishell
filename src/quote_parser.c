@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:21:54 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/24 23:23:22 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/26 00:11:10 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,21 @@ char	*get_var_str(char *str)
 {
 	int		i;
 	char	pare;
+	int		pare_count;
 
 	i = -1;
 	pare = (str[0] == '(');
+	pare_count = 0;
 	while (str[++i])
 	{
 		if ((str[i] != '_') && (!ft_isalnum(str[i])) && (!pare))
 			return (ft_substr(str, 0, i));
-		else if (str[i] == ')')
+		else if ((str[i] == ')') && !pare_count)
 			return (ft_substr(str, 0, i + 1));
+		else if (str[i] == '(')
+			pare_count++;
+		else if (str[i] == ')')
+			pare_count--;
 	}
 	return (ft_substr(str, 0, i + 1));
 }
@@ -117,7 +123,5 @@ char	*parse_quotes(char *str, t_list *envp, t_main_envp *imp)
 			infos.ptr1[infos.res++] = str[infos.i];
 	}
 	infos.ptr1[infos.res] = 0;
-	printf("Before : |%s|\nAfter : |%s|\n", str, infos.ptr1);
-	free(str);
 	return (infos.ptr1);
 }

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:04:41 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/24 23:35:38 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/26 00:12:58 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,10 @@ char	*ft_export_vars(t_list *envp)
 char	*add_to_envp(char *command, t_list **envp)
 {
 	char	*dest;
-	char	exist;
 	int		i;
 
+	(void)envp;
+	(void)dest;
 	i = -1;
 	command += 7;
 	if ((command[i] != '_') && !ft_isalpha(command[i]))
@@ -94,7 +95,7 @@ char	*add_to_envp(char *command, t_list **envp)
 			return (ft_putstr_fd("error", 2), free(command - 7), NULL);
 	}
 	dest = ft_substr(command, 0, i);
-	ft_unset(
+	//ft_unset(
 	return (NULL);
 }
 

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:05:06 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/24 19:15:58 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/26 00:39:02 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_exit_str(char *command)
 	ft_putstr_fd(": numeric argument required\n", 2);
 }
 
-char	check_exit_errors(char *command)
+char	check_exit_errors(char **argv)
 {
 	t_int_tab	tabe;
 
@@ -49,14 +49,12 @@ char	check_exit_errors(char *command)
 	return (0);
 }
 
-char	*ft_exit(char *command)
+char	*ft_exit(char **argv)
 {
 	write(2, "exit\n", 5);
-	if (command[4] == 0)
-		(free(command), exit(0));
-	command += 5;
-	if (check_exit_errors(command) == 1)
-		(free(command - 5), exit(2));
-	free(command - 5);
+	if (!argv[1])
+		exit(0);
+	if (check_exit_errors(argv + 1) == 1)
+		exit(2);
 	return (NULL);
 }

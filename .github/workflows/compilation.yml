@@ -1,0 +1,23 @@
+name: Compilation Check
+
+on: 
+  push:
+
+jobs:
+  compilation:
+    name: Compile with Makefile
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository with submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: Compile with Makefile
+        run: |
+          make re || (echo "❌ Compilation failed!" && exit 1)
+          
+      - name: Clean project
+        run: make fclean || echo "⚠️ fclean failed, continuing..."

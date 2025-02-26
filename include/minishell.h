@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/24 19:17:38 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/26 00:14:30 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define MINISHELL_H
 
 # include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
@@ -91,17 +89,20 @@ char		*parse_var(char *var_name, t_list *envp, t_main_envp *imp);
 char		*parse_commands(char *str, t_list *envp, t_main_envp *imp);
 char		*read_whole_fd(int fd);
 char		check_built_in(char **name);
+void		handle_var(char *str, t_int_tab *infos,
+				t_list *envp, t_main_envp *imp);
+char		*get_var_str(char *str);
 
 //exec_command.c
 int			get_command_argc(char *str);
+char		*execute_command(char **argv, t_main_envp *imp);
 char		**create_command_argv(char *str, t_list *envp, t_main_envp *imp);
-char		*execute_command(char *str, t_list *envp, t_main_envp *imp);
 
-char		*ft_cd(char *command);
-char		*ft_echo(char *command);
+char		*ft_cd(char **argv);
+char		*ft_echo(char **argv);
 char		*ft_pwd(void);
-void		*ft_unset(char *name, t_list **envp, t_main_envp *imp);
-char		*ft_exit(char *command);
-char		*ft_export(char *command, t_list **envp);
+void		*ft_unset(char **argv, t_list **envp, t_main_envp *imp);
+char		*ft_exit(char **argv);
+char		*ft_export(char **argv, t_list **envp);
 
 #endif

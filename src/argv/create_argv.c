@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 08:00:35 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 21:15:05 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/26 00:11:20 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,40 +32,56 @@ int	get_command_argc(char *str)
 	return (res + 1);
 }
 
-int	get_parsed_substr(char **str)
+int	get_parsed_substr(char **str, t_list *envp, t_main_envp *imp)
 {
-	int		i;
-	char	cur_quote;
-	char	back_slashed;
+	t_int_tab	tabe;
 
-	i = -1;
-	cur_quote = 0;
-	back_slashed = 0;
-	while (str[0][++i])
+	tabe = init_int_tab();
+	while (str[0][++tabe.i])
 	{
-		if ((str[0][i] == 32) && !cur_quote)
+		if ((str[0][tabe.i] == 32) && !tabe.cur_quote)
 			break ;
-		check_special_char(str[0][i], &back_slashed, &cur_quote);
+		if (!check_special_char(str[0][tabe.i], &tabe.backslash,
+			&tabe.cur_quote))
+			continue ;
+		if ((tabe.cur_quote != '\'') && str[0][tabe.i] == '$')
+		{
+			tabe.ptr1 = get_var_str(str[0] + tabe.i + 1);
+			tabe.ptr2 = parse_var(tabe.ptr1, envp, imp);
+			tabe.res += ft_securelen(tabe.ptr2);
+			tabe.i += ft_securelen(tabe.ptr1);
+			(free(tabe.ptr1), free(tabe.ptr2));
+		}
+		else
+			tabe.res++;
 	}
-	return (i);
+	return (tabe.res);
 }
 
-char	*parsed_quoted_substr(char **str)
+char	*parsed_quoted_substr(char **str, t_list *envp, t_main_envp *imp)
 {
-	int		i;
-	int		size;
-	char	*dest;
+	t_int_tab	tabe;
 
-	size = get_parsed_substr(str);
-	dest = malloc(sizeof(char) * (size + 1));
-	if (!dest)
+	tabe = init_int_tab();
+	tabe.ret = get_parsed_substr(str, envp, imp);
+	tabe.ptr1 = malloc(sizeof(char) * (tabe.ret + 1));
+	if (!tabe.ptr1)
 		return (NULL);
-	i = -1;
-	while (++i < size)
-		dest[i] = str[0][i];
-	dest[i] = 0;
-	(*str) += i + 1;
-	return (dest);
+	while (str[0][++tabe.i])
+	{
+		if ((str[0][tabe.i] == 32) && !tabe.cur_quote)
+			break ;
+		if (!check_special_char(str[0][tabe.i], &tabe.backslash,
+			&tabe.cur_quote))
+			continue ;
+		if ((tabe.cur_quote != '\'') && str[0][tabe.i] == '$')
+			handle_var(str[0], &tabe, envp, imp);
+		else
+			tabe.ptr1[tabe.res++] = str[0][tabe.i];
+	}
+	tabe.ptr1[tabe.res] = 0;
+	(*str) += tabe.i + 1;
+	return (tabe.ptr1);
 }
 
 char	**create_command_argv(char *str, t_list *envp, t_main_envp *imp)
@@ -74,8 +90,6 @@ char	**create_command_argv(char *str, t_list *envp, t_main_envp *imp)
 	int		i;
 	int		size;
 
-	(void)envp;
-	(void)imp;
 	size = get_command_argc(str);
 	dest = malloc(sizeof(char *) * (size + 1));
 	if (!dest)
@@ -83,6 +97,6 @@ char	**create_command_argv(char *str, t_list *envp, t_main_envp *imp)
 	dest[size] = 0;
 	i = -1;
 	while (++i < size)
-		dest[i] = parsed_quoted_substr(&str);
+		dest[i] = parsed_quoted_substr(&str, envp, imp);
 	return (dest);
 }
