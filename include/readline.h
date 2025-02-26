@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/23 20:13:59 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/26 13:59:35 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,6 @@ typedef struct s_char
 	struct s_char	*previous;
 	struct s_char	*next;
 }	t_char;
-
-//TODO: libft
-typedef struct s_vector2
-{
-	int	x;
-	int	y;
-}	t_vector2;
 
 typedef struct s_readline
 {
