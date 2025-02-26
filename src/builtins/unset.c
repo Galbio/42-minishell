@@ -6,77 +6,68 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 19:34:13 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/24 15:51:00 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/26 20:01:26 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	remove_from_envp(t_list **envp, t_main_envp *imp, int i)
+void	delete_env(int i, t_list **envp)
 {
+	t_list	*cur;
 	t_list	*temp;
-	t_list	*head;
 
-	(void)imp;
-	head = *envp;
+	cur = *envp;
 	if (!i)
 	{
-		(free((*envp)->content), temp = *envp);
-		*envp = (*envp)->next;
-		free(envp);
+		temp = cur->next;
+		ft_lstdelone(cur, free);
+		*envp = temp;
 		return ;
 	}
-	while (--i > 0)
-		head = head->next;
-	temp = head->next;
-	head->next = head->next->next;
-	(free(temp->content), free(temp));
-	return ;
+	while (i != 1)
+	{
+		i--;
+		cur = cur->next;
+	}
+	temp = cur->next->next;
+	ft_lstdelone(cur->next, free);
+	cur->next = temp;
 }
 
 void	unset_var(char *name, t_list **envp, t_main_envp *imp)
 {
-	int		len;
-	int		i;
+	t_list	*cur;
 	char	*env;
-	t_list	*head;
+	int		i;
+	int		len;
 
+	(void)imp;
+	i = 0;
 	len = ft_strlen(name);
-	i = -1;
-	head = *envp;
-	while (head)
+	cur = *envp;
+	while (cur)
 	{
-		i++;
-		env = (char *)head->content;
-		if (!ft_strncmp(name, env, len) && (env[len] == '='))
+		env = (char *)cur->content;
+		if ((!ft_strncmp(env, name, len)) && (env[len] == '='))
 		{
-			remove_from_envp(envp, imp, i);
+			delete_env(i, envp);
 			return ;
 		}
-		head = head->next;
+		cur = cur->next;
+		i++;
 	}
 }
 
-void	*ft_unset(char *name, t_list **envp, t_main_envp *imp)
+void	*ft_unset(char **argv, t_list **envp, t_main_envp *imp)
 {
-	char	*trimmed_name;
 	int		i;
 
-	if (!name[5])
+	if (!argv[1])
 		return (NULL);
-	name += 6;
+	write(1, "A", 1);
 	i = 0;
-	if ((name[i] != '_') && (!ft_isalnum(name[i])))
-		return (NULL);
-	while (name[++i])
-	{
-		if (name[i] == 32)
-			break ;
-		if ((name[i] != '_') && (!ft_isalnum(name[i])))
-			return (NULL);
-	}
-	trimmed_name = ft_substr(name, 0, i);
-	unset_var(name, envp, imp);
-	free(name - 6);
-	return (free(trimmed_name), NULL);
+	while (argv[++i])
+		unset_var(argv[i], envp, imp);
+	return (NULL);
 }

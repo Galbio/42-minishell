@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 18:19:55 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/26 00:27:03 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:32:48 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,8 @@
 char	*ft_cd(char **argv)
 {
 	int	res;
-	int	i;
 
-	i = -1;
-	while (name[++i])
-		if (name[i] == 32)
-			break ;
-	if (!name[i])
+	if (!argv[1])
 	{
 		if (getenv("HOME"))
 			chdir(getenv("HOME"));
@@ -29,10 +24,10 @@ char	*ft_cd(char **argv)
 			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 		return (NULL);
 	}
-	name += 3;
-	res = chdir(name);
+	else if (argv[2])
+		return (ft_putstr_fd("minishell: cd: too many arguments\n", 2), NULL);
+	res = chdir(argv[1]);
 	if (res < 0)
 		ft_putstr_fd(strerror(errno), 2);
-	free(name - 3);
 	return (NULL);
 }

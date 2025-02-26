@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:04:41 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/26 00:12:58 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:55:36 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,9 @@ char	*add_to_envp(char *command, t_list **envp)
 	return (NULL);
 }
 
-char	*ft_export(char *command, t_list **envp)
+char	*ft_export(char **argv, t_list **envp)
 {
-	if (command[6])
-		return (add_to_envp(command, envp));
-	return (free(command), ft_export_vars(*envp));
+	if (argv[1])
+		return (NULL); //return (add_to_envp(command, envp));
+	return (ft_export_vars(*envp));
 }

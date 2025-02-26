@@ -37,7 +37,10 @@ FILES = main.c		\
 	parse_commands.c \
 	var_parser.c \
 	builtins/echo.c \
+	builtins/cd.c \
 	builtins/pwd.c \
+	builtins/unset.c \
+	builtins/export.c \
 	builtins/exit.c
 
 OFILES = $(FILES:%.c=$(OBJS)/%.o)
