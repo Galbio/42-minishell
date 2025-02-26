@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 02:16:30 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/23 17:54:27 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/26 14:06:31 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ static int	is_none(char *readed)
 	{
 		if (readed[i] == v)
 			v = 0;
-		else if (ft_is_quote(readed[i]) && v == 0)
+		else if (ft_isquote(readed[i]) && v == 0)
 			v = readed[i];
-		if (v != 0 && ft_is_quote(readed[i]) && readed[i] != v)
+		if (v != 0 && ft_isquote(readed[i]) && readed[i] != v)
 			return (0);
-		if (!ft_is_quote(readed[i]) && !ft_is_whitespace(readed[i]))
+		if (!ft_isquote(readed[i]) && !ft_iswhitespace(readed[i]))
 			return (0);
 		i++;
 	}
@@ -47,15 +47,15 @@ static int	clean_size(char *readed)
 	{
 		if (readed[i] == v)
 			v = 0;
-		else if (ft_is_quote(readed[i]) && v == 0)
+		else if (ft_isquote(readed[i]) && v == 0)
 			v = readed[i];
-		while (v == 0 && ft_is_whitespace(readed[i])
-			&& ft_is_whitespace(readed[i + 1]))
+		while (v == 0 && ft_iswhitespace(readed[i])
+			&& ft_iswhitespace(readed[i + 1]))
 			i++;
 		i++;
 		size++;
 	}
-	if (i != 0 && ft_is_whitespace(readed[i - 1]))
+	if (i != 0 && ft_iswhitespace(readed[i - 1]))
 		size--;
 	return (size);
 }
@@ -73,16 +73,16 @@ static void	fix_spaces(char *readed, char **cleaned)
 	{
 		if (readed[i] == v)
 			v = 0;
-		else if (ft_is_quote(readed[i]) && v == 0)
+		else if (ft_isquote(readed[i]) && v == 0)
 			v = readed[i];
-		while (v == 0 && ft_is_whitespace(readed[i])
-			&& ft_is_whitespace(readed[i + 1]))
+		while (v == 0 && ft_iswhitespace(readed[i])
+			&& ft_iswhitespace(readed[i + 1]))
 			i++;
 		(*cleaned)[size] = readed[i];
 		size++;
 		i++;
 	}
-	if (i != 0 && ft_is_whitespace(readed[i - 1]))
+	if (i != 0 && ft_iswhitespace(readed[i - 1]))
 		size--;
 	(*cleaned)[size] = '\0';
 }
@@ -96,7 +96,7 @@ int	clean_readed(char **readed)
 	if (is_none(*readed))
 		return (0);
 	i = 0;
-	while (ft_is_whitespace((*readed)[i]))
+	while (ft_iswhitespace((*readed)[i]))
 		i++;
 	size = clean_size(*readed + i);
 	cleaned = malloc(sizeof(char *) * (size + 1));

@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:11:11 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/23 20:11:13 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/26 10:35:48 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,25 @@ char	get_open_quote(const char *stashed)
 	return (cur_quote);
 }
 
-int	get_terminal_width(void)
+void	init_terminal_size(t_vector2 *size)
 {
 	struct winsize	w;
 
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-	return (w.ws_col);
+	size->x = w.ws_col;
+	size->y = w.ws_row;
+}
+
+t_vector2	get_terminal_size(t_readline *data)
+{
+	struct winsize	w;
+	t_vector2		size;
+
+	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+	size.x = w.ws_col;
+	size.y = w.ws_row;
+	check_resize(data, size);
+	return (size);
 }
 
 int	count_total_newlines(const char *prompt, t_readline data)
