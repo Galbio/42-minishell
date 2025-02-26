@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:11:11 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/25 14:46:39 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/26 10:35:48 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,29 +57,13 @@ char	get_open_quote(const char *stashed)
 	return (cur_quote);
 }
 
-void	fix_cursor(t_readline *data, t_vector2 size)
+void	init_terminal_size(t_vector2 *size)
 {
-	static t_vector2	old_size = {0, 0};
-	t_vector2			old_cursor;
-	int					diff;
+	struct winsize	w;
 
-	if (old_size.y == 0)
-		old_size = size;
-	if ((size.x != old_size.x || size.y != old_size.y))
-	{
-		old_cursor = data->cursor;
-		get_cursor_position(&data->cursor);
-		if (data->pos.x != 0)
-		{
-			diff = (((3 + ft_strlen(build_result(*data))) / old_size.x)
-					- ((3 + ft_strlen(build_result(*data))) / size.x));
-			data->initial_pos.y -= old_cursor.y - data->cursor.y - diff;
-			if (old_size.y < size.y)
-				data->initial_pos.y -= diff;
-		}
-		old_size = size;
-		data->pos.y = data->initial_pos.y;
-	}
+	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+	size->x = w.ws_col;
+	size->y = w.ws_row;
 }
 
 t_vector2	get_terminal_size(t_readline *data)
@@ -90,7 +74,7 @@ t_vector2	get_terminal_size(t_readline *data)
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
 	size.x = w.ws_col;
 	size.y = w.ws_row;
-	fix_cursor(data, size);
+	check_resize(data, size);
 	return (size);
 }
 

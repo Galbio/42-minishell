@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/25 14:39:42 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/26 10:36:16 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ typedef struct s_readline
 	t_vector2	initial_pos;
 	t_vector2	pos;
 	t_vector2	cursor;
+	int			end_line;
+	t_vector2	old_tsize;
 }	t_readline;
 
 //TODO: move ft_readline to libft
@@ -67,6 +69,8 @@ void		teleport_cursor(t_vector2 pos);
 
 int			get_cursor_position(t_vector2 *pos);
 
+void		check_resize(t_readline *data, t_vector2 size);
+
 int			clean_readed(char **readed);
 
 void		clear_terminal(int count, int bn_count);
@@ -84,6 +88,7 @@ void		disable_raw_mode(struct termios *raw);
 
 int			count_newlines(t_char *c, t_char *actual, int *lc);
 char		get_open_quote(const char *stashed);
+void		init_terminal_size(t_vector2 *size);
 t_vector2	get_terminal_size(t_readline *data);
 int			count_total_newlines(const char *prompt, t_readline data);
 

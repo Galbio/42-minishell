@@ -23,6 +23,7 @@ FILES = main.c		\
 	readline/clean_readed.c	\
 	readline/display.c	\
 	readline/processing.c	\
+	readline/resize.c	\
 	readline/utils.c	\
 	utils/get_next_line.c	\
 	utils/ft_realloc.c	\
