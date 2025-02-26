@@ -6,14 +6,13 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 19:45:00 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/23 19:45:52 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/24 13:21:50 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <termios.h>
+#include "readline.h"
 
-static void	set_raw_mode(struct termios *old_term)
+static void	set_tcsamow(struct termios *old_term)
 {
 	struct termios	new_term;
 
@@ -62,17 +61,17 @@ static int	parse_cursor_position(const char *response, int *rows, int *cols)
 	return ((*ptr != 'R') * -1);
 }
 
-int	get_cursor_position(int *rows, int *cols)
+int	get_cursor_position(t_vector2 *pos)
 {
 	struct termios	old_term;
 	char			response[32];
 	int				status;
 
-	set_raw_mode(&old_term);
+	set_tcsamow(&old_term);
 	write(STDOUT_FILENO, "\033[6n", 4);
 	status = read_terminal_response(response, sizeof(response));
 	tcsetattr(STDIN_FILENO, TCSANOW, &old_term);
 	if (status == -1)
 		return (-1);
-	return (parse_cursor_position(response, rows, cols));
+	return (parse_cursor_position(response, &pos->y, &pos->x));
 }

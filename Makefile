@@ -19,12 +19,15 @@ FILES = main.c		\
 	readline/actions.c	\
 	readline/char_utils.c	\
 	readline/cursor_position.c	\
+	readline/cursor_manager.c	\
 	readline/ft_readline.c	\
+	readline/handle.c	\
 	readline/termios_manager.c	\
 	readline/char_list.c	\
 	readline/clean_readed.c	\
 	readline/display.c	\
 	readline/processing.c	\
+	readline/resize.c	\
 	readline/utils.c	\
 	utils/init_int_tab.c \
 	commands/execute_command.c \
