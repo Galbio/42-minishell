@@ -83,11 +83,14 @@ t_list		*parse_envp(char **envp, t_main_envp *imp);
 char		*parse_var(char *var_name, t_list *envp, t_main_envp *imp);
 char		*parse_commands(char *str, t_list *envp, t_main_envp *imp);
 char		check_built_in(char **name);
+void		handle_var(char *str, t_int_tab *infos,
+				t_list *envp, t_main_envp *imp);
+char		*get_var_str(char *str);
 
 //exec_command.c
 int			get_command_argc(char *str);
+char		*execute_command(char **argv, t_main_envp *imp);
 char		**create_command_argv(char *str, t_list *envp, t_main_envp *imp);
-char		*execute_command(char *str, t_list *envp, t_main_envp *imp);
 
 char		*get_next_line(int fd);
 char		*create_line(int byte_read, char **stashed, char **buffer);

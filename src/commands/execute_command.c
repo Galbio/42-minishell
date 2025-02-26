@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 16:53:20 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/25 14:42:43 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ char	*read_whole_fd(int fd)
 char	*get_command_output(char **argv, t_main_envp *imp)
 {
 	pid_t	pid;
-	int		i;
 	int		pipes[2];
 	char	*dest;
 
@@ -91,20 +90,14 @@ char	*get_command_output(char **argv, t_main_envp *imp)
 	}
 	(close(pipes[1]), wait(NULL));
 	dest = read_whole_fd(pipes[0]);
-	close(pipes[0]);
-	i = -1;
-	while (argv[++i])
-		free(argv[i]);
-	return (free(argv), dest);
+	return (close(pipes[0]), dest);
 }
 
-char	*execute_command(char *str, t_list *envp, t_main_envp *imp)
+char	*execute_command(char **argv, t_main_envp *imp)
 {
-	char	**argv;
 	char	*path;
 	char	*temp;
 
-	argv = create_command_argv(str, envp, imp);
 	path = get_command_path(argv[0], imp->path);
 	if (!path)
 	{
