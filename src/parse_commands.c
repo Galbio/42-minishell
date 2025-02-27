@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 12:55:20 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/27 14:27:25 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/27 18:51:02 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,20 @@
 
 char	*handle_builtins(int code, char **argv, t_list **envp, t_main_envp *imp)
 {
-	(void)envp;
-	(void)imp;
 	if (code == 1)
-		return (ft_echo(argv));
+		return (ms_echo(argv));
 	else if (code == 2)
-		return (ft_cd(argv));
+		return (ms_cd(argv));
 	else if (code == 3)
-		return (ft_pwd());
+		return (ms_pwd());
 	else if (code == 4)
-		return (ft_export(argv, envp));
+		return (ms_export(argv, envp));
 	else if (code == 5)
-		return (ft_unset(argv, envp, imp));
+		return (ms_unset(argv, envp, imp));
 	else if (code == 6)
-		return (ft_env(argv, *envp));
+		return (ms_env(argv, *envp));
 	else if (code == 7)
-		return (ft_exit(argv));
+		return (ms_exit(argv));
 	return (NULL);
 }
 

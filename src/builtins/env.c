@@ -6,13 +6,13 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 14:11:56 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/27 15:28:17 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/27 18:49:51 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	check_error(char **argv)
+static char	check_error(char **argv)
 {
 	int		i;
 
@@ -21,14 +21,16 @@ char	check_error(char **argv)
 	{
 		if (!ft_strchr(argv[i], '='))
 		{
-			(ft_putstr_fd("env: ‘", 2), ft_putstr_fd(argv[i], 2));
-			return (ft_putstr_fd("’: No such file or directory", 2), 1);
+			ft_putstr_fd("env: ‘", 2);
+			ft_putstr_fd(argv[i], 2);
+			ft_putstr_fd("’: No such file or directory", 2);
+			return (1);
 		}
 	}
 	return (0);
 }
 
-char	*ft_env(char **argv, t_list *envp)
+char	*ms_env(char **argv, t_list *envp)
 {
 	char	*dest;
 	int		i;

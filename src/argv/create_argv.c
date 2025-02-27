@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 08:00:35 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/26 00:11:20 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/27 18:49:29 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	get_command_argc(char *str)
 	return (res + 1);
 }
 
-int	get_parsed_substr(char **str, t_list *envp, t_main_envp *imp)
+static int	get_parsed_substr(char **str, t_list *envp, t_main_envp *imp)
 {
 	t_int_tab	tabe;
 
@@ -58,7 +58,7 @@ int	get_parsed_substr(char **str, t_list *envp, t_main_envp *imp)
 	return (tabe.res);
 }
 
-char	*parsed_quoted_substr(char **str, t_list *envp, t_main_envp *imp)
+static char	*parsed_quoted_substr(char **str, t_list *envp, t_main_envp *imp)
 {
 	t_int_tab	tabe;
 

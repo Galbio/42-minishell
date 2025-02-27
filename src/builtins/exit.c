@@ -6,56 +6,54 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:05:06 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/26 19:25:34 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/27 18:53:55 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_exit_str(char *command)
+static void	display_error(char code, char *name)
 {
-	t_int_tab	tabe;
-
-	ft_putstr_fd("minishell: exit: ", 2);
-	tabe = init_int_tab();
-	while (command[++tabe.i])
+	if (!code)
 	{
-		if ((command[tabe.i] == 32) && !tabe.cur_quote)
-			break ;
-		check_special_char(command[tabe.i], &tabe.backslash, &tabe.cur_quote);
-		write(2, command + tabe.i, 1);
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		return ;
 	}
-	free(command - 5);
-	ft_putstr_fd(": numeric argument required\n", 2);
+	ft_putstr_fd("minishell: exit: ", 2);
+	ft_putstr_fd(name, 2);
+	ft_putstr_fd(": numertic argument required\n", 2);
 }
 
-char	check_exit_errors(char **argv)
+static char	check_exit_errors(char **argv)
 {
-	t_int_tab	tabe;
+	t_int_tab	itab;
 
-	tabe = init_int_tab();
+	itab = init_int_tab();
 	if ((argv[1][0] == '-') && !ft_isdigit(argv[1][1]))
 	{
-		(ft_putstr_fd("minishell: exit: ", 2), ft_putstr_fd(argv[1], 2));
-		return (ft_putstr_fd(": numeric argument required\n", 2), 1);
+		display_error(1, argv[1]);
+		return (1);
 	}
 	else if (argv[1][0] == '-')
-		tabe.i++;
-	while (argv[1][++tabe.i])
+		itab.i++;
+	while (argv[1][++itab.i])
 	{
-		if (!ft_isdigit(argv[1][tabe.i]))
+		if (!ft_isdigit(argv[1][itab.i]))
 		{
-			(ft_putstr_fd("minishell: exit: ", 2), ft_putstr_fd(argv[1], 2));
-			return (ft_putstr_fd(": numeric argument required\n", 2), 1);
+			display_error(1, argv[1]);
+			return (1);
 		}
 	}
 	if (argv[2])
-		return (ft_putstr_fd("minishell: exit: too many arguments\n", 2), 0);
+	{
+		display_error(0, NULL);
+		return (0);
+	}
 	exit((unsigned char)ft_atoi(argv[1]));
 	return (0);
 }
 
-char	*ft_exit(char **argv)
+char	*ms_exit(char **argv)
 {
 	write(2, "exit\n", 5);
 	if (!argv[1])

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/27 14:16:04 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/27 18:53:28 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,14 @@ int			get_command_argc(char *str);
 char		*execute_command(char **argv, t_main_envp *imp);
 char		**create_command_argv(char *str, t_list *envp, t_main_envp *imp);
 
-char		*ft_cd(char **argv);
-char		*ft_echo(char **argv);
-char		*ft_pwd(void);
-void		*ft_unset(char **argv, t_list **envp, t_main_envp *imp);
-char		*ft_exit(char **argv);
-char		*ft_export(char **argv, t_list **envp);
-char		*ft_env(char **argv, t_list *envp);
+char		*ms_cd(char **argv);
+char		*ms_echo(char **argv);
+char		*ms_pwd(void);
+void		*ms_unset(char **argv, t_list **envp, t_main_envp *imp);
+char		*ms_exit(char **argv);
+char		*ms_export(char **argv, t_list **envp);
+char		*ms_env(char **argv, t_list *envp);
+void		unset_var(char *name, t_list **envp, t_main_envp *imp);
+char		*export_vars(t_list *envp);
 
 #endif

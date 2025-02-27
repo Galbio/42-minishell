@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 19:34:13 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/27 15:23:49 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/27 18:50:22 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,8 @@ void	delete_env(int i, t_list **envp)
 		*envp = temp;
 		return ;
 	}
-	while (i != 1)
-	{
-		i--;
+	while (i-- != 1)
 		cur = cur->next;
-	}
 	temp = cur->next->next;
 	ft_lstdelone(cur->next, free);
 	cur->next = temp;
@@ -59,7 +56,7 @@ void	unset_var(char *name, t_list **envp, t_main_envp *imp)
 	}
 }
 
-void	*ft_unset(char **argv, t_list **envp, t_main_envp *imp)
+void	*ms_unset(char **argv, t_list **envp, t_main_envp *imp)
 {
 	int		i;
 

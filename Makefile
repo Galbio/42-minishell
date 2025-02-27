@@ -41,6 +41,7 @@ FILES = main.c		\
 	builtins/pwd.c \
 	builtins/unset.c \
 	builtins/export.c \
+	builtins/export_no_args.c \
 	builtins/exit.c \
 	builtins/env.c
 

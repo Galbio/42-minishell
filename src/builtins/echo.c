@@ -6,13 +6,13 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:14:37 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/26 20:05:58 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/27 18:49:42 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	handle_n(char *str, char *nl)
+static char	handle_n(char *str, char *nl)
 {
 	int		i;
 
@@ -26,7 +26,7 @@ char	handle_n(char *str, char *nl)
 	return (1);
 }
 
-char	*ft_echo(char **argv)
+char	*ms_echo(char **argv)
 {
 	char	*str;
 	char	nl;

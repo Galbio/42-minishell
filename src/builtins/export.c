@@ -6,86 +6,29 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:04:41 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/27 15:49:17 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/27 18:52:03 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	write_cor_char(char c, int fd)
+static void	display_error(char *name)
 {
-	if (c == '"')
-		write(fd, "\\\"", 2);
-	else if (c == '\\')
-		write(fd, "\\\\", 2);
-	else if (c == '\n')
-		write(fd, "\\n", 2);
-	else if (c == '\t')
-		write(fd, "\\t", 2);
-	else if (c == '\v')
-		write(fd, "\\v", 2);
-	else if (c == '\r')
-		write(fd, "\\r", 2);
-	else if (c == '\f')
-		write(fd, "\\f", 2);
-	else
-		write(fd, &c, 1);
+	ft_putstr_fd("minishell: export: `", 2);
+	ft_putstr_fd(name, 2);
+	ft_putstr_fd("': not a valid identifier\n", 2);
 }
 
-void	write_vars(t_list *envp, int fd)
+static char	*add_envp(char *name, t_list **envp)
 {
-	char	*env;
+	char	*var_name;
 	int		i;
-
-	while (envp)
-	{
-		env = (char *)envp->content;
-		ft_putstr_fd("declare -x ", fd);
-		i = -1;
-		while (env[++i] && env[i] != '=')
-			write(fd, env + i, 1);
-		if (!env)
-			return ;
-		write(fd, "=\"", 2);
-		while (env[++i])
-			write_cor_char(env[i], fd);
-		write(fd, "\"\n", 2);
-		envp = envp->next;
-	}
-}
-
-char	*ft_export_vars(t_list *envp)
-{
-	pid_t	pid;
-	int		pipes[2];
-	char	*dest;
-
-	if (pipe(pipes) < 0)
-		return (NULL);
-	pid = fork();
-	if (pid < 0)
-		return (NULL);
-	if (!pid)
-	{
-		(close(pipes[0]), write_vars(envp, pipes[1]));
-		(close(pipes[1]), exit(0));
-	}
-	(close(pipes[1]), wait(NULL));
-	dest = read_whole_fd(pipes[0]);
-	close(pipes[0]);
-	return (dest);
-}
-
-char	*add_envp(char *name, t_list **envp)
-{
-	const char	*var_name[3] = {NULL, NULL, NULL};
-	int			i;
 
 	i = -1;
 	if (!name[0] || (name[0] == '=') || ft_isdigit(name[0]))
 	{
-		(ft_putstr_fd("bash: export: `", 2), ft_putstr_fd(name, 2));
-		return (ft_putstr_fd("': not a valid identifier\n", 2), NULL);
+		display_error(name);
+		return (NULL);
 	}
 	while (name[++i])
 	{
@@ -93,24 +36,24 @@ char	*add_envp(char *name, t_list **envp)
 			break ;
 		if ((name[i] != '_') && !ft_isalnum(name[i]))
 		{
-			(ft_putstr_fd("bash: export: `", 2), ft_putstr_fd(name, 2));
-			return (ft_putstr_fd("': not a valid identifier\n", 2), NULL);
+			display_error(name);
+			return (NULL);
 		}
 	}
 	if (name[i] != '=')
 		return (NULL);
-	var_name[1] = ft_substr(name, 0, i);
-	ft_unset((char **)var_name, envp, NULL);
+	var_name = ft_substr(name, 0, i);
+	unset_var(var_name, envp, NULL);
 	ft_lstadd_back(envp, ft_lstnew(ft_strdup(name)));
 	return (NULL);
 }
 
-char	*ft_export(char **argv, t_list **envp)
+char	*ms_export(char **argv, t_list **envp)
 {
 	int		i;
 
 	if (!argv[1])
-		return (ft_export_vars(*envp));
+		return (export_vars(*envp));
 	i = 0;
 	while (argv[++i])
 		add_envp(argv[i], envp);
