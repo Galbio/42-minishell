@@ -33,9 +33,9 @@ FILES = main.c		\
 	utils/ft_strcdup.c \
 	commands/execute_command.c \
 	argv/create_argv.c \
-	build_in.c \
 	parse_commands.c \
 	var_parser.c \
+	check_is_builtins.c \
 	builtins/echo.c \
 	builtins/cd.c \
 	builtins/pwd.c \
