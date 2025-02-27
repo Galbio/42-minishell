@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:04:41 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/27 15:30:28 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:47:21 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ char	*add_envp(char *name, t_list **envp)
 
 char	*ft_export(char **argv, t_list **envp)
 {
-	char	*dest;
 	int		i;
 
 	if (!argv[1])
