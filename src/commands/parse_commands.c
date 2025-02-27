@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcdup.c                                       :+:      :+:    :+:   */
+/*   parse_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/24 17:38:25 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/24 17:43:15 by gakarbou         ###   ########.fr       */
+/*   Created: 2025/02/23 12:55:20 by gakarbou          #+#    #+#             */
+/*   Updated: 2025/02/27 20:14:00 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_strcdup(char *str, char c)
+char	*parse_commands(char *str, t_list *envp, t_main_envp *imp)
 {
-	char	*dest;
-	int		len;
-	int		i;
+	t_int_tab	tabe;
+	char		**argv;
+	char		*dest;
 
-	i = -1;
-	len = 0;
-	while (str[++i])
-		if (str[i] == c)
-			break ;
-	dest = malloc(sizeof(char) * (len + 1));
-	if (!dest)
-		return (NULL);
-	dest[len] = 0;
-	i = -1;
-	while (++i < len)
-		dest[i] = str[i];
-	return (dest);
+	tabe = init_int_tab();
+	argv = create_command_argv(str, envp, imp);
+	tabe.ret = check_built_in(&argv[0]);
+	if (tabe.ret)
+		dest = handle_builtins(tabe.ret, argv, &envp, imp);
+	else
+		dest = execute_command(argv, imp);
+	while (argv[++tabe.i])
+		free(argv[tabe.i]);
+	return (free(argv), dest);
 }

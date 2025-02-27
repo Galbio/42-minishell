@@ -15,7 +15,6 @@ FT_PRINTFI = $(FT_PRINTF)/include
 FILES = main.c		\
 	minishell.c	\
 	envp_parser.c \
-	quote_parser.c \
 	readline/actions.c	\
 	readline/char_utils.c	\
 	readline/cursor_position.c	\
@@ -31,12 +30,12 @@ FILES = main.c		\
 	readline/utils.c	\
 	readline/stdin.c	\
 	utils/init_int_tab.c \
-	utils/ft_strcdup.c \
+	utils/parsing_utils.c \
 	commands/execute_command.c \
+	commands/execute_bin.c \
 	argv/create_argv.c \
-	parse_commands.c \
 	var_parser.c \
-	check_is_builtins.c \
+	bquote_fixer.c \
 	builtins/echo.c \
 	builtins/cd.c \
 	builtins/pwd.c \
@@ -49,7 +48,7 @@ FILES = main.c		\
 OFILES = $(FILES:%.c=$(OBJS)/%.o)
 
 FLAGS = -Wall -Wextra -Werror
-EXTRA_FLAGS = -g #-l history -l readline -lncurses
+EXTRA_FLAGS = -g
 COMPILATOR = cc
 
 all: $(NAME)

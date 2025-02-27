@@ -6,33 +6,30 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 08:00:35 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/27 18:49:29 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/27 21:18:04 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	get_command_argc(char *str)
+static int	get_command_argc(char *str)
 {
-	int		res;
-	int		i;
-	char	cur_quote;
-	char	back_slashed;
+	t_int_tab	itab;
 
-	cur_quote = 0;
-	back_slashed = 0;
-	res = 0;
-	i = -1;
-	while (str[++i])
+	itab = init_int_tab();
+	while (str[++itab.i])
 	{
-		if ((str[i] == 32) && !cur_quote)
-			res++;
-		check_special_char(str[i], &back_slashed, &cur_quote);
+		if ((str[itab.i] == 32) && !itab.cur_quote)
+			itab.res++;
+		if ((str[itab.i] == '$') && (str[itab.i + 1] == '('))
+			while (str[itab.i] != ')')
+				itab.i++;
+		check_special_char(str[itab.i], &itab.backslash, &itab.cur_quote);
 	}
-	return (res + 1);
+	return (itab.res + 1);
 }
 
-static int	get_parsed_substr(char **str, t_list *envp, t_main_envp *imp)
+static int	get_parsed_substr_len(char **str, t_list **envp, t_main_envp *imp)
 {
 	t_int_tab	tabe;
 
@@ -58,12 +55,12 @@ static int	get_parsed_substr(char **str, t_list *envp, t_main_envp *imp)
 	return (tabe.res);
 }
 
-static char	*parsed_quoted_substr(char **str, t_list *envp, t_main_envp *imp)
+static char	*parsed_quoted_substr(char **str, t_list **envp, t_main_envp *imp)
 {
 	t_int_tab	tabe;
 
 	tabe = init_int_tab();
-	tabe.ret = get_parsed_substr(str, envp, imp);
+	tabe.ret = get_parsed_substr_len(str, envp, imp);
 	tabe.ptr1 = malloc(sizeof(char) * (tabe.ret + 1));
 	if (!tabe.ptr1)
 		return (NULL);
@@ -75,7 +72,11 @@ static char	*parsed_quoted_substr(char **str, t_list *envp, t_main_envp *imp)
 			&tabe.cur_quote))
 			continue ;
 		if ((tabe.cur_quote != '\'') && str[0][tabe.i] == '$')
+		{
+			imp->is_bquoted++;
 			handle_var(str[0], &tabe, envp, imp);
+			imp->is_bquoted--;
+		}
 		else
 			tabe.ptr1[tabe.res++] = str[0][tabe.i];
 	}
@@ -84,7 +85,7 @@ static char	*parsed_quoted_substr(char **str, t_list *envp, t_main_envp *imp)
 	return (tabe.ptr1);
 }
 
-char	**create_command_argv(char *str, t_list *envp, t_main_envp *imp)
+char	**create_command_argv(char *str, t_list **envp, t_main_envp *imp)
 {
 	char	**dest;
 	int		i;

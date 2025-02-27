@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 18:40:47 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/27 18:43:35 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/27 20:09:28 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	*export_vars(t_list *envp)
 		(close(pipes[1]), exit(0));
 	}
 	(close(pipes[1]), wait(NULL));
-	dest = read_whole_fd(pipes[0]);
+	dest = ft_get_contents(pipes[0]);
 	close(pipes[0]);
 	return (dest);
 }

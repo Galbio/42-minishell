@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/27 18:53:28 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/27 21:30:36 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_main_envp
 	char	**path;
 	char	*home;
 	char	*cwd;
+	char	is_bquoted;
 	int		shell_level;
 }	t_main_envp;
 
@@ -63,36 +64,25 @@ void		launch(t_list *envp, t_main_envp *imp);
 char		*parse_quotes(char *str, t_list *envp, t_main_envp *imp);
 char		check_special_char(char c, char *backslash, char *cur_quote);
 
-//TODO: move ft_readline to libft
-void		*ft_realloc(void *ptr, size_t old_size, size_t new_size);
-char		*ft_strcdup(char *str, char c);
-char		*ft_securejoin(char const *s1, char const *s2, char must_free);
-int			ft_securelen(char const *str);
-
-//TODO: move to libft
-int			ft_is_quote(int c);
-int			ft_is_whitespace(int c);
 t_int_tab	init_int_tab(void);
 
-char		*get_next_line(int fd);
-char		*create_line(int byte_read, char **stashed, char **buffer);
-char		*recover_stashed(char *buffer, char *stashed);
-char		*seperate(char *buffer, char **stashed);
-void		*on_error(char **buffer, char **stashed);
 t_list		*parse_envp(char **envp, t_main_envp *imp);
-char		*parse_var(char *var_name, t_list *envp, t_main_envp *imp);
+char		*parse_var(char *var_name, t_list **envp, t_main_envp *imp);
 char		*parse_commands(char *str, t_list *envp, t_main_envp *imp);
 char		*read_whole_fd(int fd);
-char		check_built_in(char **name);
+char		check_builtins(char *name);
 void		handle_var(char *str, t_int_tab *infos,
-				t_list *envp, t_main_envp *imp);
+				t_list **envp, t_main_envp *imp);
 char		*get_var_str(char *str);
+char		*clean_whitespaces(char *str);
 
-//exec_command.c
-int			get_command_argc(char *str);
-char		*execute_command(char **argv, t_main_envp *imp);
-char		**create_command_argv(char *str, t_list *envp, t_main_envp *imp);
 
+//commands
+char		*execute_command(char *str, t_list **envp, t_main_envp *imp);
+char		*execute_bin(char **argv, t_main_envp *imp);
+char		**create_command_argv(char *str, t_list **envp, t_main_envp *imp);
+
+//builtins
 char		*ms_cd(char **argv);
 char		*ms_echo(char **argv);
 char		*ms_pwd(void);
@@ -100,6 +90,8 @@ void		*ms_unset(char **argv, t_list **envp, t_main_envp *imp);
 char		*ms_exit(char **argv);
 char		*ms_export(char **argv, t_list **envp);
 char		*ms_env(char **argv, t_list *envp);
+
+//builtins additional
 void		unset_var(char *name, t_list **envp, t_main_envp *imp);
 char		*export_vars(t_list *envp);
 
