@@ -6,11 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:05:06 by gakarbou          #+#    #+#             */
-<<<<<<< Updated upstream
-/*   Updated: 2025/02/27 18:53:55 by gakarbou         ###   ########.fr       */
-=======
-/*   Updated: 2025/02/26 19:12:44 by gakarbou         ###   ########.fr       */
->>>>>>> Stashed changes
+/*   Updated: 2025/02/27 18:58:30 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +28,6 @@ static char	check_exit_errors(char **argv)
 {
 	t_int_tab	itab;
 
-<<<<<<< Updated upstream
 	itab = init_int_tab();
 	if ((argv[1][0] == '-') && !ft_isdigit(argv[1][1]))
 	{
