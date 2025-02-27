@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 19:34:13 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/26 20:01:26 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:23:49 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	*ft_unset(char **argv, t_list **envp, t_main_envp *imp)
 
 	if (!argv[1])
 		return (NULL);
-	write(1, "A", 1);
 	i = 0;
 	while (argv[++i])
 		unset_var(argv[i], envp, imp);

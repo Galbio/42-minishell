@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:04:41 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/26 19:55:36 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:30:28 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,32 +76,45 @@ char	*ft_export_vars(t_list *envp)
 	return (dest);
 }
 
-char	*add_to_envp(char *command, t_list **envp)
+char	*add_envp(char *name, t_list **envp)
 {
-	char	*dest;
-	int		i;
+	const char	*var_name[3] = {NULL, NULL, NULL};
+	int			i;
 
-	(void)envp;
-	(void)dest;
 	i = -1;
-	command += 7;
-	if ((command[i] != '_') && !ft_isalpha(command[i]))
-		return (ft_putstr_fd("error", 2), free(command - 7), NULL);
-	while (command[i])
+	if (!name[0] || (name[0] == '=') || ft_isdigit(name[0]))
 	{
-		if (command[i] == '=')
-			break ;
-		if ((command[i] != '_') && !ft_isalnum(command[i]))
-			return (ft_putstr_fd("error", 2), free(command - 7), NULL);
+		(ft_putstr_fd("bash: export: `", 2), ft_putstr_fd(name, 2));
+		return (ft_putstr_fd("': not a valid identifier\n", 2), NULL);
 	}
-	dest = ft_substr(command, 0, i);
-	//ft_unset(
+	while (name[++i])
+	{
+		if (name[i] == '=')
+			break ;
+		if ((name[i] != '_') && !ft_isalnum(name[i]))
+		{
+			(ft_putstr_fd("bash: export: `", 2), ft_putstr_fd(name, 2));
+			return (ft_putstr_fd("': not a valid identifier\n", 2), NULL);
+		}
+	}
+	if (name[i] != '=')
+		return (NULL);
+	var_name[1] = ft_substr(name, 0, i);
+	ft_unset((char **)var_name, envp, NULL);
+	ft_lstadd_back(envp, ft_lstnew(ft_strdup(name)));
 	return (NULL);
 }
 
 char	*ft_export(char **argv, t_list **envp)
 {
-	if (argv[1])
-		return (NULL); //return (add_to_envp(command, envp));
-	return (ft_export_vars(*envp));
+	char	*dest;
+	int		i;
+
+	if (!argv[1])
+		return (ft_export_vars(*envp));
+	i = 0;
+	dest = NULL;
+	while (argv[++i])
+		add_envp(argv[i], envp);
+	return (NULL);
 }

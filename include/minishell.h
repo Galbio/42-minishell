@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/26 19:14:12 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:16:04 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,6 @@ char		*ft_pwd(void);
 void		*ft_unset(char **argv, t_list **envp, t_main_envp *imp);
 char		*ft_exit(char **argv);
 char		*ft_export(char **argv, t_list **envp);
+char		*ft_env(char **argv, t_list *envp);
 
 #endif

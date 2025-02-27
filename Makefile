@@ -41,7 +41,8 @@ FILES = main.c		\
 	builtins/pwd.c \
 	builtins/unset.c \
 	builtins/export.c \
-	builtins/exit.c
+	builtins/exit.c \
+	builtins/env.c
 
 OFILES = $(FILES:%.c=$(OBJS)/%.o)
 
