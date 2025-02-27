@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 20:51:10 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/27 21:41:54 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/27 21:47:39 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,13 @@ void	handle_var(char *str, t_int_tab *infos, t_list **envp, t_main_envp *imp)
 {
 	char	*temp;
 
+	imp->is_bquoted++;
 	infos->ptr2 = get_var_str(str + infos->i + 1);
 	temp = parse_var(infos->ptr2, envp, imp);
 	ft_memcpy(infos->ptr1 + infos->res, temp, ft_securelen(temp));
 	infos->res += ft_securelen(temp);
 	infos->i += ft_securelen(infos->ptr2) + (infos->ptr2[0] == '(');
+	imp->is_bquoted--;
 	free(temp);
 	free(infos->ptr2);
 }

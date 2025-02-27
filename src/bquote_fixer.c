@@ -6,13 +6,13 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 21:22:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/27 21:31:34 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/27 21:45:38 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int get_cleaned_size(char *str)
+static int	get_cleaned_size(char *str)
 {
 	int		len;
 	int		i;

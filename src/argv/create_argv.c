@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 08:00:35 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/27 21:18:04 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/27 21:48:16 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ static char	*parsed_quoted_substr(char **str, t_list **envp, t_main_envp *imp)
 	t_int_tab	tabe;
 
 	tabe = init_int_tab();
-	tabe.ret = get_parsed_substr_len(str, envp, imp);
-	tabe.ptr1 = malloc(sizeof(char) * (tabe.ret + 1));
+	tabe.ptr1 = malloc(sizeof(char)
+			* (get_parsed_substr_len(str, envp, imp) + 1));
 	if (!tabe.ptr1)
 		return (NULL);
 	while (str[0][++tabe.i])
@@ -72,11 +72,7 @@ static char	*parsed_quoted_substr(char **str, t_list **envp, t_main_envp *imp)
 			&tabe.cur_quote))
 			continue ;
 		if ((tabe.cur_quote != '\'') && str[0][tabe.i] == '$')
-		{
-			imp->is_bquoted++;
 			handle_var(str[0], &tabe, envp, imp);
-			imp->is_bquoted--;
-		}
 		else
 			tabe.ptr1[tabe.res++] = str[0][tabe.i];
 	}

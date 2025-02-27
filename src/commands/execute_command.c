@@ -6,13 +6,14 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/27 21:19:07 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/27 21:45:03 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*handle_builtins(int code, char **argv, t_list **envp, t_main_envp *imp)
+static char	*handle_builtins(int code, char **argv, t_list **envp
+		, t_main_envp *imp)
 {
 	if (code == 1)
 		return (ms_echo(argv));

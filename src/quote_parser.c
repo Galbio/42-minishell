@@ -6,12 +6,11 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:21:54 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/27 20:49:50 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/27 21:46:43 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 int	get_parsed_len(char *str, t_list *envp, t_main_envp *imp)
 {
