@@ -6,13 +6,13 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 19:34:13 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/27 18:50:22 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/27 19:08:36 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	delete_env(int i, t_list **envp)
+static void	delete_env(int i, t_list **envp)
 {
 	t_list	*cur;
 	t_list	*temp;
