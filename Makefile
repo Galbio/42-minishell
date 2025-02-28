@@ -30,7 +30,7 @@ FILES = main.c		\
 	readline/utils.c	\
 	readline/stdin.c	\
 	utils/init_int_tab.c \
-	utils/parsing_utils.c \
+	utils/check_special_char.c \
 	commands/execute_command.c \
 	commands/execute_bin.c \
 	argv/create_argv.c \

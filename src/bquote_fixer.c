@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 21:22:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/27 21:45:38 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/28 17:58:44 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ static int	get_cleaned_size(char *str)
 	int		i;
 
 	len = 0;
-	i = -1;
+	i = 0;
+	while (ft_iswhitespace(str[i]))
+		i++;
+	i--;
 	while (str[++i])
 	{
 		if (ft_iswhitespace(str[i]))
@@ -45,16 +48,15 @@ static char	only_ws_left(char *str)
 	return (1);
 }
 
-char	*clean_whitespaces(char *str)
+static char	*fill_dest(char *str, char *dest)
 {
 	t_int_tab	itab;
-	char		*dest;
 
 	itab = init_int_tab();
-	dest = malloc(sizeof(char) * (get_cleaned_size(str) + 1));
-	if (!dest)
-		return (NULL);
-	while (str[++itab.i])
+	itab.i = 0;
+	while (ft_iswhitespace(str[itab.i]))
+		itab.i++;
+	while (str[itab.i])
 	{
 		if (ft_iswhitespace(str[itab.i]))
 		{
@@ -67,8 +69,20 @@ char	*clean_whitespaces(char *str)
 		}
 		else
 			dest[itab.ret++] = str[itab.i];
+		itab.i++;
 	}
 	dest[itab.ret] = 0;
+	return (dest);
+}
+
+char	*clean_whitespaces(char *str)
+{
+	char		*dest;
+
+	dest = malloc(sizeof(char) * (get_cleaned_size(str) + 1));
+	if (!dest)
+		return (NULL);
+	fill_dest(str, dest);
 	free(str);
 	return (dest);
 }
