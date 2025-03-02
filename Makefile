@@ -31,6 +31,7 @@ FILES = main.c		\
 	readline/utils.c	\
 	readline/stdin.c	\
 	utils/init_int_tab.c \
+	bquotes_handler.c \
 	commands/execute_command.c \
 	argv/create_argv.c \
 	build_in.c \
