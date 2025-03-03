@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:30 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/26 15:54:22 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:06:27 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ int	process_input(t_readline *data, char *buffer)
 		write(1, "\n", 1);
 		return (1);
 	}
-	if (buffer[0] == '\n')
-		write(1, "\n", 1);
+//	if (buffer[0] == '\n')
+//		write(1, "\n", 1);
 	free(build);
 	return (0);
 }

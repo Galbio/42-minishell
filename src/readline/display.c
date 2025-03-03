@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:24 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/26 19:31:09 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/03 09:44:15 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ void	update_position(t_readline *data, char *build)
 	size = get_terminal_size(data);
 	prompt_len = ft_strlen(data->prompt);
 	data->pos.y = data->initial_pos.y
-		- ((prompt_len + ft_strlen(build)) / size.x);
+		- (((prompt_len + ft_strlen(build)) / size.x) + count_hard_newlines(*data));
 	if (data->initial_pos.y != size.y)
 		data->pos.y += size.y - data->initial_pos.y;
 	if (data->pos.y != data->initial_pos.y)
 		data->pos.x = prompt_len + 1;
 }
 
-void	on_write(t_readline *data)
+void	on_write(t_readline *data, char *buffer)
 {
 	char		*build;
 
@@ -45,10 +45,18 @@ void	on_write(t_readline *data)
 		}
 		update_position(data, build);
 	}
+	if (buffer[0] == '\n')
+		printf("\n");
 	teleport_cursor(data->pos);
 	ft_putstr_fd(build, 1);
 	ft_putstr_fd("\033[K", 1);
 	free(build);
+	if (buffer[0] == '\n' && data->cursor.y != get_terminal_size(data).y)
+	{
+		data->cursor.x = 0;
+		data->cursor.y += 1;
+		teleport_cursor(data->cursor);
+	}
 	move_cursor(data, 1);
 }
 

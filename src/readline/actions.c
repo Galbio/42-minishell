@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:11:06 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/26 19:30:09 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/27 13:48:13 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,5 @@ int	process_special_keys(t_readline *data, char *buffer)
 		move_cursor_right(data);
 		return (1);
 	}
-	return (!ft_isprint(buffer[0]));
+	return (!ft_isprint(buffer[0]) && buffer[1]);
 }

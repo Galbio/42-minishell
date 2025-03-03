@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 13:11:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/26 19:25:50 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:13:53 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ char	*ft_readline(const char *prompt)
 		if (process_input(&data, buffer))
 			break ;
 		handle_key_input(&data, buffer);
+		on_write(&data, buffer);
 		free(buffer);
 		buffer = NULL;
-		on_write(&data);
 	}
 	free(buffer);
 	return (build_result(data));

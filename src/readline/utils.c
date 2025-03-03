@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:11:11 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/26 10:35:48 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:00:18 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ t_vector2	get_terminal_size(t_readline *data)
 	return (size);
 }
 
-int	count_total_newlines(const char *prompt, t_readline data)
+int	count_hard_newlines(t_readline data)
 {
 	int		i;
 	int		count;
@@ -86,8 +86,8 @@ int	count_total_newlines(const char *prompt, t_readline data)
 
 	i = 0;
 	count = 0;
-	while (prompt[i])
-		count += (prompt[i++] == '\n');
+	while (data.prompt[i])
+		count += (data.prompt[i++] == '\n');
 	c = data.first;
 	while (c)
 	{
