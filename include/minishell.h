@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/02 22:39:21 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/05 16:43:15 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_main_envp
 	char	**path;
 	char	*home;
 	char	*cwd;
+	char	is_bquoted;
 	int		shell_level;
 }	t_main_envp;
 
@@ -66,17 +67,32 @@ char		check_special_char(char c, char *backslash, char *cur_quote);
 t_int_tab	init_int_tab(void);
 
 t_list		*parse_envp(char **envp, t_main_envp *imp);
-char		*parse_var(char *var_name, t_list *envp, t_main_envp *imp);
+char		*parse_var(char *var_name, t_list **envp, t_main_envp *imp);
 char		*parse_commands(char *str, t_list *envp, t_main_envp *imp);
-char		check_built_in(char **name);
+char		*read_whole_fd(int fd);
+char		check_builtins(char *name);
 void		handle_var(char *str, t_int_tab *infos,
-				t_list *envp, t_main_envp *imp);
+				t_list **envp, t_main_envp *imp);
 char		*get_var_str(char *str);
 char		*handle_bquotes(char *res);
+char		*clean_whitespaces(char *str);
 
-//exec_command.c
-int			get_command_argc(char *str);
-char		*execute_command(char **argv, t_main_envp *imp);
-char		**create_command_argv(char *str, t_list *envp, t_main_envp *imp);
+//commands
+char		*execute_command(char *str, t_list **envp, t_main_envp *imp);
+char		*execute_bin(char **argv, t_main_envp *imp);
+char		**create_command_argv(char *str, t_list **envp, t_main_envp *imp);
+
+//builtins
+char		*ms_cd(char **argv);
+char		*ms_echo(char **argv);
+char		*ms_pwd(void);
+void		*ms_unset(char **argv, t_list **envp, t_main_envp *imp);
+char		*ms_exit(char **argv);
+char		*ms_export(char **argv, t_list **envp);
+char		*ms_env(char **argv, t_list *envp);
+
+//builtins additional
+void		unset_var(char *name, t_list **envp, t_main_envp *imp);
+char		*export_vars(t_list *envp);
 
 #endif

@@ -6,106 +6,72 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/25 14:42:43 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/05 16:36:06 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*handle_path_join(char *path, char *str)
+static char	*handle_builtins(int code, char **argv, t_list **envp
+		, t_main_envp *imp)
 {
-	char	*temp;
-	char	*dest;
-	int		size;
-
-	size = ft_strlen(path);
-	if (path[size - 1] == '/')
-		return (ft_strjoin(path, str));
-	temp = ft_securejoin("/", str, 0);
-	dest = ft_securejoin(path, temp, 0);
-	free(temp);
-	return (dest);
-}
-
-char	*get_command_path(char *str, char **paths)
-{
-	char	*dest;
-	int		i;
-
-	if (!access(str, X_OK))
-		return (ft_strdup(str));
-	i = -1;
-	while (paths[++i])
-	{
-		dest = handle_path_join(paths[i], str);
-		if (!access(dest, X_OK))
-			return (dest);
-		free(dest);
-	}
+	if (code == 1)
+		return (ms_echo(argv));
+	else if (code == 2)
+		return (ms_cd(argv));
+	else if (code == 3)
+		return (ms_pwd());
+	else if (code == 4)
+		return (ms_export(argv, envp));
+	else if (code == 5)
+		return (ms_unset(argv, envp, imp));
+	else if (code == 6)
+		return (ms_env(argv, *envp));
+	else if (code == 7)
+		return (ms_exit(argv));
 	return (NULL);
 }
 
-char	*read_whole_fd(int fd)
+char	check_builtins(char *name)
 {
-	int		len;
-	char	*dest;
-	char	*temp;
+	char		*temp;
 
-	dest = NULL;
-	temp = NULL;
-	while (1)
-	{
-		temp = get_next_line(fd);
-		if (!temp)
-			break ;
-		dest = ft_securejoin(dest, temp, 1);
-		free(temp);
-	}
-	close(fd);
-	len = ft_securelen(dest);
-	if (!len)
-		return (NULL);
-	if (dest[len - 1] == '\n')
-		dest[len - 1] = 0;
-	return (dest);
+	temp = ft_strrchr(name, '/');
+	if (temp)
+		name = temp + 1;
+	if (!ft_strncmp(name, "echo", 5))
+		return (1);
+	else if (!ft_strncmp(name, "cd", 3))
+		return (2);
+	else if (!ft_strncmp(name, "pwd", 4))
+		return (3);
+	else if (!ft_strncmp(name, "export", 7))
+		return (4);
+	else if (!ft_strncmp(name, "unset", 6))
+		return (5);
+	else if (!ft_strncmp(name, "env", 4))
+		return (6);
+	else if (!ft_strncmp(name, "exit", 5))
+		return (7);
+	return (0);
 }
 
-char	*get_command_output(char **argv, t_main_envp *imp)
+char	*execute_command(char *str, t_list **envp, t_main_envp *imp)
 {
-	pid_t	pid;
-	int		pipes[2];
-	char	*dest;
+	t_int_tab	itab;
+	char		**argv;
 
-	if (pipe(pipes) < 0)
-		return (NULL);
-	pid = fork();
-	if (pid < 0)
-		return (NULL);
-	if (!pid)
-	{
-		dup2(pipes[1], 1);
-		(close(pipes[0]), close(pipes[1]), execve(argv[0], argv,
-				imp->envp_cpy));
-		exit(0);
-	}
-	(close(pipes[1]), wait(NULL));
-	dest = read_whole_fd(pipes[0]);
-	return (close(pipes[0]), dest);
-}
-
-char	*execute_command(char **argv, t_main_envp *imp)
-{
-	char	*path;
-	char	*temp;
-
-	path = get_command_path(argv[0], imp->path);
-	if (!path)
-	{
-		printf("%s: command not found\n", argv[0]);
-		return (NULL);
-	}
-	temp = argv[0];
-	argv[0] = path;
-	free(temp);
-	return (get_command_output(argv, imp));
+	itab = init_int_tab();
+	argv = create_command_argv(str, envp, imp);
+	itab.ret = check_builtins(argv[0]);
+	if (itab.ret)
+		itab.ptr1 = handle_builtins(itab.ret, argv, envp, imp);
+	else
+		itab.ptr1 = execute_bin(argv, imp);
+	while (argv[++itab.i])
+		free(argv[itab.i]);
+	free(argv);
+	if (imp->is_bquoted)
+		itab.ptr1 = clean_whitespaces(itab.ptr1);
+	return (itab.ptr1);
 }
