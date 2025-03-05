@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/03 15:36:02 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/05 13:28:08 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,20 +58,20 @@ char	check_builtins(char *name)
 
 char	*execute_command(char *str, t_list **envp, t_main_envp *imp)
 {
-	t_int_tab	tabe;
+	t_int_tab	itab;
 	char		**argv;
 
-	tabe = init_int_tab();
+	itab = init_int_tab();
 	argv = create_command_argv(str, envp, imp);
-	tabe.ret = check_builtins(argv[0]);
-	if (tabe.ret)
-		tabe.ptr1 = handle_builtins(tabe.ret, argv, envp, imp);
+	itab.ret = check_builtins(argv[0]);
+	if (itab.ret)
+		itab.ptr1 = handle_builtins(itab.ret, argv, envp, imp);
 	else
-		tabe.ptr1 = execute_bin(argv, imp);
-	while (argv[++tabe.i])
-		free(argv[tabe.i]);
+		itab.ptr1 = execute_bin(argv, imp);
+	while (argv[++itab.i])
+		free(argv[itab.i]);
 	free(argv);
 	if (imp->is_bquoted)
-		tabe.ptr1 = clean_whitespaces(tabe.ptr1);
-	return (tabe.ptr1);
+		itab.ptr1 = clean_whitespaces(itab.ptr1);
+	return (itab.ptr1);
 }
