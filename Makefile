@@ -55,19 +55,19 @@ $(FT_PRINTFA):
 	@make -C $(FT_PRINTF) bonus > /dev/null
 
 clean:
-	@rm -rf $(OFILES)
-	@rm -rf $(OBJS)
+	rm -rf $(OFILES)
+	rm -rf $(OBJS)
 	@make -C $(LIBFT) clean > /dev/null
 	@make -C $(FT_PRINTF) clean > /dev/null
 
 fclean: clean
-	@rm -rf $(NAME)
+	rm -rf $(NAME)
 	@make -C $(LIBFT) fclean > /dev/null
 	@make -C $(FT_PRINTF) fclean > /dev/null
 
 $(OBJS)/%.o: $(SRC)/%.c
 	@mkdir -p $(dir $@)
-	@$(COMPILATOR) $(FLAGS) $< -c -o $@ -I $(INCLUDE) -I $(LIBFTI) $(EXTRA_FLAGS)
+	$(COMPILATOR) $(FLAGS) $< -c -o $@ -I $(INCLUDE) -I $(LIBFTI) $(EXTRA_FLAGS)
 
 re: fclean all
 
