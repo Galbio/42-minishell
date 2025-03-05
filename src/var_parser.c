@@ -6,43 +6,75 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/25 17:42:13 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/02/28 18:00:20 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*parse_command(char *command, t_list *envp, t_main_envp *imp)
+static char	*handle_var_commands(char *command, t_list **envp, t_main_envp *imp)
 {
-	char	**argv;
 	char	*str;
-	int		len;
 
-	len = ft_strlen(command);
-	command[len - 1] = 0;
-	argv = create_command_argv(command, envp, imp);
-	str = execute_command(argv, imp);
-	len = -1;
-	while (argv[++len])
-		free(argv[len]);
-	free(argv);
+	command[ft_strlen(command) - 1] = 0;
+	str = execute_command(command, envp, imp);
 	return (str);
 }
 
-char	*parse_var(char *var_name, t_list *envp, t_main_envp *imp)
+char	*parse_var(char *var_name, t_list **envp, t_main_envp *imp)
 {
+	t_list	*cur;
 	char	*cur_env;
 	int		len;
 
 	if (var_name[0] == '(')
-		return (parse_command(var_name + 1, envp, imp));
+		return (handle_var_commands(var_name + 1, envp, imp));
 	len = ft_strlen(var_name);
-	while (envp)
+	cur = *envp;
+	while (cur)
 	{
-		cur_env = (char *)envp->content;
+		cur_env = (char *)cur->content;
 		if ((cur_env[len] == '=') && (!ft_strncmp(cur_env, var_name, len)))
 			return (ft_strdup(cur_env + len + 1));
-		envp = envp->next;
+		cur = cur->next;
 	}
 	return (NULL);
+}
+
+char	*get_var_str(char *str)
+{
+	int		i;
+	char	pare;
+	int		pare_count;
+
+	i = -1;
+	pare = (str[0] == '(');
+	pare_count = 0;
+	while (str[++i])
+	{
+		if ((str[i] != '_') && (!ft_isalnum(str[i])) && (!pare))
+			return (ft_substr(str, 0, i));
+		else if (str[i] == '(')
+			pare_count++;
+		else if (str[i] == ')')
+			pare_count--;
+		if (pare && !pare_count)
+			return (ft_substr(str, 0, i + 1));
+	}
+	return (ft_substr(str, 0, i + 1));
+}
+
+void	handle_var(char *str, t_int_tab *infos, t_list **envp, t_main_envp *imp)
+{
+	char	*temp;
+
+	imp->is_bquoted++;
+	infos->ptr2 = get_var_str(str + infos->i + 1);
+	temp = parse_var(infos->ptr2, envp, imp);
+	ft_memcpy(infos->ptr1 + infos->res, temp, ft_securelen(temp));
+	infos->res += ft_securelen(temp);
+	infos->i += ft_securelen(infos->ptr2) + (infos->ptr2[0] == '(');
+	imp->is_bquoted--;
+	free(temp);
+	free(infos->ptr2);
 }
