@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/24 14:54:37 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/05 10:18:50 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,4 @@ char		*get_var_str(char *str);
 int			get_command_argc(char *str);
 char		*execute_command(char **argv, t_main_envp *imp);
 char		**create_command_argv(char *str, t_list *envp, t_main_envp *imp);
-
 #endif

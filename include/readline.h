@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/27 15:14:13 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/05 10:18:53 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void		on_delete(t_readline *data, int deleted);
 
 char		*ft_readline(const char *prompt);
 
-char		*build_result(t_readline data);
+char		*build_result(t_readline data, int to_actual);
 int			process_input(t_readline *data, char *buffer);
 
 void		enable_raw_mode(struct termios *raw);
@@ -81,6 +81,13 @@ char		*read_stdin_key(void);
 char		get_open_quote(const char *stashed);
 void		init_terminal_size(t_vector2 *size);
 t_vector2	get_terminal_size(t_readline *data);
-int			count_hard_newlines(t_readline data);
+int			count_hard_newlines(t_readline data, int to_actual);
+t_vector2	actual_char_pos(t_readline *data);
+
+
+
+
+
+void save(const char *texte);
 
 #endif

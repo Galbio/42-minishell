@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:11:06 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/27 13:48:13 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/03 14:55:48 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,9 @@ static void	move_cursor_left(t_readline *data)
 {
 	if (data->actual)
 	{
-		move_cursor(data, -1);
 		data->actual = data->actual->previous;
+		data->cursor = actual_char_pos(data);
+		teleport_cursor(data->cursor);
 	}
 }
 
@@ -49,12 +50,14 @@ static void	move_cursor_right(t_readline *data)
 	if (!data->actual && data->first)
 	{
 		data->actual = data->first;
-		move_cursor(data, 1);
+		data->cursor = actual_char_pos(data);
+		teleport_cursor(data->cursor);
 	}
 	else if (data->actual && data->actual->next)
 	{
 		data->actual = data->actual->next;
-		move_cursor(data, 1);
+		data->cursor = actual_char_pos(data);
+		teleport_cursor(data->cursor);
 	}
 }
 
