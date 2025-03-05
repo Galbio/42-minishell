@@ -30,6 +30,7 @@ FILES = main.c		\
 	readline/utils.c	\
 	readline/stdin.c	\
 	utils/init_int_tab.c \
+	bquotes_handler.c \
 	utils/check_special_char.c \
 	commands/execute_command.c \
 	commands/execute_bin.c \

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/27 21:44:51 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/05 16:43:15 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ char		check_builtins(char *name);
 void		handle_var(char *str, t_int_tab *infos,
 				t_list **envp, t_main_envp *imp);
 char		*get_var_str(char *str);
+char		*handle_bquotes(char *res);
 char		*clean_whitespaces(char *str);
 
 //commands
