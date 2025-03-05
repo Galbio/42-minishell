@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/05 16:43:39 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/05 16:52:59 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ void	launch(t_list *envp, t_main_envp *imp)
 		str = execute_command(res, &envp, imp);
 		free(res);
 		if (str)
-			(printf("%s", str), free(str));
+		{
+			write(1, str, ft_strlen(str));
+			free(str);
+		}
 	}
 	printf("\n");
 }
