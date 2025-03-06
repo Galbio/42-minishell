@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 20:09:48 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/06 08:06:45 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/06 14:46:28 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,32 +43,6 @@ char	*get_command_path(char *str, char **paths)
 		free(dest);
 	}
 	return (NULL);
-}
-
-char	*get_command_output(char **argv, t_main_envp *imp)
-{
-	pid_t	pid;
-	int		pipes[2];
-	char	*dest;
-
-	if (pipe(pipes) < 0)
-		return (NULL);
-	pid = fork();
-	if (pid < 0)
-		return (NULL);
-	if (!pid)
-	{
-		dup2(pipes[1], 1);
-		close(pipes[0]);
-		close(pipes[1]);
-		execve(argv[0], argv, imp->envp_cpy);
-		exit(0);
-	}
-	close(pipes[1]);
-	wait(NULL);
-	dest = ft_get_contents(pipes[0]);
-	close(pipes[0]);
-	return (dest);
 }
 
 char	*execute_bin(char **argv, t_main_envp *imp)

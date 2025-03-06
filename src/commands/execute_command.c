@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/06 10:28:55 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/06 15:18:03 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,21 +136,18 @@ char	*execute_line(t_list *commands, t_list **envp, t_main_envp *imp)
 		if (!pid && (itab.i < itab.ret))
 			execute_child_cmd((char **)commands->content, envp, imp, pipes);
 		else if (!pid)
+		{
 			execute_last_cmd((char **)commands->content, envp, imp, pipes);
+		}
 		close(pipes[1]);
+		close(pipes[0]);
 		commands = commands->next;
 	}
-	close(pipes[0]);
 	int i, stat, ret;
 	i = -1;
 	while (++i < itab.ret)
 	{
 		ret = wait(&stat);
-		if (ret == pid)
-		{
-			if (WIFEXITED(stat))
-				printf("last thing returned %d\n", WEXITSTATUS(stat));
-		}
 	}
 	return (NULL);
 }
