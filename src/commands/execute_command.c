@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/06 07:59:38 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/06 10:28:55 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,16 @@ char	*execute_line(t_list *commands, t_list **envp, t_main_envp *imp)
 		commands = commands->next;
 	}
 	close(pipes[0]);
-	waitpid(pid, NULL, 0);
+	int i, stat, ret;
+	i = -1;
+	while (++i < itab.ret)
+	{
+		ret = wait(&stat);
+		if (ret == pid)
+		{
+			if (WIFEXITED(stat))
+				printf("last thing returned %d\n", WEXITSTATUS(stat));
+		}
+	}
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/06 05:50:29 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/06 08:07:03 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ char	*get_var_str(char *str)
 	int		pare_count;
 
 	i = -1;
-	pare = (str[0] == '(');
-	pare_count = 0;
+	pare = (str[0] == '('); pare_count = 0;
 	while (str[++i])
 	{
 		if ((str[i] != '_') && (!ft_isalnum(str[i])) && (!pare))

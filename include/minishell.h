@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/06 05:27:35 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/06 08:19:30 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,7 @@ typedef struct s_int_tab
 	int		ret;
 	char	cur_quote;
 	char	backslash;
-	char	*ptr1;
-	char	*ptr2;
+	char	*ptr1; char	*ptr2;
 }	t_int_tab;
 
 void		launch(t_list *envp, t_main_envp *imp);
@@ -74,8 +73,8 @@ char		*read_whole_fd(int fd);
 char		check_builtins(char *name);
 void		handle_var(char *str, t_int_tab *infos,
 				t_list **envp, t_main_envp *imp);
+char		*handle_bquotes(char *res);
 char		*get_var_str(char *str);
-char		*clean_whitespaces(char *str);
 t_list		*init_pipes(char *str, t_list **envp, t_main_envp *imp);
 
 //commands

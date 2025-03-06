@@ -15,6 +15,10 @@ FT_PRINTFI = $(FT_PRINTF)/include
 FILES = main.c		\
 	minishell.c	\
 	envp_parser.c \
+	commands/execute_command.c \
+	commands/execute_bin.c \
+	argv/create_argv.c \
+	var_parser.c \
 	readline/actions.c	\
 	readline/char_utils.c	\
 	readline/cursor_position.c	\
@@ -31,10 +35,7 @@ FILES = main.c		\
 	readline/stdin.c	\
 	utils/init_int_tab.c \
 	utils/check_special_char.c \
-	commands/execute_command.c \
-	commands/execute_bin.c \
-	argv/create_argv.c \
-	var_parser.c \
+	bquotes_handler.c \
 	init_pipes.c \
 	whitespace_fixer.c \
 	builtins/echo.c \
@@ -58,10 +59,10 @@ $(NAME): $(LIBFTA) $(FT_PRINTFA) $(OFILES)
 	$(COMPILATOR) $(FLAGS) $(OFILES) $(LIBFTA) $(FT_PRINTFA) -o $(NAME) -I $(INCLUDE) -I $(LIBFTI) -I $(FT_PRINTFA) $(EXTRA_FLAGS)
 
 $(LIBFTA):
-	@make -C $(LIBFT) bonus > /dev/null
+	@make -C $(LIBFT) bonus
 
 $(FT_PRINTFA):
-	@make -C $(FT_PRINTF) bonus > /dev/null
+	@make -C $(FT_PRINTF) bonus
 
 clean:
 	@rm -rf $(OFILES)
@@ -71,8 +72,8 @@ clean:
 
 fclean: clean
 	@rm -rf $(NAME)
-	@make -C $(LIBFT) fclean > /dev/null
-	@make -C $(FT_PRINTF) fclean > /dev/null
+	@make -C $(LIBFT) fclean
+	@make -C $(FT_PRINTF) fclean
 
 $(OBJS)/%.o: $(SRC)/%.c
 	@mkdir -p $(dir $@)
