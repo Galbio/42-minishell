@@ -35,6 +35,7 @@ FILES = main.c		\
 	commands/execute_bin.c \
 	argv/create_argv.c \
 	var_parser.c \
+	init_pipes.c \
 	whitespace_fixer.c \
 	builtins/echo.c \
 	builtins/cd.c \

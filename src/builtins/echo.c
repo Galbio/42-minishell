@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:14:37 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/27 18:49:42 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/06 05:02:46 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static char	handle_n(char *str, char *nl)
 	return (1);
 }
 
-char	*ms_echo(char **argv)
+void	ms_echo(t_command *cmd)
 {
 	char	*str;
 	char	nl;
@@ -35,17 +35,16 @@ char	*ms_echo(char **argv)
 	i = 0;
 	nl = 1;
 	str = ft_strdup("");
-	while (argv[++i])
-		if (!handle_n(argv[i], &nl))
+	while (cmd->argv[++i])
+		if (!handle_n(cmd->argv[i], &nl))
 			break ;
 	i--;
-	while (argv[++i])
+	while (cmd->argv[++i])
 	{
-		str = ft_securejoin(str, argv[i], 1);
-		if (argv[i + 1])
-			str = ft_securejoin(str, " ", 1);
+		write(1, cmd->argv[i], ft_strlen(cmd->argv[i]));
+		if (cmd->argv[i + 1])
+			write(1, " ", 1);
 	}
 	if (nl)
-		str = ft_securejoin(str, "\n", 1);
-	return (str);
+		write(1, "\n", 1);
 }

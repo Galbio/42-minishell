@@ -6,13 +6,17 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:09:54 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/27 18:48:23 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/06 05:03:27 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ms_pwd(void)
+void	ms_pwd(void)
 {
-	return (getcwd(NULL, 0));
+	char	*temp;
+
+	temp = getcwd(NULL, 0);
+	write(1, temp, ft_strlen(temp));
+	free(temp);
 }

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/27 21:44:51 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/06 05:27:35 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,9 @@ typedef struct s_main_envp
 
 typedef struct s_command
 {
-	char	*command;
-	char	*flags;
+	char		**argv;
+	t_list		**envp;
+	t_main_envp	*imp;
 }	t_command;
 
 typedef struct s_int_tab
@@ -75,23 +76,25 @@ void		handle_var(char *str, t_int_tab *infos,
 				t_list **envp, t_main_envp *imp);
 char		*get_var_str(char *str);
 char		*clean_whitespaces(char *str);
+t_list		*init_pipes(char *str, t_list **envp, t_main_envp *imp);
 
 //commands
+char		*execute_line(t_list *commands, t_list **envp, t_main_envp *imp);
 char		*execute_command(char *str, t_list **envp, t_main_envp *imp);
 char		*execute_bin(char **argv, t_main_envp *imp);
 char		**create_command_argv(char *str, t_list **envp, t_main_envp *imp);
 
 //builtins
-char		*ms_cd(char **argv);
-char		*ms_echo(char **argv);
-char		*ms_pwd(void);
-void		*ms_unset(char **argv, t_list **envp, t_main_envp *imp);
-char		*ms_exit(char **argv);
-char		*ms_export(char **argv, t_list **envp);
-char		*ms_env(char **argv, t_list *envp);
+void		ms_cd(t_command *cmd);
+void		ms_echo(t_command *cmd);
+void		ms_pwd(void);
+void		ms_unset(t_command *cmd);
+void		ms_exit(t_command *cmd);
+void		ms_export(t_command *cmd);
+void		ms_env(t_command *cmd);
 
 //builtins additional
+void		export_vars(t_list *envp);
 void		unset_var(char *name, t_list **envp, t_main_envp *imp);
-char		*export_vars(t_list *envp);
 
 #endif
