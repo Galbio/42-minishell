@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/26 19:38:41 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/26 11:39:11 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,12 @@ int			process_special_keys(t_readline *data, char *buffer);
 char		*read_stdin_key(void);
 
 int			count_newlines(t_char *c, t_char *actual, int *lc);
-char		get_open_quote(const char *stashed);
+
+char		check_quotes(const char *build);
+char		check_backslashs(const char *build);
 void		init_terminal_size(t_vector2 *size);
 t_vector2	get_terminal_size(t_readline *data);
+
 int			count_total_newlines(const char *prompt, t_readline data);
 
 #endif

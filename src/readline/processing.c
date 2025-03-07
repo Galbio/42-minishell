@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:30 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/26 15:54:22 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/02/26 13:32:25 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	process_input(t_readline *data, char *buffer)
 	char		*build;
 
 	build = build_result(*data);
-	if (buffer[0] == '\n' && get_open_quote(build) == 0)
+	if (data->c == '\n' && check_quotes(build) && check_backslashs(build))
 	{
 		write(1, "\n", 1);
 		return (1);

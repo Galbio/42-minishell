@@ -28,6 +28,7 @@ FILES = main.c		\
 	readline/processing.c	\
 	readline/resize.c	\
 	readline/utils.c	\
+	readline/format.c	\
 	readline/stdin.c	\
 	utils/init_int_tab.c \
 	bquotes_handler.c \
