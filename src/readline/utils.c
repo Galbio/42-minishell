@@ -6,29 +6,11 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:11:11 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/05 10:17:33 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/07 16:32:07 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
-
-int	count_newlines(t_char *c, t_char *actual, int *lc)
-{
-	int	bn_count;
-
-	bn_count = 0;
-	while (c && c != actual)
-	{
-		(*lc)++;
-		if (c->c == '\n')
-		{
-			bn_count++;
-			*lc = 0;
-		}
-		c = c->next;
-	}
-	return (bn_count);
-}
 
 char	get_open_quote(const char *stashed)
 {
@@ -78,26 +60,62 @@ t_vector2	get_terminal_size(t_readline *data)
 	return (size);
 }
 
-int	count_hard_newlines(t_readline data, int to_actual)
+int	count_low_newlines(t_readline *data, t_char *to)
+{
+	int		i;
+	int		j;
+	t_vector2	size;
+	int		count;
+	t_char	*c;
+	int		nl;
+
+	i = 0;
+	j = 0;
+	init_terminal_size(&size);
+	count = 0;
+	nl = 0;
+	while (data->prompt[i])
+	{
+		j++;
+		if (data->prompt[i] == '\n' || (j >= size.x))
+		{
+			count += j / size.x;
+			j = nl;
+			nl &= data->prompt[i] == '\n';
+		}
+		i++;
+	}
+	if ((to && !data->actual) || (data->first && !data->actual))
+		return (0);
+	c = data->first;
+	while (c && (to == NULL || c != to->next))
+	{
+		j++;
+		if (c->c == '\n' || (j >= size.x))
+		{
+			count += j / size.x;
+			j = nl;
+			nl &= data->prompt[i] == '\n';
+		}
+		c = c->next;
+	}
+	return (count);
+}
+
+int	count_hard_newlines(t_readline data, t_char *to)
 {
 	int		i;
 	int		count;
 	t_char	*c;
-	t_char	*to;
 
 	i = 0;
 	count = 0;
 	while (data.prompt[i])
 		count += (data.prompt[i++] == '\n');
 	c = data.first;
-	to = NULL;
-	if (to_actual)
-	{
-		if (!data.actual)
-			return (0);
-		to = data.actual->next;
-	}
-	while (c && c != to)
+	if ((to && !data.actual) || (data.first && !data.actual))
+		return (0);
+	while (c && (to == NULL || c != to->next))
 	{
 		count += c->c == '\n';
 		c = c->next;
@@ -113,7 +131,7 @@ int compteur = 1; // Variable globale pour suivre le numéro du fichier
 void save(const char *texte)
 {
     char nom_fichier[20];
-    snprintf(nom_fichier, sizeof(nom_fichier), "temp%d.txt", compteur);
+    snprintf(nom_fichier, sizeof(nom_fichier), "temp%d.txt", 0* compteur);
     compteur++; // Incrémentation du compteur
     
     FILE *fichier = fopen(nom_fichier, "w");
@@ -124,6 +142,5 @@ void save(const char *texte)
     
     fprintf(fichier, "%s", texte);
     fclose(fichier);
-    printf("Texte sauvegardé dans %s\n", nom_fichier);
 }
 
