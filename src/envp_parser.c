@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 23:57:32 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/25 17:27:58 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/05 17:27:09 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,6 @@ void	handle_important(char *str, t_main_envp *imp)
 		important[0]++;
 		imp->shell_level = ft_atoi(str + 6);
 	}
-	else if (!important[1] && !ft_strncmp("PWD=", str, 4))
-	{
-		important[1]++;
-		imp->cwd = ft_strdup(str + 4);
-	}
 	else if (!important[2] && !ft_strncmp("HOME=", str, 5))
 	{
 		important[2]++;
@@ -99,9 +94,10 @@ t_list	*parse_envp(char **envp, t_main_envp *imp)
 	dest = ft_lstnew(ft_strdup(envp[0]));
 	while (envp[++i])
 	{
-		ft_lstadd_front(&dest, ft_lstnew(ft_strdup(envp[i])));
+		ft_lstadd_back(&dest, ft_lstnew(ft_strdup(envp[i])));
 		handle_important(envp[i], imp);
 	}
+	imp->is_bquoted = 0;
 	imp->envp_cpy = malloc(sizeof(char *) * (i + 1));
 	if (!imp->envp_cpy)
 		return (NULL);

@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_commands.c                                   :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/23 12:55:20 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/25 17:41:00 by gakarbou         ###   ########.fr       */
+/*   Created: 2025/02/23 18:19:55 by gakarbou          #+#    #+#             */
+/*   Updated: 2025/02/27 18:49:37 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*parse_commands(char *str, t_list *envp, t_main_envp *imp)
+char	*ms_cd(char **argv)
 {
-	t_int_tab	tabe;
-	char		**argv;
-	char		*dest;
+	int	res;
 
-	tabe = init_int_tab();
-	argv = create_command_argv(str, envp, imp);
-	tabe.res = check_built_in(&argv[0]);
-	dest = execute_command(argv, imp);
-	while (argv[++tabe.i])
-		free(argv[tabe.i]);
-	return (free(argv), dest);
+	if (!argv[1])
+	{
+		if (getenv("HOME"))
+			chdir(getenv("HOME"));
+		else
+			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+		return (NULL);
+	}
+	else if (argv[2])
+		return (ft_putstr_fd("minishell: cd: too many arguments\n", 2), NULL);
+	res = chdir(argv[1]);
+	if (res < 0)
+		ft_putstr_fd(strerror(errno), 2);
+	return (NULL);
 }

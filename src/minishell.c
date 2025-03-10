@@ -27,9 +27,15 @@ void	launch(t_list *envp, t_main_envp *imp)
 			free(res);
 			continue ;
 		}
-		str = parse_commands(res, envp, imp);
+		if (ft_strchr(res, '`'))
+			res = handle_bquotes(res);
+		str = execute_command(res, &envp, imp);
+		free(res);
 		if (str)
-			(printf("%s\n", str), free(str));
+		{
+			write(1, str, ft_strlen(str));
+			free(str);
+		}
 	}
 	printf("\n");
 }
