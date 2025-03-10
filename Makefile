@@ -29,6 +29,8 @@ FILES = main.c		\
 	readline/resize.c	\
 	readline/utils.c	\
 	readline/stdin.c	\
+	readline/char_position.c	\
+	readline/lines.c		\
 	utils/init_int_tab.c \
 	bquotes_handler.c \
 	utils/check_special_char.c \

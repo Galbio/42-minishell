@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:29:07 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/25 14:52:56 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/10 09:33:37 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	move_cursor(t_readline *data, int gap)
 
 	if (gap == 0)
 		return ;
-	size = get_terminal_size(data);
+	size = get_terminal_size(data, 1);
 	v = ft_abs(gap);
 	s = 1 - 2 * (gap < 0);
 	while (v-- > 0)
@@ -58,7 +58,7 @@ void	move_x(t_readline *data, int gap)
 
 	if (gap == 0)
 		return ;
-	size = get_terminal_size(data);
+	size = get_terminal_size(data, 1);
 	v = ft_abs(gap);
 	s = 1 - 2 * (gap < 0);
 	cursor = &data->cursor;
@@ -81,7 +81,7 @@ void	move_y(t_readline *data, int gap)
 
 	if (gap == 0)
 		return ;
-	size = get_terminal_size(data);
+	size = get_terminal_size(data, 1);
 	v = ft_abs(gap);
 	s = 1 - 2 * (gap < 0);
 	cursor = &data->cursor;
