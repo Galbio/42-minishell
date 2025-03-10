@@ -6,24 +6,14 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 14:45:53 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/28 10:50:32 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/10 10:24:59 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-void	handle_key_input(t_readline *data, char *buffer)
+static void	process_default_key(t_readline *data, char *buffer)
 {
-	if (process_special_keys(data, buffer))
-	{
-		data->update = 0;
-		return ;
-	}
-	if (buffer[0] == '\n')
-	{
-		get_cursor_position(&data->cursor);
-		data->cursor.x = 0;
-	}
 	if (!data->first)
 	{
 		data->first = new_char(buffer[0]);
@@ -44,4 +34,19 @@ void	handle_key_input(t_readline *data, char *buffer)
 		}
 	}
 	data->size++;
+}
+
+void	handle_key_input(t_readline *data, char *buffer)
+{
+	if (process_special_keys(data, buffer))
+	{
+		data->update = 0;
+		return ;
+	}
+	if (buffer[0] == '\n')
+	{
+		get_cursor_position(&data->cursor);
+		data->cursor.x = 0;
+	}
+	process_default_key(data, buffer);
 }

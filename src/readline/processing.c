@@ -6,21 +6,17 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:30 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/07 16:22:54 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/10 10:38:03 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-char	*build_result(t_readline data, t_char *to)
+static int	calculate_len(t_readline data, t_char *to)
 {
-	char	*result;
+	int		len;
 	t_char	*c;
-	int		i;
-	int	len;
 
-	if (!data.first || data.first->c == '\n')
-		return (ft_strdup(""));
 	len = data.size;
 	if (to)
 	{
@@ -32,7 +28,20 @@ char	*build_result(t_readline data, t_char *to)
 			c = c->previous;
 		}
 	}
-	else if (data.first && !data.actual)
+	return (len);
+}
+
+char	*build_result(t_readline data, t_char *to)
+{
+	char	*result;
+	t_char	*c;
+	int		i;
+	int		len;
+
+	if (!data.first || data.first->c == '\n')
+		return (ft_strdup(""));
+	len = calculate_len(data, to);
+	if (!to && data.first && !data.actual)
 		return (ft_strdup(""));
 	result = malloc(sizeof(char) * (len + 1));
 	c = data.first;

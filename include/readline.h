@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/10 09:34:45 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/10 10:34:35 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,5 @@ t_vector2	actual_char_pos(t_readline *data);
 
 char		*last_newline(char *build);
 t_vector2	get_char_pos(t_readline *data, t_char *c);
-
-
-
-
-void save(const char *texte);
 
 #endif

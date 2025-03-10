@@ -1,0 +1,99 @@
+processing.c:	build = build_result(*data, last_char(data->first));
+processing.c:		data->cursor = get_char_pos(data, last_char(data->first));
+processing.c:		teleport_cursor(data->cursor);
+display.c:	last = last_char(data->first);
+display.c:	data->pos.y = size.y - count_low_newlines(data, last) - count_hard_newlines(*data, last);
+display.c:	if (!data->update)
+display.c:	build = build_result(*data, last_char(data->first));
+display.c:	get_cursor_position(&data->cursor);
+display.c:	if (data->cursor.y == size.y)
+display.c:		if ((ft_strlen(data->prompt)
+display.c:	teleport_cursor(data->pos);
+display.c:	if (buffer[0] == '\n' && data->cursor.y != size.y)
+display.c:		data->cursor.x = 0;
+display.c:		data->cursor.y += 1;
+display.c:		teleport_cursor(data->cursor);
+display.c:	data->cursor = get_char_pos(data, data->actual);
+display.c:	teleport_cursor(data->cursor);
+display.c:	build = build_result(*data, last_char(data->first));
+display.c:	teleport_cursor(data->pos);
+display.c:	if (data->actual)
+display.c:		data->cursor = get_char_pos(data, last_char(data->first));
+display.c:		if (data->cursor.y < 23)
+display.c:	if (!data->actual || data->actual->next)
+display.c:		data->cursor = get_char_pos(data, data->actual);
+display.c:		data->cursor = get_char_pos(data, NULL);
+display.c:	teleport_cursor(data->cursor);
+utils.c:	if (check_resize && (size.x != data->old_tsize.x || size.y != data->old_tsize.y))
+utils.c:	while (data->prompt[i])
+utils.c:		if (data->prompt[i] == '\n' || (j >= size.x))
+utils.c:			nl &= data->prompt[i] == '\n';
+utils.c:	if ((to && !data->actual) || (data->first && !data->actual))
+utils.c:	c = data->first;
+utils.c:			nl &= data->prompt[i] == '\n';
+ft_readline.c:	data->prompt = prompt;
+ft_readline.c:	init_terminal_size(&data->old_tsize);
+ft_readline.c:	get_cursor_position(&data->pos);
+ft_readline.c:	while (data->pos.x < 0 || data->pos.y < 0 || data->pos.x > data->old_tsize.x || data->pos.y > data->old_tsize.y)
+ft_readline.c:		get_cursor_position(&data->pos);
+ft_readline.c:	data->cursor = data->pos;
+ft_readline.c:	data->first = NULL;
+ft_readline.c:	data->actual = data->first;
+ft_readline.c:	data->size = 0;
+ft_readline.c:	data->end_line = data->pos.y == data->old_tsize.y;
+char_position.c:	prompt_len = ft_strlen(data->prompt);
+char_position.c:	v.y = data->pos.y + count_low_newlines(data, c) + count_hard_newlines(*data, c);
+cursor_manager.c:		data->cursor.x += s;
+cursor_manager.c:		if (data->cursor.x < 1 || data->cursor.x > size.x)
+cursor_manager.c:			data->cursor.y += s;
+cursor_manager.c:			if (data->cursor.y < 1 || data->cursor.y > size.y)
+cursor_manager.c:				fix_coordinate(&(data->cursor.y), 1, size.y);
+cursor_manager.c:				data->cursor.x -= s;
+cursor_manager.c:			fix_coordinate(&(data->cursor.x), size.x, 1);
+cursor_manager.c:	teleport_cursor(data->cursor);
+cursor_manager.c:	cursor = &data->cursor;
+cursor_manager.c:	cursor = &data->cursor;
+resize.c:	t_char	*last = last_char(data->first);
+resize.c:	get_cursor_position(&data->cursor);
+resize.c:	data->pos.y = data->cursor.y - count_low_newlines(data, last) - count_hard_newlines(*data, last);
+resize.c:	if (data->pos.y < 1)
+resize.c:		data->pos.y = 1;
+resize.c:	data->cursor = get_char_pos(data, last);
+resize.c:	teleport_cursor(data->cursor);
+resize.c:	data->old_tsize = new;
+handle.c:	if (!data->first)
+handle.c:		data->first = new_char(buffer[0]);
+handle.c:		data->actual = data->first;
+handle.c:		if (!data->actual && data->first)
+handle.c:			add_char_front(&data->first, new_char(buffer[0]));
+handle.c:			data->actual = data->first;
+handle.c:			add_char_after(&data->actual, new_char(buffer[0]));
+handle.c:			data->actual = data->actual->next;
+handle.c:	data->size++;
+handle.c:		data->update = 0;
+handle.c:		get_cursor_position(&data->cursor);
+handle.c:		data->cursor.x = 0;
+actions.c:	if (!data->actual)
+actions.c:	if (data->actual == data->first)
+actions.c:		data->first = data->first->next;
+actions.c:		remove_char(&data->actual);
+actions.c:		data->actual = NULL;
+actions.c:	c = data->actual;
+actions.c:	remove_char(&data->actual);
+actions.c:	if (data->actual != c)
+actions.c:		data->size--;
+actions.c:	if (!data->actual && data->size == 0)
+actions.c:		data->first = NULL;
+actions.c:	if (data->actual)
+actions.c:		data->actual = data->actual->previous;
+actions.c:		data->cursor = get_char_pos(data, data->actual);
+actions.c:		teleport_cursor(data->cursor);
+actions.c:	if (!data->actual && data->first)
+actions.c:		data->actual = data->first;
+actions.c:		data->cursor = get_char_pos(data, data->actual);
+actions.c:		teleport_cursor(data->cursor);
+actions.c:	else if (data->actual && data->actual->next)
+actions.c:		data->actual = data->actual->next;
+actions.c:		data->cursor = get_char_pos(data, data->actual);
+actions.c:		teleport_cursor(data->cursor);
+actions.c:	if ((buffer[0] == 127) && data->size > 0)

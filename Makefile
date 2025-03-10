@@ -31,6 +31,7 @@ FILES = main.c		\
 	readline/utils.c	\
 	readline/stdin.c	\
 	readline/char_position.c	\
+	readline/lines.c		\
 	utils/init_int_tab.c \
 	commands/execute_command.c \
 	argv/create_argv.c \

@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 17:10:32 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/10 09:27:51 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/10 10:26:07 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ t_vector2	get_char_pos(t_readline *data, t_char *c)
 	if (line_len == (int)ft_strlen(build))
 		line_len += prompt_len;
 	v.x = ((line_len % size.x)) + 1;
-	v.y = data->pos.y + count_low_newlines(data, c) + count_hard_newlines(*data, c);
+	v.y = data->pos.y + count_low_newlines(data, c)
+		+ count_hard_newlines(*data, c);
 	return (v);
 }

@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 13:11:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/07 13:51:59 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/10 10:46:59 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ static void	init_readline(const char *prompt, t_readline *data)
 	data->prompt = prompt;
 	init_terminal_size(&data->old_tsize);
 	get_cursor_position(&data->pos);
-	while (data->pos.x < 0 || data->pos.y < 0 || data->pos.x > data->old_tsize.x || data->pos.y > data->old_tsize.y)
+	while (data->pos.x < 0 || data->pos.y < 0
+		|| data->pos.x > data->old_tsize.x
+		|| data->pos.y > data->old_tsize.y)
 		get_cursor_position(&data->pos);
 	data->cursor = data->pos;
 	data->first = NULL;
@@ -28,8 +30,8 @@ static void	init_readline(const char *prompt, t_readline *data)
 
 char	*ft_readline(const char *prompt)
 {
-	t_readline	data;
-	char		*buffer;
+	t_readline		data;
+	char			*buffer;
 	struct termios	raw;
 
 	enable_raw_mode(&raw);
@@ -42,11 +44,11 @@ char	*ft_readline(const char *prompt)
 		if (!buffer)
 			break ;
 		data.update = 1;
-		
 		if (process_input(&data, buffer))
 			break ;
 		handle_key_input(&data, buffer);
-		on_write(&data, buffer);
+		if (data.update)
+			on_write(&data, buffer);
 		free(buffer);
 		buffer = NULL;
 	}
