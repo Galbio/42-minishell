@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:11:11 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/07 16:32:07 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/10 10:04:28 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	init_terminal_size(t_vector2 *size)
 	size->y = w.ws_row;
 }
 
-t_vector2	get_terminal_size(t_readline *data)
+t_vector2	get_terminal_size(t_readline *data, int check_resize)
 {
 	struct winsize	w;
 	t_vector2		size;
@@ -56,7 +56,8 @@ t_vector2	get_terminal_size(t_readline *data)
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
 	size.x = w.ws_col;
 	size.y = w.ws_row;
-	check_resize(data, size);
+	if (check_resize && (size.x != data->old_tsize.x || size.y != data->old_tsize.y))
+		on_resize(data, size);
 	return (size);
 }
 
@@ -71,7 +72,7 @@ int	count_low_newlines(t_readline *data, t_char *to)
 
 	i = 0;
 	j = 0;
-	init_terminal_size(&size);
+	size = get_terminal_size(data, 0);
 	count = 0;
 	nl = 0;
 	while (data->prompt[i])
@@ -131,7 +132,7 @@ int compteur = 1; // Variable globale pour suivre le numéro du fichier
 void save(const char *texte)
 {
     char nom_fichier[20];
-    snprintf(nom_fichier, sizeof(nom_fichier), "temp%d.txt", 0* compteur);
+    snprintf(nom_fichier, sizeof(nom_fichier), "temp%d.txt",  compteur);
     compteur++; // Incrémentation du compteur
     
     FILE *fichier = fopen(nom_fichier, "w");

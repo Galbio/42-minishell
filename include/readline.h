@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/07 16:29:49 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/10 09:34:45 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void		teleport_cursor(t_vector2 pos);
 
 int			get_cursor_position(t_vector2 *pos);
 
-void		check_resize(t_readline *data, t_vector2 size);
+void		on_resize(t_readline *data, t_vector2 size);
 
 int			clean_readed(char **readed);
 
@@ -79,7 +79,7 @@ char		*read_stdin_key(void);
 
 char		get_open_quote(const char *stashed);
 void		init_terminal_size(t_vector2 *size);
-t_vector2	get_terminal_size(t_readline *data);
+t_vector2	get_terminal_size(t_readline *data, int check_resize);
 int			count_low_newlines(t_readline *data, t_char *to);
 int			count_hard_newlines(t_readline data, t_char *to);
 t_vector2	actual_char_pos(t_readline *data);

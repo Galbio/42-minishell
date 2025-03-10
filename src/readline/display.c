@@ -6,18 +6,16 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:24 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/07 16:24:20 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/10 09:33:06 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-void	update_position(t_readline *data)
+void	update_position(t_readline *data, t_vector2 size)
 {
-	t_vector2	size;
 	t_char	*last;
 	
-	size = get_terminal_size(data);
 	last = last_char(data->first);
 	data->pos.y = size.y - count_low_newlines(data, last) - count_hard_newlines(*data, last);
 }
@@ -55,21 +53,22 @@ void	print_build(char *build)
 void	on_write(t_readline *data, char *buffer)
 {
 	char		*build;
+	t_vector2	size;
 
 	if (!data->update)
 		return ;
-	get_terminal_size(data);
+	size = get_terminal_size(data, 1);
 	build = build_result(*data, last_char(data->first));
 	get_cursor_position(&data->cursor);
-	if (data->cursor.y == get_terminal_size(data).y)
+	if (data->cursor.y == size.y)
 	{
 		if ((ft_strlen(data->prompt)
-				+ (int)ft_strlen(last_newline(build))) % get_terminal_size(data).x == 0)
+				+ (int)ft_strlen(last_newline(build))) % size.x == 0)
 		{
 			write(1, "\n", 1);
 			move_y(data, -1);
 		}
-		update_position(data);
+		update_position(data, size);
 	}
 	if (buffer[0] == '\n')
 	{
@@ -80,7 +79,7 @@ void	on_write(t_readline *data, char *buffer)
 	print_build(build);
 	ft_putstr_fd("\033[K", 1);
 	free(build);
-	if (buffer[0] == '\n' && data->cursor.y != get_terminal_size(data).y)
+	if (buffer[0] == '\n' && data->cursor.y != size.y)
 	{
 		data->cursor.x = 0;
 		data->cursor.y += 1;
@@ -111,5 +110,6 @@ void	on_delete(t_readline *data)
 		data->cursor = get_char_pos(data, data->actual);
 	else
 		data->cursor = get_char_pos(data, NULL);
+	write(1, " ", 1);
 	teleport_cursor(data->cursor);
 }
