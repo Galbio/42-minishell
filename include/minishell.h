@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/06 08:19:30 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/10 17:36:43 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ typedef struct s_int_tab
 	int		ret;
 	char	cur_quote;
 	char	backslash;
-	char	*ptr1; char	*ptr2;
+	char	*ptr1;
+	char	*ptr2;
 }	t_int_tab;
 
 void		launch(t_list *envp, t_main_envp *imp);
@@ -70,7 +71,6 @@ t_list		*parse_envp(char **envp, t_main_envp *imp);
 char		*parse_var(char *var_name, t_list **envp, t_main_envp *imp);
 char		*parse_commands(char *str, t_list *envp, t_main_envp *imp);
 char		*read_whole_fd(int fd);
-char		check_builtins(char *name);
 void		handle_var(char *str, t_int_tab *infos,
 				t_list **envp, t_main_envp *imp);
 char		*handle_bquotes(char *res);
@@ -82,6 +82,12 @@ char		*execute_line(t_list *commands, t_list **envp, t_main_envp *imp);
 char		*execute_command(char *str, t_list **envp, t_main_envp *imp);
 char		*execute_bin(char **argv, t_main_envp *imp);
 char		**create_command_argv(char *str, t_list **envp, t_main_envp *imp);
+
+//pipe utils
+char		*wait_line_exec_end(int nb_cmd, int write_pipe, int read_pipe);
+void		goto_next_command(t_list **commands, int *temp, int pipes[2]);
+t_command	make_cmd(void *argv_ptr, t_list **envp, t_main_envp *imp);
+char		check_builtins(char *name);
 
 //builtins
 void		ms_cd(t_command *cmd);

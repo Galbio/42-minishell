@@ -16,6 +16,7 @@ FILES = main.c		\
 	minishell.c	\
 	envp_parser.c \
 	commands/execute_command.c \
+	commands/execute_command_utils.c \
 	commands/execute_bin.c \
 	argv/create_argv.c \
 	var_parser.c \

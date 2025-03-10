@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/09 03:12:37 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/10 17:30:12 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,69 +30,37 @@ static void	handle_builtins(int code, t_command *cmd)
 		ms_exit(cmd);
 }
 
-char	check_builtins(char *name)
+void	execute_child_cmd(t_command cmd, int pipes[2], int temp)
 {
-	char		*temp;
-
-	temp = ft_strrchr(name, '/');
-	if (temp)
-		name = temp + 1;
-	if (!ft_strncmp(name, "echo", 5))
-		return (1);
-	else if (!ft_strncmp(name, "cd", 3))
-		return (2);
-	else if (!ft_strncmp(name, "pwd", 4))
-		return (3);
-	else if (!ft_strncmp(name, "export", 7))
-		return (4);
-	else if (!ft_strncmp(name, "unset", 6))
-		return (5);
-	else if (!ft_strncmp(name, "env", 4))
-		return (6);
-	else if (!ft_strncmp(name, "exit", 5))
-		return (7);
-	return (0);
-}
-
-void	execute_child_cmd(char **argv, t_list **envp,
-		t_main_envp *imp, int pipes[2])
-{
-	t_command	cmd;
 	int			code;
 
-	cmd.imp = imp;
-	cmd.envp = envp;
-	cmd.argv = argv;
 	close(pipes[0]);
+	dup2(temp, 0);
 	dup2(pipes[1], 1);
-	code = check_builtins(argv[0]);
+	code = check_builtins(cmd.argv[0]);
 	if (code)
 		handle_builtins(code, &cmd);
 	else
-		execute_bin(argv, imp);
+		execute_bin(cmd.argv, cmd.imp);
 	exit(0);
 }
 
-void	execute_last_cmd(char **argv, t_list **envp,
-		t_main_envp *imp, int pipes[2])
+void	execute_last_cmd(t_command cmd, int pipes[2])
 {
-	t_command	cmd;
 	int			code;
 
-	cmd.imp = imp;
-	cmd.envp = envp;
-	cmd.argv = argv;
 	close(pipes[1]);
 	dup2(pipes[0], 0);
-	code = check_builtins(argv[0]);
+	code = check_builtins(cmd.argv[0]);
 	if (code)
 		handle_builtins(code, &cmd);
 	else
-		execute_bin(argv, imp);
+		execute_bin(cmd.argv, cmd.imp);
 	exit(0);
 }
 
-char	*execute_single_command(t_list *commands, t_list **envp, t_main_envp *imp)
+char	*execute_single_command(t_list *commands, t_list **envp,
+		t_main_envp *imp)
 {
 	int			code;
 	pid_t		pid;
@@ -108,7 +76,7 @@ char	*execute_single_command(t_list *commands, t_list **envp, t_main_envp *imp)
 		if (code)
 			handle_builtins(code, &cmd);
 		else
-			execute_bin(cmd.argv, imp);
+			execute_bin(cmd.argv, cmd.imp);
 	}
 	waitpid(pid, NULL, 0);
 	return (NULL);
@@ -119,38 +87,26 @@ char	*execute_line(t_list *commands, t_list **envp, t_main_envp *imp)
 	t_int_tab	itab;
 	pid_t		pid;
 	int			pipes[2];
-	int			*pipes_lst;
 
 	itab = init_int_tab();
-	itab.ret = ft_lstsize(commands);
-	if (itab.ret == 1)
+	itab.res = ft_lstsize(commands);
+	if (itab.res == 1)
 		return (execute_single_command(commands, envp, imp));
-	pipes_lst = malloc(sizeof(int) * itab.ret);
-	itab.i++;
-	while (++itab.i <= itab.ret)
+	itab.ret = 0;
+	while (++itab.i < itab.res)
 	{
-		if (itab.i < itab.ret)
+		if ((itab.i + 1) != itab.res)
 			if (pipe(pipes) < 0)
 				return (NULL);
 		pid = fork();
 		if (pid < 0)
 			return (NULL);
-		if (!pid && (itab.i < itab.ret))
-			execute_child_cmd((char **)commands->content, envp, imp, pipes);
+		if (!pid && ((itab.i + 1) != itab.res))
+			execute_child_cmd(make_cmd(commands->content, envp, imp),
+				pipes, itab.ret);
 		else if (!pid)
-			execute_last_cmd((char **)commands->content, envp, imp, pipes);
-		pipes_lst[itab.i + 1] = pipes[0];
-		commands = commands->next;
-		close(pipes[1]);
+			execute_last_cmd(make_cmd(commands->content, envp, imp), pipes);
+		goto_next_command(&commands, &itab.ret, pipes);
 	}
-	int i, stat, ret;
-	i = -1;
-	while (++i < itab.ret)
-	{
-		close(pipes_lst[i]);
-		ret = wait(&stat);
-		if (ret == pid)
-			ret += 0;//printf("Pid\n");
-	}
-	return (NULL);
+	return (wait_line_exec_end(itab.res, itab.ret, pipes[0]));
 }
