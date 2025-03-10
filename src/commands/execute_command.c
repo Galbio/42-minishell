@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/06 15:18:03 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/09 03:12:37 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,11 +119,13 @@ char	*execute_line(t_list *commands, t_list **envp, t_main_envp *imp)
 	t_int_tab	itab;
 	pid_t		pid;
 	int			pipes[2];
+	int			*pipes_lst;
 
 	itab = init_int_tab();
 	itab.ret = ft_lstsize(commands);
 	if (itab.ret == 1)
 		return (execute_single_command(commands, envp, imp));
+	pipes_lst = malloc(sizeof(int) * itab.ret);
 	itab.i++;
 	while (++itab.i <= itab.ret)
 	{
@@ -136,18 +138,19 @@ char	*execute_line(t_list *commands, t_list **envp, t_main_envp *imp)
 		if (!pid && (itab.i < itab.ret))
 			execute_child_cmd((char **)commands->content, envp, imp, pipes);
 		else if (!pid)
-		{
 			execute_last_cmd((char **)commands->content, envp, imp, pipes);
-		}
-		close(pipes[1]);
-		close(pipes[0]);
+		pipes_lst[itab.i + 1] = pipes[0];
 		commands = commands->next;
+		close(pipes[1]);
 	}
 	int i, stat, ret;
 	i = -1;
 	while (++i < itab.ret)
 	{
+		close(pipes_lst[i]);
 		ret = wait(&stat);
+		if (ret == pid)
+			ret += 0;//printf("Pid\n");
 	}
 	return (NULL);
 }

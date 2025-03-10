@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:14:37 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/06 08:04:19 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/07 23:34:14 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,11 @@ static char	handle_n(char *str, char *nl)
 
 void	ms_echo(t_command *cmd)
 {
-	char	*str;
 	char	nl;
 	int		i;
 
 	i = 0;
 	nl = 1;
-	str = ft_strdup("");
 	while (cmd->argv[++i])
 		if (!handle_n(cmd->argv[i], &nl))
 			break ;
