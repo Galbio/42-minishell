@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/26 19:38:41 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/11 12:33:32 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,8 @@ typedef struct s_readline
 	t_char		*actual;
 	int			update;
 	int			size;
-	t_vector2	initial_pos;
 	t_vector2	pos;
 	t_vector2	cursor;
-	int			end_line;
 	t_vector2	old_tsize;
 }	t_readline;
 
@@ -59,18 +57,14 @@ void		teleport_cursor(t_vector2 pos);
 
 int			get_cursor_position(t_vector2 *pos);
 
-void		check_resize(t_readline *data, t_vector2 size);
-
 int			clean_readed(char **readed);
 
-void		clear_terminal(int count, int bn_count);
-void		update_cursor_position(const char *prompt, t_readline data);
-void		on_write(t_readline *data);
-void		on_delete(t_readline *data, int deleted);
+void		on_write(t_readline *data, char *buffer);
+void		on_delete(t_readline *data);
 
 char		*ft_readline(const char *prompt);
 
-char		*build_result(t_readline data);
+char		*build_result(t_readline data, t_char *to);
 int			process_input(t_readline *data, char *buffer);
 
 void		enable_raw_mode(struct termios *raw);
@@ -80,10 +74,14 @@ int			process_special_keys(t_readline *data, char *buffer);
 
 char		*read_stdin_key(void);
 
-int			count_newlines(t_char *c, t_char *actual, int *lc);
 char		get_open_quote(const char *stashed);
 void		init_terminal_size(t_vector2 *size);
-t_vector2	get_terminal_size(t_readline *data);
-int			count_total_newlines(const char *prompt, t_readline data);
+t_vector2	get_terminal_size(t_readline *data, int check_resize);
+int			count_low_newlines(t_readline *data, t_char *to);
+int			count_hard_newlines(t_readline data, t_char *to);
+t_vector2	actual_char_pos(t_readline *data);
+
+char		*last_newline(char *build);
+t_vector2	get_char_pos(t_readline *data, t_char *c);
 
 #endif
