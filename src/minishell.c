@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/05 16:55:49 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/11 11:35:58 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 void	init(void)
 {
-	struct termios	raw;
-
-	enable_raw_mode(&raw);
+	ft_readline_set_exit(0);
+	enable_raw_mode();
 }
 
 void	launch(t_list *envp, t_main_envp *imp)

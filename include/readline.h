@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/26 19:38:41 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/10 17:14:37 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include <sys/ioctl.h>
 # include <termios.h>
+# include <signal.h>
 # include "libft.h"
 
 typedef struct s_char
@@ -39,6 +40,8 @@ typedef struct s_readline
 	t_vector2	cursor;
 	int			end_line;
 	t_vector2	old_tsize;
+	char		*buffer_ptr;
+	int			exit;
 }	t_readline;
 
 void		handle_key_input(t_readline *data, char *buffer);
@@ -73,17 +76,24 @@ char		*ft_readline(const char *prompt);
 char		*build_result(t_readline data);
 int			process_input(t_readline *data, char *buffer);
 
-void		enable_raw_mode(struct termios *raw);
-void		disable_raw_mode(struct termios *raw);
+void		enable_raw_mode(void);
+void		disable_raw_mode(void);
 
 int			process_special_keys(t_readline *data, char *buffer);
 
-char		*read_stdin_key(void);
+char		*read_stdin_key(t_readline *readline);
 
 int			count_newlines(t_char *c, t_char *actual, int *lc);
 char		get_open_quote(const char *stashed);
 void		init_terminal_size(t_vector2 *size);
 t_vector2	get_terminal_size(t_readline *data);
 int			count_total_newlines(const char *prompt, t_readline data);
+
+t_readline	*get_readline_data(void);
+int		ft_readline_must_exit(void);
+void		ft_readline_set_exit(int v);
+void		ft_readline_sigint(void);
+void		ft_readline_init_signals(void);
+void		free_ft_readline(t_readline *data);
 
 #endif

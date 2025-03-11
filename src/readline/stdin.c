@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 15:16:08 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/26 15:56:14 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/10 17:21:23 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	read_extra(char **buffer, int times)
 	}
 }
 
-char	*read_stdin_key(void)
+char	*read_stdin_key(t_readline *data)
 {
 	char	*buffer;
 	int		byte_read;
@@ -48,6 +48,7 @@ char	*read_stdin_key(void)
 	buffer = malloc(sizeof(char) * (2));
 	if (!buffer)
 		return (NULL);
+	data->buffer_ptr = buffer;
 	ft_bzero(buffer, 2);
 	byte_read = read(STDIN_FILENO, buffer, 1);
 	if (byte_read == -1)
