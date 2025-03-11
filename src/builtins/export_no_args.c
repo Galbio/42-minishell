@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 18:40:47 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/06 08:05:33 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:26:23 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	export_vars(t_list *envp)
 	while (envp)
 	{
 		env = (char *)envp->content;
-		ft_putstr_fd("declare -x ", 1);
+		write(1, "declare -x ", 11);
 		i = -1;
 		while (env[++i] && env[i] != '=')
 			write(1, env + i, 1);

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/10 16:34:24 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:33:54 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,24 @@
 static char	*handle_var_commands(char *command, t_list **envp, t_main_envp *imp)
 {
 	t_list	*commands;
+	t_list	*cur;
+	char	**argv;
+	int		i;
 
 	command[ft_strlen(command) - 1] = 0;
 	commands = init_pipes(command, envp, imp);
 	execute_line(commands, envp, imp);
+	cur = commands;
+	while (cur)
+	{
+		argv = (char **)cur->content;
+		i = -1;
+		while (argv[++i])
+			free(argv[i]);
+		free(argv);
+		cur = cur->next;
+	}
+	free(commands);
 	return (NULL);
 }
 

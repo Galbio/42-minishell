@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 20:09:48 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/11 15:02:39 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:22:16 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ char	*execute_bin(char **argv, t_main_envp *imp)
 	{
 		if (!imp->path)
 			ft_putstr_fd("minishell: ", 2);
-		printf("%s: command not found\n", argv[0]);
+		ft_putstr_fd(argv[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
 		return (NULL);
 	}
 	temp = argv[0];

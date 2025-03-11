@@ -6,13 +6,13 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/10 17:30:12 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:39:37 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	handle_builtins(int code, t_command *cmd)
+static void	handle_builtins(int code, t_cmd_params *cmd)
 {
 	if (code == 1)
 		ms_echo(cmd);
@@ -30,7 +30,7 @@ static void	handle_builtins(int code, t_command *cmd)
 		ms_exit(cmd);
 }
 
-void	execute_child_cmd(t_command cmd, int pipes[2], int temp)
+void	execute_child_cmd(t_cmd_params cmd, int pipes[2], int temp)
 {
 	int			code;
 
@@ -45,7 +45,7 @@ void	execute_child_cmd(t_command cmd, int pipes[2], int temp)
 	exit(0);
 }
 
-void	execute_last_cmd(t_command cmd, int pipes[2])
+void	execute_last_cmd(t_cmd_params cmd, int pipes[2])
 {
 	int			code;
 
@@ -62,9 +62,9 @@ void	execute_last_cmd(t_command cmd, int pipes[2])
 char	*execute_single_command(t_list *commands, t_list **envp,
 		t_main_envp *imp)
 {
-	int			code;
-	pid_t		pid;
-	t_command	cmd;
+	pid_t				pid;
+	int					code;
+	t_cmd_params		cmd;
 
 	pid = fork();
 	if (!pid)
@@ -85,8 +85,8 @@ char	*execute_single_command(t_list *commands, t_list **envp,
 char	*execute_line(t_list *commands, t_list **envp, t_main_envp *imp)
 {
 	t_int_tab	itab;
-	pid_t		pid;
 	int			pipes[2];
+	pid_t		pid;
 
 	itab = init_int_tab();
 	itab.res = ft_lstsize(commands);
@@ -106,7 +106,7 @@ char	*execute_line(t_list *commands, t_list **envp, t_main_envp *imp)
 				pipes, itab.ret);
 		else if (!pid)
 			execute_last_cmd(make_cmd(commands->content, envp, imp), pipes);
-		goto_next_command(&commands, &itab.ret, pipes);
+		go_to_next_command(&commands, &itab.ret, pipes);
 	}
 	return (wait_line_exec_end(itab.res, itab.ret, pipes[0]));
 }

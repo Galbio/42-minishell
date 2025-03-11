@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/11 15:02:09 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:27:14 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	launch(t_list *envp, t_main_envp *imp)
 {
-	t_list	*commands;
 	char	*res;
+	t_list	*commands;
 
 	while (1)
 	{

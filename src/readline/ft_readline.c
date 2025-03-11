@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 13:11:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/06 10:14:17 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/11 15:25:10 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,17 @@
 static void	init_readline(const char *prompt, t_readline *data)
 {
 	data->prompt = prompt;
-	get_cursor_position(&data->initial_pos);
-	data->pos = data->initial_pos;
+	init_terminal_size(&data->old_tsize);
+	get_cursor_position(&data->pos);
+	while ((data->pos.x < 0)
+		|| (data->pos.y < 0)
+		|| (data->pos.x > data->old_tsize.x)
+		|| (data->pos.y > data->old_tsize.y))
+		get_cursor_position(&data->pos);
 	data->cursor = data->pos;
 	data->first = NULL;
 	data->actual = data->first;
 	data->size = 0;
-	init_terminal_size(&data->old_tsize);
-	data->end_line = data->initial_pos.y == data->old_tsize.y;
 }
 
 char	*ft_readline(const char *prompt)
@@ -33,8 +36,8 @@ char	*ft_readline(const char *prompt)
 
 	enable_raw_mode(&raw);
 	write(1, prompt, ft_strlen(prompt));
-	init_readline(prompt, &data);
 	buffer = NULL;
+	init_readline(prompt, &data);
 	while (1)
 	{
 		buffer = read_stdin_key();
@@ -44,11 +47,12 @@ char	*ft_readline(const char *prompt)
 		if (process_input(&data, buffer))
 			break ;
 		handle_key_input(&data, buffer);
+		if (data.update)
+			on_write(&data, buffer);
 		free(buffer);
 		buffer = NULL;
-		on_write(&data);
 	}
 	free(buffer);
 	disable_raw_mode(&raw);
-	return (build_result(data));
+	return (build_result(data, 0));
 }

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:22:50 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/10 17:59:21 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:40:25 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	check_builtins(char *name)
 	return (0);
 }
 
-void	goto_next_command(t_list **commands, int *temp, int pipes[2])
+void	go_to_next_command(t_list **commands, int *temp, int pipes[2])
 {
 	*commands = (*commands)->next;
 	if (*temp)
@@ -59,9 +59,9 @@ char	*wait_line_exec_end(int nb_cmd, int write_pipe, int read_pipe)
 	return (NULL);
 }
 
-t_command	make_cmd(void *argv_ptr, t_list **envp, t_main_envp *imp)
+t_cmd_params	make_cmd(void *argv_ptr, t_list **envp, t_main_envp *imp)
 {
-	t_command	dest;
+	t_cmd_params	dest;
 
 	dest.argv = (char **)argv_ptr;
 	dest.envp = envp;

@@ -31,9 +31,11 @@ FILES = main.c		\
 	readline/clean_readed.c	\
 	readline/display.c	\
 	readline/processing.c	\
-	readline/resize.c	\
+	readline/size.c	\
 	readline/utils.c	\
 	readline/stdin.c	\
+	readline/char_position.c	\
+	readline/lines.c		\
 	utils/init_int_tab.c \
 	utils/check_special_char.c \
 	bquotes_handler.c \
@@ -60,10 +62,10 @@ $(NAME): $(LIBFTA) $(FT_PRINTFA) $(OFILES)
 	$(COMPILATOR) $(FLAGS) $(OFILES) $(LIBFTA) $(FT_PRINTFA) -o $(NAME) -I $(INCLUDE) -I $(LIBFTI) -I $(FT_PRINTFA) $(EXTRA_FLAGS)
 
 $(LIBFTA):
-	@make -C $(LIBFT) bonus
+	@make -C $(LIBFT) bonus > /dev/null
 
 $(FT_PRINTFA):
-	@make -C $(FT_PRINTF) bonus
+	@make -C $(FT_PRINTF) bonus > /dev/null
 
 clean:
 	@rm -rf $(OFILES)
@@ -73,8 +75,8 @@ clean:
 
 fclean: clean
 	@rm -rf $(NAME)
-	@make -C $(LIBFT) fclean
-	@make -C $(FT_PRINTF) fclean
+	@make -C $(LIBFT) fclean > /dev/null
+	@make -C $(FT_PRINTF) fclean /dev/null
 
 $(OBJS)/%.o: $(SRC)/%.c
 	@mkdir -p $(dir $@)
