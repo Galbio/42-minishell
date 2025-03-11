@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 14:45:53 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/26 19:37:12 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/11 12:07:24 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	handle_key_input(t_readline *data, char *buffer)
 		data->update = 0;
 		return ;
 	}
+	data->update = 1;
 	if (!data->first)
 	{
 		data->first = new_char(buffer[0]);

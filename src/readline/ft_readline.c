@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 13:11:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/11 11:33:07 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/11 12:06:23 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_readline	*get_readline_data(void)
 
 static void	init_readline(const char *prompt, t_readline *data)
 {
+	write(1, prompt, ft_strlen(prompt));
 	rl(data);
 	data->prompt = prompt;
 	get_cursor_position(&data->initial_pos);
@@ -48,22 +49,19 @@ char	*ft_readline(const char *prompt)
 	char		*buffer;
 	char		*build;
 
-	write(1, prompt, ft_strlen(prompt));
 	init_readline(prompt, &data);
-	buffer = NULL;
 	while (1)
 	{
 		buffer = read_stdin_key(&data);
 		if (!buffer)
 			break ;
-		data.update = 1;
 		if (process_input(&data, buffer))
 			break ;
 		handle_key_input(&data, buffer);
 		if (data.exit)
 		{
 			free_ft_readline(&data);
-			return (NULL);
+			return (ft_strdup(""));
 		}
 		free(buffer);
 		buffer = NULL;

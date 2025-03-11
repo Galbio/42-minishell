@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 06:13:23 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/11 11:27:32 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/11 11:40:57 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static struct termios	*old(void)
 {
 	static struct termios	term;
-	static int	initialized = 0;
+	static int				initialized = 0;
 
 	if (!initialized)
 	{

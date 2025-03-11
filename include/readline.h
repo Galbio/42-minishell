@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/10 17:14:37 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/11 12:03:25 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,16 @@ t_vector2	get_terminal_size(t_readline *data);
 int			count_total_newlines(const char *prompt, t_readline data);
 
 t_readline	*get_readline_data(void);
-int		ft_readline_must_exit(void);
+int			ft_readline_must_exit(void);
 void		ft_readline_set_exit(int v);
 void		ft_readline_sigint(void);
 void		ft_readline_init_signals(void);
 void		free_ft_readline(t_readline *data);
+
+int			delete_char(t_readline *data);
+int			move_cursor_left(t_readline *data);
+int			move_cursor_right(t_readline *data);
+int			ctrl_c(t_readline *data);
+void		ctrl_d(t_readline *data);
 
 #endif
