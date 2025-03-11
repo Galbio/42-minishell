@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/11 18:23:21 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/11 22:06:48 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_main_envp
 	char	*home;
 	char	is_bquoted;
 	int		shell_level;
+	int		output_fd;
 }	t_main_envp;
 
 typedef struct s_cmd_params
@@ -70,9 +71,9 @@ t_list			*parse_envp(char **envp, t_main_envp *imp);
 char			*parse_var(char *var_name, t_list **envp, t_main_envp *imp);
 char			*parse_commands(char *str, t_list *envp, t_main_envp *imp);
 char			*read_whole_fd(int fd);
-void			handle_var(char *str, t_int_tab *infos,
-					t_list **envp, t_main_envp *imp);
+void			handle_var(char *str, t_int_tab *infos, t_list **output);
 char			*handle_bquotes(char *res);
+char			*clean_whitespaces(char *str);
 char			*get_var_str(char *str);
 t_list			*init_pipes(char *str, t_list **envp, t_main_envp *imp);
 

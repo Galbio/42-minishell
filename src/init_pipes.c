@@ -6,37 +6,58 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 03:38:49 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/11 18:31:38 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/11 22:12:17 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static char	go_to_var_end(char *str, int *i)
+{
+	int		pare_count;
+
+	if (str[*i + 1] != '(')
+		return (0);
+	*i += 2;
+	pare_count = 1;
+	while (pare_count && str[*i])
+	{
+		if (str[*i] == '(')
+			pare_count++;
+		else if (str[*i] == ')')
+			pare_count--;
+		(*i)++;
+	}
+	return (str[*i] == 0);
+}
+
 static t_list	*split_pipes(char *str)
 {
 	t_int_tab	itab;
-	t_list		*commands;
+	t_list		*cmds;
 
 	itab = init_int_tab();
-	commands = NULL;
+	cmds = NULL;
 	while (str[++itab.i])
 	{
+		if ((str[itab.i] == '$') && !itab.backslash && !itab.cur_quote)
+			if (go_to_var_end(str, &itab.i))
+				break ;
 		if ((str[itab.i] == '|') && !itab.backslash && !itab.cur_quote
 			&& (str[itab.i + 1] != '|'))
 		{
 			itab.ptr1 = ft_substr(str, itab.ret, itab.i - itab.ret);
 			itab.ret = itab.i + 1;
-			ft_lstadd_back(&commands,
+			ft_lstadd_back(&cmds,
 				ft_lstnew(ft_strtrim(itab.ptr1, " \n\t\r\b\v\f")));
 			free(itab.ptr1);
 		}
 		check_special_char(str[itab.i], &itab.backslash, &itab.cur_quote);
 	}
 	itab.ptr1 = ft_substr(str, itab.ret, itab.i);
-	ft_lstadd_back(&commands,
-		ft_lstnew(ft_strtrim(itab.ptr1, " \n\t\r\b\v\f")));
+	ft_lstadd_back(&cmds, ft_lstnew(ft_strtrim(itab.ptr1, " \n\t\r\b\v\f")));
 	free(itab.ptr1);
-	return (commands);
+	return (cmds);
 }
 
 t_list	*init_pipes(char *str, t_list **envp, t_main_envp *imp)

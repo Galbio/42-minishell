@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 08:00:35 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/05 16:35:48 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/11 22:12:47 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ static int	get_command_argc(char *str)
 	return (itab.res + 1);
 }
 
-static int	get_parsed_substr_len(char **str, t_list **envp, t_main_envp *imp)
+static int	get_parsed_substr_len(char **str, t_list **envp,
+		t_main_envp *imp, t_list **cmd_outputs)
 {
 	t_int_tab	itab;
 
@@ -45,9 +46,10 @@ static int	get_parsed_substr_len(char **str, t_list **envp, t_main_envp *imp)
 		{
 			itab.ptr1 = get_var_str(str[0] + itab.i + 1);
 			itab.ptr2 = parse_var(itab.ptr1, envp, imp);
+			ft_lstadd_back(cmd_outputs, ft_lstnew(itab.ptr2));
 			itab.res += ft_securelen(itab.ptr2);
 			itab.i += ft_securelen(itab.ptr1);
-			(free(itab.ptr1), free(itab.ptr2));
+			free(itab.ptr1);
 		}
 		else
 			itab.res++;
@@ -58,10 +60,12 @@ static int	get_parsed_substr_len(char **str, t_list **envp, t_main_envp *imp)
 static char	*parsed_quoted_substr(char **str, t_list **envp, t_main_envp *imp)
 {
 	t_int_tab	itab;
+	t_list		*cmd_outputs;
 
+	cmd_outputs = NULL;
 	itab = init_int_tab();
 	itab.ptr1 = malloc(sizeof(char)
-			* (get_parsed_substr_len(str, envp, imp) + 1));
+			* (get_parsed_substr_len(str, envp, imp, &cmd_outputs) + 1));
 	if (!itab.ptr1)
 		return (NULL);
 	while (str[0][++itab.i])
@@ -72,7 +76,7 @@ static char	*parsed_quoted_substr(char **str, t_list **envp, t_main_envp *imp)
 			&itab.cur_quote))
 			continue ;
 		if ((itab.cur_quote != '\'') && str[0][itab.i] == '$')
-			handle_var(str[0], &itab, envp, imp);
+			handle_var(str[0], &itab, &cmd_outputs);
 		else
 			itab.ptr1[itab.res++] = str[0][itab.i];
 	}
