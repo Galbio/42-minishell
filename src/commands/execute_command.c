@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/11 18:24:18 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/11 18:30:21 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ char	*execute_single_command(t_cmd_params cmd)
 {
 	pid_t				pid;
 	int					code;
-	t_cmd_params		cmd;
 
 	pid = fork();
 	if (!pid)
@@ -104,5 +103,5 @@ char	*execute_line(t_list *commands, t_list **envp, t_main_envp *imp)
 			execute_last_cmd(make_cmd(commands->content, envp, imp), pipes);
 		go_to_next_command(&commands, &itab.ret, pipes);
 	}
-	return (wait_line_exec_end(itab.res, itab.ret, pipes[0]));
+	return (wait_line_end_exec(itab.res, itab.ret, pipes[0]));
 }
