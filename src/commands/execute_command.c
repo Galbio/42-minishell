@@ -6,72 +6,102 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/05 16:36:06 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/11 18:31:33 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*handle_builtins(int code, char **argv, t_list **envp
-		, t_main_envp *imp)
+static void	handle_builtins(int code, t_cmd_params *cmd)
 {
 	if (code == 1)
-		return (ms_echo(argv));
+		ms_echo(cmd);
 	else if (code == 2)
-		return (ms_cd(argv));
+		ms_cd(cmd);
 	else if (code == 3)
-		return (ms_pwd());
+		ms_pwd();
 	else if (code == 4)
-		return (ms_export(argv, envp));
+		ms_export(cmd);
 	else if (code == 5)
-		return (ms_unset(argv, envp, imp));
+		ms_unset(cmd);
 	else if (code == 6)
-		return (ms_env(argv, *envp));
+		ms_env(cmd);
 	else if (code == 7)
-		return (ms_exit(argv));
+		ms_exit(cmd);
+}
+
+void	execute_child_cmd(t_cmd_params cmd, int pipes[2], int temp)
+{
+	int			code;
+
+	close(pipes[0]);
+	dup2(temp, 0);
+	dup2(pipes[1], 1);
+	code = check_builtins(cmd.argv[0]);
+	if (code)
+		handle_builtins(code, &cmd);
+	else
+		execute_bin(cmd.argv, cmd.imp);
+	exit(0);
+}
+
+void	execute_last_cmd(t_cmd_params cmd, int pipes[2])
+{
+	int			code;
+
+	close(pipes[1]);
+	dup2(pipes[0], 0);
+	code = check_builtins(cmd.argv[0]);
+	if (code)
+		handle_builtins(code, &cmd);
+	else
+		execute_bin(cmd.argv, cmd.imp);
+	exit(0);
+}
+
+char	*execute_single_command(t_cmd_params cmd)
+{
+	pid_t				pid;
+	int					code;
+
+	pid = fork();
+	if (!pid)
+	{
+		code = check_builtins(cmd.argv[0]);
+		if (code)
+			handle_builtins(code, &cmd);
+		else
+			execute_bin(cmd.argv, cmd.imp);
+	}
+	waitpid(pid, NULL, 0);
 	return (NULL);
 }
 
-char	check_builtins(char *name)
-{
-	char		*temp;
-
-	temp = ft_strrchr(name, '/');
-	if (temp)
-		name = temp + 1;
-	if (!ft_strncmp(name, "echo", 5))
-		return (1);
-	else if (!ft_strncmp(name, "cd", 3))
-		return (2);
-	else if (!ft_strncmp(name, "pwd", 4))
-		return (3);
-	else if (!ft_strncmp(name, "export", 7))
-		return (4);
-	else if (!ft_strncmp(name, "unset", 6))
-		return (5);
-	else if (!ft_strncmp(name, "env", 4))
-		return (6);
-	else if (!ft_strncmp(name, "exit", 5))
-		return (7);
-	return (0);
-}
-
-char	*execute_command(char *str, t_list **envp, t_main_envp *imp)
+char	*execute_line(t_list *commands, t_list **envp, t_main_envp *imp)
 {
 	t_int_tab	itab;
-	char		**argv;
+	int			pipes[2];
+	pid_t		pid;
 
 	itab = init_int_tab();
-	argv = create_command_argv(str, envp, imp);
-	itab.ret = check_builtins(argv[0]);
-	if (itab.ret)
-		itab.ptr1 = handle_builtins(itab.ret, argv, envp, imp);
-	else
-		itab.ptr1 = execute_bin(argv, imp);
-	while (argv[++itab.i])
-		free(argv[itab.i]);
-	free(argv);
-	if (imp->is_bquoted)
-		itab.ptr1 = clean_whitespaces(itab.ptr1);
-	return (itab.ptr1);
+	itab.res = ft_lstsize(commands);
+	if (itab.res == 1)
+		return (execute_single_command(make_cmd(commands, envp, imp)));
+	itab.ret = 0;
+	while (++itab.i < itab.res)
+	{
+		if ((itab.i + 1) != itab.res)
+			if (pipe(pipes) < 0)
+				return (NULL);
+		pid = fork();
+		if (pid < 0)
+			return (NULL);
+		if (!pid && ((itab.i + 1) != itab.res))
+			execute_child_cmd(make_cmd(commands->content, envp, imp),
+				pipes, itab.ret);
+		else if (!pid)
+			execute_last_cmd(make_cmd(commands->content, envp, imp), pipes);
+		go_to_next_command(&commands, &itab.ret, pipes);
+	}
+	return (wait_line_end_exec(itab.res, itab.ret, pipes[0]));
 }
