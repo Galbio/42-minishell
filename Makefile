@@ -76,7 +76,7 @@ clean:
 fclean: clean
 	@rm -rf $(NAME)
 	@make -C $(LIBFT) fclean > /dev/null
-	@make -C $(FT_PRINTF) fclean /dev/null
+	@make -C $(FT_PRINTF) fclean > /dev/null
 
 $(OBJS)/%.o: $(SRC)/%.c
 	@mkdir -p $(dir $@)
