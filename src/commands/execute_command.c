@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/11 18:31:33 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/11 19:27:47 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	*execute_line(t_list *commands, t_list **envp, t_main_envp *imp)
 	itab = init_int_tab();
 	itab.res = ft_lstsize(commands);
 	if (itab.res == 1)
-		return (execute_single_command(make_cmd(commands, envp, imp)));
+		return (execute_single_command(make_cmd(commands->content, envp, imp)));
 	itab.ret = 0;
 	while (++itab.i < itab.res)
 	{
