@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:22:50 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/11 16:40:25 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/11 18:23:05 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	go_to_next_command(t_list **commands, int *temp, int pipes[2])
 	close(pipes[1]);
 }
 
-char	*wait_line_exec_end(int nb_cmd, int write_pipe, int read_pipe)
+char	*wait_line_end_exec(int nb_cmd, int write_pipe, int read_pipe)
 {
 	int		i;
 	int		stat;

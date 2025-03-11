@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/11 16:39:37 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/11 18:24:18 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,7 @@ void	execute_last_cmd(t_cmd_params cmd, int pipes[2])
 	exit(0);
 }
 
-char	*execute_single_command(t_list *commands, t_list **envp,
-		t_main_envp *imp)
+char	*execute_single_command(t_cmd_params cmd)
 {
 	pid_t				pid;
 	int					code;
@@ -69,9 +68,6 @@ char	*execute_single_command(t_list *commands, t_list **envp,
 	pid = fork();
 	if (!pid)
 	{
-		cmd.imp = imp;
-		cmd.envp = envp;
-		cmd.argv = (char **)commands->content;
 		code = check_builtins(cmd.argv[0]);
 		if (code)
 			handle_builtins(code, &cmd);
@@ -91,7 +87,7 @@ char	*execute_line(t_list *commands, t_list **envp, t_main_envp *imp)
 	itab = init_int_tab();
 	itab.res = ft_lstsize(commands);
 	if (itab.res == 1)
-		return (execute_single_command(commands, envp, imp));
+		return (execute_single_command(make_cmd(commands, envp, imp)));
 	itab.ret = 0;
 	while (++itab.i < itab.res)
 	{
