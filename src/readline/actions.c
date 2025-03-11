@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:11:06 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/07 11:09:12 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/11 12:29:15 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static void	delete_character(t_readline *data)
 
 static void	move_cursor_left(t_readline *data)
 {
+	get_terminal_size(data, 1);
 	if (data->actual)
 	{
 		data->actual = data->actual->previous;
@@ -47,6 +48,7 @@ static void	move_cursor_left(t_readline *data)
 
 static void	move_cursor_right(t_readline *data)
 {
+	get_terminal_size(data, 1);
 	if (!data->actual && data->first)
 	{
 		data->actual = data->first;

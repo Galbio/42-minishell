@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/10 10:34:35 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/11 12:33:32 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ typedef struct s_readline
 	int			size;
 	t_vector2	pos;
 	t_vector2	cursor;
-	int			end_line;
 	t_vector2	old_tsize;
 }	t_readline;
 
@@ -57,8 +56,6 @@ void		move_y(t_readline *data, int gap);
 void		teleport_cursor(t_vector2 pos);
 
 int			get_cursor_position(t_vector2 *pos);
-
-void		on_resize(t_readline *data, t_vector2 size);
 
 int			clean_readed(char **readed);
 

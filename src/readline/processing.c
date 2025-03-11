@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:30 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/10 10:38:03 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/11 12:21:06 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,14 @@ static int	calculate_len(t_readline data, t_char *to)
 	int		len;
 	t_char	*c;
 
-	len = data.size;
-	if (to)
+	if (!to)
+		return (data.size);
+	len = 1;
+	c = to;
+	while (c->previous)
 	{
-		len = 1;
-		c = to;
-		while (c->previous)
-		{
-			len++;
-			c = c->previous;
-		}
+		len++;
+		c = c->previous;
 	}
 	return (len);
 }

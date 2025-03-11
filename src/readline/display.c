@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:24 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/10 10:48:15 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/11 12:33:45 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ void	on_write(t_readline *data, char *buffer)
 	char		*build;
 	t_vector2	size;
 
-	size = get_terminal_size(data, 1);
 	build = build_result(*data, last_char(data->first));
+	size = get_terminal_size(data, 1);
 	get_cursor_position(&data->cursor);
 	update_position(data, size, build, buffer);
 	teleport_cursor(data->pos);
@@ -91,16 +91,21 @@ void	on_write(t_readline *data, char *buffer)
 
 void	on_delete(t_readline *data)
 {
-	char	*build;
+	char		*build;
+	t_vector2	size;
 
 	build = build_result(*data, last_char(data->first));
+	size = get_terminal_size(data, 1);
+	get_cursor_position(&data->cursor);
+	update_position(data, size, build, "");
 	teleport_cursor(data->pos);
 	print_build(build);
+	write(1, " ", 1);
 	free(build);
 	if (data->actual)
 	{
 		data->cursor = get_char_pos(data, last_char(data->first));
-		if (data->cursor.y < 23)
+		if (data->cursor.y < size.y - 1)
 		{
 			move_y(data, 1);
 			write(1, "\033[2K", 4);
@@ -110,6 +115,5 @@ void	on_delete(t_readline *data)
 		data->cursor = get_char_pos(data, data->actual);
 	else
 		data->cursor = get_char_pos(data, NULL);
-	write(1, " ", 1);
 	teleport_cursor(data->cursor);
 }

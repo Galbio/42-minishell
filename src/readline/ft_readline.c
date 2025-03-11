@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 13:11:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/10 10:46:59 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/11 12:18:51 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,14 @@ static void	init_readline(const char *prompt, t_readline *data)
 	data->prompt = prompt;
 	init_terminal_size(&data->old_tsize);
 	get_cursor_position(&data->pos);
-	while (data->pos.x < 0 || data->pos.y < 0
-		|| data->pos.x > data->old_tsize.x
-		|| data->pos.y > data->old_tsize.y)
+	while ((data->pos.x < 0) || (data->pos.y < 0)
+		|| (data->pos.x) > (data->old_tsize.x)
+		|| (data->pos.y) > (data->old_tsize.y))
 		get_cursor_position(&data->pos);
 	data->cursor = data->pos;
 	data->first = NULL;
 	data->actual = data->first;
 	data->size = 0;
-	data->end_line = data->pos.y == data->old_tsize.y;
 }
 
 char	*ft_readline(const char *prompt)

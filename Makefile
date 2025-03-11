@@ -26,7 +26,7 @@ FILES = main.c		\
 	readline/clean_readed.c	\
 	readline/display.c	\
 	readline/processing.c	\
-	readline/resize.c	\
+	readline/size.c	\
 	readline/utils.c	\
 	readline/stdin.c	\
 	readline/char_position.c	\
