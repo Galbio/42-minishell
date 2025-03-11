@@ -31,6 +31,8 @@ FILES = main.c		\
 	readline/stdin.c	\
 	readline/char_position.c	\
 	readline/lines.c		\
+	readline/ft_readline_core.c	\
+	readline/special_key/factory.c	\
 	utils/init_int_tab.c \
 	bquotes_handler.c \
 	utils/check_special_char.c \

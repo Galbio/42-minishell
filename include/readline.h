@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/11 12:33:32 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/11 14:48:09 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@
 # include <sys/ioctl.h>
 # include <termios.h>
 # include "libft.h"
+
+# define DELETE_KEY "\x7F"
+# define LEFT_ARROW_KEY "\x1B[D"
+# define RIGHT_ARROW_KEY "\x1B[C"
 
 typedef struct s_char
 {
@@ -38,6 +42,18 @@ typedef struct s_readline
 	t_vector2	cursor;
 	t_vector2	old_tsize;
 }	t_readline;
+
+typedef struct s_special_key
+{
+	char	*sequence;
+	int	(*callback)(t_readline *);
+
+}	t_special_key;
+
+typedef struct s_main
+{
+	t_special_key	**special_keys;
+}	t_readline_core;
 
 void		handle_key_input(t_readline *data, char *buffer);
 
@@ -83,5 +99,16 @@ t_vector2	actual_char_pos(t_readline *data);
 
 char		*last_newline(char *build);
 t_vector2	get_char_pos(t_readline *data, t_char *c);
+
+t_readline_core		*get_readline_core(void);
+
+void		register_special_key(char *sequence, int (*callback)(t_readline *));
+t_special_key	*get_by_sequence(char *sequence);
+int			get_special_keys_count(void);
+t_special_key	**get_special_keys(void);
+
+int	on_press_delete_key(t_readline *data);
+int	on_press_left_arrow_key(t_readline *data);
+int	on_press_right_arrow_key(t_readline *data);
 
 #endif

@@ -6,25 +6,25 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:11:06 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/11 12:29:15 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/11 14:30:39 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-static void	delete_character(t_readline *data)
+int	on_press_delete_key(t_readline *data)
 {
 	t_char	*c;
 
 	if (!data->actual)
-		return ;
+		return (0);
 	if (data->actual == data->first)
 	{
 		data->first = data->first->next;
 		remove_char(&data->actual);
 		data->actual = NULL;
 		on_delete(data);
-		return ;
+		return (0);
 	}
 	c = data->actual;
 	remove_char(&data->actual);
@@ -33,9 +33,10 @@ static void	delete_character(t_readline *data)
 	if (!data->actual && data->size == 0)
 		data->first = NULL;
 	on_delete(data);
+	return (0);
 }
 
-static void	move_cursor_left(t_readline *data)
+int	on_press_left_arrow_key(t_readline *data)
 {
 	get_terminal_size(data, 1);
 	if (data->actual)
@@ -44,9 +45,10 @@ static void	move_cursor_left(t_readline *data)
 		data->cursor = get_char_pos(data, data->actual);
 		teleport_cursor(data->cursor);
 	}
+	return (0);
 }
 
-static void	move_cursor_right(t_readline *data)
+int	on_press_right_arrow_key(t_readline *data)
 {
 	get_terminal_size(data, 1);
 	if (!data->actual && data->first)
@@ -61,24 +63,11 @@ static void	move_cursor_right(t_readline *data)
 		data->cursor = get_char_pos(data, data->actual);
 		teleport_cursor(data->cursor);
 	}
+	return (0);
 }
 
 int	process_special_keys(t_readline *data, char *buffer)
 {
-	if ((buffer[0] == 127) && data->size > 0)
-	{
-		delete_character(data);
-		return (1);
-	}
-	if (buffer[0] == 27 && buffer[1] == 91 && buffer[2] == 68)
-	{
-		move_cursor_left(data);
-		return (1);
-	}
-	if (buffer[0] == 27 && buffer[1] == 91 && buffer[2] == 67)
-	{
-		move_cursor_right(data);
-		return (1);
-	}
+	(void)data;
 	return (!ft_isprint(buffer[0]) && buffer[1]);
 }
