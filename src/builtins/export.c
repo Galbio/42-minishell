@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:04:41 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/06 08:05:08 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:44:31 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static char	*add_envp(char *name, t_list **envp)
 	return (NULL);
 }
 
-void	ms_export(t_command *cmd)
+void	ms_export(t_cmd_params *cmd)
 {
 	int		i;
 

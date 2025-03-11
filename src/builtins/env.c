@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 14:11:56 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/06 08:04:31 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:44:17 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	check_error(char **argv)
 	return (0);
 }
 
-void	ms_env(t_command *cmd)
+void	ms_env(t_cmd_params *cmd)
 {
 	t_list	*cur;
 	char	*temp;

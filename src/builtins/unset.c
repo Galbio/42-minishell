@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 19:34:13 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/11 15:02:55 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:44:49 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	unset_var(char *name, t_list **envp, t_main_envp *imp)
 	}
 }
 
-void	ms_unset(t_command *cmd)
+void	ms_unset(t_cmd_params *cmd)
 {
 	int		i;
 

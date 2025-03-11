@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:14:37 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/07 23:34:14 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:44:10 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static char	handle_n(char *str, char *nl)
 	return (1);
 }
 
-void	ms_echo(t_command *cmd)
+void	ms_echo(t_cmd_params *cmd)
 {
 	char	nl;
 	int		i;
