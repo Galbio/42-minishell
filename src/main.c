@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:20:18 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/23 14:12:48 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/05 17:26:50 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,5 @@ int	main(int argc, char **argv, char **envp)
 		free(imp.path[i]);
 	free(imp.path);
 	free(imp.home);
-	free(imp.cwd);
 	return (2);
 }
