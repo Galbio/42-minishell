@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/10 18:50:44 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/11 15:02:29 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ typedef struct s_main_envp
 	char	**envp_cpy;
 	char	**path;
 	char	*home;
-	char	*cwd;
 	char	is_bquoted;
 	int		shell_level;
 }	t_main_envp;
