@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 20:09:48 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/11 16:22:16 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/12 15:16:28 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,9 @@ char	*get_command_path(char *str, char **paths)
 	return (NULL);
 }
 
-char	*execute_bin(char **argv, t_main_envp *imp)
+void	execute_bin(char **argv, t_main_envp *imp)
 {
+	pid_t	pid;
 	char	*path;
 	char	*temp;
 
@@ -59,11 +60,18 @@ char	*execute_bin(char **argv, t_main_envp *imp)
 			ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(argv[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
-		return (NULL);
+		return ;
 	}
 	temp = argv[0];
 	argv[0] = path;
 	free(temp);
-	execve(argv[0], argv, imp->envp_cpy);
-	return (NULL);
+	pid = fork();
+	if (pid < 0)
+		return ;
+	if (!pid)
+	{
+		dup2(imp->output_fd, 1);
+		execve(argv[0], argv, imp->envp_cpy);
+	}
+	waitpid(pid, NULL, 0);
 }

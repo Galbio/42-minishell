@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/11 22:06:48 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/12 15:17:15 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ t_list			*init_pipes(char *str, t_list **envp, t_main_envp *imp);
 char			*execute_line(t_list *commands, t_list **envp,
 					t_main_envp *imp);
 char			*execute_command(char *str, t_list **envp, t_main_envp *imp);
-char			*execute_bin(char **argv, t_main_envp *imp);
+void			execute_bin(char **argv, t_main_envp *imp);
 char			**create_command_argv(char *str, t_list **envp,
 					t_main_envp *imp);
 

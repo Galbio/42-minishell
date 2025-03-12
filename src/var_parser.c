@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/11 22:07:21 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/12 14:52:32 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	handle_var(char *str, t_int_tab *infos, t_list **output)
 	infos->ptr2 = get_var_str(str + infos->i + 1);
 	ft_memcpy(infos->ptr1 + infos->res, output_str, len);
 	infos->res += len;
-	infos->i += ft_securelen(infos->ptr2) + (infos->ptr2[0] == '(');
+	infos->i += ft_securelen(infos->ptr2);
 	free(infos->ptr2);
 	temp = *output;
 	*output = (*output)->next;
