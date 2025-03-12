@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 13:11:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/12 16:32:16 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:38:35 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static void	init_readline(const char *prompt, t_readline *data)
 	data->actual = data->first;
 	data->size = 0;
 	init_terminal_size(&data->old_tsize);
-	data->end_line = data->initial_pos.y == data->old_tsize.y;
 	data->buffer_ptr = NULL;
 	data->exit = 0;
 }
@@ -53,9 +52,8 @@ char	*ft_readline(const char *prompt)
 	t_readline	data;
 	char		*buffer;
 	char		*build;
-	struct termios	raw;
 
-	enable_raw_mode(&raw);
+	enable_raw_mode();
 	write(1, prompt, ft_strlen(prompt));
 	init_readline(prompt, &data);
 	while (1)
@@ -76,8 +74,8 @@ char	*ft_readline(const char *prompt)
 		free(buffer);
 		buffer = NULL;
 	}
-	build = build_result(data);
-	disable_raw_mode(&raw);
+	build = build_result(data, 0);
+	disable_raw_mode();
 	free_ft_readline(&data);
 	return (build);
 }
