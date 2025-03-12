@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/11 19:27:47 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/12 15:16:46 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	execute_last_cmd(t_cmd_params cmd, int pipes[2])
 
 	close(pipes[1]);
 	dup2(pipes[0], 0);
+	dup2(cmd.imp->output_fd, 1);
 	code = check_builtins(cmd.argv[0]);
 	if (code)
 		handle_builtins(code, &cmd);
@@ -61,19 +62,13 @@ void	execute_last_cmd(t_cmd_params cmd, int pipes[2])
 
 char	*execute_single_command(t_cmd_params cmd)
 {
-	pid_t				pid;
-	int					code;
+	int		code;
 
-	pid = fork();
-	if (!pid)
-	{
-		code = check_builtins(cmd.argv[0]);
-		if (code)
-			handle_builtins(code, &cmd);
-		else
-			execute_bin(cmd.argv, cmd.imp);
-	}
-	waitpid(pid, NULL, 0);
+	code = check_builtins(cmd.argv[0]);
+	if (code)
+		handle_builtins(code, &cmd);
+	else
+		execute_bin(cmd.argv, cmd.imp);
 	return (NULL);
 }
 
