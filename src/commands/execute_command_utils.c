@@ -6,11 +6,29 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:22:50 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/11 18:23:05 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/12 21:29:05 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	handle_builtins(int code, t_cmd_params *cmd)
+{
+	if (code == 1)
+		ms_echo(cmd);
+	else if (code == 2)
+		ms_cd(cmd);
+	else if (code == 3)
+		ms_pwd();
+	else if (code == 4)
+		ms_export(cmd);
+	else if (code == 5)
+		ms_unset(cmd);
+	else if (code == 6)
+		ms_env(cmd);
+	else if (code == 7)
+		ms_exit(cmd);
+}
 
 char	check_builtins(char *name)
 {

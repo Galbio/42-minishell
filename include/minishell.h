@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/12 15:17:15 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/12 21:30:36 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,13 @@ char			*handle_bquotes(char *res);
 char			*clean_whitespaces(char *str);
 char			*get_var_str(char *str);
 t_list			*init_pipes(char *str, t_list **envp, t_main_envp *imp);
+t_list			*split_semicolon(char *str);
 
 //commands
-char			*execute_line(t_list *commands, t_list **envp,
+void			execute_line(t_list *commands, t_list **envp,
 					t_main_envp *imp);
-char			*execute_command(char *str, t_list **envp, t_main_envp *imp);
+void			execute_pipes(t_list *commands, t_list **envp,
+					t_main_envp *imp);
 void			execute_bin(char **argv, t_main_envp *imp);
 char			**create_command_argv(char *str, t_list **envp,
 					t_main_envp *imp);
@@ -90,6 +92,8 @@ t_cmd_params	make_cmd(void *argv_ptr, t_list **envp, t_main_envp *imp);
 char			*wait_line_end_exec(int nb_cmd, int write_pipe, int read_pipe);
 void			go_to_next_command(t_list **commands, int *temp, int pipes[2]);
 char			check_builtins(char *name);
+void			handle_builtins(int code, t_cmd_params *cmd);
+char			go_to_var_end(char *str, int *i);
 
 //builtins
 void			ms_cd(t_cmd_params *cmd);
