@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/11 14:48:09 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/12 15:16:46 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@
 # define DELETE_KEY "\x7F"
 # define LEFT_ARROW_KEY "\x1B[D"
 # define RIGHT_ARROW_KEY "\x1B[C"
+# define HOME_KEY "\x1B[H"
+# define END_KEY "\x1B[F"
+# define PAGE_UP_KEY "\x1B[5~"
+# define PAGE_DOWN_KEY "\x1B[6~"
 
 typedef struct s_char
 {
@@ -75,7 +79,7 @@ int			get_cursor_position(t_vector2 *pos);
 
 int			clean_readed(char **readed);
 
-void		on_write(t_readline *data, char *buffer);
+void		on_write(t_readline *data, char c);
 void		on_delete(t_readline *data);
 
 char		*ft_readline(const char *prompt);
@@ -86,9 +90,7 @@ int			process_input(t_readline *data, char *buffer);
 void		enable_raw_mode(struct termios *raw);
 void		disable_raw_mode(struct termios *raw);
 
-int			process_special_keys(t_readline *data, char *buffer);
-
-char		*read_stdin_key(void);
+void		read_stdin_keys(char *buffer);
 
 char		get_open_quote(const char *stashed);
 void		init_terminal_size(t_vector2 *size);
@@ -110,5 +112,7 @@ t_special_key	**get_special_keys(void);
 int	on_press_delete_key(t_readline *data);
 int	on_press_left_arrow_key(t_readline *data);
 int	on_press_right_arrow_key(t_readline *data);
+int	on_press_home_key(t_readline *data);
+int	on_press_end_key(t_readline *data);
 
 #endif

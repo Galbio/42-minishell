@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 13:11:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/11 12:18:51 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:23:03 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,28 +30,27 @@ static void	init_readline(const char *prompt, t_readline *data)
 char	*ft_readline(const char *prompt)
 {
 	t_readline		data;
-	char			*buffer;
+	char			buffer[4096];
 	struct termios	raw;
+	int	i;
 
 	enable_raw_mode(&raw);
 	write(1, prompt, ft_strlen(prompt));
-	buffer = NULL;
 	init_readline(prompt, &data);
 	while (1)
 	{
-		buffer = read_stdin_key();
-		if (!buffer)
-			break ;
+		read_stdin_keys(buffer);
 		data.update = 1;
 		if (process_input(&data, buffer))
 			break ;
 		handle_key_input(&data, buffer);
 		if (data.update)
-			on_write(&data, buffer);
-		free(buffer);
-		buffer = NULL;
+		{
+			i = 0;
+		//	while (buffer[i])
+		//		on_write(&data, buffer[i++]);
+		}
 	}
-	free(buffer);
 	disable_raw_mode(&raw);
 	return (build_result(data, 0));
 }

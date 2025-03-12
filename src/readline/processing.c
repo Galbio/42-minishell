@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:30 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/11 12:21:06 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/12 15:07:00 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	process_input(t_readline *data, char *buffer)
 	char		*build;
 
 	build = build_result(*data, last_char(data->first));
-	if (buffer[0] == '\n' && get_open_quote(build) == 0)
+	if (buffer[ft_strlen(buffer) - 1] == '\n' && get_open_quote(build) == 0)
 	{
 		data->cursor = get_char_pos(data, last_char(data->first));
 		teleport_cursor(data->cursor);

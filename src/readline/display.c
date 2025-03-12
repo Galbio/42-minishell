@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:24 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/11 12:33:45 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/12 15:18:00 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	print_build(char *build)
 }
 
 static void	update_position(t_readline *data, t_vector2 size,
-		char *build, char *buffer)
+		char *build, char c)
 {
 	if (data->cursor.y == size.y)
 	{
@@ -60,14 +60,14 @@ static void	update_position(t_readline *data, t_vector2 size,
 		}
 		fix_last_line(data, size);
 	}
-	if (buffer[0] == '\n')
+	if (c == '\n')
 	{
 		write(1, "\n", 1);
 		move_y(data, -1);
 	}
 }
 
-void	on_write(t_readline *data, char *buffer)
+void	on_write(t_readline *data, char c)
 {
 	char		*build;
 	t_vector2	size;
@@ -75,11 +75,11 @@ void	on_write(t_readline *data, char *buffer)
 	build = build_result(*data, last_char(data->first));
 	size = get_terminal_size(data, 1);
 	get_cursor_position(&data->cursor);
-	update_position(data, size, build, buffer);
+	update_position(data, size, build, c);
 	teleport_cursor(data->pos);
 	print_build(build);
 	free(build);
-	if (buffer[0] == '\n' && data->cursor.y != size.y)
+	if (c == '\n' && data->cursor.y != size.y)
 	{
 		data->cursor.x = 0;
 		data->cursor.y += 1;
@@ -97,7 +97,7 @@ void	on_delete(t_readline *data)
 	build = build_result(*data, last_char(data->first));
 	size = get_terminal_size(data, 1);
 	get_cursor_position(&data->cursor);
-	update_position(data, size, build, "");
+	update_position(data, size, build, 0);
 	teleport_cursor(data->pos);
 	print_build(build);
 	write(1, " ", 1);

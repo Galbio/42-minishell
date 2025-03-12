@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:11:06 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/11 14:30:39 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/12 10:20:43 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,19 @@ int	on_press_right_arrow_key(t_readline *data)
 	return (0);
 }
 
-int	process_special_keys(t_readline *data, char *buffer)
+int	on_press_home_key(t_readline *data)
 {
-	(void)data;
-	return (!ft_isprint(buffer[0]) && buffer[1]);
+	get_terminal_size(data, 1);
+	data->actual = data->first;
+	data->cursor = get_char_pos(data, data->actual);
+	teleport_cursor(data->cursor);
+	return (0);
+}
+int	on_press_end_key(t_readline *data)
+{
+	get_terminal_size(data, 1);
+	data->actual = last_char(data->first);
+	data->cursor = get_char_pos(data, data->actual);
+	teleport_cursor(data->cursor);
+	return (0);
 }

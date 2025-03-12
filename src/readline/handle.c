@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 14:45:53 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/11 14:48:25 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/12 13:37:07 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,39 +14,44 @@
 
 static void	process_default_key(t_readline *data, char *buffer)
 {
-	if (!data->first)
+	int	i;
+
+	i = 0;
+	while (buffer[i])
 	{
-		data->first = new_char(buffer[0]);
-		data->actual = data->first;
-	}
-	else
-	{
-		if (!data->actual && data->first)
+		if (!data->first)
 		{
-			add_char_front(&data->first, new_char(buffer[0]));
+			data->first = new_char(buffer[i]);
 			data->actual = data->first;
-			write(1, "\033[C", 3);
 		}
 		else
 		{
-			add_char_after(&data->actual, new_char(buffer[0]));
-			data->actual = data->actual->next;
+			if (!data->actual && data->first)
+			{
+				add_char_front(&data->first, new_char(buffer[i]));
+				data->actual = data->first;
+				write(1, "\033[C", 3);
+			}
+			else
+			{
+				add_char_after(&data->actual, new_char(buffer[i]));
+				data->actual = data->actual->next;
+			}
 		}
+		i++;
 	}
-	data->size++;
+	data->size += i;
 }
 
 int	handle_special_keys(t_readline *data, char *buffer)
 {
 	t_special_key	*key;
-//	int	(*callback)(t_readline *);
 
+	//printf("\n\n%i %i %i %i\n", buffer[0], buffer[1], buffer[2], buffer[3]);
 	key = get_by_sequence(buffer);
 	if (key)
-	{
 		return (!(key->callback)(data));
-	}
-	return (0);
+	return (!ft_isprint(buffer[0]) && buffer[1]);
 }
 
 void	handle_key_input(t_readline *data, char *buffer)
