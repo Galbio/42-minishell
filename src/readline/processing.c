@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:30 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/12 16:34:12 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:44:27 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,5 @@ int	process_special_keys(t_readline *data, char *buffer)
 		ctrl_d(data);
 	if (buffer[0] == 28)
 		return (1);
-	return (!ft_isprint(buffer[0]));
+	return (!ft_isprint(buffer[0]) && buffer[1]);
 }
