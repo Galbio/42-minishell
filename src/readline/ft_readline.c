@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 13:11:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/11 12:06:23 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:32:16 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,13 @@ static void	init_readline(const char *prompt, t_readline *data)
 	write(1, prompt, ft_strlen(prompt));
 	rl(data);
 	data->prompt = prompt;
-	get_cursor_position(&data->initial_pos);
-	data->pos = data->initial_pos;
+	init_terminal_size(&data->old_tsize);
+	get_cursor_position(&data->pos);
+	while ((data->pos.x < 0)
+		|| (data->pos.y < 0)
+		|| (data->pos.x > data->old_tsize.x)
+		|| (data->pos.y > data->old_tsize.y))
+		get_cursor_position(&data->pos);
 	data->cursor = data->pos;
 	data->first = NULL;
 	data->actual = data->first;
@@ -48,7 +53,10 @@ char	*ft_readline(const char *prompt)
 	t_readline	data;
 	char		*buffer;
 	char		*build;
+	struct termios	raw;
 
+	enable_raw_mode(&raw);
+	write(1, prompt, ft_strlen(prompt));
 	init_readline(prompt, &data);
 	while (1)
 	{
@@ -63,11 +71,13 @@ char	*ft_readline(const char *prompt)
 			free_ft_readline(&data);
 			return (ft_strdup(""));
 		}
+		if (data.update)
+			on_write(&data, buffer);
 		free(buffer);
 		buffer = NULL;
-		on_write(&data);
 	}
 	build = build_result(data);
+	disable_raw_mode(&raw);
 	free_ft_readline(&data);
 	return (build);
 }

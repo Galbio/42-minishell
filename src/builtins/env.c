@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 14:11:56 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/27 18:49:51 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:44:17 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,25 +30,29 @@ static char	check_error(char **argv)
 	return (0);
 }
 
-char	*ms_env(char **argv, t_list *envp)
+void	ms_env(t_cmd_params *cmd)
 {
-	char	*dest;
+	t_list	*cur;
+	char	*temp;
 	int		i;
 
-	if (argv[1] && check_error(argv))
-		return (ft_strdup("\n"));
-	dest = NULL;
-	while (envp)
+	if (cmd->argv[1] && check_error(cmd->argv))
 	{
-		dest = ft_securejoin(dest, (char *)envp->content, 1);
-		dest = ft_securejoin(dest, "\n", 1);
-		envp = envp->next;
+		write(1, "\n", 1);
+		return ;
+	}
+	cur = *(cmd->envp);
+	while (cur)
+	{
+		temp = (char *)cur->content;
+		write(1, temp, ft_securelen(temp));
+		write(1, "\n", 1);
+		cur = cur->next;
 	}
 	i = 0;
-	while (argv[++i])
+	while (cmd->argv[++i])
 	{
-		dest = ft_securejoin(dest, argv[i], 1);
-		dest = ft_securejoin(dest, "\n", 1);
+		write(1, cmd->argv[i], ft_strlen(cmd->argv[i]));
+		write(1, "\n", 1);
 	}
-	return (dest);
 }

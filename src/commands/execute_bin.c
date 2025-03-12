@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 20:09:48 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/05 17:24:54 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/12 15:16:28 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,34 +47,9 @@ char	*get_command_path(char *str, char **paths)
 	return (NULL);
 }
 
-char	*get_command_output(char **argv, t_main_envp *imp)
+void	execute_bin(char **argv, t_main_envp *imp)
 {
 	pid_t	pid;
-	int		pipes[2];
-	char	*dest;
-
-	if (pipe(pipes) < 0)
-		return (NULL);
-	pid = fork();
-	if (pid < 0)
-		return (NULL);
-	if (!pid)
-	{
-		dup2(pipes[1], 1);
-		close(pipes[0]);
-		close(pipes[1]);
-		execve(argv[0], argv, imp->envp_cpy);
-		exit(0);
-	}
-	close(pipes[1]);
-	wait(NULL);
-	dest = ft_get_contents(pipes[0]);
-	close(pipes[0]);
-	return (dest);
-}
-
-char	*execute_bin(char **argv, t_main_envp *imp)
-{
 	char	*path;
 	char	*temp;
 
@@ -83,11 +58,20 @@ char	*execute_bin(char **argv, t_main_envp *imp)
 	{
 		if (!imp->path)
 			ft_putstr_fd("minishell: ", 2);
-		printf("%s: command not found\n", argv[0]);
-		return (NULL);
+		ft_putstr_fd(argv[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
+		return ;
 	}
 	temp = argv[0];
 	argv[0] = path;
 	free(temp);
-	return (get_command_output(argv, imp));
+	pid = fork();
+	if (pid < 0)
+		return ;
+	if (!pid)
+	{
+		dup2(imp->output_fd, 1);
+		execve(argv[0], argv, imp->envp_cpy);
+	}
+	waitpid(pid, NULL, 0);
 }

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:04:41 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/03 16:01:18 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:44:31 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,16 @@ static char	*add_envp(char *name, t_list **envp)
 	return (NULL);
 }
 
-char	*ms_export(char **argv, t_list **envp)
+void	ms_export(t_cmd_params *cmd)
 {
 	int		i;
 
-	if (!argv[1])
-		return (export_vars(*envp));
+	if (!cmd->argv[1])
+	{
+		export_vars(*(cmd->envp));
+		return ;
+	}
 	i = 0;
-	while (argv[++i])
-		add_envp(argv[i], envp);
-	return (NULL);
+	while (cmd->argv[++i])
+		add_envp(cmd->argv[i], cmd->envp);
 }

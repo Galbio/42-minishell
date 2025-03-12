@@ -6,19 +6,51 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/28 18:00:20 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/12 14:52:32 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	free_commands(t_list *cur)
+{
+	t_list	*temp;
+	int		i;
+	char	**argv;
+
+	while (cur)
+	{
+		i = -1;
+		argv = (char **)cur->content;
+		while (argv[++i])
+			free(argv[i]);
+		free(argv);
+		temp = cur;
+		cur = cur->next;
+		free(temp);
+	}
+}
+
 static char	*handle_var_commands(char *command, t_list **envp, t_main_envp *imp)
 {
-	char	*str;
+	t_list	*commands;
+	int		old_redir;
+	int		pipes[2];
+	char	*dest;
 
+	if (pipe(pipes) < 0)
+		return (NULL);
+	old_redir = imp->output_fd;
+	imp->output_fd = pipes[1];
 	command[ft_strlen(command) - 1] = 0;
-	str = execute_command(command, envp, imp);
-	return (str);
+	commands = init_pipes(command, envp, imp);
+	execute_line(commands, envp, imp);
+	imp->output_fd = old_redir;
+	close(pipes[1]);
+	free_commands(commands);
+	dest = ft_get_contents(pipes[0]);
+	close(pipes[0]);
+	return (clean_whitespaces(dest));
 }
 
 char	*parse_var(char *var_name, t_list **envp, t_main_envp *imp)
@@ -64,17 +96,21 @@ char	*get_var_str(char *str)
 	return (ft_substr(str, 0, i + 1));
 }
 
-void	handle_var(char *str, t_int_tab *infos, t_list **envp, t_main_envp *imp)
+void	handle_var(char *str, t_int_tab *infos, t_list **output)
 {
-	char	*temp;
+	char	*output_str;
+	int		len;
+	t_list	*temp;
 
-	imp->is_bquoted++;
+	output_str = (char *)(*output)->content;
+	len = ft_securelen(output_str);
 	infos->ptr2 = get_var_str(str + infos->i + 1);
-	temp = parse_var(infos->ptr2, envp, imp);
-	ft_memcpy(infos->ptr1 + infos->res, temp, ft_securelen(temp));
-	infos->res += ft_securelen(temp);
-	infos->i += ft_securelen(infos->ptr2) + (infos->ptr2[0] == '(');
-	imp->is_bquoted--;
-	free(temp);
+	ft_memcpy(infos->ptr1 + infos->res, output_str, len);
+	infos->res += len;
+	infos->i += ft_securelen(infos->ptr2);
 	free(infos->ptr2);
+	temp = *output;
+	*output = (*output)->next;
+	free(temp);
+	free(output_str);
 }

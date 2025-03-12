@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 22:12:44 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/03 14:35:09 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/11 21:31:24 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ static int	get_bquoted_size(char *res)
 	while (res[++itab.i])
 	{
 		if (res[itab.i] == '`')
-			itab.ret = 1 - (itab.ret % 2);
-		if ((res[itab.i] == '`') && itab.backslash && itab.ret)
+			itab.ret = !itab.ret;
+		if ((res[itab.i] == '`') && !itab.backslash && itab.ret)
 			itab.res++;
 		if ((res[itab.i] == '\\') && !itab.backslash)
 			itab.backslash = 1;
@@ -44,7 +44,7 @@ char	*handle_bquotes(char *res)
 	while (res[++itab.i])
 	{
 		if ((res[itab.i] == '`') && !itab.backslash)
-			itab.ret = 1 - (itab.ret % 2);
+			itab.ret = !itab.ret;
 		if ((res[itab.i] == '`') && itab.ret && !itab.backslash)
 			dest[itab.res++] = '$';
 		if ((res[itab.i] == '\\') && !itab.backslash)

@@ -6,24 +6,17 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/11 11:56:21 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:27:07 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init(void)
-{
-	ft_readline_set_exit(0);
-	enable_raw_mode();
-}
-
 void	launch(t_list *envp, t_main_envp *imp)
 {
 	char	*res;
-	char	*str;
+	t_list	*commands;
 
-	init();
 	while (1)
 	{
 		res = ft_readline("$> ");
@@ -36,13 +29,10 @@ void	launch(t_list *envp, t_main_envp *imp)
 		}
 		if (ft_strchr(res, '`'))
 			res = handle_bquotes(res);
-		str = execute_command(res, &envp, imp);
+		imp->output_fd = 1;
+		commands = init_pipes(res, &envp, imp);
 		free(res);
-		if (str)
-		{
-			write(1, str, ft_strlen(str));
-			free(str);
-		}
+		execute_line(commands, &envp, imp);
 	}
 	printf("\n");
 }
