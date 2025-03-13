@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/12 21:30:36 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/13 02:00:46 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void			launch(t_list *envp, t_main_envp *imp);
 
 char			*parse_quotes(char *str, t_list *envp, t_main_envp *imp);
 char			check_special_char(char c, char *backslash, char *cur_quote);
+void			free_envp(t_list **envp, t_main_envp *imp);
 
 t_int_tab		init_int_tab(void);
 

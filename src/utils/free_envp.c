@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   free_envp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/22 21:20:18 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/13 02:00:18 by gakarbou         ###   ########.fr       */
+/*   Created: 2025/03/13 01:58:15 by gakarbou          #+#    #+#             */
+/*   Updated: 2025/03/13 01:59:33 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+void	free_envp(t_list **envp, t_main_envp *imp)
 {
-	t_main_envp	imp;
-	t_list		*env;
+	int		i;
 
-	(void)argc;
-	(void)argv;
-	env = parse_envp(envp, &imp);
-	launch(env, &imp);
-	free_envp(&env, &imp);
-	return (2);
+	ft_lstclear(envp, free);
+	i = -1;
+	while (imp->path[++i])
+		free(imp->path[i]);
+	i = -1;
+	while (imp->envp_cpy[++i])
+		free(imp->envp_cpy[i]);
+	free(imp->envp_cpy);
+	free(imp->path);
+	free(imp->home);
 }
