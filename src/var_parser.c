@@ -6,25 +6,11 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/13 16:33:35 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/13 16:35:10 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	free_commands(t_list *cur)
-{
-	t_list	*temp;
-
-	return ;
-	while (cur)
-	{
-		free(cur->content);
-		temp = cur;
-		cur = cur->next;
-		free(temp);
-	}
-}
 
 static char	*handle_var_commands(char *command, t_list **envp, t_main_envp *imp)
 {
@@ -44,7 +30,6 @@ static char	*handle_var_commands(char *command, t_list **envp, t_main_envp *imp)
 	imp->output_fd = old_redir;
 	close(pipes[1]);
 	imp->is_bquoted--;
-	free_commands(commands);
 	dest = ft_get_contents(pipes[0]);
 	close(pipes[0]);
 	return (clean_whitespaces(dest));
