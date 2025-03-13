@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/13 01:52:32 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/13 02:06:28 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,21 @@
 
 static void	free_cur_commands(t_list *commands)
 {
-	(void)commands;
+	t_list	*temp;
+	char	**argv;
+	int		i;
+
+	while (commands)
+	{
+		i = -1;
+		argv = (char **)commands->content;
+		while (argv[++i])
+			free(argv[i]);
+		free(argv);
+		temp = commands;
+		commands = commands->next;
+		free(temp);
+	}
 	return ;
 }
 
