@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/13 16:30:01 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:56:40 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ void		ft_readline_init_signals(void);
 void		free_ft_readline(t_readline *data);
 
 int			delete_char(t_readline *data);
-int			delete_char_after(t_readline *data);
 int			move_cursor_left(t_readline *data);
 int			move_cursor_right(t_readline *data);
 int			ctrl_c(t_readline *data);
