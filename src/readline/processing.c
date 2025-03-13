@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:30 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/12 16:44:27 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:17:47 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	process_input(t_readline *data, char *buffer)
 
 int	process_special_keys(t_readline *data, char *buffer)
 {
-	if ((buffer[0] == 127) && data->size > 0)
+	if (buffer[0] == 127)
 		return (delete_char(data));
 	if (buffer[0] == 27 && buffer[1] == 91 && buffer[2] == 68)
 		return (move_cursor_left(data));
@@ -82,8 +82,8 @@ int	process_special_keys(t_readline *data, char *buffer)
 	if (buffer[0] == 3)
 		return (ctrl_c(data));
 	if (buffer[0] == 4)
-		ctrl_d(data);
+		return (ctrl_d(data));
 	if (buffer[0] == 28)
 		return (1);
-	return (!ft_isprint(buffer[0]) && buffer[1]);
+	return (ft_strlen(buffer) > 1);
 }

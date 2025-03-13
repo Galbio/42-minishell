@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 13:11:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/12 16:44:15 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:07:54 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_readline	*get_readline_data(void)
 
 static void	init_readline(const char *prompt, t_readline *data)
 {
+	enable_raw_mode();
 	write(1, prompt, ft_strlen(prompt));
 	rl(data);
 	data->prompt = prompt;
@@ -52,13 +53,10 @@ char	*ft_readline(const char *prompt)
 	char		*buffer;
 	char		*build;
 
-	enable_raw_mode();
 	init_readline(prompt, &data);
 	while (1)
 	{
 		buffer = read_stdin_key(&data);
-		if (!buffer)
-			break ;
 		if (process_input(&data, buffer))
 			break ;
 		handle_key_input(&data, buffer);
@@ -70,7 +68,6 @@ char	*ft_readline(const char *prompt)
 		if (data.update)
 			on_write(&data, buffer);
 		free(buffer);
-		buffer = NULL;
 	}
 	build = build_result(data, 0);
 	disable_raw_mode();

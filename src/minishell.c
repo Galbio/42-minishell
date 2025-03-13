@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/12 16:27:07 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:56:11 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	launch(t_list *envp, t_main_envp *imp)
 	char	*res;
 	t_list	*commands;
 
+	ft_readline_set_exit(0);
+	init_signals();
 	while (1)
 	{
 		res = ft_readline("$> ");

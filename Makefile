@@ -20,6 +20,7 @@ FILES = main.c		\
 	bquotes_handler.c \
 	init_pipes.c \
 	whitespace_fixer.c \
+	signals.c		\
 	builtins/echo.c \
 	builtins/cd.c \
 	builtins/pwd.c \
