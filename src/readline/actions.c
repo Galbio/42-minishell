@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:11:06 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/13 16:59:45 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:38:17 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,9 @@ int	ctrl_c(t_readline *data)
 {
 	data->cursor = get_char_pos(data, last_char(data->first));
 	teleport_cursor(data->cursor);
-	write(1, "^C\n", 3);
+	disable_raw_mode();
+	write(0, "^C\n", 3);
+	enable_raw_mode();
 	data->exit = 1;
 	if (ft_readline_must_exit())
 	{
@@ -88,7 +90,7 @@ int	ctrl_d(t_readline *data)
 	{
 		disable_raw_mode();
 		free_ft_readline(data);
-		write(1, "\nexit\n", 6);
+		write(0, "\nexit\n", 6);
 		exit(0);
 	}
 	return (1);

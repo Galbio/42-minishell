@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:30 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/13 17:17:47 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:36:56 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	process_input(t_readline *data, char *buffer)
 	{
 		data->cursor = get_char_pos(data, last_char(data->first));
 		teleport_cursor(data->cursor);
-		write(1, "\n", 1);
+		write(0, "\n", 1);
 		free(build);
 		return (1);
 	}

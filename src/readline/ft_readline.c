@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 13:11:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/13 17:07:54 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:38:39 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_readline	*get_readline_data(void)
 static void	init_readline(const char *prompt, t_readline *data)
 {
 	enable_raw_mode();
-	write(1, prompt, ft_strlen(prompt));
+	write(2, prompt, ft_strlen(prompt));
 	rl(data);
 	data->prompt = prompt;
 	init_terminal_size(&data->old_tsize);
