@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/12 21:15:08 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/13 01:02:57 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	launch(t_list *envp, t_main_envp *imp)
 	while (1)
 	{
 		res = ft_readline("$> ");
-		if (!res)
+		if (!res || !ft_strncmp("AAA", res, 3))
 			break ;
 		if (!clean_readed(&res))
 		{
@@ -34,5 +34,6 @@ void	launch(t_list *envp, t_main_envp *imp)
 		free(res);
 		execute_line(commands, &envp, imp);
 	}
+	free(res);
 	printf("\n");
 }
