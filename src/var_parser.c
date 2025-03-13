@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/13 01:35:07 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/13 16:33:35 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void	free_commands(t_list *cur)
 	return ;
 	while (cur)
 	{
+		free(cur->content);
 		temp = cur;
 		cur = cur->next;
 		free(temp);
@@ -34,6 +35,7 @@ static char	*handle_var_commands(char *command, t_list **envp, t_main_envp *imp)
 
 	if (pipe(pipes) < 0)
 		return (NULL);
+	imp->is_bquoted++;
 	old_redir = imp->output_fd;
 	imp->output_fd = pipes[1];
 	command[ft_strlen(command) - 1] = 0;
@@ -41,6 +43,7 @@ static char	*handle_var_commands(char *command, t_list **envp, t_main_envp *imp)
 	execute_line(commands, envp, imp);
 	imp->output_fd = old_redir;
 	close(pipes[1]);
+	imp->is_bquoted--;
 	free_commands(commands);
 	dest = ft_get_contents(pipes[0]);
 	close(pipes[0]);
