@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/13 02:00:46 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/13 02:08:49 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char			**create_command_argv(char *str, t_list **envp,
 
 //pipe utils
 t_cmd_params	make_cmd(void *argv_ptr, t_list **envp, t_main_envp *imp);
-char			*wait_line_end_exec(int nb_cmd, int write_pipe, int read_pipe);
+void			wait_line_end_exec(int nb_cmd, int write_pipe, int read_pipe);
 void			go_to_next_command(t_list **commands, int *temp, int pipes[2]);
 char			check_builtins(char *name);
 void			handle_builtins(int code, t_cmd_params *cmd);
