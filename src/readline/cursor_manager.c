@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:29:07 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/10 09:33:37 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:39:00 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,9 @@ void	move_y(t_readline *data, int gap)
 
 void	teleport_cursor(t_vector2 pos)
 {
-	ft_putstr_fd("\033[", 1);
+	write(1, "\033[", 2);
 	ft_putnbr_fd(pos.y, 1);
-	ft_putchar_fd(';', 1);
+	write(1, ";", 1);
 	ft_putnbr_fd(pos.x, 1);
-	ft_putchar_fd('H', 1);
+	write(1, "H", 1);
 }

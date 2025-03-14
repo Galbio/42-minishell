@@ -6,25 +6,25 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:11:06 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/11 12:29:15 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/14 09:57:18 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-static void	delete_character(t_readline *data)
+int	delete_char(t_readline *data)
 {
 	t_char	*c;
 
-	if (!data->actual)
-		return ;
+	if (!data->actual || data->size <= 0)
+		return (1);
 	if (data->actual == data->first)
 	{
 		data->first = data->first->next;
 		remove_char(&data->actual);
 		data->actual = NULL;
 		on_delete(data);
-		return ;
+		return (1);
 	}
 	c = data->actual;
 	remove_char(&data->actual);
@@ -33,9 +33,10 @@ static void	delete_character(t_readline *data)
 	if (!data->actual && data->size == 0)
 		data->first = NULL;
 	on_delete(data);
+	return (1);
 }
 
-static void	move_cursor_left(t_readline *data)
+int	move_cursor_left(t_readline *data)
 {
 	get_terminal_size(data, 1);
 	if (data->actual)
@@ -44,9 +45,10 @@ static void	move_cursor_left(t_readline *data)
 		data->cursor = get_char_pos(data, data->actual);
 		teleport_cursor(data->cursor);
 	}
+	return (1);
 }
 
-static void	move_cursor_right(t_readline *data)
+int	move_cursor_right(t_readline *data)
 {
 	get_terminal_size(data, 1);
 	if (!data->actual && data->first)
@@ -61,24 +63,33 @@ static void	move_cursor_right(t_readline *data)
 		data->cursor = get_char_pos(data, data->actual);
 		teleport_cursor(data->cursor);
 	}
+	return (1);
 }
 
-int	process_special_keys(t_readline *data, char *buffer)
+int	ctrl_c(t_readline *data)
 {
-	if ((buffer[0] == 127) && data->size > 0)
+	data->cursor = get_char_pos(data, last_char(data->first));
+	teleport_cursor(data->cursor);
+	write(0, "^C\n", 3);
+	data->exit = 1;
+	if (ft_readline_must_exit())
 	{
-		delete_character(data);
-		return (1);
+		free_ft_readline(data);
+		disable_raw_mode();
+		exit(0);
 	}
-	if (buffer[0] == 27 && buffer[1] == 91 && buffer[2] == 68)
+	return (1);
+}
+
+//TODO: when data->actual->next
+int	ctrl_d(t_readline *data)
+{
+	if (data->first == NULL)
 	{
-		move_cursor_left(data);
-		return (1);
+		disable_raw_mode();
+		free_ft_readline(data);
+		write(0, "\nexit\n", 6);
+		exit(0);
 	}
-	if (buffer[0] == 27 && buffer[1] == 91 && buffer[2] == 67)
-	{
-		move_cursor_right(data);
-		return (1);
-	}
-	return (!ft_isprint(buffer[0]) && buffer[1]);
+	return (1);
 }

@@ -6,14 +6,31 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 13:11:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/11 15:25:10 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:38:39 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
+static t_readline	*rl(t_readline *value)
+{
+	static t_readline	*data;
+
+	if (data == NULL && value)
+		data = value;
+	return (data);
+}
+
+t_readline	*get_readline_data(void)
+{
+	return (rl(NULL));
+}
+
 static void	init_readline(const char *prompt, t_readline *data)
 {
+	enable_raw_mode();
+	write(2, prompt, ft_strlen(prompt));
+	rl(data);
 	data->prompt = prompt;
 	init_terminal_size(&data->old_tsize);
 	get_cursor_position(&data->pos);
@@ -26,33 +43,34 @@ static void	init_readline(const char *prompt, t_readline *data)
 	data->first = NULL;
 	data->actual = data->first;
 	data->size = 0;
+	data->buffer_ptr = NULL;
+	data->exit = 0;
 }
 
 char	*ft_readline(const char *prompt)
 {
-	t_readline		data;
-	char			*buffer;
-	struct termios	raw;
+	t_readline	data;
+	char		*buffer;
+	char		*build;
 
-	enable_raw_mode(&raw);
-	write(1, prompt, ft_strlen(prompt));
-	buffer = NULL;
 	init_readline(prompt, &data);
 	while (1)
 	{
-		buffer = read_stdin_key();
-		if (!buffer)
-			break ;
-		data.update = 1;
+		buffer = read_stdin_key(&data);
 		if (process_input(&data, buffer))
 			break ;
 		handle_key_input(&data, buffer);
+		if (data.exit)
+		{
+			free_ft_readline(&data);
+			return (ft_strdup(""));
+		}
 		if (data.update)
 			on_write(&data, buffer);
 		free(buffer);
-		buffer = NULL;
 	}
-	free(buffer);
-	disable_raw_mode(&raw);
-	return (build_result(data, 0));
+	build = build_result(data, 0);
+	disable_raw_mode();
+	free_ft_readline(&data);
+	return (build);
 }

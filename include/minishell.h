@@ -109,4 +109,6 @@ void			ms_env(t_cmd_params *cmd);
 void			export_vars(t_list *envp);
 void			unset_var(char *name, t_list **envp, t_main_envp *imp);
 
+void			init_signals(void);
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:24 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/11 12:33:45 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:37:33 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	print_build(char *build)
 
 	if (!build || !build[0])
 	{
-		write(1, "\033[K", 3);
+		write(0, "\033[K", 3);
 		return ;
 	}
 	i = 0;
@@ -35,14 +35,14 @@ static void	print_build(char *build)
 		i++;
 	if (i > 1 && build[i - 1] == '\n')
 	{
-		write(1, build, i - 1);
-		write(1, "\033[K\n", 4);
+		write(0, build, i - 1);
+		write(0, "\033[K\n", 4);
 	}
 	else if (i == 1 && build[i] == '\n')
-		write(1, "\033[K\n", 4);
+		write(0, "\033[K\n", 4);
 	else
-		write(1, build, i);
-	write(1, "\033[K", 3);
+		write(0, build, i);
+	write(0, "\033[K", 3);
 	if (i < (int)ft_strlen(build))
 		print_build(build + i);
 }
@@ -55,14 +55,14 @@ static void	update_position(t_readline *data, t_vector2 size,
 		if ((ft_strlen(data->prompt) + (int)ft_strlen(last_newline(build)))
 			% size.x == 0)
 		{
-			write(1, "\n", 1);
+			write(0, "\n", 1);
 			move_y(data, -1);
 		}
 		fix_last_line(data, size);
 	}
 	if (buffer[0] == '\n')
 	{
-		write(1, "\n", 1);
+		write(0, "\n", 1);
 		move_y(data, -1);
 	}
 }
@@ -100,7 +100,7 @@ void	on_delete(t_readline *data)
 	update_position(data, size, build, "");
 	teleport_cursor(data->pos);
 	print_build(build);
-	write(1, " ", 1);
+	write(0, " ", 1);
 	free(build);
 	if (data->actual)
 	{
@@ -108,7 +108,7 @@ void	on_delete(t_readline *data)
 		if (data->cursor.y < size.y - 1)
 		{
 			move_y(data, 1);
-			write(1, "\033[2K", 4);
+			write(0, "\033[2K", 4);
 		}
 	}
 	if (!data->actual || data->actual->next)
