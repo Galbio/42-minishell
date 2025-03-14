@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:30 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/11 12:21:06 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/14 19:01:56 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,39 @@ static int	calculate_len(t_readline data, t_char *to)
 	t_char	*c;
 
 	if (!to)
-		return (data.size);
-	len = 1;
+	{
+		if (!data.first)
+			return (0);
+		c = data.first;
+		len = ft_strlen(c->c);
+		while (c->next)
+		{
+			len += ft_strlen(c->c);
+			c = c->next;
+		}
+		return (len);
+	}
+	len = ft_strlen(to->c);
 	c = to;
 	while (c->previous)
 	{
-		len++;
+		len += ft_strlen(c->c);
 		c = c->previous;
 	}
 	return (len);
+}
+
+static void	paste_on(char **result, t_char *c, int *i)
+{
+	int		j;
+
+	j = 0;
+	while (c->c[j])
+	{
+		(*result)[*i] = c->c[j];
+		j++;
+		(*i)++;
+	}
 }
 
 char	*build_result(t_readline data, t_char *to)
@@ -36,36 +60,30 @@ char	*build_result(t_readline data, t_char *to)
 	int		i;
 	int		len;
 
-	if (!data.first || data.first->c == '\n')
+	if (!data.first || data.first->c[0] == '\n')
 		return (ft_strdup(""));
 	len = calculate_len(data, to);
 	if (!to && data.first && !data.actual)
 		return (ft_strdup(""));
-	result = malloc(sizeof(char) * (len + 1));
+	result = malloc(sizeof(char) * (len + 2));
+	ft_bzero(result, len + 2);
 	c = data.first;
 	i = 0;
 	while (c && (!to || c != to->next))
 	{
-		result[i] = c->c;
-		i++;
+		paste_on(&result, c, &i);
 		c = c->next;
 	}
-	result[i] = '\0';
 	return (result);
 }
 
-int	process_input(t_readline *data, char *buffer)
+int	process_input(t_readline *data, char last_c)
 {
 	char		*build;
+	int			res;
 
 	build = build_result(*data, last_char(data->first));
-	if (buffer[0] == '\n' && get_open_quote(build) == 0)
-	{
-		data->cursor = get_char_pos(data, last_char(data->first));
-		teleport_cursor(data->cursor);
-		write(1, "\n", 1);
-		return (1);
-	}
+	res = last_c == '\n' && get_open_quote(build) == 0;
 	free(build);
-	return (0);
+	return (res);
 }

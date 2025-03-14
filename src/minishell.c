@@ -17,6 +17,8 @@ void	launch(t_list *envp, t_main_envp *imp)
 	char	*res;
 	t_list	*commands;
 
+	ft_readline_set_exit(0);
+	init_signals();
 	while (1)
 	{
 		res = ft_readline("$> ");

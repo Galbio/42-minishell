@@ -1,23 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stdin.c                                            :+:      :+:    :+:   */
+/*   delete.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/26 15:16:08 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/14 19:28:28 by lroussel         ###   ########.fr       */
+/*   Created: 2025/03/14 14:19:01 by lroussel          #+#    #+#             */
+/*   Updated: 2025/03/14 14:20:58 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-void	read_stdin_keys(char *buffer)
+void	on_press_delete_key(t_readline *data)
 {
-	int		byte_read;
+	t_char	*c;
 
-	byte_read = read(STDIN_FILENO, buffer, 4095);
-	if (byte_read == -1)
-		exit(4);
-	buffer[byte_read] = '\0';
+	if (!data->actual || data->size <= 0)
+		return ;
+	if (data->actual == data->first)
+	{
+		data->first = data->first->next;
+		remove_char(&data->actual);
+		data->actual = NULL;
+		on_delete(data);
+		return ;
+	}
+	c = data->actual;
+	remove_char(&data->actual);
+	if (data->actual != c)
+		data->size--;
+	if (!data->actual && data->size == 0)
+		data->first = NULL;
+	on_delete(data);
 }

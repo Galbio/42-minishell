@@ -6,14 +6,31 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 13:11:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/11 15:25:10 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/14 14:13:27 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
+static t_readline	*rl(t_readline *value)
+{
+	static t_readline	*data;
+
+	if (data == NULL && value)
+		data = value;
+	return (data);
+}
+
+t_readline	*get_readline_data(void)
+{
+	return (rl(NULL));
+}
+
 static void	init_readline(const char *prompt, t_readline *data)
 {
+	enable_raw_mode();
+	write(2, prompt, ft_strlen(prompt));
+	rl(data);
 	data->prompt = prompt;
 	init_terminal_size(&data->old_tsize);
 	get_cursor_position(&data->pos);
@@ -26,33 +43,40 @@ static void	init_readline(const char *prompt, t_readline *data)
 	data->first = NULL;
 	data->actual = data->first;
 	data->size = 0;
+	data->buffer_ptr = NULL;
+	data->exit = 0;
+}
+
+static char	*leave_readline(t_readline *data, char *res)
+{
+	disable_raw_mode();
+	free_ft_readline(data);
+	return (res);
 }
 
 char	*ft_readline(const char *prompt)
 {
 	t_readline		data;
-	char			*buffer;
-	struct termios	raw;
+	char			buffer[4096];
+	int				i;
+	int				count;
 
-	enable_raw_mode(&raw);
-	write(1, prompt, ft_strlen(prompt));
-	buffer = NULL;
 	init_readline(prompt, &data);
 	while (1)
 	{
-		buffer = read_stdin_key();
-		if (!buffer)
+		read_stdin_keys(buffer);
+		i = 0;
+		while (buffer[i])
+		{
+			count = handle_key_input(&data, buffer + i);
+			if (data.exit)
+				return (leave_readline(&data, ft_strdup("")));
+			i += count;
+		}
+		if (i != 0 && process_input(&data, buffer[i - 1]))
 			break ;
-		data.update = 1;
-		if (process_input(&data, buffer))
-			break ;
-		handle_key_input(&data, buffer);
 		if (data.update)
-			on_write(&data, buffer);
-		free(buffer);
-		buffer = NULL;
+			on_write(&data);
 	}
-	free(buffer);
-	disable_raw_mode(&raw);
-	return (build_result(data, 0));
+	return (leave_readline(&data, build_result(data, 0)));
 }

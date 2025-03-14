@@ -6,22 +6,38 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 06:13:23 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/23 19:46:36 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/11 11:40:57 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	enable_raw_mode(struct termios *raw)
+static struct termios	*old(void)
 {
-	tcgetattr(STDIN_FILENO, raw);
-	raw->c_lflag &= ~(ECHO | ICANON);
-	tcsetattr(STDIN_FILENO, TCSAFLUSH, raw);
+	static struct termios	term;
+	static int				initialized = 0;
+
+	if (!initialized)
+	{
+		tcgetattr(STDIN_FILENO, &term);
+		initialized = 1;
+	}
+	return (&term);
 }
 
-void	disable_raw_mode(struct termios *raw)
+void	enable_raw_mode(void)
 {
-	tcgetattr(STDIN_FILENO, raw);
-	raw->c_lflag |= (ECHO | ICANON);
-	tcsetattr(STDIN_FILENO, TCSAFLUSH, raw);
+	struct termios	raw;
+
+	old();
+	tcgetattr(STDIN_FILENO, &raw);
+	raw.c_lflag &= ~(ECHO | ICANON);
+	raw.c_cc[VINTR] = 1;
+	raw.c_cc[VQUIT] = 1;
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
+}
+
+void	disable_raw_mode(void)
+{
+	tcsetattr(STDIN_FILENO, TCSANOW, old());
 }
