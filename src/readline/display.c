@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:24 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/14 17:14:04 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/14 18:20:38 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,7 @@ static void	fix_last_line(t_readline *data, t_vector2 size)
 
 static void	print_build(char *build)
 {
-
-	write(0, build, ft_strlen(build));
-	/*int	i;
+	int	i;
 
 	if (!build || !build[0])
 	{
@@ -46,7 +44,7 @@ static void	print_build(char *build)
 		write(0, build, i);
 	write(0, "\033[K", 3);
 	if (i < (int)ft_strlen(build))
-		print_build(build + i);*/
+		print_build(build + i);
 }
 
 static void	update_position(t_readline *data, t_vector2 size,
