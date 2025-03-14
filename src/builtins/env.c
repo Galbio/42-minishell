@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 14:11:56 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/11 16:44:17 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/13 23:10:21 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	check_error(char **argv)
 	return (0);
 }
 
-void	ms_env(t_cmd_params *cmd)
+int	ms_env(t_cmd_params *cmd)
 {
 	t_list	*cur;
 	char	*temp;
@@ -39,7 +39,7 @@ void	ms_env(t_cmd_params *cmd)
 	if (cmd->argv[1] && check_error(cmd->argv))
 	{
 		write(1, "\n", 1);
-		return ;
+		return (127);
 	}
 	cur = *(cmd->envp);
 	while (cur)
@@ -55,4 +55,5 @@ void	ms_env(t_cmd_params *cmd)
 		write(1, cmd->argv[i], ft_strlen(cmd->argv[i]));
 		write(1, "\n", 1);
 	}
+	return (0);
 }

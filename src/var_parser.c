@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/13 16:35:10 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/13 22:50:29 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ char	*parse_var(char *var_name, t_list **envp, t_main_envp *imp)
 
 	if (var_name[0] == '(')
 		return (handle_var_commands(var_name + 1, envp, imp));
+	else if (var_name[0] == '?')
+		return (ft_itoa((int)imp->exit_status));
 	len = ft_strlen(var_name);
 	cur = *envp;
 	while (cur)
@@ -62,6 +64,8 @@ char	*get_var_str(char *str)
 	int		pare_count;
 
 	i = -1;
+	if (str[0] == '?')
+		return (ft_strdup("?"));
 	pare = (str[0] == '(');
 	pare_count = 0;
 	while (str[++i])

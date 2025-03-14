@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/13 02:08:49 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/14 00:10:41 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,13 @@
 
 typedef struct s_main_envp
 {
-	char	**envp_cpy;
-	char	**path;
-	char	*home;
-	char	is_bquoted;
-	int		shell_level;
-	int		output_fd;
+	unsigned char	exit_status;
+	char			**envp_cpy;
+	char			**path;
+	char			*home;
+	char			is_bquoted;
+	int				shell_level;
+	int				output_fd;
 }	t_main_envp;
 
 typedef struct s_cmd_params
@@ -82,7 +83,7 @@ t_list			*split_semicolon(char *str);
 //commands
 void			execute_line(t_list *commands, t_list **envp,
 					t_main_envp *imp);
-void			execute_pipes(t_list *commands, t_list **envp,
+int				execute_pipes(t_list *commands, t_list **envp,
 					t_main_envp *imp);
 void			execute_bin(char **argv, t_main_envp *imp);
 char			**create_command_argv(char *str, t_list **envp,
@@ -90,20 +91,21 @@ char			**create_command_argv(char *str, t_list **envp,
 
 //pipe utils
 t_cmd_params	make_cmd(void *argv_ptr, t_list **envp, t_main_envp *imp);
-void			wait_line_end_exec(int nb_cmd, int write_pipe, int read_pipe);
+int				wait_line_end_exec(int nb_cmd, int write_pipe,
+					int read_pipe, pid_t pid);
 void			go_to_next_command(t_list **commands, int *temp, int pipes[2]);
 char			check_builtins(char *name);
-void			handle_builtins(int code, t_cmd_params *cmd);
+int				handle_builtins(int code, t_cmd_params *cmd);
 char			go_to_var_end(char *str, int *i);
 
 //builtins
-void			ms_cd(t_cmd_params *cmd);
-void			ms_echo(t_cmd_params *cmd);
-void			ms_pwd(void);
-void			ms_unset(t_cmd_params *cmd);
-void			ms_exit(t_cmd_params *cmd);
-void			ms_export(t_cmd_params *cmd);
-void			ms_env(t_cmd_params *cmd);
+int				ms_cd(t_cmd_params *cmd);
+int				ms_echo(t_cmd_params *cmd);
+int				ms_pwd(void);
+int				ms_unset(t_cmd_params *cmd);
+int				ms_exit(t_cmd_params *cmd);
+int				ms_export(t_cmd_params *cmd);
+int				ms_env(t_cmd_params *cmd);
 
 //builtins additional
 void			export_vars(t_list *envp);
