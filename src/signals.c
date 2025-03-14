@@ -1,22 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stdin.c                                            :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/26 15:16:08 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/14 13:03:39 by lroussel         ###   ########.fr       */
+/*   Created: 2025/03/12 16:46:24 by lroussel          #+#    #+#             */
+/*   Updated: 2025/03/13 17:53:44 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "readline.h"
+#include "minishell.h"
 
-void	read_stdin_keys(char *buffer)
+static void	handle_sigint(void)
 {
-	int		byte_read;
-	byte_read = read(STDIN_FILENO, buffer, 4095);
-	buffer[byte_read] = '\0';
-	if (byte_read == -1)
-		return ;
+	write(0, "\n", 1);
+}
+
+static void	handle_sigquit(void)
+{
+	write(0, "Quit (core dumped)\n", 19);
+}
+
+static void	handle_signals(int id)
+{
+	if (id == SIGINT)
+		handle_sigint();
+	else if (id == SIGQUIT)
+		handle_sigquit();
+}
+
+void	init_signals(void)
+{
+	signal(SIGINT, handle_signals);
+	signal(SIGQUIT, handle_signals);
 }

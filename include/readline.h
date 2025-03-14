@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/14 12:31:09 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/14 13:31:49 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include <sys/ioctl.h>
 # include <termios.h>
+# include <signal.h>
 # include "libft.h"
 
 # define DELETE_KEY "\x7F"
@@ -27,6 +28,8 @@
 # define END_KEY "\x1B[4~"
 # define PAGE_UP_KEY "\x1B[5~"
 # define PAGE_DOWN_KEY "\x1B[6~"
+# define CTRL_C "\x03"
+# define CTRL_D "\x04"
 
 typedef struct s_char
 {
@@ -45,6 +48,8 @@ typedef struct s_readline
 	t_vector2	pos;
 	t_vector2	cursor;
 	t_vector2	old_tsize;
+	char		*buffer_ptr;
+	int			exit;
 }	t_readline;
 
 typedef struct s_special_key
@@ -87,10 +92,10 @@ char		*ft_readline(const char *prompt);
 char		*build_result(t_readline data, t_char *to);
 int			process_input(t_readline *data, char last_c);
 
-void	process_default_key(t_readline *data, char key);
+void		process_default_key(t_readline *data, char key);
 
-void		enable_raw_mode(struct termios *raw);
-void		disable_raw_mode(struct termios *raw);
+void		enable_raw_mode(void);
+void		disable_raw_mode(void);
 
 void		read_stdin_keys(char *buffer);
 
@@ -111,11 +116,20 @@ t_special_key	*get_by_sequence(char *sequence);
 int			get_special_keys_count(void);
 t_special_key	**get_special_keys(void);
 
-void	on_press_delete_key(t_readline *data);
-void	on_press_left_arrow_key(t_readline *data);
-void	on_press_right_arrow_key(t_readline *data);
-void	on_press_home_key(t_readline *data);
-void	on_press_end_key(t_readline *data);
-void	on_press_breakline_key(t_readline *data);
+void		on_press_delete_key(t_readline *data);
+void		on_press_left_arrow_key(t_readline *data);
+void		on_press_right_arrow_key(t_readline *data);
+void		on_press_home_key(t_readline *data);
+void		on_press_end_key(t_readline *data);
+void		on_press_breakline_key(t_readline *data);
+void		on_press_ctrl_c_key(t_readline *data);
+void		on_press_ctrl_d_key(t_readline *data);
+
+t_readline	*get_readline_data(void);
+int			ft_readline_must_exit(void);
+void		ft_readline_set_exit(int v);
+void		ft_readline_sigint(void);
+void		ft_readline_init_signals(void);
+void		free_ft_readline(t_readline *data);
 
 #endif

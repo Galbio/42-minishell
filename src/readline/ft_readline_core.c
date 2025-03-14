@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:44:41 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/14 12:32:51 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/14 13:26:44 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ t_readline_core	*get_readline_core(void)
 		register_special_key(HOME_KEY, on_press_home_key);
 		register_special_key(END_KEY, on_press_end_key);
 		register_special_key("\n", on_press_breakline_key);
+		register_special_key(CTRL_C, on_press_ctrl_c_key);
+		register_special_key(CTRL_D, on_press_ctrl_d_key);
 	}
 	return (core);
 }

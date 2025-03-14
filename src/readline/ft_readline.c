@@ -6,37 +6,55 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 13:11:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/14 12:41:41 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/14 13:25:09 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
+static t_readline	*rl(t_readline *value)
+{
+	static t_readline	*data;
+
+	if (data == NULL && value)
+		data = value;
+	return (data);
+}
+
+t_readline	*get_readline_data(void)
+{
+	return (rl(NULL));
+}
+
 static void	init_readline(const char *prompt, t_readline *data)
 {
+	enable_raw_mode();
+	write(2, prompt, ft_strlen(prompt));
+	rl(data);
 	data->prompt = prompt;
 	init_terminal_size(&data->old_tsize);
 	get_cursor_position(&data->pos);
-	while ((data->pos.x < 0) || (data->pos.y < 0)
-		|| (data->pos.x) > (data->old_tsize.x)
-		|| (data->pos.y) > (data->old_tsize.y))
+	while ((data->pos.x < 0)
+		|| (data->pos.y < 0)
+		|| (data->pos.x > data->old_tsize.x)
+		|| (data->pos.y > data->old_tsize.y))
 		get_cursor_position(&data->pos);
 	data->cursor = data->pos;
 	data->first = NULL;
 	data->actual = data->first;
 	data->size = 0;
+	data->buffer_ptr = NULL;
+	data->exit = 0;
 }
 
 char	*ft_readline(const char *prompt)
 {
 	t_readline		data;
 	char			buffer[4096];
-	struct termios	raw;
 	int	i;
 	int	count;
+	char		*build;
 
-	enable_raw_mode(&raw);
-	write(1, prompt, ft_strlen(prompt));
 	init_readline(prompt, &data);
 	while (1)
 	{
@@ -46,7 +64,12 @@ char	*ft_readline(const char *prompt)
 		while (buffer[i])
 		{
 			count = handle_key_input(&data, buffer + i);
-			//ft_putnbr_fd(count, 1);
+			if (data.exit)
+			{
+				free_ft_readline(&data);
+				disable_raw_mode();
+				return (ft_strdup(""));
+			}
 			i += count;
 		}
 		if (i != 0 && process_input(&data, buffer[i - 1]))
@@ -54,6 +77,8 @@ char	*ft_readline(const char *prompt)
 		if (data.update)
 			on_write(&data);
 	}
-	disable_raw_mode(&raw);
-	return (build_result(data, 0));
+	build = build_result(data, 0);
+	disable_raw_mode();
+	free_ft_readline(&data);
+	return (build);
 }

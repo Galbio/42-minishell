@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:05:06 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/02/27 19:05:29 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:44:24 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,11 @@ static char	check_exit_errors(char **argv)
 	return (0);
 }
 
-char	*ms_exit(char **argv)
+void	ms_exit(t_cmd_params *cmd)
 {
 	write(2, "exit\n", 5);
-	if (!argv[1])
+	if (!cmd->argv[1])
 		exit(0);
-	if (check_exit_errors(argv) == 1)
+	if (check_exit_errors(cmd->argv) == 1)
 		exit(2);
-	return (NULL);
 }

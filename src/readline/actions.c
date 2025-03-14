@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:11:06 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/14 12:33:17 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/14 13:28:45 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	on_press_delete_key(t_readline *data)
 {
 	t_char	*c;
 
-	if (!data->actual)
+	if (!data->actual || data->size <= 0)
 		return ;
 	if (data->actual == data->first)
 	{
@@ -94,4 +94,30 @@ void	on_press_breakline_key(t_readline *data)
 	}
 	process_default_key(data, '\n');
 	on_write(data);
+}
+
+void	on_press_ctrl_c_key(t_readline *data)
+{
+	data->cursor = get_char_pos(data, last_char(data->first));
+	teleport_cursor(data->cursor);
+	write(0, "^C\n", 3);
+	data->exit = 1;
+	if (ft_readline_must_exit())
+	{
+		free_ft_readline(data);
+		disable_raw_mode();
+		exit(0);
+	}
+}
+
+//TODO: when data->actual->next
+void	on_press_ctrl_d_key(t_readline *data)
+{
+	if (data->first == NULL)
+	{
+		disable_raw_mode();
+		free_ft_readline(data);
+		write(0, "\nexit\n", 6);
+		exit(0);
+	}
 }

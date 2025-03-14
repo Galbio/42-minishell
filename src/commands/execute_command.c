@@ -6,72 +6,96 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/05 16:36:06 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/13 16:33:12 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*handle_builtins(int code, char **argv, t_list **envp
-		, t_main_envp *imp)
+static void	free_cur_commands(t_list *commands)
 {
-	if (code == 1)
-		return (ms_echo(argv));
-	else if (code == 2)
-		return (ms_cd(argv));
-	else if (code == 3)
-		return (ms_pwd());
-	else if (code == 4)
-		return (ms_export(argv, envp));
-	else if (code == 5)
-		return (ms_unset(argv, envp, imp));
-	else if (code == 6)
-		return (ms_env(argv, *envp));
-	else if (code == 7)
-		return (ms_exit(argv));
-	return (NULL);
+	t_list	*temp;
+	char	**argv;
+	int		i;
+
+	while (commands)
+	{
+		i = -1;
+		argv = (char **)commands->content;
+		while (argv[++i])
+			free(argv[i]);
+		free(argv);
+		temp = commands;
+		commands = commands->next;
+		free(temp);
+	}
+	return ;
 }
 
-char	check_builtins(char *name)
+static void	execute_builtins(int code, t_cmd_params cmd)
 {
-	char		*temp;
+	pid_t		pid;
 
-	temp = ft_strrchr(name, '/');
-	if (temp)
-		name = temp + 1;
-	if (!ft_strncmp(name, "echo", 5))
-		return (1);
-	else if (!ft_strncmp(name, "cd", 3))
-		return (2);
-	else if (!ft_strncmp(name, "pwd", 4))
-		return (3);
-	else if (!ft_strncmp(name, "export", 7))
-		return (4);
-	else if (!ft_strncmp(name, "unset", 6))
-		return (5);
-	else if (!ft_strncmp(name, "env", 4))
-		return (6);
-	else if (!ft_strncmp(name, "exit", 5))
-		return (7);
-	return (0);
-}
-
-char	*execute_command(char *str, t_list **envp, t_main_envp *imp)
-{
-	t_int_tab	itab;
-	char		**argv;
-
-	itab = init_int_tab();
-	argv = create_command_argv(str, envp, imp);
-	itab.ret = check_builtins(argv[0]);
-	if (itab.ret)
-		itab.ptr1 = handle_builtins(itab.ret, argv, envp, imp);
+	if (cmd.imp->is_bquoted)
+	{
+		pid = fork();
+		if (pid < 0)
+			return ;
+		if (!pid)
+		{
+			dup2(cmd.imp->output_fd, 1);
+			handle_builtins(code, &cmd);
+			exit(0);
+		}
+		wait(NULL);
+	}
 	else
-		itab.ptr1 = execute_bin(argv, imp);
-	while (argv[++itab.i])
-		free(argv[itab.i]);
-	free(argv);
-	if (imp->is_bquoted)
-		itab.ptr1 = clean_whitespaces(itab.ptr1);
-	return (itab.ptr1);
+		handle_builtins(code, &cmd);
+}
+
+static void	execute_single_command(t_cmd_params cmd)
+{
+	pid_t		pid;
+	int			code;
+
+	code = check_builtins(cmd.argv[0]);
+	if (code)
+		execute_builtins(code, cmd);
+	else
+	{
+		pid = fork();
+		if (pid < 0)
+			return ;
+		if (!pid)
+		{
+			dup2(cmd.imp->output_fd, 1);
+			execute_bin(cmd.argv, cmd.imp);
+		}
+		wait(NULL);
+	}
+}
+
+static void	execute_command(t_list *commands, t_list **envp, t_main_envp *imp)
+{
+	if (commands && !commands->next)
+		execute_single_command(make_cmd(commands->content, envp, imp));
+	else
+		execute_pipes(commands, envp, imp);
+}
+
+void	execute_line(t_list *commands_list, t_list **envp, t_main_envp *imp)
+{
+	t_list	*temp;
+	t_list	*cur_commands;
+
+	while (commands_list)
+	{
+		cur_commands = init_pipes((char *)commands_list->content, envp, imp);
+		execute_command(cur_commands, envp, imp);
+		free_cur_commands(cur_commands);
+		temp = commands_list;
+		commands_list = commands_list->next;
+		free(temp->content);
+		free(temp);
+	}
 }
