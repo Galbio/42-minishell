@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 20:09:48 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/14 00:04:32 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/14 16:59:12 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	execute_bin(char **argv, t_main_envp *imp)
 			ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(argv[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
-		return ;
+		exit(127);
 	}
 	execve(path, argv, imp->envp_cpy);
 }
