@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 21:20:49 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/14 19:46:37 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/14 23:04:46 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void	execute_child_cmd(t_cmd_params cmd, int pipes[2], int temp)
 {
 	int			code;
+	int			res;
 
 	close(pipes[0]);
 	if (!cmd.argv[0][0])
@@ -27,16 +28,17 @@ static void	execute_child_cmd(t_cmd_params cmd, int pipes[2], int temp)
 	dup2(pipes[1], 1);
 	code = check_builtins(cmd.argv[0]);
 	if (code)
-		code = handle_builtins(code, &cmd);
+		res = handle_builtins(code, &cmd);
 	else
 		execute_bin(cmd.argv, cmd.imp);
 	free_envp(cmd.envp, cmd.imp);
-	exit(code);
+	exit(res);
 }
 
 static void	execute_last_cmd(t_cmd_params cmd, int pipes[2])
 {
 	int			code;
+	int			res;
 
 	close(pipes[1]);
 	if (!cmd.argv[0][0])
@@ -49,11 +51,11 @@ static void	execute_last_cmd(t_cmd_params cmd, int pipes[2])
 	dup2(cmd.imp->output_fd, 1);
 	code = check_builtins(cmd.argv[0]);
 	if (code)
-		code = handle_builtins(code, &cmd);
+		res = handle_builtins(code, &cmd);
 	else
 		execute_bin(cmd.argv, cmd.imp);
 	free_envp(cmd.envp, cmd.imp);
-	exit(code);
+	exit(res);
 }
 
 int	execute_pipes(t_list *commands, t_list **envp, t_main_envp *imp)
