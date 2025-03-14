@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:24 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/13 17:37:33 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/14 18:28:57 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	print_build(char *build)
 		return ;
 	}
 	i = 0;
-	while (i == 0 || (build[i - 1] && build[i - 1] != '\n'))
+	while (i == 0 || (build[i] && build[i - 1] && build[i - 1] != '\n'))
 		i++;
 	if (i > 1 && build[i - 1] == '\n')
 	{
@@ -48,11 +48,12 @@ static void	print_build(char *build)
 }
 
 static void	update_position(t_readline *data, t_vector2 size,
-		char *build, char *buffer)
+		char *build)
 {
 	if (data->cursor.y == size.y)
 	{
-		if ((ft_strlen(data->prompt) + (int)ft_strlen(last_newline(build)))
+		if ((ft_strlen_utf8(data->prompt)
+				+ (int)ft_strlen_utf8(last_newline(build)))
 			% size.x == 0)
 		{
 			write(0, "\n", 1);
@@ -60,31 +61,19 @@ static void	update_position(t_readline *data, t_vector2 size,
 		}
 		fix_last_line(data, size);
 	}
-	if (buffer[0] == '\n')
-	{
-		write(0, "\n", 1);
-		move_y(data, -1);
-	}
 }
 
-void	on_write(t_readline *data, char *buffer)
+void	on_write(t_readline *data)
 {
 	char		*build;
 	t_vector2	size;
 
-	build = build_result(*data, last_char(data->first));
+	build = build_result(*data, 0);
 	size = get_terminal_size(data, 1);
-	get_cursor_position(&data->cursor);
-	update_position(data, size, build, buffer);
+	update_position(data, size, build);
 	teleport_cursor(data->pos);
 	print_build(build);
 	free(build);
-	if (buffer[0] == '\n' && data->cursor.y != size.y)
-	{
-		data->cursor.x = 0;
-		data->cursor.y += 1;
-		teleport_cursor(data->cursor);
-	}
 	data->cursor = get_char_pos(data, data->actual);
 	teleport_cursor(data->cursor);
 }
@@ -96,8 +85,7 @@ void	on_delete(t_readline *data)
 
 	build = build_result(*data, last_char(data->first));
 	size = get_terminal_size(data, 1);
-	get_cursor_position(&data->cursor);
-	update_position(data, size, build, "");
+	update_position(data, size, build);
 	teleport_cursor(data->pos);
 	print_build(build);
 	write(0, " ", 1);
@@ -111,7 +99,7 @@ void	on_delete(t_readline *data)
 			write(0, "\033[2K", 4);
 		}
 	}
-	if (!data->actual || data->actual->next)
+	if (data->actual && data->actual->next)
 		data->cursor = get_char_pos(data, data->actual);
 	else
 		data->cursor = get_char_pos(data, NULL);

@@ -34,7 +34,12 @@ FILES = main.c		\
 	commands/execute_command_utils.c \
 	commands/execute_pipes.c \
 	commands/execute_bin.c \
-	readline/actions.c	\
+	readline/special_key/arrow.c	\
+	readline/special_key/breakline.c	\
+	readline/special_key/delete.c	\
+	readline/special_key/factory.c	\
+	readline/special_key/interrupt.c	\
+	readline/special_key/teleport.c	\
 	readline/char_utils.c	\
 	readline/cursor_position.c	\
 	readline/cursor_manager.c	\
@@ -48,6 +53,7 @@ FILES = main.c		\
 	readline/size.c	\
 	readline/utils.c	\
 	readline/stdin.c	\
+	readline/ft_readline_core.c	\
 	readline/exit.c		\
 	readline/char_position.c	\
 	readline/lines.c		\

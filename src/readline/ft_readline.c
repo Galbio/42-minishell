@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 13:11:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/13 17:38:39 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/14 14:13:27 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,30 +47,36 @@ static void	init_readline(const char *prompt, t_readline *data)
 	data->exit = 0;
 }
 
+static char	*leave_readline(t_readline *data, char *res)
+{
+	disable_raw_mode();
+	free_ft_readline(data);
+	return (res);
+}
+
 char	*ft_readline(const char *prompt)
 {
-	t_readline	data;
-	char		*buffer;
-	char		*build;
+	t_readline		data;
+	char			buffer[4096];
+	int				i;
+	int				count;
 
 	init_readline(prompt, &data);
 	while (1)
 	{
-		buffer = read_stdin_key(&data);
-		if (process_input(&data, buffer))
-			break ;
-		handle_key_input(&data, buffer);
-		if (data.exit)
+		read_stdin_keys(buffer);
+		i = 0;
+		while (buffer[i])
 		{
-			free_ft_readline(&data);
-			return (ft_strdup(""));
+			count = handle_key_input(&data, buffer + i);
+			if (data.exit)
+				return (leave_readline(&data, ft_strdup("")));
+			i += count;
 		}
+		if (i != 0 && process_input(&data, buffer[i - 1]))
+			break ;
 		if (data.update)
-			on_write(&data, buffer);
-		free(buffer);
+			on_write(&data);
 	}
-	build = build_result(data, 0);
-	disable_raw_mode();
-	free_ft_readline(&data);
-	return (build);
+	return (leave_readline(&data, build_result(data, 0)));
 }
