@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:31:17 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/14 14:04:16 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/14 19:28:03 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void	register_special_key(char *sequence, void (*callback)(t_readline *))
 
 	if (get_by_sequence(sequence) != NULL)
 	{
-		ft_putstr_fd("Key with id '", 2);
+		write(2, "Key with id '", 13);
 		ft_putstr_fd(sequence, 2);
-		ft_putstr_fd("' already exit.", 2);
-		exit(5654);
+		write(2, "' already exit.", 15);
+		exit(5);
 	}
 	main = get_readline_core();
 	count = get_special_keys_count();

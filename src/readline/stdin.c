@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 15:16:08 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/14 15:37:51 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/14 19:28:28 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	read_stdin_keys(char *buffer)
 	int		byte_read;
 
 	byte_read = read(STDIN_FILENO, buffer, 4095);
-	buffer[byte_read] = '\0';
 	if (byte_read == -1)
-		return ;
+		exit(4);
+	buffer[byte_read] = '\0';
 }
