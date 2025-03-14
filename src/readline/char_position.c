@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 17:10:32 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/14 18:09:24 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/14 18:29:22 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*last_newline(char *build)
 	i = 0;
 	while (build[i])
 	{
-		if (build[i] && build[i] == '\n'/* && (build + i + 1)[0]*/)
+		if (build[i] && build[i] == '\n')
 			newline = build + i + 1;
 		i++;
 	}

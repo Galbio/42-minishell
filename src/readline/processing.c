@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:30 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/14 18:08:03 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/14 19:01:56 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,25 @@ static int	calculate_len(t_readline data, t_char *to)
 	return (len);
 }
 
+static void	paste_on(char **result, t_char *c, int *i)
+{
+	int		j;
+
+	j = 0;
+	while (c->c[j])
+	{
+		(*result)[*i] = c->c[j];
+		j++;
+		(*i)++;
+	}
+}
+
 char	*build_result(t_readline data, t_char *to)
 {
 	char	*result;
 	t_char	*c;
 	int		i;
 	int		len;
-	int		j;
 
 	if (!data.first || data.first->c[0] == '\n')
 		return (ft_strdup(""));
@@ -59,13 +71,7 @@ char	*build_result(t_readline data, t_char *to)
 	i = 0;
 	while (c && (!to || c != to->next))
 	{
-		j = 0;
-		while (c->c[j])
-		{
-			result[i] = c->c[j];
-			j++;
-			i++;
-		}
+		paste_on(&result, c, &i);
 		c = c->next;
 	}
 	return (result);

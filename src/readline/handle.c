@@ -6,28 +6,16 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 14:45:53 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/14 16:28:19 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/14 18:34:49 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-int	ft_bytes_count(char c)
+static int	create_value(char *value, char *buffer)
 {
-	if ((c & 0xE0) == 0xC0)
-		return (2);
-	if ((c & 0xF0) == 0xE0)
-		return (3);
-	if ((c & 0xF8) == 0xF0)
-		return (4);
-	return (1);
-}
-
-int	process_default_key(t_readline *data, char *buffer)
-{
-	int		len;
-	int		i;
-	char	value[4];
+	int	len;
+	int	i;
 
 	len = ft_bytes_count(buffer[0]);
 	i = 0;
@@ -41,6 +29,15 @@ int	process_default_key(t_readline *data, char *buffer)
 		value[i] = '\0';
 		i++;
 	}
+	return (len);
+}
+
+int	process_default_key(t_readline *data, char *buffer)
+{
+	int		len;
+	char	value[4];
+
+	len = create_value(value, buffer);
 	if (!data->first)
 	{
 		data->first = new_char(value);

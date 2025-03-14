@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/14 15:51:30 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/14 18:27:57 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 
 typedef struct s_char
 {
-	char				c[4];
+	char			c[4];
 	struct s_char	*previous;
 	struct s_char	*next;
 }	t_char;
@@ -92,7 +92,7 @@ char			*ft_readline(const char *prompt);
 char			*build_result(t_readline data, t_char *to);
 int				process_input(t_readline *data, char last_c);
 
-int			process_default_key(t_readline *data, char *buffer);
+int				process_default_key(t_readline *data, char *buffer);
 
 void			enable_raw_mode(void);
 void			disable_raw_mode(void);

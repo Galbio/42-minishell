@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:24 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/14 18:20:38 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/14 18:28:57 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ static void	update_position(t_readline *data, t_vector2 size,
 {
 	if (data->cursor.y == size.y)
 	{
-		if ((ft_strlen_utf8(data->prompt) + (int)ft_strlen_utf8(last_newline(build)))
+		if ((ft_strlen_utf8(data->prompt)
+				+ (int)ft_strlen_utf8(last_newline(build)))
 			% size.x == 0)
 		{
 			write(0, "\n", 1);

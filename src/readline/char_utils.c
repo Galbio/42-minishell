@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 19:53:50 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/14 15:48:06 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/14 18:38:46 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_char	*new_char(char c[4])
 {
 	t_char	*res;
-	int	i;
+	int		i;
 
 	res = malloc(sizeof(t_char));
 	if (!res)
