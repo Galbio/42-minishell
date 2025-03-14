@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/12 16:56:11 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/13 02:02:59 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,10 @@ void	launch(t_list *envp, t_main_envp *imp)
 		if (ft_strchr(res, '`'))
 			res = handle_bquotes(res);
 		imp->output_fd = 1;
-		commands = init_pipes(res, &envp, imp);
+		commands = split_semicolon(res);
 		free(res);
 		execute_line(commands, &envp, imp);
 	}
+	free(res);
 	printf("\n");
 }

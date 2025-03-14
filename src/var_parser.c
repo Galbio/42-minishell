@@ -6,30 +6,11 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/12 14:52:32 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/13 16:35:10 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	free_commands(t_list *cur)
-{
-	t_list	*temp;
-	int		i;
-	char	**argv;
-
-	while (cur)
-	{
-		i = -1;
-		argv = (char **)cur->content;
-		while (argv[++i])
-			free(argv[i]);
-		free(argv);
-		temp = cur;
-		cur = cur->next;
-		free(temp);
-	}
-}
 
 static char	*handle_var_commands(char *command, t_list **envp, t_main_envp *imp)
 {
@@ -40,14 +21,15 @@ static char	*handle_var_commands(char *command, t_list **envp, t_main_envp *imp)
 
 	if (pipe(pipes) < 0)
 		return (NULL);
+	imp->is_bquoted++;
 	old_redir = imp->output_fd;
 	imp->output_fd = pipes[1];
 	command[ft_strlen(command) - 1] = 0;
-	commands = init_pipes(command, envp, imp);
+	commands = split_semicolon(command);
 	execute_line(commands, envp, imp);
 	imp->output_fd = old_redir;
 	close(pipes[1]);
-	free_commands(commands);
+	imp->is_bquoted--;
 	dest = ft_get_contents(pipes[0]);
 	close(pipes[0]);
 	return (clean_whitespaces(dest));

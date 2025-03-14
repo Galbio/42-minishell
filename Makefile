@@ -21,6 +21,7 @@ FILES = main.c		\
 	init_pipes.c \
 	whitespace_fixer.c \
 	signals.c		\
+	split_semicolon.c \
 	builtins/echo.c \
 	builtins/cd.c \
 	builtins/pwd.c \
@@ -31,6 +32,7 @@ FILES = main.c		\
 	builtins/env.c \
 	commands/execute_command.c \
 	commands/execute_command_utils.c \
+	commands/execute_pipes.c \
 	commands/execute_bin.c \
 	readline/actions.c	\
 	readline/char_utils.c	\
@@ -50,6 +52,8 @@ FILES = main.c		\
 	readline/char_position.c	\
 	readline/lines.c		\
 	utils/init_int_tab.c \
+	utils/go_to_var_end.c \
+	utils/free_envp.c \
 	utils/check_special_char.c
 
 OFILES = $(FILES:%.c=$(OBJS)/%.o)
