@@ -6,13 +6,13 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:31:17 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/11 14:58:39 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/14 11:24:14 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-void	register_special_key(char *sequence, int (*callback)(t_readline *))
+void	register_special_key(char *sequence, void (*callback)(t_readline *))
 {
 	t_readline_core	*main;
 	int		count;
