@@ -6,13 +6,13 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:09:54 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/06 08:11:24 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/13 23:08:38 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ms_pwd(void)
+int	ms_pwd(void)
 {
 	char	*temp;
 
@@ -20,4 +20,5 @@ void	ms_pwd(void)
 	write(1, temp, ft_strlen(temp));
 	write(1, "\n", 1);
 	free(temp);
+	return (0);
 }
