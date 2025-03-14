@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:30 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/14 13:03:05 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/14 18:08:03 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,23 @@ static int	calculate_len(t_readline data, t_char *to)
 	t_char	*c;
 
 	if (!to)
-		return (data.size);
-	len = 1;
+	{
+		if (!data.first)
+			return (0);
+		c = data.first;
+		len = ft_strlen(c->c);
+		while (c->next)
+		{
+			len += ft_strlen(c->c);
+			c = c->next;
+		}
+		return (len);
+	}
+	len = ft_strlen(to->c);
 	c = to;
 	while (c->previous)
 	{
-		len++;
+		len += ft_strlen(c->c);
 		c = c->previous;
 	}
 	return (len);
@@ -35,22 +46,28 @@ char	*build_result(t_readline data, t_char *to)
 	t_char	*c;
 	int		i;
 	int		len;
+	int		j;
 
-	if (!data.first || data.first->c == '\n')
+	if (!data.first || data.first->c[0] == '\n')
 		return (ft_strdup(""));
 	len = calculate_len(data, to);
 	if (!to && data.first && !data.actual)
 		return (ft_strdup(""));
-	result = malloc(sizeof(char) * (len + 1));
+	result = malloc(sizeof(char) * (len + 2));
+	ft_bzero(result, len + 2);
 	c = data.first;
 	i = 0;
 	while (c && (!to || c != to->next))
 	{
-		result[i] = c->c;
-		i++;
+		j = 0;
+		while (c->c[j])
+		{
+			result[i] = c->c[j];
+			j++;
+			i++;
+		}
 		c = c->next;
 	}
-	result[i] = '\0';
 	return (result);
 }
 

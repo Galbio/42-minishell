@@ -6,18 +6,26 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 19:53:50 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/23 19:53:50 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/14 15:48:06 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-t_char	*new_char(int c)
+t_char	*new_char(char c[4])
 {
 	t_char	*res;
+	int	i;
 
 	res = malloc(sizeof(t_char));
-	res->c = c;
+	if (!res)
+		return (NULL);
+	i = 0;
+	while (i != 4)
+	{
+		res->c[i] = c[i];
+		i++;
+	}
 	res->previous = NULL;
 	res->next = NULL;
 	return (res);

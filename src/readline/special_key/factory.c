@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:31:17 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/14 11:24:14 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/14 14:04:16 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	register_special_key(char *sequence, void (*callback)(t_readline *))
 {
 	t_readline_core	*main;
-	int		count;
+	int				count;
 
 	if (get_by_sequence(sequence) != NULL)
 	{
@@ -27,10 +27,10 @@ void	register_special_key(char *sequence, void (*callback)(t_readline *))
 	main = get_readline_core();
 	count = get_special_keys_count();
 	main->special_keys = ft_realloc(
-		main->special_keys,
-		sizeof(t_special_key *) * (count + 1),
-		sizeof(t_special_key *) * (count + 2)
-	);
+			main->special_keys,
+			sizeof(t_special_key *) * (count + 1),
+			sizeof(t_special_key *) * (count + 2)
+			);
 	main->special_keys[count] = malloc(sizeof(t_special_key));
 	main->special_keys[count]->sequence = sequence;
 	main->special_keys[count]->callback = callback;
@@ -46,7 +46,9 @@ t_special_key	*get_by_sequence(char *sequence)
 	i = 0;
 	while (special_keys[i])
 	{
-		if (ft_strncmp(sequence, special_keys[i]->sequence, ft_max(ft_strlen(sequence), ft_strlen(special_keys[i]->sequence))) == 0)
+		if (ft_strncmp(sequence,
+				special_keys[i]->sequence, ft_max(ft_strlen(sequence),
+					ft_strlen(special_keys[i]->sequence))) == 0)
 			return (special_keys[i]);
 		i++;
 	}
