@@ -39,6 +39,7 @@ FILES = main.c		\
 	readline/special_key/delete.c	\
 	readline/special_key/factory.c	\
 	readline/special_key/interrupt.c	\
+	readline/special_key/invalid.c	\
 	readline/special_key/teleport.c	\
 	readline/char_utils.c	\
 	readline/cursor_position.c	\

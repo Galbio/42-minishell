@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/14 18:27:57 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/15 19:39:09 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,35 @@
 # include <signal.h>
 # include "libft.h"
 
-# define DELETE_KEY "\x7F"
+# define BACKSPACE_KEY "\x7F"
 # define LEFT_ARROW_KEY "\x1B[D"
 # define RIGHT_ARROW_KEY "\x1B[C"
 # define HOME_KEY "\x1B[1~"
+# define DELETE_KEY "\x1B[3~"
 # define END_KEY "\x1B[4~"
 # define PAGE_UP_KEY "\x1B[5~"
 # define PAGE_DOWN_KEY "\x1B[6~"
+# define CTRL_A "\x01"
+# define CTRL_B "\x02"
 # define CTRL_C "\x03"
 # define CTRL_D "\x04"
+# define CTRL_E "\x05"
+# define CTRL_F "\x06"
+# define CTRL_G "\x07"
+# define CTRL_H "\x08"
+# define CTRL_I "\x09"
+# define CTRL_K "\x0B"
+# define CTRL_L "\x0C"
+# define CTRL_N "\x0E"
+# define CTRL_O "\x0F"
+# define CTRL_P "\x10"
+# define CTRL_R "\x12"
+# define CTRL_T "\x14"
+# define CTRL_U "\x15"
+# define CTRL_V "\x16"
+# define CTRL_W "\x17"
+# define CTRL_X "\x18"
+# define CTRL_Y "\x19"
 
 typedef struct s_char
 {
@@ -44,7 +64,6 @@ typedef struct s_readline
 	t_char		*first;
 	t_char		*actual;
 	int			update;
-	int			size;
 	t_vector2	pos;
 	t_vector2	cursor;
 	t_vector2	old_tsize;
@@ -74,6 +93,7 @@ void			remove_char(t_char **element);
 
 t_char			*new_char(char c[4]);
 t_char			*last_char(t_char *head);
+int				chars_count(t_char *head);
 
 void			move_cursor(t_readline *data, int gap);
 void			move_x(t_readline *data, int gap);
@@ -117,14 +137,16 @@ t_special_key	*get_by_sequence(char *sequence);
 int				get_special_keys_count(void);
 t_special_key	**get_special_keys(void);
 
-void			on_press_delete_key(t_readline *data);
+void			on_press_backspace_key(t_readline *data);
 void			on_press_left_arrow_key(t_readline *data);
 void			on_press_right_arrow_key(t_readline *data);
 void			on_press_home_key(t_readline *data);
+void			on_press_delete_key(t_readline *data);
 void			on_press_end_key(t_readline *data);
 void			on_press_breakline_key(t_readline *data);
 void			on_press_ctrl_c_key(t_readline *data);
 void			on_press_ctrl_d_key(t_readline *data);
+void			on_press_invalid_key(t_readline *data);
 
 t_readline		*get_readline_data(void);
 int				ft_readline_must_exit(void);

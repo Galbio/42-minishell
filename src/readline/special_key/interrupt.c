@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   interupt.c                                         :+:      :+:    :+:   */
+/*   interrupt.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 14:22:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/14 14:22:35 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/15 19:44:54 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	on_press_ctrl_c_key(t_readline *data)
 	}
 }
 
-//TODO: when data->actual->next
 void	on_press_ctrl_d_key(t_readline *data)
 {
 	if (data->first == NULL)
@@ -36,4 +35,5 @@ void	on_press_ctrl_d_key(t_readline *data)
 		write(0, "\nexit\n", 6);
 		exit(0);
 	}
+	on_press_delete_key(data);
 }

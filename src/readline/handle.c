@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 14:45:53 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/14 18:34:49 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/15 19:40:35 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ int	process_default_key(t_readline *data, char *buffer)
 			data->actual = data->actual->next;
 		}
 	}
-	data->size += 1;
 	return (len);
 }
 
