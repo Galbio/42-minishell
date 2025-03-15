@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 06:13:23 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/14 23:20:15 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/15 22:32:02 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ void	enable_raw_mode(void)
 	old();
 	tcgetattr(STDIN_FILENO, &raw);
 	raw.c_lflag &= ~(ECHO | ICANON);
-	raw.c_cc[VINTR] = 1;
-	raw.c_cc[VQUIT] = 1;
-	raw.c_cc[VSUSP] = 1;
+	raw.c_cc[VINTR] = 0;
+	raw.c_cc[VQUIT] = 0;
+	raw.c_cc[VSUSP] = 0;
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
 }
 

@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   teleport.c                                         :+:      :+:    :+:   */
+/*   clear.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/14 14:21:37 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/15 20:01:28 by lroussel         ###   ########.fr       */
+/*   Created: 2025/03/15 20:19:38 by lroussel          #+#    #+#             */
+/*   Updated: 2025/03/15 20:29:06 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-void	home_key(t_readline *data)
+void	clear_key(t_readline *data)
 {
-	data->actual = NULL;
-	data->cursor = get_char_pos(data, data->actual);
+	write(0, "\033[2J", 4);
+	data->pos.x = 0;
+	data->pos.y = 0;
+	teleport_cursor(data->pos);
+	write(2, data->prompt, ft_strlen(data->prompt));
+	get_cursor_position(&data->pos);
+	get_cursor_position(&data->cursor);
 	teleport_cursor(data->cursor);
-}
-
-void	end_key(t_readline *data)
-{
-	data->actual = last_char(data->first);
-	data->cursor = get_char_pos(data, data->actual);
-	teleport_cursor(data->cursor);
+	on_write(data);
 }

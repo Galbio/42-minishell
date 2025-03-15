@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 13:11:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/15 19:40:08 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/15 22:28:10 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static void	init_readline(const char *prompt, t_readline *data)
 	data->cursor = data->pos;
 	data->first = NULL;
 	data->actual = data->first;
+	data->stashed = NULL;
 	data->exit = 0;
 }
 

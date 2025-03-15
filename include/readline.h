@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/15 19:39:09 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/15 22:33:02 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@
 # define CTRL_W "\x17"
 # define CTRL_X "\x18"
 # define CTRL_Y "\x19"
+# define CTRL_Z "\x1A"
 
 typedef struct s_char
 {
@@ -63,6 +64,7 @@ typedef struct s_readline
 	const char	*prompt;
 	t_char		*first;
 	t_char		*actual;
+	t_char		*stashed;
 	int			update;
 	t_vector2	pos;
 	t_vector2	cursor;
@@ -93,7 +95,7 @@ void			remove_char(t_char **element);
 
 t_char			*new_char(char c[4]);
 t_char			*last_char(t_char *head);
-int				chars_count(t_char *head);
+void			free_chars(t_char *head);
 
 void			move_cursor(t_readline *data, int gap);
 void			move_x(t_readline *data, int gap);
@@ -137,16 +139,22 @@ t_special_key	*get_by_sequence(char *sequence);
 int				get_special_keys_count(void);
 t_special_key	**get_special_keys(void);
 
-void			on_press_backspace_key(t_readline *data);
-void			on_press_left_arrow_key(t_readline *data);
-void			on_press_right_arrow_key(t_readline *data);
-void			on_press_home_key(t_readline *data);
-void			on_press_delete_key(t_readline *data);
-void			on_press_end_key(t_readline *data);
-void			on_press_breakline_key(t_readline *data);
-void			on_press_ctrl_c_key(t_readline *data);
-void			on_press_ctrl_d_key(t_readline *data);
-void			on_press_invalid_key(t_readline *data);
+void			backspace_key(t_readline *data);
+void			left_arrow_key(t_readline *data);
+void			right_arrow_key(t_readline *data);
+void			home_key(t_readline *data);
+void			delete_key(t_readline *data);
+void			end_key(t_readline *data);
+void			breakline_key(t_readline *data);
+void			ctrl_c_key(t_readline *data);
+void			ctrl_d_key(t_readline *data);
+void			invalid_key(t_readline *data);
+void			stash_before_key(t_readline *data);
+void			stash_after_key(t_readline *data);
+void			stash_before_in_word_key(t_readline *data);
+void			paste_stash_key(t_readline *data);
+void			clear_key(t_readline *data);
+void			swap_key(t_readline *data);
 
 t_readline		*get_readline_data(void);
 int				ft_readline_must_exit(void);

@@ -6,13 +6,13 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 14:19:01 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/15 19:42:55 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/15 20:00:46 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-void	on_press_backspace_key(t_readline *data)
+void	backspace_key(t_readline *data)
 {
 	if (!data->first)
 		return ;
@@ -28,7 +28,7 @@ void	on_press_backspace_key(t_readline *data)
 	on_delete(data);
 }
 
-void	on_press_delete_key(t_readline *data)
+void	delete_key(t_readline *data)
 {
 	t_char	*tmp;
 

@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 19:53:50 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/14 18:38:46 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/15 21:36:17 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,18 @@ t_char	*last_char(t_char *head)
 	while (cur->next)
 		cur = cur->next;
 	return (cur);
+}
+
+void	free_chars(t_char *head)
+{
+	t_char	*cur;
+	t_char	*tmp;
+	
+	cur = head;
+	while (cur)
+	{
+		tmp = cur->next;
+		free(cur);
+		cur = tmp;
+	}
 }

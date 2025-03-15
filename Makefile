@@ -41,6 +41,9 @@ FILES = main.c		\
 	readline/special_key/interrupt.c	\
 	readline/special_key/invalid.c	\
 	readline/special_key/teleport.c	\
+	readline/special_key/stash.c	\
+	readline/special_key/clear.c	\
+	readline/special_key/swap.c	\
 	readline/char_utils.c	\
 	readline/cursor_position.c	\
 	readline/cursor_manager.c	\

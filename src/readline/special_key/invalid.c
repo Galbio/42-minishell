@@ -6,13 +6,13 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 23:06:49 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/15 19:45:55 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/15 22:04:18 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-void	on_press_invalid_key(t_readline *data)
+void	invalid_key(t_readline *data)
 {
 	(void)data;
 }

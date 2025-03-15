@@ -1,39 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   interrupt.c                                        :+:      :+:    :+:   */
+/*   swap.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/14 14:22:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/15 20:01:07 by lroussel         ###   ########.fr       */
+/*   Created: 2025/03/15 20:46:31 by lroussel          #+#    #+#             */
+/*   Updated: 2025/03/15 21:25:17 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-void	ctrl_c_key(t_readline *data)
+void	swap_key(t_readline *data)
 {
-	data->cursor = get_char_pos(data, last_char(data->first));
-	teleport_cursor(data->cursor);
-	write(0, "^C\n", 3);
-	data->exit = 1;
-	if (ft_readline_must_exit())
-	{
-		free_ft_readline(data);
-		disable_raw_mode();
-		exit(0);
-	}
-}
+	char		*tmp;
+	int	i;
 
-void	ctrl_d_key(t_readline *data)
-{
-	if (data->first == NULL)
+	if (!data->actual || data->actual == data->first)
+		return ;
+	if (!data->actual->next)
+		data->actual = data->actual->previous;
+	tmp = ft_strdup(data->actual->c);
+	i = 0;
+	while (i < 4)
 	{
-		disable_raw_mode();
-		free_ft_readline(data);
-		write(0, "\nexit\n", 6);
-		exit(0);
+		data->actual->c[i] = data->actual->next->c[i];
+		i++;
 	}
-	delete_key(data);
+	i = 0;
+	while (i < 4)
+	{
+		data->actual->next->c[i] = tmp[i];
+		i++;
+	}
+	data->actual = data->actual->next;
+	free(tmp);
+	on_write(data);
 }
