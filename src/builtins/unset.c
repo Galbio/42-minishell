@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 19:34:13 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/11 16:44:49 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/13 23:09:22 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,14 @@ void	unset_var(char *name, t_list **envp, t_main_envp *imp)
 	}
 }
 
-void	ms_unset(t_cmd_params *cmd)
+int	ms_unset(t_cmd_params *cmd)
 {
 	int		i;
 
 	if (!cmd->argv[1])
-		return ;
+		return (0);
 	i = 0;
 	while (cmd->argv[++i])
 		unset_var(cmd->argv[i], cmd->envp, cmd->imp);
-	return ;
+	return (0);
 }

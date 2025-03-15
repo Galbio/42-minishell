@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 08:00:35 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/11 22:12:47 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/13 22:50:36 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ static int	get_parsed_substr_len(char **str, t_list **envp,
 		if (!check_special_char(str[0][itab.i], &itab.backslash,
 			&itab.cur_quote))
 			continue ;
-		if ((itab.cur_quote != '\'') && str[0][itab.i] == '$')
+		if ((itab.cur_quote != '\'') && (str[0][itab.i] == '$')
+				&& !itab.backslash)
 		{
 			itab.ptr1 = get_var_str(str[0] + itab.i + 1);
 			itab.ptr2 = parse_var(itab.ptr1, envp, imp);
@@ -50,9 +51,9 @@ static int	get_parsed_substr_len(char **str, t_list **envp,
 			itab.res += ft_securelen(itab.ptr2);
 			itab.i += ft_securelen(itab.ptr1);
 			free(itab.ptr1);
+			continue ;
 		}
-		else
-			itab.res++;
+		itab.res++;
 	}
 	return (itab.res);
 }
@@ -75,7 +76,8 @@ static char	*parsed_quoted_substr(char **str, t_list **envp, t_main_envp *imp)
 		if (!check_special_char(str[0][itab.i], &itab.backslash,
 			&itab.cur_quote))
 			continue ;
-		if ((itab.cur_quote != '\'') && str[0][itab.i] == '$')
+		if ((itab.cur_quote != '\'') && (str[0][itab.i] == '$')
+				&& !itab.backslash)
 			handle_var(str[0], &itab, &cmd_outputs);
 		else
 			itab.ptr1[itab.res++] = str[0][itab.i];
