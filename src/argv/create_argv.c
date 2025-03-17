@@ -1,0 +1,60 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   create_argv.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/23 08:00:35 by gakarbou          #+#    #+#             */
+/*   Updated: 2025/03/17 21:02:36 by gakarbou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+static t_list	*fill_argv(char *str, t_list **envp, t_main_envp *imp)
+{
+	t_list		*dest;
+	t_int_tab	itab;
+
+	dest = NULL;
+	itab = init_int_tab();
+	while (str[++itab.i])
+	{
+		if (!check_special_char(str[itab.i], &itab.backslash, &itab.cur_quote))
+			continue ;
+		if ((str[itab.i] == 32) && !itab.cur_quote && !itab.backslash)
+			add_to_argv(&dest, str, &itab);
+		if ((str[itab.i] == '$') && !itab.backslash && (itab.cur_quote != '\''))
+			add_var_to_argv(&dest, str, &itab, make_cmd(NULL, envp, imp));
+	}
+	add_to_argv(&dest, str, &itab);
+	return (dest);
+}
+
+char	**create_command_argv(char *str, t_list **envp, t_main_envp *imp)
+{
+	t_list	*argv;
+	t_list	*temp;
+	char	**dest;
+	int		size;
+
+	argv = fill_argv(str, envp, imp);
+	size = ft_lstsize(argv);
+	if (!size)
+		size = 1;
+	dest = malloc(sizeof(char *) * (size + 1));
+	if (!dest)
+		return (NULL);
+	dest[size] = 0;
+	if (!argv)
+		dest[0] = ft_strdup("");
+	while (argv)
+	{
+		dest[--size] = argv->content;
+		temp = argv;
+		argv = argv->next;
+		free(temp);
+	}
+	return (dest);
+}

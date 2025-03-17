@@ -15,13 +15,14 @@ FT_PRINTFI = $(FT_PRINTF)/include
 FILES = main.c		\
 	minishell.c	\
 	envp_parser.c \
-	create_argv.c \
-	var_parser.c \
 	bquotes_handler.c \
 	init_pipes.c \
 	whitespace_fixer.c \
 	signals.c		\
 	split_semicolon.c \
+	argv/create_argv.c \
+	argv/argv_utils.c \
+	argv/var_parser.c \
 	builtins/echo.c \
 	builtins/cd.c \
 	builtins/pwd.c \

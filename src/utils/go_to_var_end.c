@@ -6,27 +6,30 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 21:06:57 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/12 21:20:11 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/17 20:30:14 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	go_to_var_end(char *str, int *i)
+void	go_to_var_end(char *str, int *i)
 {
 	int		pare_count;
+	int		pare;
 
-	if (str[*i + 1] != '(')
-		return (0);
-	*i += 2;
-	pare_count = 1;
-	while (pare_count && str[*i])
+	(*i)++;
+	pare = str[*i] == '(';
+	pare_count = 0;
+	while (str[*i])
 	{
+		if (!pare && (str[*i] != '_') && !ft_isalnum(str[*i]))
+			return ;
 		if (str[*i] == '(')
 			pare_count++;
 		else if (str[*i] == ')')
 			pare_count--;
+		if (pare && !pare_count)
+			return ;
 		(*i)++;
 	}
-	return (str[*i] == 0);
 }

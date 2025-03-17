@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/14 19:48:52 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/17 21:00:29 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ typedef struct s_int_tab
 
 void			launch(t_list *envp, t_main_envp *imp);
 
-char			*parse_quotes(char *str, t_list *envp, t_main_envp *imp);
 char			check_special_char(char c, char *backslash, char *cur_quote);
 void			free_envp(t_list **envp, t_main_envp *imp);
 
@@ -73,7 +72,6 @@ t_list			*parse_envp(char **envp, t_main_envp *imp);
 char			*parse_var(char *var_name, t_list **envp, t_main_envp *imp);
 char			*parse_commands(char *str, t_list *envp, t_main_envp *imp);
 char			*read_whole_fd(int fd);
-void			handle_var(char *str, t_int_tab *infos, t_list **output);
 char			*handle_bquotes(char *res);
 char			*clean_whitespaces(char *str);
 char			*get_var_str(char *str);
@@ -86,8 +84,15 @@ void			execute_line(t_list *commands, t_list **envp,
 int				execute_pipes(t_list *commands, t_list **envp,
 					t_main_envp *imp);
 void			execute_bin(char **argv, t_main_envp *imp);
+//argv
 char			**create_command_argv(char *str, t_list **envp,
 					t_main_envp *imp);
+void			handle_var(t_list **dest, t_list **envp, t_main_envp *imp,
+					t_int_tab *itab);
+void			add_var_to_argv(t_list **dest, char *str, t_int_tab *itab,
+					t_cmd_params cmd);
+void			add_to_argv(t_list **dest, char *str, t_int_tab *itab);
+int				get_parsed_size(char *str);
 
 //pipe utils
 t_cmd_params	make_cmd(void *argv_ptr, t_list **envp, t_main_envp *imp);
@@ -96,7 +101,7 @@ int				wait_line_end_exec(int nb_cmd, int write_pipe,
 void			go_to_next_command(t_list **commands, int *temp, int pipes[2]);
 char			check_builtins(char *name);
 int				handle_builtins(int code, t_cmd_params *cmd);
-char			go_to_var_end(char *str, int *i);
+void			go_to_var_end(char *str, int *i);
 
 //builtins
 int				ms_cd(t_cmd_params *cmd);
