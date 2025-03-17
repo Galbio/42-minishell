@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 14:45:53 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/17 11:31:13 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/17 17:52:43 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	process_default_key(t_readline *data, char *buffer)
 	return (len);
 }
 
-int	handle_special_keys(t_readline *data, char *buffer)
+static int	handle_special_keys(t_readline *data, char *buffer)
 {
 	t_special_key	*key;
 

@@ -45,6 +45,7 @@ FILES = main.c		\
 	readline/special_key/stash_word.c	\
 	readline/special_key/clear.c	\
 	readline/special_key/swap.c	\
+	readline/special_key/five_tilde.c	\
 	readline/char_utils.c	\
 	readline/cursor_position.c	\
 	readline/cursor_manager.c	\

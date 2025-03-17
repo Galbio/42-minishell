@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/17 16:58:04 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/17 17:55:36 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <sys/ioctl.h>
 # include <termios.h>
 # include <signal.h>
-
 # include "libft.h"
 
 typedef struct s_char
@@ -130,6 +129,7 @@ void			swap_key(t_readline *data);
 void			previous_word_key(t_readline *data);
 void			next_word_key(t_readline *data);
 void			five_tilde_key(t_readline *data);
+void			semicolon_five_tilde_key(t_readline *data);
 
 t_readline		*get_readline_data(void);
 int				ft_readline_must_exit(void);

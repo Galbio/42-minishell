@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:44:41 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/17 16:55:50 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/17 17:56:06 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	register_controls(void)
 	register_special_key(CTRL_HOME_KEY, invalid_key);
 	register_special_key(CTRL_END_KEY, invalid_key);
 	register_special_key(CTRL_PAGE_UP_KEY, five_tilde_key);
-	register_special_key(CTRL_PAGE_DOWN_KEY, five_tilde_key);
+	register_special_key(CTRL_PAGE_DOWN_KEY, semicolon_five_tilde_key);
 }
 
 t_readline_core	*get_readline_core(void)
