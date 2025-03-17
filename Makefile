@@ -1,4 +1,4 @@
-NAME = michel
+NAME = minishell
 
 INCLUDE = include
 SRC = src
