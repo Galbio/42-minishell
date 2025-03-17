@@ -1,41 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   stash.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 12:00:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/17 16:56:07 by lroussel         ###   ########.fr       */
+/*   Created: 2025/03/17 16:23:56 by lroussel          #+#    #+#             */
+/*   Updated: 2025/03/17 16:50:26 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-static int	ext(int v)
+void	add_to_stash(t_char **stashed, t_char *node, int type)
 {
-	static int	must_exit = 1;
-
-	if (v == 0 || v == 1)
-		must_exit = v;
-	return (must_exit);
+	if (!(*stashed))
+		*stashed = node;
+	else if (type == 0)
+		add_char_front(stashed, node);
+	else if (type == 1)
+		add_char_back(*stashed, node);
 }
 
-void	ft_readline_set_exit(int v)
+void	clean_stash(t_readline_core *core, int check_cat)
 {
-	ext(v);
-}
-
-int	ft_readline_must_exit(void)
-{
-	return (ext(2));
-}
-
-void	free_ft_readline(t_readline *data)
-{
-	if (!data)
-		return ;
-	free_chars(data->first);
-	data->actual = NULL;
-	data->first = NULL;
+	if (!check_cat || !core->cat_stash)
+	{
+		free_chars(core->stashed);
+		core->stashed = NULL;
+	}
+	if (check_cat)
+		core->cat_stash = 1;
 }

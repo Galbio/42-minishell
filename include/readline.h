@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/17 13:25:19 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/17 16:58:04 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,51 +19,8 @@
 # include <sys/ioctl.h>
 # include <termios.h>
 # include <signal.h>
-# include "libft.h"
 
-# define BACKSPACE_KEY "\x7F"
-# define LEFT_ARROW_KEY "\x1B[D"
-# define RIGHT_ARROW_KEY "\x1B[C"
-# define DELETE_KEY "\x1B[3~"
-# define INSERT_KEY "\x1B[2~"
-# define HOME_KEY "\x1B[1~"
-# define END_KEY "\x1B[4~"
-# define PAGE_UP_KEY "\x1B[5~"
-# define PAGE_DOWN_KEY "\x1B[6~"
-# define CTRL_A "\x01"
-# define CTRL_B "\x02"
-# define CTRL_C "\x03"
-# define CTRL_D "\x04"
-# define CTRL_E "\x05"
-# define CTRL_F "\x06"
-# define CTRL_G "\x07"
-# define CTRL_H "\x08"
-# define CTRL_I "\x09"
-# define CTRL_K "\x0B"
-# define CTRL_L "\x0C"
-# define CTRL_N "\x0E"
-# define CTRL_O "\x0F"
-# define CTRL_P "\x10"
-# define CTRL_R "\x12"
-# define CTRL_T "\x14"
-# define CTRL_U "\x15"
-# define CTRL_V "\x16"
-# define CTRL_W "\x17"
-# define CTRL_X "\x18"
-# define CTRL_Y "\x19"
-# define CTRL_Z "\x1A"
-# define ECHAP "\x1B"
-# define CTRL_BACKSLASH "\x1C"
-# define CTRL_LEFT_ARROW_KEY "\x1B[1;5D"
-# define CTRL_RIGHT_ARROW_KEY "\x1B[1;5C"
-# define CTRL_UP_ARROW_KEY "\x1B[1;5A"
-# define CTRL_DOWN_ARROW_KEY "\x1B[1;5B"
-# define CTRL_DELETE_KEY "\x1B[3;5~"
-# define CTRL_INSERT_KEY "\x1B[2;5~"
-# define CTRL_HOME_KEY "\x1B[1;5H"
-# define CTRL_END_KEY "\x1B[1;5F"
-# define CTRL_PAGE_UP_KEY "\x1B[5;5~"
-# define CTRL_PAGE_DOWN_KEY "\x1B[6;5~"
+# include "libft.h"
 
 typedef struct s_char
 {
@@ -77,7 +34,6 @@ typedef struct s_readline
 	const char	*prompt;
 	t_char		*first;
 	t_char		*actual;
-	t_char		*stashed;
 	int			update;
 	t_vector2	pos;
 	t_vector2	cursor;
@@ -96,6 +52,8 @@ typedef struct s_special_key
 typedef struct s_main
 {
 	t_special_key	**special_keys;
+	t_char			*stashed;
+	int				cat_stash;
 }	t_readline_core;
 
 int				handle_key_input(t_readline *data, char *buffer);
@@ -179,5 +137,8 @@ void			ft_readline_set_exit(int v);
 void			ft_readline_sigint(void);
 void			ft_readline_init_signals(void);
 void			free_ft_readline(t_readline *data);
+
+void			add_to_stash(t_char **stashed, t_char *node, int type);
+void			clean_stash(t_readline_core *core, int check_cat);
 
 #endif
