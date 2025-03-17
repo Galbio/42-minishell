@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/15 22:33:02 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/17 13:25:19 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@
 # define BACKSPACE_KEY "\x7F"
 # define LEFT_ARROW_KEY "\x1B[D"
 # define RIGHT_ARROW_KEY "\x1B[C"
-# define HOME_KEY "\x1B[1~"
 # define DELETE_KEY "\x1B[3~"
+# define INSERT_KEY "\x1B[2~"
+# define HOME_KEY "\x1B[1~"
 # define END_KEY "\x1B[4~"
 # define PAGE_UP_KEY "\x1B[5~"
 # define PAGE_DOWN_KEY "\x1B[6~"
@@ -51,6 +52,18 @@
 # define CTRL_X "\x18"
 # define CTRL_Y "\x19"
 # define CTRL_Z "\x1A"
+# define ECHAP "\x1B"
+# define CTRL_BACKSLASH "\x1C"
+# define CTRL_LEFT_ARROW_KEY "\x1B[1;5D"
+# define CTRL_RIGHT_ARROW_KEY "\x1B[1;5C"
+# define CTRL_UP_ARROW_KEY "\x1B[1;5A"
+# define CTRL_DOWN_ARROW_KEY "\x1B[1;5B"
+# define CTRL_DELETE_KEY "\x1B[3;5~"
+# define CTRL_INSERT_KEY "\x1B[2;5~"
+# define CTRL_HOME_KEY "\x1B[1;5H"
+# define CTRL_END_KEY "\x1B[1;5F"
+# define CTRL_PAGE_UP_KEY "\x1B[5;5~"
+# define CTRL_PAGE_DOWN_KEY "\x1B[6;5~"
 
 typedef struct s_char
 {
@@ -139,6 +152,7 @@ t_special_key	*get_by_sequence(char *sequence);
 int				get_special_keys_count(void);
 t_special_key	**get_special_keys(void);
 
+void			invalid_key(t_readline *data);
 void			backspace_key(t_readline *data);
 void			left_arrow_key(t_readline *data);
 void			right_arrow_key(t_readline *data);
@@ -148,13 +162,16 @@ void			end_key(t_readline *data);
 void			breakline_key(t_readline *data);
 void			ctrl_c_key(t_readline *data);
 void			ctrl_d_key(t_readline *data);
-void			invalid_key(t_readline *data);
 void			stash_before_key(t_readline *data);
 void			stash_after_key(t_readline *data);
 void			stash_before_in_word_key(t_readline *data);
+void			stash_after_in_word_key(t_readline *data);
 void			paste_stash_key(t_readline *data);
 void			clear_key(t_readline *data);
 void			swap_key(t_readline *data);
+void			previous_word_key(t_readline *data);
+void			next_word_key(t_readline *data);
+void			five_tilde_key(t_readline *data);
 
 t_readline		*get_readline_data(void);
 int				ft_readline_must_exit(void);

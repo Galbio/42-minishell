@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 14:45:53 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/15 19:40:35 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/17 11:31:13 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ int	handle_special_keys(t_readline *data, char *buffer)
 		(key->callback)(data);
 		return (ft_strlen(key->sequence));
 	}
+	if (!ft_isprint(buffer[0]))
+		return (1);
 	return (0);
 }
 

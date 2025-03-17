@@ -6,11 +6,33 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:31:17 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/14 19:28:03 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/17 13:28:12 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
+
+static void	on_overwrite(char *sequence)
+{
+	int	i;
+
+	write(2, "Key with id '", 13);
+	ft_putstr_fd(sequence, 2);
+	write(2, "[", 1);
+	i = 0;
+	while (sequence[i])
+	{
+		ft_putnbr_fd(sequence[i], 2);
+		if (i < 3 && sequence[i + 1])
+			write(2, ";", 1);
+		i++;
+	}
+	write(2, "]", 1);
+	write(2, "' already exist.\n", 17);
+	disable_raw_mode();
+	free_ft_readline(get_readline_data());
+	exit(5);
+}
 
 void	register_special_key(char *sequence, void (*callback)(t_readline *))
 {
@@ -18,12 +40,7 @@ void	register_special_key(char *sequence, void (*callback)(t_readline *))
 	int				count;
 
 	if (get_by_sequence(sequence) != NULL)
-	{
-		write(2, "Key with id '", 13);
-		ft_putstr_fd(sequence, 2);
-		write(2, "' already exit.", 15);
-		exit(5);
-	}
+		on_overwrite(sequence);
 	main = get_readline_core();
 	count = get_special_keys_count();
 	main->special_keys = ft_realloc(

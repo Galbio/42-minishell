@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 20:46:31 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/15 21:25:17 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/17 13:31:29 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	swap_key(t_readline *data)
 {
 	char		*tmp;
-	int	i;
+	int			i;
 
 	if (!data->actual || data->actual == data->first)
 		return ;
