@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 14:45:53 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/14 18:34:49 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/17 17:52:43 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,10 @@ int	process_default_key(t_readline *data, char *buffer)
 			data->actual = data->actual->next;
 		}
 	}
-	data->size += 1;
 	return (len);
 }
 
-int	handle_special_keys(t_readline *data, char *buffer)
+static int	handle_special_keys(t_readline *data, char *buffer)
 {
 	t_special_key	*key;
 
@@ -72,6 +71,8 @@ int	handle_special_keys(t_readline *data, char *buffer)
 		(key->callback)(data);
 		return (ft_strlen(key->sequence));
 	}
+	if (!ft_isprint(buffer[0]))
+		return (1);
 	return (0);
 }
 

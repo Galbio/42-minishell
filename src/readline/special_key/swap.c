@@ -1,33 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   breakline.c                                        :+:      :+:    :+:   */
+/*   swap.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/14 14:23:31 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/17 14:37:06 by lroussel         ###   ########.fr       */
+/*   Created: 2025/03/15 20:46:31 by lroussel          #+#    #+#             */
+/*   Updated: 2025/03/17 13:31:29 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-void	breakline_key(t_readline *data)
+void	swap_key(t_readline *data)
 {
-	char	*build;
+	char		*tmp;
+	int			i;
 
-	build = build_result(*data, 0);
-	if (get_open_quote(build) == 0)
-	{
-		end_key(data);
-		write(0, "\n", 1);
-		data->cursor.y++;
-		data->cursor.x = 0;
-		teleport_cursor(data->cursor);
+	if (!data->actual || data->actual == data->first)
 		return ;
+	if (!data->actual->next)
+		data->actual = data->actual->previous;
+	tmp = ft_strdup(data->actual->c);
+	i = 0;
+	while (i < 4)
+	{
+		data->actual->c[i] = data->actual->next->c[i];
+		i++;
 	}
-	process_default_key(data, "\n");
-	write(0, "\n", 1);
-	teleport_cursor(data->cursor);
+	i = 0;
+	while (i < 4)
+	{
+		data->actual->next->c[i] = tmp[i];
+		i++;
+	}
+	data->actual = data->actual->next;
+	free(tmp);
 	on_write(data);
 }

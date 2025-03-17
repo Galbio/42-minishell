@@ -1,33 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   breakline.c                                        :+:      :+:    :+:   */
+/*   clear.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/14 14:23:31 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/17 14:37:06 by lroussel         ###   ########.fr       */
+/*   Created: 2025/03/15 20:19:38 by lroussel          #+#    #+#             */
+/*   Updated: 2025/03/15 20:29:06 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-void	breakline_key(t_readline *data)
+void	clear_key(t_readline *data)
 {
-	char	*build;
-
-	build = build_result(*data, 0);
-	if (get_open_quote(build) == 0)
-	{
-		end_key(data);
-		write(0, "\n", 1);
-		data->cursor.y++;
-		data->cursor.x = 0;
-		teleport_cursor(data->cursor);
-		return ;
-	}
-	process_default_key(data, "\n");
-	write(0, "\n", 1);
+	write(0, "\033[2J", 4);
+	data->pos.x = 0;
+	data->pos.y = 0;
+	teleport_cursor(data->pos);
+	write(2, data->prompt, ft_strlen(data->prompt));
+	get_cursor_position(&data->pos);
+	get_cursor_position(&data->cursor);
 	teleport_cursor(data->cursor);
 	on_write(data);
 }

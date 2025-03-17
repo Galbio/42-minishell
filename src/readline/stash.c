@@ -1,33 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   breakline.c                                        :+:      :+:    :+:   */
+/*   stash.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/14 14:23:31 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/17 14:37:06 by lroussel         ###   ########.fr       */
+/*   Created: 2025/03/17 16:23:56 by lroussel          #+#    #+#             */
+/*   Updated: 2025/03/17 16:50:26 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-void	breakline_key(t_readline *data)
+void	add_to_stash(t_char **stashed, t_char *node, int type)
 {
-	char	*build;
+	if (!(*stashed))
+		*stashed = node;
+	else if (type == 0)
+		add_char_front(stashed, node);
+	else if (type == 1)
+		add_char_back(*stashed, node);
+}
 
-	build = build_result(*data, 0);
-	if (get_open_quote(build) == 0)
+void	clean_stash(t_readline_core *core, int check_cat)
+{
+	if (!check_cat || !core->cat_stash)
 	{
-		end_key(data);
-		write(0, "\n", 1);
-		data->cursor.y++;
-		data->cursor.x = 0;
-		teleport_cursor(data->cursor);
-		return ;
+		free_chars(core->stashed);
+		core->stashed = NULL;
 	}
-	process_default_key(data, "\n");
-	write(0, "\n", 1);
-	teleport_cursor(data->cursor);
-	on_write(data);
+	if (check_cat)
+		core->cat_stash = 1;
 }

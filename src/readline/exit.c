@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:00:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/11 11:40:30 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/17 16:56:07 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,9 @@ int	ft_readline_must_exit(void)
 
 void	free_ft_readline(t_readline *data)
 {
-	t_char	*c;
-	t_char	*tmp;
-
 	if (!data)
 		return ;
-	c = data->first;
-	while (c)
-	{
-		tmp = c->next;
-		free(c);
-		c = tmp;
-	}
-	free(data->buffer_ptr);
-	data->buffer_ptr = NULL;
+	free_chars(data->first);
 	data->actual = NULL;
 	data->first = NULL;
 }
