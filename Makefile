@@ -40,7 +40,13 @@ FILES = main.c		\
 	readline/special_key/delete.c	\
 	readline/special_key/factory.c	\
 	readline/special_key/interrupt.c	\
+	readline/special_key/invalid.c	\
 	readline/special_key/teleport.c	\
+	readline/special_key/stash.c	\
+	readline/special_key/stash_word.c	\
+	readline/special_key/clear.c	\
+	readline/special_key/swap.c	\
+	readline/special_key/five_tilde.c	\
 	readline/char_utils.c	\
 	readline/cursor_position.c	\
 	readline/cursor_manager.c	\
@@ -58,6 +64,7 @@ FILES = main.c		\
 	readline/exit.c		\
 	readline/char_position.c	\
 	readline/lines.c		\
+	readline/stash.c	\
 	utils/init_int_tab.c \
 	utils/go_to_var_end.c \
 	utils/free_envp.c \

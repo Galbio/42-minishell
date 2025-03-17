@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   interupt.c                                         :+:      :+:    :+:   */
+/*   interrupt.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 14:22:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/14 14:22:35 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/15 20:01:07 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-void	on_press_ctrl_c_key(t_readline *data)
+void	ctrl_c_key(t_readline *data)
 {
 	data->cursor = get_char_pos(data, last_char(data->first));
 	teleport_cursor(data->cursor);
@@ -26,8 +26,7 @@ void	on_press_ctrl_c_key(t_readline *data)
 	}
 }
 
-//TODO: when data->actual->next
-void	on_press_ctrl_d_key(t_readline *data)
+void	ctrl_d_key(t_readline *data)
 {
 	if (data->first == NULL)
 	{
@@ -36,4 +35,5 @@ void	on_press_ctrl_d_key(t_readline *data)
 		write(0, "\nexit\n", 6);
 		exit(0);
 	}
+	delete_key(data);
 }
