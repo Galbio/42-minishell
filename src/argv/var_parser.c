@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/18 02:04:44 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/18 02:06:28 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,6 @@ void	handle_var(char *str, t_int_tab *itab, t_list **cmd_outputs,
 		t_cmd_params cmd)
 {
 	char	*output;
-	char	**splitted;
-	int		i;
 
 	itab->ptr1 = get_var_name(str + itab->i + 1);
 	if (itab->ptr1[0] == '?')
