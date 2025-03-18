@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 21:01:11 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/12 21:19:22 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/18 01:35:19 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_list	*split_semicolon(char *str)
 	while (str[++itab.i])
 	{
 		if (str[itab.i] == '$' && !itab.backslash && !itab.cur_quote)
-			go_to_var_end(str, &itab.i);
+			itab.i += go_to_var_end(str + itab.i);
 		if ((str[itab.i] == ';') && !itab.backslash && !itab.cur_quote)
 		{
 			itab.ptr1 = ft_substr(str, itab.ret, itab.i - itab.ret);

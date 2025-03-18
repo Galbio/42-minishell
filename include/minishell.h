@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/17 21:00:29 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/18 01:34:24 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,10 @@ void			execute_bin(char **argv, t_main_envp *imp);
 //argv
 char			**create_command_argv(char *str, t_list **envp,
 					t_main_envp *imp);
-void			handle_var(t_list **dest, t_list **envp, t_main_envp *imp,
-					t_int_tab *itab);
-void			add_var_to_argv(t_list **dest, char *str, t_int_tab *itab,
+void			handle_var(char *str, t_int_tab *itab, t_list **cmd_outputs,
 					t_cmd_params cmd);
-void			add_to_argv(t_list **dest, char *str, t_int_tab *itab);
-int				get_parsed_size(char *str);
+void			add_to_argv(t_list **dest, char *str, t_int_tab *itab,
+					t_cmd_params cmd);
 
 //pipe utils
 t_cmd_params	make_cmd(void *argv_ptr, t_list **envp, t_main_envp *imp);
@@ -101,7 +99,7 @@ int				wait_line_end_exec(int nb_cmd, int write_pipe,
 void			go_to_next_command(t_list **commands, int *temp, int pipes[2]);
 char			check_builtins(char *name);
 int				handle_builtins(int code, t_cmd_params *cmd);
-void			go_to_var_end(char *str, int *i);
+int				go_to_var_end(char *str);
 
 //builtins
 int				ms_cd(t_cmd_params *cmd);

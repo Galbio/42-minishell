@@ -6,13 +6,13 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 08:00:35 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/17 21:02:36 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/18 01:36:17 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_list	*fill_argv(char *str, t_list **envp, t_main_envp *imp)
+static t_list	*fill_argv(char *str, t_cmd_params cmd)
 {
 	t_list		*dest;
 	t_int_tab	itab;
@@ -24,11 +24,11 @@ static t_list	*fill_argv(char *str, t_list **envp, t_main_envp *imp)
 		if (!check_special_char(str[itab.i], &itab.backslash, &itab.cur_quote))
 			continue ;
 		if ((str[itab.i] == 32) && !itab.cur_quote && !itab.backslash)
-			add_to_argv(&dest, str, &itab);
+			add_to_argv(&dest, str, &itab, cmd);
 		if ((str[itab.i] == '$') && !itab.backslash && (itab.cur_quote != '\''))
-			add_var_to_argv(&dest, str, &itab, make_cmd(NULL, envp, imp));
+			itab.i += go_to_var_end(str + itab.i);
 	}
-	add_to_argv(&dest, str, &itab);
+	add_to_argv(&dest, str, &itab, cmd);
 	return (dest);
 }
 
@@ -39,7 +39,7 @@ char	**create_command_argv(char *str, t_list **envp, t_main_envp *imp)
 	char	**dest;
 	int		size;
 
-	argv = fill_argv(str, envp, imp);
+	argv = fill_argv(str, make_cmd(NULL, envp, imp));
 	size = ft_lstsize(argv);
 	if (!size)
 		size = 1;

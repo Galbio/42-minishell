@@ -6,13 +6,13 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/17 20:55:29 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/18 01:54:04 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*handle_commands(char *name, t_list **envp, t_main_envp *imp)
+static char	*handle_commands(char *name, t_cmd_params cmd, char quote)
 {
 	t_list	*commands;
 	int		old_redir;
@@ -21,18 +21,50 @@ static char	*handle_commands(char *name, t_list **envp, t_main_envp *imp)
 
 	if (pipe(pipes) < 0)
 		return (NULL);
-	imp->is_bquoted++;
-	old_redir = imp->output_fd;
-	imp->output_fd = pipes[1];
+	cmd.imp->is_bquoted++;
+	old_redir = cmd.imp->output_fd;
+	cmd.imp->output_fd = pipes[1];
 	name[ft_strlen(name) - 1] = 0;
 	commands = split_semicolon(name);
-	execute_line(commands, envp, imp);
-	imp->output_fd = old_redir;
+	execute_line(commands, cmd.envp, cmd.imp);
+	cmd.imp->output_fd = old_redir;
 	close(pipes[1]);
-	imp->is_bquoted--;
+	cmd.imp->is_bquoted--;
 	dest = ft_get_contents(pipes[0]);
 	close(pipes[0]);
-	return (clean_whitespaces(dest));
+	if (!quote)
+		return (clean_whitespaces(dest));
+	name = dest;
+	dest = ft_strtrim(dest, " \n\t");
+	free(name);
+	return (dest);
+}
+
+static char	*get_var_name(char *str)
+{
+	int		pare;
+	int		pare_count;
+	int		i;
+
+	if (ft_isdigit(*str))
+		return (ft_itoa(*str + '0'));
+	else if (*str == '?')
+		return (ft_strdup("?"));
+	pare = *str == '(';
+	pare_count = 0;
+	i = -1;
+	while (str[++i])
+	{
+		if (!pare && (str[i] != '_') && !ft_isalnum(str[i]))
+			return (ft_substr(str, 0, i));
+		else if (str[i] == '(')
+			pare_count++;
+		else if (str[i] == ')')
+			pare_count--;
+		if (pare && !pare_count)
+			return (ft_substr(str, 0, i + 1));
+	}
+	return (ft_substr(str, 0, i + 1));
 }
 
 static char	*get_var_value(char *name, t_list *cur)
@@ -51,27 +83,22 @@ static char	*get_var_value(char *name, t_list *cur)
 	return (ft_strdup(""));
 }
 
-void	handle_var(t_list **dest, t_list **envp, t_main_envp *imp,
-		t_int_tab *itab)
+void	handle_var(char *str, t_int_tab *itab, t_list **cmd_outputs,
+		t_cmd_params cmd)
 {
 	char	*output;
 	char	**splitted;
 	int		i;
 
+	itab->ptr1 = get_var_name(str + itab->i + 1);
 	if (itab->ptr1[0] == '?')
-		output = ft_itoa((int)imp->exit_status);
+		output = ft_itoa((int)cmd.imp->exit_status);
 	else if (itab->ptr1[0] == '(')
-		output = handle_commands(itab->ptr1 + 1, envp, imp);
+		output = handle_commands(itab->ptr1 + 1, cmd, itab->cur_quote);
 	else
-		output = get_var_value(itab->ptr1, *envp);
-	if (itab->cur_quote)
-		ft_lstadd_front(dest, ft_lstnew(output));
-	else
-	{
-		splitted = ft_split(output, 32);
-		i = -1;
-		while (splitted[++i])
-			ft_lstadd_front(dest, ft_lstnew(splitted[i]));
-		free(splitted);
-	}
+		output = get_var_value(itab->ptr1, *(cmd.envp));
+	ft_lstadd_back(cmd_outputs, ft_lstnew(output));
+	itab->res += ft_strlen(output);
+	itab->i += ft_strlen(itab->ptr1) + 1;
+	free(itab->ptr1);
 }
