@@ -6,13 +6,13 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/18 17:55:23 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/18 19:19:52 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*handle_commands(char *name, t_cmd_params cmd, char quote)
+static char	*handle_commands(char *name, t_cmd_params cmd)
 {
 	t_list	*commands;
 	int		old_redir;
@@ -33,7 +33,6 @@ static char	*handle_commands(char *name, t_cmd_params cmd, char quote)
 	dest = ft_get_contents(pipes[0]);
 	close(pipes[0]);
 	return (dest);
-	(void)quote;
 }
 
 static char	*get_var_name(char *str)
@@ -88,7 +87,7 @@ void	handle_var(char *str, t_int_tab *itab, t_list **cmd_outputs,
 	if (itab->ptr1[0] == '?')
 		output = ft_itoa((int)cmd.imp->exit_status);
 	else if (itab->ptr1[0] == '(')
-		output = handle_commands(itab->ptr1 + 1, cmd, itab->cur_quote);
+		output = handle_commands(itab->ptr1 + 1, cmd);
 	else
 		output = get_var_value(itab->ptr1, *(cmd.envp));
 	ft_lstadd_back(cmd_outputs, ft_lstnew(output));
