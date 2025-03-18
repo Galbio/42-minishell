@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/18 18:30:51 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/18 22:16:29 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ void			go_to_next_command(t_list **commands, int *temp, int pipes[2]);
 char			check_builtins(char *name);
 int				handle_builtins(int code, t_cmd_params *cmd);
 int				go_to_var_end(char *str);
+char			*trim_ws(char *str);
+char			*remove_end_newlines(char *str);
 
 //builtins
 int				ms_cd(t_cmd_params *cmd);

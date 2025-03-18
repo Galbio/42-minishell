@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 20:51:10 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/18 18:26:34 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/18 22:08:47 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,14 @@ static char	check_special_char_other(char *str, t_int_tab *itab)
 {
 	if ((str[itab->i] == '\\') && !itab->backslash)
 	{
-		itab->backslash = 1;
 		if ((str[itab->i + 1] == '"') || (str[itab->i + 1] == '$')
 			|| (str[itab->i + 1] == '\\'))
-			return (1);
-		itab->backslash = 0;
+			return (itab->backslash = 1, 1);
 		return (0);
 	}
 	if (itab->backslash && !((str[itab->i] == '$') || str[itab->i] == '"'
 			|| str[itab->i] == '\\'))
-		itab->backslash = 0;
+		return (itab->backslash = 0, 0);
 	if ((str[itab->i] == '"') && !itab->cur_quote && !itab->backslash)
 		return (itab->cur_quote = '"', 1);
 	if ((str[itab->i] == '"') && !itab->backslash)
@@ -41,7 +39,8 @@ char	check_special_char(char *str, t_int_tab *itab)
 		return (itab->cur_quote = '\'', 1);
 	if (itab->cur_quote == '\'')
 		return (0);
-	if (itab->backslash && !itab->cur_quote && (ft_iswhitespace(str[itab->i])))
+	if (itab->backslash && !itab->cur_quote && ft_strchr(" \n\nt", str[itab->i])
+		&& (itab->i && str[itab->i - 1] == '\\'))
 		return (0);
 	if ((str[itab->i] == '\\') && !itab->cur_quote
 		&& ft_iswhitespace(str[itab->i + 1]))

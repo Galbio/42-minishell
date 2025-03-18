@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 20:57:20 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/18 18:30:58 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/18 20:51:12 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int	get_parsed_size(char *str, t_list **cmd_outputs, t_cmd_params cmd)
 			handle_var(str, &itab, cmd_outputs, cmd);
 		else
 			itab.res++;
+		if (itab.backslash && ft_strchr("$\"\\", str[itab.i]))
+			itab.backslash = 0;
 	}
 	return (itab.res);
 }
@@ -68,6 +70,8 @@ static char	*parse_quotes(char *str, t_cmd_params cmd)
 			add_var_to_dest(dest, str, &itab, &cmd_outputs);
 		else
 			dest[itab.res++] = str[itab.i];
+		if (itab.backslash && ft_strchr("$\"\\", str[itab.i]))
+			itab.backslash = 0;
 	}
 	free(str);
 	return (dest);
