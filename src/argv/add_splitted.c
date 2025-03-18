@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 18:17:51 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/18 18:42:28 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/18 19:18:24 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,8 @@ static char	*make_splitted_str(char *str, int *i)
 void	add_splitted_to_add(char *str, t_list **dest)
 {
 	int		i;
-	int		ret;
 
 	i = 0;
-	ret = 0;
 	while (str[i])
 	{
 		while (ft_iswhitespace(str[i]))
