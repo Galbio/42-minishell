@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/18 02:06:28 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:55:23 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,8 @@ static char	*handle_commands(char *name, t_cmd_params cmd, char quote)
 	cmd.imp->is_bquoted--;
 	dest = ft_get_contents(pipes[0]);
 	close(pipes[0]);
-	if (!quote)
-		return (clean_whitespaces(dest));
-	name = dest;
-	dest = ft_strtrim(dest, " \n\t");
-	free(name);
 	return (dest);
+	(void)quote;
 }
 
 static char	*get_var_name(char *str)

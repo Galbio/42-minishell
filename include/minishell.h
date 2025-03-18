@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/18 01:34:24 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/18 18:30:51 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ typedef struct s_int_tab
 
 void			launch(t_list *envp, t_main_envp *imp);
 
-char			check_special_char(char c, char *backslash, char *cur_quote);
+char			check_special_char(char *str, t_int_tab *itab);
 void			free_envp(t_list **envp, t_main_envp *imp);
 
 t_int_tab		init_int_tab(void);
@@ -84,6 +84,7 @@ void			execute_line(t_list *commands, t_list **envp,
 int				execute_pipes(t_list *commands, t_list **envp,
 					t_main_envp *imp);
 void			execute_bin(char **argv, t_main_envp *imp);
+
 //argv
 char			**create_command_argv(char *str, t_list **envp,
 					t_main_envp *imp);
@@ -91,6 +92,7 @@ void			handle_var(char *str, t_int_tab *itab, t_list **cmd_outputs,
 					t_cmd_params cmd);
 void			add_to_argv(t_list **dest, char *str, t_int_tab *itab,
 					t_cmd_params cmd);
+void			add_splitted_to_add(char *str, t_list **dest);
 
 //pipe utils
 t_cmd_params	make_cmd(void *argv_ptr, t_list **envp, t_main_envp *imp);

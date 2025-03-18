@@ -6,28 +6,11 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 20:57:20 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/18 01:49:35 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/18 18:30:58 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	get_parsed_size(char *str, t_list **cmd_outputs, t_cmd_params cmd)
-{
-	t_int_tab	itab;
-
-	itab = init_int_tab();
-	while (str[++itab.i])
-	{
-		if (!check_special_char(str[itab.i], &itab.backslash, &itab.cur_quote))
-			continue ;
-		if ((str[itab.i] == '$') && (itab.cur_quote != '\'') && !itab.backslash)
-			handle_var(str, &itab, cmd_outputs, cmd);
-		else
-			itab.res++;
-	}
-	return (itab.res);
-}
 
 void	add_var_to_dest(char *dest, char *str, t_int_tab *itab,
 		t_list **cmd_outputs)
@@ -44,8 +27,24 @@ void	add_var_to_dest(char *dest, char *str, t_int_tab *itab,
 	free(temp->content);
 	free(temp);
 	itab->res += len;
-	itab->i += go_to_var_end(str + itab->i);
-	itab->i--;
+	itab->i += go_to_var_end(str + itab->i) - 1;
+}
+
+int	get_parsed_size(char *str, t_list **cmd_outputs, t_cmd_params cmd)
+{
+	t_int_tab	itab;
+
+	itab = init_int_tab();
+	while (str[++itab.i])
+	{
+		if (check_special_char(str, &itab))
+			continue ;
+		if ((str[itab.i] == '$') && (itab.cur_quote != '\'') && !itab.backslash)
+			handle_var(str, &itab, cmd_outputs, cmd);
+		else
+			itab.res++;
+	}
+	return (itab.res);
 }
 
 static char	*parse_quotes(char *str, t_cmd_params cmd)
@@ -63,7 +62,7 @@ static char	*parse_quotes(char *str, t_cmd_params cmd)
 	dest[itab.ret] = 0;
 	while (str[++itab.i])
 	{
-		if (!check_special_char(str[itab.i], &itab.backslash, &itab.cur_quote))
+		if (check_special_char(str, &itab))
 			continue ;
 		if ((str[itab.i] == '$') && (itab.cur_quote != '\'') && !itab.backslash)
 			add_var_to_dest(dest, str, &itab, &cmd_outputs);
@@ -78,24 +77,15 @@ void	add_to_argv(t_list **dest, char *str, t_int_tab *itab,
 		t_cmd_params cmd)
 {
 	char	*to_add;
-	char	**splitted;
-	int		i;
 
 	if (str[itab->ret])
 	{
 		to_add = parse_quotes(ft_substr(str, itab->ret,
 					itab->i - itab->ret), cmd);
-		if (itab->cur_quote)
+		if (str[itab->ret] == '"')
 			ft_lstadd_front(dest, ft_lstnew(to_add));
 		else
-		{
-			splitted = ft_split(to_add, ' ');
-			i = -1;
-			while (splitted[++i])
-				ft_lstadd_front(dest, ft_lstnew(splitted[i]));
-			free(splitted);
-			free(to_add);
-		}
+			add_splitted_to_add(to_add, dest);
 		itab->ret = itab->i + 1;
 	}
 }

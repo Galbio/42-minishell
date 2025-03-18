@@ -23,6 +23,7 @@ FILES = main.c		\
 	argv/create_argv.c \
 	argv/argv_utils.c \
 	argv/var_parser.c \
+	argv/add_splitted.c \
 	builtins/echo.c \
 	builtins/cd.c \
 	builtins/pwd.c \
@@ -79,7 +80,7 @@ COMPILATOR = cc
 all: $(NAME)
 
 $(NAME): $(LIBFTA) $(FT_PRINTFA) $(OFILES)
-	$(COMPILATOR) $(FLAGS) $(OFILES) $(LIBFTA) $(FT_PRINTFA) -o $(NAME) -I $(INCLUDE) -I $(LIBFTI) -I $(FT_PRINTFA) $(EXTRA_FLAGS)
+	@$(COMPILATOR) $(FLAGS) $(OFILES) $(LIBFTA) $(FT_PRINTFA) -o $(NAME) -I $(INCLUDE) -I $(LIBFTI) -I $(FT_PRINTFA) $(EXTRA_FLAGS)
 
 $(LIBFTA):
 	@make -C $(LIBFT) bonus > /dev/null

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 21:06:57 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/18 01:36:29 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/18 16:40:01 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	go_to_var_end(char *str)
 
 	i = 1;
 	if (str[i] == '?')
-		return (1);
+		return (2);
 	pare = str[i] == '(';
 	pare_count = 0;
 	while (str[i])

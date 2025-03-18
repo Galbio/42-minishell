@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 08:00:35 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/18 01:36:17 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:28:20 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ static t_list	*fill_argv(char *str, t_cmd_params cmd)
 	itab = init_int_tab();
 	while (str[++itab.i])
 	{
-		if (!check_special_char(str[itab.i], &itab.backslash, &itab.cur_quote))
-			continue ;
+		itab.i += check_special_char(str, &itab);
 		if ((str[itab.i] == 32) && !itab.cur_quote && !itab.backslash)
 			add_to_argv(&dest, str, &itab, cmd);
 		if ((str[itab.i] == '$') && !itab.backslash && (itab.cur_quote != '\''))
