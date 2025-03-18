@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 20:57:20 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/18 01:49:35 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/18 03:00:44 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	add_to_argv(t_list **dest, char *str, t_int_tab *itab,
 	{
 		to_add = parse_quotes(ft_substr(str, itab->ret,
 					itab->i - itab->ret), cmd);
-		if (itab->cur_quote)
+		if (str[itab->ret] == '"')
 			ft_lstadd_front(dest, ft_lstnew(to_add));
 		else
 		{
