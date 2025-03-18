@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 18:17:51 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/18 22:16:06 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/18 22:54:50 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static char	*make_splitted_str(char *str, int *i)
 	int		ret;
 	char	is_sep;
 
-	dest = malloc(sizeof(char) * get_splitted_size(str + *i));
+	dest = malloc(sizeof(char) * (get_splitted_size(str + *i) + 1));
 	if (!dest)
 		return (NULL);
 	is_sep = 1;

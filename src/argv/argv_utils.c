@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 20:57:20 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/18 20:51:12 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/18 23:19:50 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,32 @@ int	get_parsed_size(char *str, t_list **cmd_outputs, t_cmd_params cmd)
 		if ((str[itab.i] == '$') && (itab.cur_quote != '\'') && !itab.backslash)
 			handle_var(str, &itab, cmd_outputs, cmd);
 		else
+		{
+			if (itab.cur_quote && ft_strchr(" \n\t", str[itab.i]))
+				itab.res++;
 			itab.res++;
+		}
 		if (itab.backslash && ft_strchr("$\"\\", str[itab.i]))
 			itab.backslash = 0;
 	}
 	return (itab.res);
+}
+
+static void	fill_dest(char *dest, t_int_tab *itab, char *str,
+			t_list **cmd_outputs)
+{
+	if (check_special_char(str, itab))
+		return ;
+	if ((str[itab->i] == '$') && (itab->cur_quote != '\'') && !itab->backslash)
+		add_var_to_dest(dest, str, itab, cmd_outputs);
+	else
+	{
+		if (itab->cur_quote && ft_strchr(" \n\t", str[itab->i]))
+			dest[itab->res++] = '\\';
+		dest[itab->res++] = str[itab->i];
+	}
+	if (itab->backslash && ft_strchr("$\"\\", str[itab->i]))
+		itab->backslash = 0;
 }
 
 static char	*parse_quotes(char *str, t_cmd_params cmd)
@@ -63,16 +84,7 @@ static char	*parse_quotes(char *str, t_cmd_params cmd)
 		return (NULL);
 	dest[itab.ret] = 0;
 	while (str[++itab.i])
-	{
-		if (check_special_char(str, &itab))
-			continue ;
-		if ((str[itab.i] == '$') && (itab.cur_quote != '\'') && !itab.backslash)
-			add_var_to_dest(dest, str, &itab, &cmd_outputs);
-		else
-			dest[itab.res++] = str[itab.i];
-		if (itab.backslash && ft_strchr("$\"\\", str[itab.i]))
-			itab.backslash = 0;
-	}
+		fill_dest(dest, &itab, str, &cmd_outputs);
 	free(str);
 	return (dest);
 }
@@ -86,10 +98,7 @@ void	add_to_argv(t_list **dest, char *str, t_int_tab *itab,
 	{
 		to_add = parse_quotes(ft_substr(str, itab->ret,
 					itab->i - itab->ret), cmd);
-		if (str[itab->ret] == '"')
-			ft_lstadd_front(dest, ft_lstnew(to_add));
-		else
-			add_splitted_to_add(to_add, dest);
+		add_splitted_to_add(to_add, dest);
 		itab->ret = itab->i + 1;
 	}
 }
