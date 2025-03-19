@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 20:57:20 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/19 15:21:58 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/19 18:18:25 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	get_parsed_size(char *str, t_list **cmd_outputs, t_cmd_params cmd)
 			handle_var(str, &itab, cmd_outputs, cmd);
 		else
 		{
-			if (itab.cur_quote && ft_strchr(" \n\t", str[itab.i]))
+			if (itab.cur_quote && ft_strchr(" \n\t\\", str[itab.i]))
 				itab.res++;
 			itab.res++;
 		}
@@ -62,7 +62,7 @@ static void	fill_dest(char *dest, t_int_tab *itab, char *str,
 		add_var_to_dest(dest, str, itab, cmd_outputs);
 	else
 	{
-		if (itab->cur_quote && ft_strchr(" \n\t", str[itab->i]))
+		if (itab->cur_quote && ft_strchr(" \n\t\\", str[itab->i]))
 			dest[itab->res++] = '\\';
 		dest[itab->res++] = str[itab->i];
 	}
@@ -92,13 +92,9 @@ static char	*parse_quotes(char *str, t_cmd_params cmd)
 void	add_to_argv(t_list **dest, char *str, t_int_tab *itab,
 		t_cmd_params cmd)
 {
-	char	*to_add;
-
-	if (str[itab->ret])
-	{
-		to_add = parse_quotes(ft_substr(str, itab->ret,
-					itab->i - itab->ret), cmd);
-		add_splitted_to_add(to_add, dest);
-		itab->ret = itab->i + 1;
-	}
+	if (!str[itab->ret])
+		return ;
+	add_splitted_to_add(parse_quotes(
+			ft_substr(str, itab->ret, itab->i - itab->ret), cmd), dest);
+	itab->ret = itab->i + 1;
 }

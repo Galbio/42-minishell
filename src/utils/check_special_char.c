@@ -6,13 +6,13 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 20:51:10 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/19 15:21:39 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/19 18:11:37 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	check_special_char_other(char *str, t_int_tab *itab)
+static char	check_other_special_char(char *str, t_int_tab *itab)
 {
 	if ((str[itab->i] == '\\') && !itab->backslash)
 	{
@@ -47,5 +47,5 @@ char	check_special_char(char *str, t_int_tab *itab)
 		return (itab->backslash = 1, 0);
 	if (!itab->backslash && (str[itab->i] == '\\') && !itab->cur_quote)
 		return (itab->backslash = 1, 1);
-	return (check_special_char_other(str, itab));
+	return (check_other_special_char(str, itab));
 }

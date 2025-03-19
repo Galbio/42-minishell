@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 18:17:51 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/19 17:32:50 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/19 18:35:28 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	get_splitted_size(char *str)
 		else if (!is_sep || !ft_iswhitespace(str[i]))
 		{
 			res++;
-			if (str[i + 1] == '\\')
+			if ((str[i] == '\\') && (str[i + 1] == '\\'))
 				i++;
 			is_sep = 1;
 		}
@@ -54,7 +54,7 @@ static char	*make_splitted_str(char *str, int *i, char is_sep)
 		else if (!is_sep || !ft_iswhitespace(str[*i]))
 		{
 			dest[ret++] = str[*i];
-			if (str[*i + 1] == '\\')
+			if ((str[*i] == '\\') && (str[*i + 1] == '\\'))
 				(*i)++;
 			is_sep = 1;
 		}

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/19 17:22:32 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/19 18:10:50 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static char	*handle_commands(char *name, t_cmd_params cmd, char quote)
 {
-	t_list	*commands;
 	int		old_redir;
 	int		pipes[2];
 	char	*dest;
@@ -25,8 +24,7 @@ static char	*handle_commands(char *name, t_cmd_params cmd, char quote)
 	old_redir = cmd.imp->output_fd;
 	cmd.imp->output_fd = pipes[1];
 	name[ft_strlen(name) - 1] = 0;
-	commands = split_semicolon(name);
-	execute_line(commands, cmd.envp, cmd.imp);
+	execute_line(split_semicolon(name), cmd.envp, cmd.imp);
 	cmd.imp->output_fd = old_redir;
 	close(pipes[1]);
 	cmd.imp->is_bquoted--;
