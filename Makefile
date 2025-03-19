@@ -70,7 +70,6 @@ FILES = main.c		\
 	utils/init_int_tab.c \
 	utils/go_to_var_end.c \
 	utils/free_envp.c \
-	utils/ft_count_char.c \
 	utils/trim_whitespaces.c \
 	utils/check_special_char.c
 
