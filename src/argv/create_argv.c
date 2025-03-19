@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 08:00:35 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/18 22:55:03 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:20:53 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ static t_list	*fill_argv(char *str, t_cmd_params cmd)
 			add_to_argv(&dest, str, &itab, cmd);
 		if ((str[itab.i] == '$') && !itab.backslash && (itab.cur_quote != '\''))
 			itab.i += go_to_var_end(str + itab.i);
+		if (itab.backslash && !itab.cur_quote
+			&& ft_strchr("$\"\\", str[itab.i]))
+			itab.backslash = 0;
 	}
 	add_to_argv(&dest, str, &itab, cmd);
 	return (dest);

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 20:57:20 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/18 23:19:50 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:21:58 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void	fill_dest(char *dest, t_int_tab *itab, char *str,
 			dest[itab->res++] = '\\';
 		dest[itab->res++] = str[itab->i];
 	}
-	if (itab->backslash && ft_strchr("$\"\\", str[itab->i]))
+	if (itab->backslash && !itab->cur_quote && ft_strchr("$\"\\", str[itab->i]))
 		itab->backslash = 0;
 }
 
