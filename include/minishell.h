@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/19 17:34:26 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/19 17:43:41 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ char			*parse_var(char *var_name, t_list **envp, t_main_envp *imp);
 char			*parse_commands(char *str, t_list *envp, t_main_envp *imp);
 char			*read_whole_fd(int fd);
 char			*handle_bquotes(char *res);
-char			*clean_whitespaces(char *str);
 char			*get_var_str(char *str);
 t_list			*init_pipes(char *str, t_list **envp, t_main_envp *imp);
 t_list			*split_semicolon(char *str);

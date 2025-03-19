@@ -17,7 +17,6 @@ FILES = main.c		\
 	envp_parser.c \
 	bquotes_handler.c \
 	init_pipes.c \
-	whitespace_fixer.c \
 	signals.c		\
 	split_semicolon.c \
 	argv/create_argv.c \
