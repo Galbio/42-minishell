@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 21:01:11 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/18 21:12:30 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/19 23:23:53 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ t_list	*split_semicolon(char *str)
 		{
 			itab.ptr1 = ft_substr(str, itab.ret, itab.i - itab.ret);
 			itab.ret = itab.i + 1;
-			ft_lstadd_back(&dest,
-				ft_lstnew(ft_strtrim(itab.ptr1, " \n\t\r\b\v\f")));
-			free(itab.ptr1);
+			ft_lstadd_back(&dest, ft_lstnew(trim_ws(itab.ptr1)));
 		}
 		check_special_char(str, &itab);
 	}
+	if (!str[itab.ret])
+		return (dest);
 	itab.ptr1 = ft_substr(str, itab.ret, itab.i);
 	ft_lstadd_back(&dest, ft_lstnew(trim_ws(itab.ptr1)));
 	return (dest);

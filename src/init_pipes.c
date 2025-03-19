@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 03:38:49 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/19 15:23:11 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/19 23:25:38 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static t_list	*split_pipes(char *str)
 	cmds = NULL;
 	while (str[++itab.i])
 	{
-		check_special_char(str, &itab);
 		if ((str[itab.i] == '$') && !itab.backslash && !itab.cur_quote)
 			itab.i += go_to_var_end(str + itab.i);
 		if ((str[itab.i] == '|') && !itab.backslash && !itab.cur_quote
@@ -31,10 +30,10 @@ static t_list	*split_pipes(char *str)
 			itab.ret = itab.i + 1;
 			ft_lstadd_back(&cmds, ft_lstnew(trim_ws(itab.ptr1)));
 		}
-		if (itab.backslash && !itab.cur_quote
-			&& ft_strchr("$\"\\", str[itab.i]))
-			itab.backslash = 0;
+		check_special_char(str, &itab);
 	}
+	if (!str[itab.ret])
+		return (cmds);
 	itab.ptr1 = ft_substr(str, itab.ret, itab.i);
 	ft_lstadd_back(&cmds, ft_lstnew(trim_ws(itab.ptr1)));
 	return (cmds);
