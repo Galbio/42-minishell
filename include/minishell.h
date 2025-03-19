@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/18 22:16:29 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/19 17:21:22 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void			handle_var(char *str, t_int_tab *itab, t_list **cmd_outputs,
 void			add_to_argv(t_list **dest, char *str, t_int_tab *itab,
 					t_cmd_params cmd);
 void			add_splitted_to_add(char *str, t_list **dest);
+char			*parse_var_return(char *str, char quote);
 
 //pipe utils
 t_cmd_params	make_cmd(void *argv_ptr, t_list **envp, t_main_envp *imp);
@@ -103,7 +104,6 @@ char			check_builtins(char *name);
 int				handle_builtins(int code, t_cmd_params *cmd);
 int				go_to_var_end(char *str);
 char			*trim_ws(char *str);
-char			*remove_end_newlines(char *str);
 
 //builtins
 int				ms_cd(t_cmd_params *cmd);
@@ -119,5 +119,8 @@ void			export_vars(t_list *envp);
 void			unset_var(char *name, t_list **envp, t_main_envp *imp);
 
 void			init_signals(void);
+
+//add to libft
+int				ft_count_char(char *str, int c);
 
 #endif

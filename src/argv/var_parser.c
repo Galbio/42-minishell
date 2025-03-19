@@ -6,13 +6,13 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/18 22:17:57 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/19 17:22:32 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*handle_commands(char *name, t_cmd_params cmd)
+static char	*handle_commands(char *name, t_cmd_params cmd, char quote)
 {
 	t_list	*commands;
 	int		old_redir;
@@ -32,8 +32,7 @@ static char	*handle_commands(char *name, t_cmd_params cmd)
 	cmd.imp->is_bquoted--;
 	dest = ft_get_contents(pipes[0]);
 	close(pipes[0]);
-	dest = remove_end_newlines(dest);
-	return (dest);
+	return (parse_var_return(dest, quote));
 }
 
 static char	*get_var_name(char *str)
@@ -63,7 +62,7 @@ static char	*get_var_name(char *str)
 	return (ft_substr(str, 0, i + 1));
 }
 
-static char	*get_var_value(char *name, t_list *cur)
+static char	*get_var_value(char *name, t_list *cur, char quote)
 {
 	int		len;
 	char	*value;
@@ -73,7 +72,7 @@ static char	*get_var_value(char *name, t_list *cur)
 	{
 		value = (char *)cur->content;
 		if ((value[len] == '=') && !ft_strncmp(name, value, len))
-			return (ft_strdup(value + len + 1));
+			return (parse_var_return(ft_strdup(value + len + 1), quote));
 		cur = cur->next;
 	}
 	return (ft_strdup(""));
@@ -88,9 +87,9 @@ void	handle_var(char *str, t_int_tab *itab, t_list **cmd_outputs,
 	if (itab->ptr1[0] == '?')
 		output = ft_itoa((int)cmd.imp->exit_status);
 	else if (itab->ptr1[0] == '(')
-		output = handle_commands(itab->ptr1 + 1, cmd);
+		output = handle_commands(itab->ptr1 + 1, cmd, itab->cur_quote);
 	else
-		output = get_var_value(itab->ptr1, *(cmd.envp));
+		output = get_var_value(itab->ptr1, *(cmd.envp), itab->cur_quote);
 	ft_lstadd_back(cmd_outputs, ft_lstnew(output));
 	itab->res += ft_strlen(output);
 	itab->i += ft_strlen(itab->ptr1) + (itab->ptr1[0] == '(');
