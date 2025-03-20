@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 20:57:20 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/19 20:46:34 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/20 03:19:56 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,7 @@ void	add_to_argv(t_list **dest, char *str, t_int_tab *itab,
 		return ;
 	add_splitted_to_add(parse_quotes(
 			ft_substr(str, itab->ret, itab->i - itab->ret), cmd), dest);
-	itab->ret = itab->i + 1;
+	while (ft_strchr(" \n\t", str[itab->i]))
+		itab->i++;
+	itab->ret = itab->i;
 }
