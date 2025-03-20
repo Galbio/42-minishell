@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 20:51:10 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/20 20:24:43 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/20 21:02:34 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,14 @@ char	check_special_char(char *str, t_int_tab *itab)
 		return (itab->cur_quote = '\'', 1);
 	if (itab->cur_quote == '\'')
 		return (0);
+	if (itab->backslash && !itab->cur_quote && (str[itab->i] == '\\')
+		&& (str[itab->i + 1] == '\\'))
+		return (itab->backslash = 0, 1);
 	if (!itab->backslash && (str[itab->i] == '\\') && !itab->cur_quote
-		&& ft_strchr(" \n\t\\", str[itab->i]))
+		&& ft_strchr(" \n\t\\", str[itab->i + 1]))
 		return (itab->backslash = 1, 0);
+	if (!itab->backslash && (str[itab->i] == '\\') && !itab->cur_quote)
+		return (itab->backslash = 1, 1);
 	if (!itab->backslash && (str[itab->i] == '\\')
 		&& ft_strchr("$\\\"", str[itab->i + 1]))
 		return (itab->backslash = 1, 1);
