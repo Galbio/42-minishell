@@ -1,0 +1,5 @@
+echo \\\\
+echo \\$HOME
+echo \\\$HOME
+echo $(echo "a   b")
+echo "$(echo "a    b")"

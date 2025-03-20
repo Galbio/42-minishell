@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 20:57:20 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/20 21:00:05 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/21 00:24:44 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,4 +105,5 @@ void	add_to_argv(t_list **dest, char *str, t_int_tab *itab,
 	while (ft_strchr(" \n\t", str[itab->i]))
 		itab->i++;
 	itab->ret = itab->i;
+	itab->i--;
 }
