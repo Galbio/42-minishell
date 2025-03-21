@@ -34,6 +34,9 @@ FILES = main.c		\
 	commands/execute_command_utils.c \
 	commands/execute_pipes.c \
 	commands/execute_bin.c \
+	readline/history/manager.c	\
+	readline/history/reader.c	\
+	readline/history/writer.c	\
 	readline/special_key/arrow.c	\
 	readline/special_key/breakline.c	\
 	readline/special_key/delete.c	\

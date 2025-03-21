@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/17 17:55:36 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/21 10:08:30 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <termios.h>
 # include <signal.h>
 # include "libft.h"
+# include "readline_history.h"
 
 typedef struct s_char
 {
@@ -53,6 +54,7 @@ typedef struct s_main
 	t_special_key	**special_keys;
 	t_char			*stashed;
 	int				cat_stash;
+	t_array			*history;
 }	t_readline_core;
 
 int				handle_key_input(t_readline *data, char *buffer);

@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:44:41 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/17 17:56:06 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/21 11:22:59 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ t_readline_core	*get_readline_core(void)
 		core->special_keys[0] = NULL;
 		core->stashed = NULL;
 		core->cat_stash = 0;
+		init_history();
 		register_default();
 		register_controls();
 	}
