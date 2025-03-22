@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/19 18:10:50 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/22 16:18:58 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,33 +31,6 @@ static char	*handle_commands(char *name, t_cmd_params cmd, char quote)
 	dest = ft_get_contents(pipes[0]);
 	close(pipes[0]);
 	return (parse_var_return(dest, quote));
-}
-
-static char	*get_var_name(char *str)
-{
-	int		pare;
-	int		pare_count;
-	int		i;
-
-	if (ft_isdigit(*str))
-		return (ft_itoa(*str + '0'));
-	else if (*str == '?')
-		return (ft_strdup("?"));
-	pare = *str == '(';
-	pare_count = 0;
-	i = -1;
-	while (str[++i])
-	{
-		if (!pare && (str[i] != '_') && !ft_isalnum(str[i]))
-			return (ft_substr(str, 0, i));
-		else if (str[i] == '(')
-			pare_count++;
-		else if (str[i] == ')')
-			pare_count--;
-		if (pare && !pare_count)
-			return (ft_substr(str, 0, i + 1));
-	}
-	return (ft_substr(str, 0, i + 1));
 }
 
 static char	*get_var_value(char *name, t_list *cur, char quote)
