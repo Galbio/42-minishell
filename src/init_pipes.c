@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 03:38:49 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/22 03:27:49 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/22 16:56:10 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static t_list	*split_pipes(char *str)
 		itab.backslash = itab.i && (str[itab.i - 1] == '\\') && !itab.backslash;
 		check_special_char(str, &itab);
 		if ((str[itab.i] == '$') && !itab.backslash && !itab.cur_quote)
-			itab.i += go_to_var_end(str + itab.i);
+			itab.i += go_to_var_end(str + itab.i) - 1;
 		if ((str[itab.i] == '|') && !itab.backslash && !itab.cur_quote
 			&& (str[itab.i + 1] != '|'))
 		{

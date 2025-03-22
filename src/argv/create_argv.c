@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 08:00:35 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/22 03:27:15 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/22 17:22:36 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	handle_argv_filling(char *str, t_cmd_params cmd, t_list **dest,
 		add_to_argv(dest, str, itab, cmd);
 	if (!itab->backslash && (str[itab->i] == '$')
 		&& (itab->cur_quote != '\''))
-		itab->i += go_to_var_end(str + itab->i);
+		itab->i += go_to_var_end(str + itab->i) - 1;
 }
 
 static t_list	*fill_argv(char *str, t_cmd_params cmd)
