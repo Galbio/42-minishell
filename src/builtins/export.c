@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:04:41 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/13 23:08:16 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:43:05 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	display_error(char *name)
 	ft_putstr_fd("': not a valid identifier\n", 2);
 }
 
-static int	add_envp(char *name, t_list **envp)
+static int	add_envp(char *name, t_list **envp, t_main_envp *imp)
 {
 	char	*var_name;
 	int		i;
@@ -43,8 +43,8 @@ static int	add_envp(char *name, t_list **envp)
 	if (name[i] != '=')
 		return (1);
 	var_name = ft_substr(name, 0, i);
-	unset_var(var_name, envp, NULL);
-	ft_lstadd_back(envp, ft_lstnew(name));
+	unset_var(var_name, envp, imp);
+	ft_lstadd_front(envp, ft_lstnew(ft_strdup(name)));
 	return (0);
 }
 
@@ -61,6 +61,6 @@ int	ms_export(t_cmd_params *cmd)
 	res = 0;
 	i = 0;
 	while (cmd->argv[++i])
-		res += add_envp(cmd->argv[i], cmd->envp);
+		res += add_envp(cmd->argv[i], cmd->envp, cmd->imp);
 	return (res && 1);
 }

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 21:20:49 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/14 23:04:46 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/17 17:10:35 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static void	execute_child_cmd(t_cmd_params cmd, int pipes[2], int temp)
 		free_envp(cmd.envp, cmd.imp);
 		exit(cmd.imp->exit_status);
 	}
+	res = 0;
 	dup2(temp, 0);
 	dup2(pipes[1], 1);
 	code = check_builtins(cmd.argv[0]);
@@ -47,6 +48,7 @@ static void	execute_last_cmd(t_cmd_params cmd, int pipes[2])
 		free_envp(cmd.envp, cmd.imp);
 		exit(cmd.imp->exit_status);
 	}
+	res = 0;
 	dup2(pipes[0], 0);
 	dup2(cmd.imp->output_fd, 1);
 	code = check_builtins(cmd.argv[0]);

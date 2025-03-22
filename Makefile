@@ -15,13 +15,15 @@ FT_PRINTFI = $(FT_PRINTF)/include
 FILES = main.c		\
 	minishell.c	\
 	envp_parser.c \
-	create_argv.c \
-	var_parser.c \
 	bquotes_handler.c \
 	init_pipes.c \
-	whitespace_fixer.c \
 	signals.c		\
 	split_semicolon.c \
+	argv/create_argv.c \
+	argv/argv_utils.c \
+	argv/var_parser.c \
+	argv/add_splitted.c \
+	argv/parse_cmd_return.c \
 	builtins/echo.c \
 	builtins/cd.c \
 	builtins/pwd.c \
@@ -65,8 +67,9 @@ FILES = main.c		\
 	readline/lines.c		\
 	readline/stash.c	\
 	utils/init_int_tab.c \
-	utils/go_to_var_end.c \
+	utils/var_names_utils.c \
 	utils/free_envp.c \
+	utils/trim_whitespaces.c \
 	utils/check_special_char.c
 
 OFILES = $(FILES:%.c=$(OBJS)/%.o)
