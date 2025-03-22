@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/22 01:19:04 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/22 03:28:19 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ typedef struct s_int_tab
 void			launch(t_list *envp, t_main_envp *imp);
 
 char			check_special_char(char *str, t_int_tab *itab);
-char			is_backslashed(char *str, int i);
 void			free_envp(t_list **envp, t_main_envp *imp);
 
 t_int_tab		init_int_tab(void);

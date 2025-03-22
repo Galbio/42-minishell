@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 20:57:20 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/22 02:49:46 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/22 03:26:08 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	get_parsed_size(char *str, t_list **cmd_outputs, t_cmd_params cmd)
 	itab = init_int_tab();
 	while (str[++itab.i])
 	{
-		itab.backslash = is_backslashed(str, itab.i);
+		itab.backslash = itab.i && (str[itab.i - 1] == '\\') && !itab.backslash;
 		if (check_special_char(str, &itab))
 			continue ;
 		if ((str[itab.i] == '$') && (itab.cur_quote != '\'') && !itab.backslash)
@@ -58,7 +58,7 @@ int	get_parsed_size(char *str, t_list **cmd_outputs, t_cmd_params cmd)
 static void	fill_dest(char *dest, t_int_tab *itab, char *str,
 			t_list **cmd_outputs)
 {
-	itab->backslash = is_backslashed(str, itab->i);
+	itab->backslash = itab->i && (str[itab->i - 1] == '\\') && !itab->backslash;
 	if (check_special_char(str, itab))
 		return ;
 	if ((str[itab->i] == '$') && (itab->cur_quote != '\'') && !itab->backslash)

@@ -70,7 +70,6 @@ FILES = main.c		\
 	utils/go_to_var_end.c \
 	utils/free_envp.c \
 	utils/trim_whitespaces.c \
-	utils/is_backslashed.c \
 	utils/check_special_char.c
 
 OFILES = $(FILES:%.c=$(OBJS)/%.o)

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 08:00:35 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/22 02:54:49 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/22 03:27:15 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	handle_argv_filling(char *str, t_cmd_params cmd, t_list **dest,
 		t_int_tab *itab)
 {
-	itab->backslash = is_backslashed(str, itab->i);
+	itab->backslash = itab->i && (str[itab->i - 1] == '\\') && !itab->backslash;
 	if (check_special_char(str, itab))
 		return ;
 	if (!itab->cur_quote && !itab->backslash
