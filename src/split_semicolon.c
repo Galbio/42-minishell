@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 21:01:11 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/19 23:23:53 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/22 02:57:14 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ t_list	*split_semicolon(char *str)
 	dest = NULL;
 	while (str[++itab.i])
 	{
+		itab.backslash = is_backslashed(str, itab.i);
+		check_special_char(str, &itab);
 		if (str[itab.i] == '$' && !itab.backslash && !itab.cur_quote)
 			itab.i += go_to_var_end(str + itab.i);
 		if ((str[itab.i] == ';') && !itab.backslash && !itab.cur_quote)
@@ -29,7 +31,6 @@ t_list	*split_semicolon(char *str)
 			itab.ret = itab.i + 1;
 			ft_lstadd_back(&dest, ft_lstnew(trim_ws(itab.ptr1)));
 		}
-		check_special_char(str, &itab);
 	}
 	if (!str[itab.ret])
 		return (dest);
