@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/23 19:44:42 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/24 00:34:09 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,18 @@ static int	execute_single_command(t_cmd_params cmd)
 	temp = check_builtins(cmd.argv[0]);
 	dup2(cmd.imp->output_fd, 1);
 	if (temp)
-		return (handle_builtins(temp, &cmd));
-	else if (!cmd.argv[0][0])
-		return (res);
-	pid = fork();
-	if (pid < 0)
-		return (1);
-	if (!pid)
-		execute_bin(cmd.argv, cmd.imp);
-	wait(&temp);
-	if (WIFEXITED(temp))
-		res = WEXITSTATUS(temp);
+		res = handle_builtins(temp, &cmd);
+	else
+	{
+		pid = fork();
+		if (pid < 0)
+			return (1);
+		if (!pid)
+			execute_bin(cmd.argv, cmd.imp);
+		wait(&temp);
+		if (WIFEXITED(temp))
+			res = WEXITSTATUS(temp);
+	}
 	temp = -1;
 	while (cmd.argv[++temp])
 		free(cmd.argv[temp]);
