@@ -16,9 +16,8 @@ FILES = main.c		\
 	minishell.c	\
 	envp_parser.c \
 	bquotes_handler.c \
-	init_pipes.c \
 	signals.c		\
-	split_semicolon.c \
+	split_separators.c \
 	argv/create_argv.c \
 	argv/argv_utils.c \
 	argv/var_parser.c \

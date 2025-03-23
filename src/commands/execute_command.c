@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/23 15:15:10 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/23 19:44:42 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,25 @@ static int	execute_single_command(t_cmd_params cmd)
 	return (res);
 }
 
+char	*get_subshell(char *str)
+{
+	t_int_tab	itab;
+
+	itab = init_int_tab();
+	while (str[++itab.i])
+	{
+		itab.backslash = itab.i && (str[itab.i - 1] == '\\') && !itab.backslash;
+		check_special_char(str, &itab);
+		if (!itab.backslash && !itab.cur_quote && (str[itab.i] == '('))
+			itab.ret++;
+		else if (!itab.backslash && !itab.cur_quote && (str[itab.i] == ')'))
+			itab.ret--;
+		if (!itab.ret)
+			return (ft_substr(str, 1, itab.i - 1));
+	}
+	return (ft_substr(str, 1, itab.i - 1));
+}
+
 static int	execute_subshell(char *command, t_list **envp, t_main_envp *imp)
 {
 	char	*name;
@@ -52,9 +71,8 @@ static int	execute_subshell(char *command, t_list **envp, t_main_envp *imp)
 	imp->is_bquoted++;
 	if (!pid)
 	{
-		name = get_var_name(command);
-		name[ft_strlen(name) - 1] = 0;
-		execute_line(split_semicolon(name + 1), envp, imp);
+		name = get_subshell(command);
+		execute_line(split_semicolon(name), envp, imp);
 		exit(imp->exit_status);
 	}
 	waitpid(pid, &stat, 0);

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 16:16:32 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/23 07:05:07 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/23 17:45:44 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ static char	*get_var_cmd(char *str)
 		itab.backslash = itab.i && (str[itab.i - 1] == '\\') && !itab.backslash;
 		check_special_char(str, &itab);
 		if (!itab.backslash && (str[itab.i] == '$') && (itab.cur_quote != '\''))
-			itab.i += go_to_var_end(str + itab.i);
+			itab.i += go_to_var_end(str + itab.i) - 1;
 		else if (!itab.backslash && !itab.cur_quote && (str[itab.i] == '('))
-			itab.i += go_to_var_end(str + itab.i);
+			itab.i += go_to_var_end(str + itab.i) - 1;
 		else if (!itab.backslash && !itab.cur_quote && (str[itab.i] == ')'))
 			return (ft_substr(str, 0, itab.i + 1));
 	}
@@ -59,9 +59,9 @@ static int	go_to_cmd_end(char *str)
 		check_special_char(str, &itab);
 		if (!itab.backslash && (str[itab.i] == '$')
 			&& (itab.cur_quote != '\''))
-			itab.i += go_to_var_end(str + itab.i);
+			itab.i += go_to_var_end(str + itab.i) - 1;
 		else if (!itab.backslash && !itab.cur_quote && (str[itab.i] == '('))
-			itab.i += go_to_var_end(str + itab.i);
+			itab.i += go_to_var_end(str + itab.i) - 1;
 		else if (!itab.backslash && !itab.cur_quote && (str[itab.i] == ')'))
 			return (itab.i + 1);
 	}
