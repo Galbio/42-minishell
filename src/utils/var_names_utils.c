@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 16:16:32 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/23 17:45:44 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/24 00:30:33 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,12 @@ static int	go_to_cmd_end(char *str)
 		check_special_char(str, &itab);
 		if (!itab.backslash && (str[itab.i] == '$')
 			&& (itab.cur_quote != '\''))
-			itab.i += go_to_var_end(str + itab.i) - 1;
+			itab.i += go_to_cmd_end(str + itab.i) - 1;
 		else if (!itab.backslash && !itab.cur_quote && (str[itab.i] == '('))
-			itab.i += go_to_var_end(str + itab.i) - 1;
+			itab.ret++;
 		else if (!itab.backslash && !itab.cur_quote && (str[itab.i] == ')'))
+			itab.ret--;
+		if (!itab.ret)
 			return (itab.i + 1);
 	}
 	return (itab.i);
@@ -72,8 +74,10 @@ int	go_to_var_end(char *str)
 {
 	int		i;
 
-	if ((str[0] == '(') || (str[1] == '('))
-		return (go_to_cmd_end(str + 1) + (str[0] == '$'));
+	if (str[0] == '(')
+		return (go_to_cmd_end(str));
+	if (str[1] == '(')
+		return (go_to_cmd_end(str + 1) + 1);
 	if ((str[1] == '?') || ft_isdigit(str[1]))
 		return (2);
 	i = 0;
