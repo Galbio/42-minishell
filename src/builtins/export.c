@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:04:41 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/19 16:43:05 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/23 04:38:25 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	add_envp(char *name, t_list **envp, t_main_envp *imp)
 		return (1);
 	var_name = ft_substr(name, 0, i);
 	unset_var(var_name, envp, imp);
-	ft_lstadd_front(envp, ft_lstnew(ft_strdup(name)));
+	ft_lstadd_back(envp, ft_lstnew(ft_strdup(name)));
 	return (0);
 }
 

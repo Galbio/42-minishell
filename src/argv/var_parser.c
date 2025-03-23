@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/22 16:18:58 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/23 04:34:29 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,23 @@
 
 static char	*handle_commands(char *name, t_cmd_params cmd, char quote)
 {
-	int		old_redir;
+	pid_t	pid;
 	int		pipes[2];
 	char	*dest;
 
 	if (pipe(pipes) < 0)
 		return (NULL);
 	cmd.imp->is_bquoted++;
-	old_redir = cmd.imp->output_fd;
-	cmd.imp->output_fd = pipes[1];
-	name[ft_strlen(name) - 1] = 0;
-	execute_line(split_semicolon(name), cmd.envp, cmd.imp);
-	cmd.imp->output_fd = old_redir;
+	pid = fork();
+	if (!pid)
+	{
+		close(pipes[0]);
+		cmd.imp->output_fd = pipes[1];
+		name[ft_strlen(name) - 1] = 0;
+		execute_line(split_semicolon(name), cmd.envp, cmd.imp);
+		exit(0);
+	}
+	waitpid(pid, NULL, 0);
 	close(pipes[1]);
 	cmd.imp->is_bquoted--;
 	dest = ft_get_contents(pipes[0]);
