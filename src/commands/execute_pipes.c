@@ -6,56 +6,29 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 21:20:49 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/17 17:10:35 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/23 14:58:10 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	execute_child_cmd(t_cmd_params cmd, int pipes[2], int temp)
+static void	execute_pipe_cmd(t_cmd_params cmd, int pipes[2], int last)
 {
-	int			code;
-	int			res;
+	int		res;
 
-	close(pipes[0]);
+	close(pipes[last]);
 	if (!cmd.argv[0][0])
 	{
-		close(pipes[1]);
+		close(pipes[!last]);
 		free_envp(cmd.envp, cmd.imp);
 		exit(cmd.imp->exit_status);
 	}
 	res = 0;
-	dup2(temp, 0);
-	dup2(pipes[1], 1);
-	code = check_builtins(cmd.argv[0]);
-	if (code)
-		res = handle_builtins(code, &cmd);
-	else
-		execute_bin(cmd.argv, cmd.imp);
-	free_envp(cmd.envp, cmd.imp);
-	exit(res);
-}
-
-static void	execute_last_cmd(t_cmd_params cmd, int pipes[2])
-{
-	int			code;
-	int			res;
-
-	close(pipes[1]);
-	if (!cmd.argv[0][0])
-	{
-		close(pipes[0]);
-		free_envp(cmd.envp, cmd.imp);
-		exit(cmd.imp->exit_status);
-	}
-	res = 0;
-	dup2(pipes[0], 0);
-	dup2(cmd.imp->output_fd, 1);
-	code = check_builtins(cmd.argv[0]);
-	if (code)
-		res = handle_builtins(code, &cmd);
-	else
-		execute_bin(cmd.argv, cmd.imp);
+	dup2((pipes[0] * last) + (cmd.imp->input_fd * !last), 0);
+	dup2((cmd.imp->output_fd * last) + (pipes[1] * !last), 1);
+	cmd.imp->is_bquoted++;
+	execute_line(split_semicolon(cmd.argv[0]), cmd.envp, cmd.imp);
+	cmd.imp->is_bquoted--;
 	free_envp(cmd.envp, cmd.imp);
 	exit(res);
 }
@@ -68,7 +41,6 @@ int	execute_pipes(t_list *commands, t_list **envp, t_main_envp *imp)
 
 	itab = init_int_tab();
 	itab.res = ft_lstsize(commands);
-	itab.ret = 0;
 	while (++itab.i < itab.res)
 	{
 		if ((itab.i + 1) != itab.res)
@@ -77,12 +49,10 @@ int	execute_pipes(t_list *commands, t_list **envp, t_main_envp *imp)
 		pid = fork();
 		if (pid < 0)
 			return (1);
-		if (!pid && ((itab.i + 1) != itab.res))
-			execute_child_cmd(make_cmd(commands->content, envp, imp),
-				pipes, itab.ret);
-		else if (!pid)
-			execute_last_cmd(make_cmd(commands->content, envp, imp), pipes);
-		go_to_next_command(&commands, &itab.ret, pipes);
+		if (!pid)
+			execute_pipe_cmd(make_cmd(&(commands->content), envp, imp),
+				pipes, (itab.i + 1) == itab.res);
+		go_to_next_command(&commands, &imp->input_fd, pipes);
 	}
-	return (wait_line_end_exec(itab.res, itab.ret, pipes[0], pid));
+	return (wait_line_end_exec(itab.res, imp->input_fd, pipes[0], pid));
 }

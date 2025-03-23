@@ -6,104 +6,86 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/23 04:36:12 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/23 15:15:10 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	free_cur_commands(t_list *commands)
-{
-	t_list	*temp;
-	char	**argv;
-	int		i;
-
-	while (commands)
-	{
-		i = -1;
-		argv = (char **)commands->content;
-		while (argv[++i])
-			free(argv[i]);
-		free(argv);
-		temp = commands;
-		commands = commands->next;
-		free(temp);
-	}
-	return ;
-}
-
-static int	execute_builtins(int code, t_cmd_params cmd)
-{
-	pid_t		pid;
-	int			res;
-	int			stat;
-
-	res = cmd.imp->exit_status;
-	if (cmd.imp->is_bquoted)
-	{
-		pid = fork();
-		if (pid < 0)
-			return (1);
-		if (!pid)
-		{
-			dup2(cmd.imp->output_fd, 1);
-			res = handle_builtins(code, &cmd);
-			free_envp(cmd.envp, cmd.imp);
-			exit(res);
-		}
-		waitpid(pid, &stat, 0);
-		if (WIFEXITED(stat))
-			res = WEXITSTATUS(stat);
-	}
-	else
-		res = handle_builtins(code, &cmd);
-	return (res);
-}
-
 static int	execute_single_command(t_cmd_params cmd)
 {
 	pid_t		pid;
-	int			code;
+	int			temp;
 	int			res;
 
 	res = cmd.imp->exit_status;
-	code = check_builtins(cmd.argv[0]);
-	if (code)
-		res = execute_builtins(code, cmd);
-	else if (cmd.argv[0][0])
-	{
-		pid = fork();
-		if (pid < 0)
-			return (1);
-		if (!pid)
-		{
-			dup2(cmd.imp->output_fd, 1);
-			execute_bin(cmd.argv, cmd.imp);
-		}
-		wait(&code);
-		if (WIFEXITED(code))
-			res = WEXITSTATUS(code);
-	}
+	temp = check_builtins(cmd.argv[0]);
+	dup2(cmd.imp->output_fd, 1);
+	if (temp)
+		return (handle_builtins(temp, &cmd));
+	else if (!cmd.argv[0][0])
+		return (res);
+	pid = fork();
+	if (pid < 0)
+		return (1);
+	if (!pid)
+		execute_bin(cmd.argv, cmd.imp);
+	wait(&temp);
+	if (WIFEXITED(temp))
+		res = WEXITSTATUS(temp);
+	temp = -1;
+	while (cmd.argv[++temp])
+		free(cmd.argv[temp]);
+	free(cmd.argv);
 	return (res);
+}
+
+static int	execute_subshell(char *command, t_list **envp, t_main_envp *imp)
+{
+	char	*name;
+	pid_t	pid;
+	int		stat;
+
+	pid = fork();
+	if (pid < 0)
+		return (-1);
+	imp->is_bquoted++;
+	if (!pid)
+	{
+		name = get_var_name(command);
+		name[ft_strlen(name) - 1] = 0;
+		execute_line(split_semicolon(name + 1), envp, imp);
+		exit(imp->exit_status);
+	}
+	waitpid(pid, &stat, 0);
+	if (WIFEXITED(stat))
+		imp->exit_status = WEXITSTATUS(stat);
+	imp->is_bquoted--;
+	return (imp->exit_status);
 }
 
 static int	execute_command(t_list *commands, t_list **envp, t_main_envp *imp)
 {
 	if (commands && !commands->next)
-		return (execute_single_command(make_cmd(commands->content, envp, imp)));
+	{
+		if (((char *)(commands->content))[0] == '(')
+			return (execute_subshell((char *)commands->content, envp, imp));
+		return (execute_single_command(make_cmd(create_command_argv(
+						commands->content, envp, imp), envp, imp)));
+	}
 	return (execute_pipes(commands, envp, imp));
 }
 
 void	execute_line(t_list *commands_list, t_list **envp, t_main_envp *imp)
 {
-	t_list	*temp;
 	t_list	*cur_commands;
+	t_list	*temp;
 
 	while (commands_list)
 	{
-		cur_commands = init_pipes((char *)commands_list->content, envp, imp);
+		cur_commands = init_pipes((char *)commands_list->content);
 		imp->exit_status = execute_command(cur_commands, envp, imp);
-		free_cur_commands(cur_commands);
+		ft_lstclear(&cur_commands, free);
 		temp = commands_list;
 		commands_list = commands_list->next;
 		free(temp->content);
