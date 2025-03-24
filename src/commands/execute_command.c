@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/24 02:55:49 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/24 18:05:31 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,19 +60,46 @@ static int	execute_command(t_list *commands, t_list **envp, t_main_envp *imp)
 	return (execute_pipes(commands, envp, imp));
 }
 
-void	execute_line(t_list *commands_list, t_list **envp, t_main_envp *imp)
+static char	go_to_next_cmd(t_list **sep, t_list **cur_cmds, t_list **cmd_list)
 {
-	t_list	*cur_commands;
-	t_list	*temp;
+	char	next_sep;
+	t_list	*tmp;
 
+	next_sep = ';';
+	if (*sep)
+	{
+		tmp = *sep;
+		next_sep = ((char *)(tmp->content))[0];
+		*sep = tmp->next;
+		free(tmp->content);
+		free(tmp);
+	}
+	ft_lstclear(cur_cmds, free);
+	tmp = *cmd_list;
+	*cmd_list = tmp->next;
+	free(tmp->content);
+	free(tmp);
+	return (next_sep);
+}
+
+void	execute_line(char *str, t_list **envp, t_main_envp *imp)
+{
+	t_list	*commands_list;
+	t_list	*cur_commands;
+	t_list	*sep;
+	char	cur_sep;
+
+	sep = NULL;
+	cur_sep = ';';
+	commands_list = split_separators(str, &sep);
 	while (commands_list)
 	{
-		cur_commands = init_pipes((char *)commands_list->content);
-		imp->exit_status = execute_command(cur_commands, envp, imp);
-		ft_lstclear(&cur_commands, free);
-		temp = commands_list;
-		commands_list = commands_list->next;
-		free(temp->content);
-		free(temp);
+		if (((cur_sep == '|') && imp->exit_status) || ((cur_sep == '&')
+				&& !imp->exit_status) || (cur_sep == ';'))
+		{
+			cur_commands = init_pipes((char *)commands_list->content);
+			imp->exit_status = execute_command(cur_commands, envp, imp);
+		}
+		cur_sep = go_to_next_cmd(&sep, &cur_commands, &commands_list);
 	}
 }

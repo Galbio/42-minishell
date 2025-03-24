@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 21:20:49 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/24 14:39:17 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:48:33 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	execute_pipe_cmd(t_cmd_params cmd, int pipes[2], int last)
 	cmd.imp->input_fd = ((pipes[0] * last) + (cmd.imp->input_fd * !last));
 	cmd.imp->output_fd = ((cmd.imp->output_fd * last) + (pipes[1] * !last));
 	cmd.imp->is_bquoted++;
-	execute_line(split_semicolon(cmd.argv[0]), cmd.envp, cmd.imp);
+	execute_line(cmd.argv[0], cmd.envp, cmd.imp);
 	cmd.imp->is_bquoted--;
 	free_envp(cmd.envp, cmd.imp);
 	exit(cmd.imp->exit_status);
