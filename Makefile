@@ -33,6 +33,7 @@ FILES = main.c		\
 	builtins/env.c \
 	commands/execute_command.c \
 	commands/execute_command_utils.c \
+	commands/execute_subshell.c \
 	commands/execute_pipes.c \
 	commands/execute_bin.c \
 	readline/special_key/arrow.c	\

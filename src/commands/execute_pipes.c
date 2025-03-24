@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 21:20:49 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/23 14:58:10 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/24 01:53:46 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 static void	execute_pipe_cmd(t_cmd_params cmd, int pipes[2], int last)
 {
-	int		res;
-
 	close(pipes[last]);
 	if (!cmd.argv[0][0])
 	{
@@ -23,14 +21,13 @@ static void	execute_pipe_cmd(t_cmd_params cmd, int pipes[2], int last)
 		free_envp(cmd.envp, cmd.imp);
 		exit(cmd.imp->exit_status);
 	}
-	res = 0;
-	dup2((pipes[0] * last) + (cmd.imp->input_fd * !last), 0);
-	dup2((cmd.imp->output_fd * last) + (pipes[1] * !last), 1);
+	cmd.imp->input_fd = ((pipes[0] * last) + (cmd.imp->input_fd * !last));
+	cmd.imp->output_fd = ((cmd.imp->output_fd * last) + (pipes[1] * !last));
 	cmd.imp->is_bquoted++;
 	execute_line(split_semicolon(cmd.argv[0]), cmd.envp, cmd.imp);
 	cmd.imp->is_bquoted--;
 	free_envp(cmd.envp, cmd.imp);
-	exit(res);
+	exit(0);
 }
 
 int	execute_pipes(t_list *commands, t_list **envp, t_main_envp *imp)

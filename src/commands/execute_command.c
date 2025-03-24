@@ -6,81 +6,46 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/24 00:34:09 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/24 02:02:56 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	execute_single_command(t_cmd_params cmd)
+static int	execute_single_bin(t_cmd_params cmd)
 {
 	pid_t		pid;
+	int			stat;
+
+	pid = fork();
+	if (pid < 0)
+		return (1);
+	if (!pid)
+		execute_bin(cmd.argv, cmd.imp);
+	waitpid(pid, &stat, 0);
+	if (WIFEXITED(stat))
+		return (WEXITSTATUS(stat));
+	return (1);
+}
+
+static int	execute_single_command(t_cmd_params cmd)
+{
 	int			temp;
 	int			res;
 
 	res = cmd.imp->exit_status;
-	temp = check_builtins(cmd.argv[0]);
 	dup2(cmd.imp->output_fd, 1);
+	dup2(cmd.imp->input_fd, 0);
+	temp = check_builtins(cmd.argv[0]);
 	if (temp)
 		res = handle_builtins(temp, &cmd);
 	else
-	{
-		pid = fork();
-		if (pid < 0)
-			return (1);
-		if (!pid)
-			execute_bin(cmd.argv, cmd.imp);
-		wait(&temp);
-		if (WIFEXITED(temp))
-			res = WEXITSTATUS(temp);
-	}
+		res = execute_single_bin(cmd);
 	temp = -1;
 	while (cmd.argv[++temp])
 		free(cmd.argv[temp]);
 	free(cmd.argv);
 	return (res);
-}
-
-char	*get_subshell(char *str)
-{
-	t_int_tab	itab;
-
-	itab = init_int_tab();
-	while (str[++itab.i])
-	{
-		itab.backslash = itab.i && (str[itab.i - 1] == '\\') && !itab.backslash;
-		check_special_char(str, &itab);
-		if (!itab.backslash && !itab.cur_quote && (str[itab.i] == '('))
-			itab.ret++;
-		else if (!itab.backslash && !itab.cur_quote && (str[itab.i] == ')'))
-			itab.ret--;
-		if (!itab.ret)
-			return (ft_substr(str, 1, itab.i - 1));
-	}
-	return (ft_substr(str, 1, itab.i - 1));
-}
-
-static int	execute_subshell(char *command, t_list **envp, t_main_envp *imp)
-{
-	char	*name;
-	pid_t	pid;
-	int		stat;
-
-	pid = fork();
-	if (pid < 0)
-		return (-1);
-	imp->is_bquoted++;
-	if (!pid)
-	{
-		name = get_subshell(command);
-		execute_line(split_semicolon(name), envp, imp);
-		exit(imp->exit_status);
-	}
-	waitpid(pid, &stat, 0);
-	if (WIFEXITED(stat))
-		imp->exit_status = WEXITSTATUS(stat);
-	imp->is_bquoted--;
-	return (imp->exit_status);
 }
 
 static int	execute_command(t_list *commands, t_list **envp, t_main_envp *imp)

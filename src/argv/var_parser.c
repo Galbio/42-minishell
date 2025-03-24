@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/24 00:23:20 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/24 01:36:43 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,17 @@
 
 static char	*handle_commands(char *name, t_cmd_params cmd, char quote)
 {
-	pid_t	pid;
 	int		pipes[2];
+	int		temp;
 	char	*dest;
 
 	if (pipe(pipes) < 0)
 		return (NULL);
-	cmd.imp->is_bquoted++;
-	pid = fork();
-	if (!pid)
-	{
-		close(pipes[0]);
-		cmd.imp->output_fd = pipes[1];
-		name[ft_strlen(name) - 1] = 0;
-		execute_line(split_semicolon(name), cmd.envp, cmd.imp);
-		exit(0);
-	}
-	waitpid(pid, NULL, 0);
+	temp = cmd.imp->output_fd;
+	cmd.imp->output_fd = pipes[1];
+	execute_line(split_semicolon(name), cmd.envp, cmd.imp);
+	cmd.imp->output_fd = temp;
 	close(pipes[1]);
-	cmd.imp->is_bquoted--;
 	dest = ft_get_contents(pipes[0]);
 	close(pipes[0]);
 	return (parse_var_return(dest, quote));
@@ -63,7 +55,7 @@ void	handle_var(char *str, t_int_tab *itab, t_list **cmd_outputs,
 	if (itab->ptr1[0] == '?')
 		output = ft_itoa((int)cmd.imp->exit_status);
 	else if (itab->ptr1[0] == '(')
-		output = handle_commands(itab->ptr1 + 1, cmd, itab->cur_quote);
+		output = handle_commands(itab->ptr1, cmd, itab->cur_quote);
 	else
 		output = get_var_value(itab->ptr1, *(cmd.envp), itab->cur_quote);
 	ft_lstadd_back(cmd_outputs, ft_lstnew(output));

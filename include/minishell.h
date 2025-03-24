@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/23 15:08:31 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/24 02:02:13 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ t_list			*split_semicolon(char *str);
 void			execute_line(t_list *commands, t_list **envp,
 					t_main_envp *imp);
 int				execute_pipes(t_list *commands, t_list **envp,
+					t_main_envp *imp);
+int				execute_subshell(char *command, t_list **envp,
 					t_main_envp *imp);
 void			execute_bin(char **argv, t_main_envp *imp);
 
