@@ -37,7 +37,8 @@ FILES = main.c		\
 	readline/history/manager.c	\
 	readline/history/reader.c	\
 	readline/history/writer.c	\
-	readline/special_key/arrow.c	\
+	readline/special_key/move.c	\
+	readline/special_key/history.c	\
 	readline/special_key/breakline.c	\
 	readline/special_key/delete.c	\
 	readline/special_key/factory.c	\

@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:00:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/17 16:56:07 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/24 10:33:43 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,6 @@ void	free_ft_readline(t_readline *data)
 	free_chars(data->first);
 	data->actual = NULL;
 	data->first = NULL;
+	free_chars(data->current_input);
+	data->current_input = NULL;
 }

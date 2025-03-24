@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:44:41 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/21 11:22:59 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/24 10:28:26 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@
 static void	register_default(void)
 {
 	register_special_key(BACKSPACE_KEY, backspace_key);
-	register_special_key(LEFT_ARROW_KEY, left_arrow_key);
-	register_special_key(RIGHT_ARROW_KEY, right_arrow_key);
+	register_special_key(UP_ARROW_KEY, previous_history_key);
+	register_special_key(DOWN_ARROW_KEY, next_history_key);
+	register_special_key(LEFT_ARROW_KEY, move_left_key);
+	register_special_key(RIGHT_ARROW_KEY, move_right_key);
 	register_special_key(INSERT_KEY, invalid_key);
 	register_special_key(HOME_KEY, home_key);
 	register_special_key(DELETE_KEY, delete_key);
@@ -28,11 +30,11 @@ static void	register_default(void)
 static void	register_controls(void)
 {
 	register_special_key(CTRL_A_KEY, home_key);
-	register_special_key(CTRL_B_KEY, left_arrow_key);
+	register_special_key(CTRL_B_KEY, move_left_key);
 	register_special_key(CTRL_C_KEY, ctrl_c_key);
 	register_special_key(CTRL_D_KEY, ctrl_d_key);
 	register_special_key(CTRL_E_KEY, end_key);
-	register_special_key(CTRL_F_KEY, right_arrow_key);
+	register_special_key(CTRL_F_KEY, move_right_key);
 	register_special_key(CTRL_H_KEY, backspace_key);
 	register_special_key(CTRL_K_KEY, stash_after_key);
 	register_special_key(CTRL_L_KEY, clear_key);

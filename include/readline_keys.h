@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 16:19:29 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/17 16:23:17 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/24 10:15:29 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 
 # define BREAKLINE_KEY "\n"
 # define BACKSPACE_KEY "\x7F"
-# define LEFT_ARROW_KEY "\x1B[D"
+# define UP_ARROW_KEY "\x1B[A"
+# define DOWN_ARROW_KEY "\x1B[B"
 # define RIGHT_ARROW_KEY "\x1B[C"
+# define LEFT_ARROW_KEY "\x1B[D"
 # define DELETE_KEY "\x1B[3~"
 # define INSERT_KEY "\x1B[2~"
 # define HOME_KEY "\x1B[1~"
@@ -47,10 +49,10 @@
 # define CTRL_Z_KEY "\x1A"
 # define ECHAP_KEY "\x1B"
 # define CTRL_BACKSLASH_KEY "\x1C"
-# define CTRL_LEFT_ARROW_KEY "\x1B[1;5D"
-# define CTRL_RIGHT_ARROW_KEY "\x1B[1;5C"
 # define CTRL_UP_ARROW_KEY "\x1B[1;5A"
 # define CTRL_DOWN_ARROW_KEY "\x1B[1;5B"
+# define CTRL_RIGHT_ARROW_KEY "\x1B[1;5C"
+# define CTRL_LEFT_ARROW_KEY "\x1B[1;5D"
 # define CTRL_DELETE_KEY "\x1B[3;5~"
 # define CTRL_INSERT_KEY "\x1B[2;5~"
 # define CTRL_HOME_KEY "\x1B[1;5H"
