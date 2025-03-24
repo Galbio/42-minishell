@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 14:22:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/15 20:01:07 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/24 10:08:13 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	ctrl_c_key(t_readline *data)
 	if (ft_readline_must_exit())
 	{
 		free_ft_readline(data);
+		free_ft_readline_core();
 		disable_raw_mode();
 		exit(0);
 	}
@@ -32,6 +33,7 @@ void	ctrl_d_key(t_readline *data)
 	{
 		disable_raw_mode();
 		free_ft_readline(data);
+		free_ft_readline_core();
 		write(0, "\nexit\n", 6);
 		exit(0);
 	}

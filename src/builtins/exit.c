@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:05:06 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/13 23:35:54 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/24 10:08:45 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ static char	check_exit_errors(char **argv)
 		display_error(0, NULL);
 		return (0);
 	}
+	free_ft_readline(get_readline_data());
+	free_ft_readline_core();
 	exit(ft_atoi(argv[1]));
 	return (0);
 }
