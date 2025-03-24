@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/14 19:48:52 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/22 16:29:09 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,7 @@ typedef struct s_int_tab
 
 void			launch(t_list *envp, t_main_envp *imp);
 
-char			*parse_quotes(char *str, t_list *envp, t_main_envp *imp);
-char			check_special_char(char c, char *backslash, char *cur_quote);
+char			check_special_char(char *str, t_int_tab *itab);
 void			free_envp(t_list **envp, t_main_envp *imp);
 
 t_int_tab		init_int_tab(void);
@@ -73,10 +72,9 @@ t_list			*parse_envp(char **envp, t_main_envp *imp);
 char			*parse_var(char *var_name, t_list **envp, t_main_envp *imp);
 char			*parse_commands(char *str, t_list *envp, t_main_envp *imp);
 char			*read_whole_fd(int fd);
-void			handle_var(char *str, t_int_tab *infos, t_list **output);
 char			*handle_bquotes(char *res);
-char			*clean_whitespaces(char *str);
 char			*get_var_str(char *str);
+char			*get_var_name(char *str);
 t_list			*init_pipes(char *str, t_list **envp, t_main_envp *imp);
 t_list			*split_semicolon(char *str);
 
@@ -86,8 +84,16 @@ void			execute_line(t_list *commands, t_list **envp,
 int				execute_pipes(t_list *commands, t_list **envp,
 					t_main_envp *imp);
 void			execute_bin(char **argv, t_main_envp *imp);
+
+//argv
 char			**create_command_argv(char *str, t_list **envp,
 					t_main_envp *imp);
+void			handle_var(char *str, t_int_tab *itab, t_list **cmd_outputs,
+					t_cmd_params cmd);
+void			add_to_argv(t_list **dest, char *str, t_int_tab *itab,
+					t_cmd_params cmd);
+void			add_splitted_to_add(char *str, t_list **dest);
+char			*parse_var_return(char *str, char quote);
 
 //pipe utils
 t_cmd_params	make_cmd(void *argv_ptr, t_list **envp, t_main_envp *imp);
@@ -96,7 +102,8 @@ int				wait_line_end_exec(int nb_cmd, int write_pipe,
 void			go_to_next_command(t_list **commands, int *temp, int pipes[2]);
 char			check_builtins(char *name);
 int				handle_builtins(int code, t_cmd_params *cmd);
-char			go_to_var_end(char *str, int *i);
+int				go_to_var_end(char *str);
+char			*trim_ws(char *str);
 
 //builtins
 int				ms_cd(t_cmd_params *cmd);
