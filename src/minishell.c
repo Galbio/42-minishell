@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/24 14:37:59 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:57:55 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	launch(t_list *envp, t_main_envp *imp)
 {
 	char	*res;
-	t_list	*commands;
 
 	ft_readline_set_exit(0);
 	init_signals();
@@ -28,10 +27,8 @@ void	launch(t_list *envp, t_main_envp *imp)
 			res = handle_bquotes(res);
 		imp->output_fd = 1;
 		imp->input_fd = 0;
-		commands = split_semicolon(res);
+		execute_line(res, &envp, imp);
 		free(res);
-		execute_line(commands, &envp, imp);
 	}
-	free(res);
 	printf("\n");
 }

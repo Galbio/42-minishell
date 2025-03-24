@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 01:57:21 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/24 02:49:50 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:48:48 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	execute_subshell(char *command, t_list **envp, t_main_envp *imp)
 	imp->is_bquoted++;
 	if (!pid)
 	{
-		execute_line(split_semicolon(get_subshell(command)), envp, imp);
+		execute_line(get_subshell(command), envp, imp);
 		exit(imp->exit_status);
 	}
 	waitpid(pid, &stat, 0);
