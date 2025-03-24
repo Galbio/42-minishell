@@ -16,9 +16,8 @@ FILES = main.c		\
 	minishell.c	\
 	envp_parser.c \
 	bquotes_handler.c \
-	init_pipes.c \
 	signals.c		\
-	split_semicolon.c \
+	split_separators.c \
 	argv/create_argv.c \
 	argv/argv_utils.c \
 	argv/var_parser.c \
@@ -34,6 +33,7 @@ FILES = main.c		\
 	builtins/env.c \
 	commands/execute_command.c \
 	commands/execute_command_utils.c \
+	commands/execute_subshell.c \
 	commands/execute_pipes.c \
 	commands/execute_bin.c \
 	readline/special_key/arrow.c	\
