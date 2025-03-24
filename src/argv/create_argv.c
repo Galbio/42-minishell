@@ -6,13 +6,13 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 08:00:35 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/22 17:22:36 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/24 21:51:59 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	handle_argv_filling(char *str, t_cmd_params cmd, t_list **dest,
+static void	handle_argv_filling(char *str, t_cmd_params *cmd, t_list **dest,
 		t_int_tab *itab)
 {
 	itab->backslash = itab->i && (str[itab->i - 1] == '\\') && !itab->backslash;
@@ -24,9 +24,11 @@ static void	handle_argv_filling(char *str, t_cmd_params cmd, t_list **dest,
 	if (!itab->backslash && (str[itab->i] == '$')
 		&& (itab->cur_quote != '\''))
 		itab->i += go_to_var_end(str + itab->i) - 1;
+	if (!itab->backslash && !itab->cur_quote && (str[itab->i] == '<'))
+		itab->i += 0;
 }
 
-static t_list	*fill_argv(char *str, t_cmd_params cmd)
+static t_list	*fill_argv(char *str, t_cmd_params *cmd)
 {
 	t_list		*dest;
 	t_int_tab	itab;
@@ -39,20 +41,21 @@ static t_list	*fill_argv(char *str, t_cmd_params cmd)
 	return (dest);
 }
 
-char	**create_command_argv(char *str, t_list **envp, t_main_envp *imp)
+static void	rearrange_cmd(t_cmd_params *cmd, t_list *argv)
 {
-	t_list	*argv;
-	t_list	*temp;
 	char	**dest;
 	int		size;
+	t_list	*temp;
 
-	argv = fill_argv(str, make_cmd(NULL, envp, imp));
 	size = ft_lstsize(argv);
 	if (!size)
 		size = 1;
 	dest = malloc(sizeof(char *) * (size + 1));
 	if (!dest)
-		return (NULL);
+	{
+		cmd->argv = NULL;
+		return ;
+	}
 	dest[size] = 0;
 	if (!argv)
 		dest[0] = ft_strdup("");
@@ -63,5 +66,17 @@ char	**create_command_argv(char *str, t_list **envp, t_main_envp *imp)
 		argv = argv->next;
 		free(temp);
 	}
-	return (dest);
+	cmd->argv = dest;
+}
+
+t_cmd_params	*create_command_argv(t_cmd_params *cmd)
+{
+	t_list	*argv;
+	char	*temp;
+
+	temp = *(cmd->argv);
+	cmd->argv = NULL;
+	argv = fill_argv(temp, cmd);
+	rearrange_cmd(cmd, argv);
+	return (cmd);
 }
