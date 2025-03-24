@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/24 02:41:33 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/24 02:55:49 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ static int	execute_single_command(t_cmd_params cmd)
 	temp = check_builtins(cmd.argv[0]);
 	if (!temp)
 		res = execute_single_bin(cmd);
-	res = handle_builtins(temp, &cmd);
+	else
+		res = handle_builtins(temp, &cmd);
 	temp = -1;
 	while (cmd.argv[++temp])
 		free(cmd.argv[temp]);
