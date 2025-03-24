@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 12:17:54 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/21 12:24:52 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/24 09:36:39 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static void	put_contents(char *contents)
 {
 	int	fd;
 
+	(void)contents;
+	unlink(HISTORY_PATH);
 	fd = open(HISTORY_PATH, O_CREAT | O_WRONLY, 0644);
 	if (!fd)
 		return ;
@@ -37,22 +39,12 @@ static int	count_total_chars(char **history, int key)
 	return (count);
 }
 
-void	save_history(void)
+static void	save_contents(char **history, int total_count, int i)
 {
-	t_readline_core	*core;
-	char			**history;
 	char			*contents;
-	int				total_count;
-	int				i;
 	int				j;
 	int				k;
 
-	core = get_readline_core();
-	history = (char **)core->history->content;
-	i = core->history->size - 1;
-	if (i >= HISTORY_SIZE)
-		i = HISTORY_SIZE - 1;
-	total_count = count_total_chars(history, i);
 	contents = malloc((total_count + i + 1) * sizeof(char));
 	if (!contents)
 		return ;
@@ -68,4 +60,19 @@ void	save_history(void)
 	}
 	contents[k] = '\0';
 	put_contents(contents);
+	free(contents);
+}
+
+void	save_history(void)
+{
+	t_readline_core	*core;
+	char			**history;
+	int				i;
+
+	core = get_readline_core();
+	history = (char **)core->history->content;
+	i = core->history->size - 1;
+	if (i >= HISTORY_SIZE)
+		i = HISTORY_SIZE - 1;
+	save_contents(history, count_total_chars(history, i), i);
 }

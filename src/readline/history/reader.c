@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:08:19 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/21 12:27:03 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/24 09:50:35 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,26 +33,27 @@ static void	parse_history(const char *content, t_readline_core *core)
 
 void	init_history(void)
 {
-	const char	*content;
-	t_readline_core *core;
+	char			*contents;
+	t_readline_core	*core;
 
 	core = get_readline_core();
 	core->history = ft_array(STRING, sizeof(char *));
-	content = get_history_file_contents();
-	if (!content)
+	contents = get_history_file_contents();
+	if (!contents)
 		return ;
-	parse_history(content, core);
+	parse_history(contents, core);
+	free(contents);
 }
 
-const char	*get_history_file_contents(void)
+char	*get_history_file_contents(void)
 {
-	int			fd;
-	const char	*content;
+	int		fd;
+	char	*contents;
 
 	fd = open(HISTORY_PATH, O_RDONLY);
 	if (fd == -1)
 		return (NULL);
-	content = ft_get_contents(fd);
+	contents = ft_get_contents(fd);
 	close(fd);
-	return (content);
+	return (contents);
 }

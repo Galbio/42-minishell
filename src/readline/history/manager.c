@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:06:31 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/21 12:18:24 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/21 12:32:50 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	add_history(char *line)
 {
 	t_readline_core	*core;
-	char	*value;
+	char			*value;
 
 	core = get_readline_core();
 	value = ft_strdup(line);
