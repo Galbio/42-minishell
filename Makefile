@@ -14,6 +14,7 @@ FILES = main.c		\
 	bquotes_handler.c \
 	signals.c		\
 	split_separators.c \
+	handle_redirect.c \
 	argv/create_argv.c \
 	argv/argv_utils.c \
 	argv/var_parser.c \

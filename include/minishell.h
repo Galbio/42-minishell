@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/24 23:48:52 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/25 00:46:55 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ char			*get_var_str(char *str);
 char			*get_var_name(char *str);
 t_list			*init_pipes(char *str);
 t_list			*split_separators(char *str, t_list **sep);
+char			redirect_stdin(char *method, char *value, t_cmd_params *cmd);
 
 //commands
 void			execute_line(char *str, t_list **envp,
@@ -86,7 +87,7 @@ void			execute_line(char *str, t_list **envp,
 int				execute_pipes(t_list *commands, t_cmd_params *cmd);
 int				execute_subshell(char *command, t_list **envp,
 					t_main_envp *imp);
-void			execute_bin(char **argv, t_main_envp *imp);
+void			execute_bin(t_cmd_params *cmd);
 
 //argv
 t_cmd_params	*create_command_argv(t_cmd_params *cmd);
@@ -101,8 +102,7 @@ void			add_redirection(char *str, t_int_tab *itab,
 					t_cmd_params *cmd, t_list **dest);
 
 //pipe utils
-t_cmd_params	*make_cmd(void *argv_ptr, t_list *rediction,
-					t_list **envp, t_main_envp *imp);
+t_cmd_params	*make_cmd(void *argv_ptr, t_list **envp, t_main_envp *imp);
 int				wait_line_end_exec(int nb_cmd, int write_pipe,
 					int read_pipe, pid_t pid);
 void			go_to_next_command(t_list **commands, int *temp, int pipes[2]);

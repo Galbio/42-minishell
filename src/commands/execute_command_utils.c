@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:22:50 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/24 23:32:33 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/25 00:19:19 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,7 @@ int	wait_line_end_exec(int nb_cmd, int write_pipe, int read_pipe, pid_t pid)
 	return (ret);
 }
 
-t_cmd_params	*make_cmd(void *argv_ptr, t_list *redirections,
-		t_list **envp, t_main_envp *imp)
+t_cmd_params	*make_cmd(void *argv_ptr, t_list **envp, t_main_envp *imp)
 {
 	t_cmd_params	*dest;
 
@@ -95,7 +94,7 @@ t_cmd_params	*make_cmd(void *argv_ptr, t_list *redirections,
 	if (!dest)
 		return (NULL);
 	dest->argv = (char **)argv_ptr;
-	dest->redir = redirections;
+	dest->redir = NULL;
 	dest->envp = envp;
 	dest->imp = imp;
 	return (dest);
