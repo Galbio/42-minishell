@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 20:57:20 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/24 21:49:20 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/24 23:48:23 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	add_var_to_dest(char *dest, char *str, t_int_tab *itab,
 	itab->i += go_to_var_end(str + itab->i) - 1;
 }
 
-int	get_parsed_size(char *str, t_list **cmd_outputs, t_cmd_params *cmd)
+static int	get_parsed_size(char *str, t_list **cmd_outputs, t_cmd_params *cmd)
 {
 	t_int_tab	itab;
 
@@ -74,7 +74,7 @@ static void	fill_dest(char *dest, t_int_tab *itab, char *str,
 	}
 }
 
-static char	*parse_quotes(char *str, t_cmd_params *cmd)
+char	*parse_quotes(char *str, t_cmd_params *cmd)
 {
 	char		*dest;
 	t_list		*cmd_outputs;

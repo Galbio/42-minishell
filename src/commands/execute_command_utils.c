@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:22:50 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/24 21:56:18 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/24 23:32:33 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ t_cmd_params	*make_cmd(void *argv_ptr, t_list *redirections,
 	if (!dest)
 		return (NULL);
 	dest->argv = (char **)argv_ptr;
-	dest->redirection = redirections;
+	dest->redir = redirections;
 	dest->envp = envp;
 	dest->imp = imp;
 	return (dest);

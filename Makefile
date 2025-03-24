@@ -19,6 +19,7 @@ FILES = main.c		\
 	argv/var_parser.c \
 	argv/add_splitted.c \
 	argv/parse_cmd_return.c \
+	argv/handle_redirections.c \
 	builtins/echo.c \
 	builtins/cd.c \
 	builtins/pwd.c \

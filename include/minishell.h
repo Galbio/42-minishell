@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/24 21:53:09 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/24 23:48:52 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct s_main_envp
 typedef struct s_cmd_params
 {
 	char		**argv;
-	t_list		*redirection;
+	t_list		*redir;
 	t_list		**envp;
 	t_main_envp	*imp;
 }	t_cmd_params;
@@ -96,6 +96,9 @@ void			add_to_argv(t_list **dest, char *str, t_int_tab *itab,
 					t_cmd_params *cmd);
 void			add_splitted_to_add(char *str, t_list **dest);
 char			*parse_var_return(char *str, char quote);
+char			*parse_quotes(char *str, t_cmd_params *cmd);
+void			add_redirection(char *str, t_int_tab *itab,
+					t_cmd_params *cmd, t_list **dest);
 
 //pipe utils
 t_cmd_params	*make_cmd(void *argv_ptr, t_list *rediction,
