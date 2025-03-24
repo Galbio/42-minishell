@@ -58,7 +58,7 @@ int	ms_exit(t_cmd_params *cmd)
 	if (!cmd->imp->is_bquoted)
 		write(2, "exit\n", 5);
 	if (!cmd->argv[1])
-		exit(0);
+		exit(cmd->imp->exit_status);
 	if (check_exit_errors(cmd->argv) == 1)
 		exit(2);
 	return (0);
