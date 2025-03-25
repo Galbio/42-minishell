@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_redirections.c                              :+:      :+:    :+:   */
+/*   add_redir_argv.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 22:20:19 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/25 08:19:42 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/25 18:03:03 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,41 @@ static char	*get_redirect_text(char *str)
 	return (ft_substr(str, 0, itab.i));
 }
 
+static void	add_method(char *str, t_int_tab *itab, t_cmd_params *cmd)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	if (itab->i && (str[itab->i - 1] == '&'))
+		i = 1;
+	else if (itab->i)
+		while ((itab->i - i) && ft_isdigit(str[itab->i - i - 1]))
+			i++;
+	j = 0;
+	while (ft_strchr("<>", str[itab->i + j]))
+		j++;
+	if ((j == 2) && (str[itab->i + 2] == '-')
+		&& !ft_strncmp("<<", str + itab->i, 2))
+		j++;
+	ft_lstadd_back(&(cmd->redir), ft_lstnew(
+			ft_substr(str + itab->i - i, 0, j + i)));
+	itab->i += j;
+}
+
 void	add_redirection(char *str, t_int_tab *itab,
 		t_cmd_params *cmd, t_list **dest)
 {
-	int		i;
 	char	*to_add;
 
-	if (itab->i && !ft_strchr(" \t\n", str[itab->i - 1]))
+	if (itab->i && ((str[itab->i - 1] == '&') || ft_isdigit(str[itab->i - 1])))
+		;
+	else if (itab->i && !ft_strchr(" \t\n", str[itab->i - 1]))
 	{
 		add_to_argv(dest, str, itab, cmd);
 		itab->i++;
 	}
-	i = 0;
-	while ((str[itab->i + i] == '<') && (i < 3))
-		i++;
-	if ((i == 2) && (str[itab->i + i] == '-'))
-		i++;
-	ft_lstadd_back(&(cmd->redir), ft_lstnew(ft_substr(str + itab->i, 0, i)));
-	itab->i += i;
+	add_method(str, itab, cmd);
 	while (ft_strchr(" \n\t", str[itab->i]))
 		itab->i++;
 	to_add = get_redirect_text(str + itab->i);

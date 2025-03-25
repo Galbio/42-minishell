@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 00:17:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/25 14:08:37 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/25 17:44:15 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static char	redirect_stdin(char *method, char *value, t_cmd_params *cmd)
 			return (1);
 	}
 	else
-		return (1);
+		write(2, "heredocs lol\n", 13);
 	return (0);
 }
 
@@ -105,8 +105,6 @@ char	handle_redirections(t_cmd_params *cmd)
 	char	*ret;
 	int		i;
 
-	if (!cmd->redir)
-		return (0);
 	cur = cmd->redir;
 	while (cur)
 	{
@@ -117,7 +115,12 @@ char	handle_redirections(t_cmd_params *cmd)
 		while (!ft_strchr("<>", ret[i]))
 			i++;
 		if (ret[i] == '<')
+		{
 			if (redirect_stdin(ret, cur->next->content, cmd))
+				return (1);
+		}
+		else if (ret[i] == '>')
+			if (redirect_stdout(ret, cur->next->content))
 				return (1);
 		cur = cur->next->next;
 	}
