@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/25 13:49:00 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/25 15:00:13 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,10 @@ void			teleport_cursor(t_vector2 pos);
 int				get_cursor_position(t_vector2 *pos);
 
 int				clean_readed(char **readed);
+
+void			update_position(t_readline *data, t_vector2 size, char *build);
+void			clear_next_line(t_readline *data, t_vector2 size);
+void			print_build(char *build);
 
 void			on_write(t_readline *data);
 void			on_delete(t_readline *data);

@@ -53,7 +53,9 @@ FILES = main.c		\
 	readline/termios_manager.c	\
 	readline/char_list.c	\
 	readline/clean_readed.c	\
-	readline/display.c	\
+	readline/edition/write.c	\
+	readline/edition/delete.c	\
+	readline/edition/utils.c	\
 	readline/processing.c	\
 	readline/size.c	\
 	readline/utils.c	\
