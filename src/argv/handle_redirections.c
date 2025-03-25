@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 22:20:19 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/25 00:03:23 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/25 08:19:42 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,15 @@ void	add_redirection(char *str, t_int_tab *itab,
 	int		i;
 	char	*to_add;
 
-	i = 0;
 	if (itab->i && !ft_strchr(" \t\n", str[itab->i - 1]))
 	{
 		add_to_argv(dest, str, itab, cmd);
 		itab->i++;
 	}
-	while (str[itab->i + i] == '<')
+	i = 0;
+	while ((str[itab->i + i] == '<') && (i < 3))
+		i++;
+	if ((i == 2) && (str[itab->i + i] == '-'))
 		i++;
 	ft_lstadd_back(&(cmd->redir), ft_lstnew(ft_substr(str + itab->i, 0, i)));
 	itab->i += i;

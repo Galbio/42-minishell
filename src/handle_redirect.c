@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 00:17:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/25 01:10:09 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/25 09:31:15 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static char	redirect_herefile(char *filename, t_cmd_params *cmd)
 
 	if (init_herefiles(filename, pipes, &fd))
 		return (1);
-	if (ZSH)
+	if (ZSH && cmd->imp->input_fd)
 	{
 		tmp = ft_get_contents(cmd->imp->input_fd);
 		write(pipes[1], tmp, ft_strlen(tmp));
@@ -63,7 +63,7 @@ static char	redirect_herestring(char *value, t_cmd_params *cmd)
 
 	if (pipe(pipes) < 0)
 		return (1);
-	if (ZSH)
+	if (ZSH && cmd->imp->input_fd)
 	{
 		old = ft_get_contents(cmd->imp->input_fd);
 		write(pipes[1], old, ft_strlen(old));
@@ -79,7 +79,7 @@ static char	redirect_herestring(char *value, t_cmd_params *cmd)
 	return (0);
 }
 
-char	redirect_stdin(char *method, char *value, t_cmd_params *cmd)
+static char	redirect_stdin(char *method, char *value, t_cmd_params *cmd)
 {
 	int		len;
 
@@ -89,10 +89,37 @@ char	redirect_stdin(char *method, char *value, t_cmd_params *cmd)
 		if (redirect_herefile(value, cmd))
 			return (1);
 	}
-	else if (len == 3)
+	else if ((len == 3) && (method[2] == '<'))
 	{
 		if (redirect_herestring(value, cmd))
 			return (1);
+	}
+	else
+		write(2, "heredocs lol\n", 13);
+	return (0);
+}
+
+char	handle_redirections(t_cmd_params *cmd)
+{
+	t_list	*cur;
+	char	*ret;
+	int		i;
+
+	if (!cmd->redir)
+		return (0);
+	cur = cmd->redir;
+	while (cur)
+	{
+		ret = (char *)cur->content;
+		if (!cur->next)
+			return (1);
+		i = 0;
+		while (!ft_strchr("<>", ret[i]))
+			i++;
+		if (ret[i] == '<')
+			if (redirect_stdin(ret, cur->next->content, cmd))
+				return (1);
+		cur = cur->next->next;
 	}
 	return (0);
 }

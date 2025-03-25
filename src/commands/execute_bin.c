@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 20:09:48 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/25 00:47:16 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/25 08:53:08 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,31 +47,6 @@ static char	*get_command_path(char *str, char **paths)
 	return (NULL);
 }
 
-static char	handle_redirections(t_cmd_params *cmd)
-{
-	t_list	*cur;
-	char	*ret;
-	int		i;
-
-	if (!cmd->redir)
-		return (0);
-	cur = cmd->redir;
-	while (cur)
-	{
-		ret = (char *)cur->content;
-		if (!cur->next)
-			return (1);
-		i = 0;
-		while (!ft_strchr("<>", ret[i]))
-			i++;
-		if (ret[i] == '<')
-			if (redirect_stdin(ret, cur->next->content, cmd))
-				return (1);
-		cur = cur->next->next;
-	}
-	return (0);
-}
-
 void	execute_bin(t_cmd_params *cmd)
 {
 	char	*path;
@@ -85,7 +60,6 @@ void	execute_bin(t_cmd_params *cmd)
 		ft_putstr_fd(": command not found\n", 2);
 		exit(127);
 	}
-	if (handle_redirections(cmd))
-		exit(1);
 	execve(path, cmd->argv, cmd->imp->envp_cpy);
+	exit(1);
 }

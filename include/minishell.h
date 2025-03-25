@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/25 01:10:43 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/25 09:14:00 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # include "readline.h"
 
 # ifndef ZSH
-#  define ZSH 0
+#  define ZSH 1
 # endif
 
 typedef struct s_main_envp
@@ -83,10 +83,12 @@ char			*get_var_str(char *str);
 char			*get_var_name(char *str);
 t_list			*init_pipes(char *str);
 t_list			*split_separators(char *str, t_list **sep);
-char			redirect_stdin(char *method, char *value, t_cmd_params *cmd);
+char			handle_redirections(t_cmd_params *cmd);
 
 //commands
 void			execute_line(char *str, t_list **envp,
+					t_main_envp *imp);
+int				execute_command(t_list *commands, t_list **envp,
 					t_main_envp *imp);
 int				execute_pipes(t_list *commands, t_cmd_params *cmd);
 int				execute_subshell(char *command, t_list **envp,
