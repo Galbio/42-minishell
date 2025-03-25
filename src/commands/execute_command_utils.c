@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:22:50 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/14 19:45:35 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/25 00:19:19 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,16 @@ int	wait_line_end_exec(int nb_cmd, int write_pipe, int read_pipe, pid_t pid)
 	return (ret);
 }
 
-t_cmd_params	make_cmd(void *argv_ptr, t_list **envp, t_main_envp *imp)
+t_cmd_params	*make_cmd(void *argv_ptr, t_list **envp, t_main_envp *imp)
 {
-	t_cmd_params	dest;
+	t_cmd_params	*dest;
 
-	dest.argv = (char **)argv_ptr;
-	dest.envp = envp;
-	dest.imp = imp;
+	dest = malloc(sizeof(t_cmd_params));
+	if (!dest)
+		return (NULL);
+	dest->argv = (char **)argv_ptr;
+	dest->redir = NULL;
+	dest->envp = envp;
+	dest->imp = imp;
 	return (dest);
 }

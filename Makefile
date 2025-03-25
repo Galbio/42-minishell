@@ -14,11 +14,13 @@ FILES = main.c		\
 	bquotes_handler.c \
 	signals.c		\
 	split_separators.c \
+	handle_redirect.c \
 	argv/create_argv.c \
 	argv/argv_utils.c \
 	argv/var_parser.c \
 	argv/add_splitted.c \
 	argv/parse_cmd_return.c \
+	argv/handle_redirections.c \
 	builtins/echo.c \
 	builtins/cd.c \
 	builtins/pwd.c \
@@ -27,6 +29,7 @@ FILES = main.c		\
 	builtins/export_no_args.c \
 	builtins/exit.c \
 	builtins/env.c \
+	commands/execute_line.c \
 	commands/execute_command.c \
 	commands/execute_command_utils.c \
 	commands/execute_subshell.c \
