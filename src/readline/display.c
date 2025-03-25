@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:24 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/14 18:28:57 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/25 13:54:15 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	on_write(t_readline *data)
 	char		*build;
 	t_vector2	size;
 
+	hide_cursor();
 	build = build_result(*data, 0);
 	size = get_terminal_size(data, 1);
 	update_position(data, size, build);
@@ -76,6 +77,17 @@ void	on_write(t_readline *data)
 	free(build);
 	data->cursor = get_char_pos(data, data->actual);
 	teleport_cursor(data->cursor);
+	show_cursor();
+}
+
+void	clear_next_line(t_readline *data, t_vector2 size)
+{
+	data->cursor = get_char_pos(data, last_char(data->first));
+	if (data->cursor.y < size.y - 1)
+	{
+		move_y(data, 1);
+		write(0, "\033[2K", 4);
+	}
 }
 
 void	on_delete(t_readline *data)
@@ -83,6 +95,7 @@ void	on_delete(t_readline *data)
 	char		*build;
 	t_vector2	size;
 
+	hide_cursor();
 	build = build_result(*data, last_char(data->first));
 	size = get_terminal_size(data, 1);
 	update_position(data, size, build);
@@ -91,17 +104,11 @@ void	on_delete(t_readline *data)
 	write(0, " ", 1);
 	free(build);
 	if (data->actual)
-	{
-		data->cursor = get_char_pos(data, last_char(data->first));
-		if (data->cursor.y < size.y - 1)
-		{
-			move_y(data, 1);
-			write(0, "\033[2K", 4);
-		}
-	}
+		clear_next_line(data, size);
 	if (data->actual && data->actual->next)
 		data->cursor = get_char_pos(data, data->actual);
 	else
 		data->cursor = get_char_pos(data, NULL);
 	teleport_cursor(data->cursor);
+	show_cursor();
 }

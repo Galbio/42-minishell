@@ -47,6 +47,7 @@ FILES = main.c		\
 	readline/char_utils.c	\
 	readline/cursor_position.c	\
 	readline/cursor_manager.c	\
+	readline/cursor_view.c	\
 	readline/ft_readline.c	\
 	readline/handle.c	\
 	readline/termios_manager.c	\

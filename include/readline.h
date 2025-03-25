@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/17 17:55:36 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/25 13:49:00 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # include <termios.h>
 # include <signal.h>
 # include "libft.h"
+
+# define HIDE_CURSOR "\e[?25l"
+# define SHOW_CURSOR "\e[?25h"
 
 typedef struct s_char
 {
@@ -140,5 +143,8 @@ void			free_ft_readline(t_readline *data);
 
 void			add_to_stash(t_char **stashed, t_char *node, int type);
 void			clean_stash(t_readline_core *core, int check_cat);
+
+void			hide_cursor(void);
+void			show_cursor(void);
 
 #endif
