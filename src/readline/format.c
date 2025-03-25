@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:11:11 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/25 18:22:10 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/25 19:18:13 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ int	check_quotes(const char *build)
 	{
 		if (build[i] == '\\' && !back_slashed)
 			back_slashed = 1;
-		else if (build[i] == '\'' || ((build[i] == '`' || build[i] == '\"') && !back_slashed))
+		else if (build[i] == '\''
+			|| ((build[i] == '`' || build[i] == '\"') && !back_slashed))
 		{
 			if (cur_quote == build[i])
 				cur_quote = 0;
