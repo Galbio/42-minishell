@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_redirections.c                              :+:      :+:    :+:   */
+/*   add_redir_argv.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 22:20:19 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/25 14:28:31 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/25 18:01:51 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ static void	add_method(char *str, t_int_tab *itab, t_cmd_params *cmd)
 void	add_redirection(char *str, t_int_tab *itab,
 		t_cmd_params *cmd, t_list **dest)
 {
-	int		i;
 	char	*to_add;
 
 	if (itab->i && ((str[itab->i - 1] == '&') || ft_isdigit(str[itab->i - 1])))
