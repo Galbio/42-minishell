@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/25 15:20:27 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/25 17:47:06 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,9 @@ void			disable_raw_mode(void);
 
 void			read_stdin_keys(char *buffer);
 
-char			get_open_quote(const char *stashed);
+int				check_quotes(const char *build);
+int				check_backslashes(const char *build);
+char			*clean_backslashes(char *build);
 void			init_terminal_size(t_vector2 *size);
 t_vector2		get_terminal_size(t_readline *data, int check_resize);
 int				count_low_newlines(t_readline *data, t_char *to);
