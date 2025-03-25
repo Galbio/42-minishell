@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:11:11 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/25 18:09:02 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/25 18:14:19 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static int	new_size(char *build, int old_size)
 	len = 0;
 	while (i < old_size)
 	{
-		if (i + 3 <= old_size && ft_strncmp(build + i, "\\\n", 2) == 0)
+		if ((i + 3 <= old_size) && (ft_strncmp(build + i, "\\\n", 2) == 0))
 			i += 2;
 		len++;
 		i++;
