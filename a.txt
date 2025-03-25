@@ -1,8 +1,0 @@
-a.txt
-ft_printf
-include
-libft
-Makefile
-minishell
-objs
-src

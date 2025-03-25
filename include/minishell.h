@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/25 09:14:00 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/25 09:53:24 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # include "readline.h"
 
 # ifndef ZSH
-#  define ZSH 1
+#  define ZSH 0
 # endif
 
 typedef struct s_main_envp
