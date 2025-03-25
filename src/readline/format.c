@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:11:11 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/25 17:47:22 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/25 17:49:11 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,6 @@ char	*clean_backslashes(char *build)
 		i++;
 	}
 	res[j] = '\0';
+	free(build);
 	return (res);
 }
