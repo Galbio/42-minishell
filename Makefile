@@ -61,7 +61,7 @@ FILES = main.c		\
 	readline/edition/utils.c	\
 	readline/processing.c	\
 	readline/size.c	\
-	readline/utils.c	\
+	readline/format.c	\
 	readline/stdin.c	\
 	readline/ft_readline_core.c	\
 	readline/exit.c		\

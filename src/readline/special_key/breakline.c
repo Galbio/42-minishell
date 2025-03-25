@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 14:23:31 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/17 14:37:06 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/25 16:12:45 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	breakline_key(t_readline *data)
 	char	*build;
 
 	build = build_result(*data, 0);
-	if (get_open_quote(build) == 0)
+	if (check_quotes(build) && check_backslashes(build))
 	{
 		end_key(data);
 		write(0, "\n", 1);
