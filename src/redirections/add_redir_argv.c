@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 22:20:19 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/25 10:29:31 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/25 14:28:31 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,19 @@ static void	add_method(char *str, t_int_tab *itab, t_cmd_params *cmd)
 
 	i = 0;
 	if (itab->i && (str[itab->i - 1] == '&'))
-		i = -1;
+		i = 1;
 	else if (itab->i)
-		while ((itab->i - i) && ft_isdigit(str[itab->i - i]))
-			i--;
+		while ((itab->i - i) && ft_isdigit(str[itab->i - i - 1]))
+			i++;
 	j = 0;
 	while (ft_strchr("<>", str[itab->i + j]))
 		j++;
-	if ((j == 2) && (str[itab->i + 3] == '-')
-			&& !ft_strncmp("<<", str + itab->i, 2))
+	if ((j == 2) && (str[itab->i + 2] == '-')
+		&& !ft_strncmp("<<", str + itab->i, 2))
 		j++;
+	ft_lstadd_back(&(cmd->redir), ft_lstnew(
+			ft_substr(str + itab->i - i, 0, j + i)));
+	itab->i += j;
 }
 
 void	add_redirection(char *str, t_int_tab *itab,
@@ -64,12 +67,6 @@ void	add_redirection(char *str, t_int_tab *itab,
 	}
 	i = 0;
 	add_method(str, itab, cmd);
-	while ((str[itab->i + i] == '<') && (i < 3))
-		i++;
-	if ((i == 2) && (str[itab->i + i] == '-'))
-		i++;
-	ft_lstadd_back(&(cmd->redir), ft_lstnew(ft_substr(str + itab->i, 0, i)));
-	itab->i += i;
 	while (ft_strchr(" \n\t", str[itab->i]))
 		itab->i++;
 	to_add = get_redirect_text(str + itab->i);

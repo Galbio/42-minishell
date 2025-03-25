@@ -14,13 +14,15 @@ FILES = main.c		\
 	bquotes_handler.c \
 	signals.c		\
 	split_separators.c \
-	handle_redirect.c \
 	argv/create_argv.c \
 	argv/argv_utils.c \
 	argv/var_parser.c \
 	argv/add_splitted.c \
 	argv/parse_cmd_return.c \
-	argv/handle_redirections.c \
+	redirections/redirect_stdin.c \
+	redirections/redirect_stdout.c \
+	redirections/redirect_stdout.c \
+	redirections/add_redir_argv.c \
 	builtins/echo.c \
 	builtins/cd.c \
 	builtins/pwd.c \
@@ -73,7 +75,7 @@ FILES = main.c		\
 
 OFILES = $(FILES:%.c=$(OBJS)/%.o)
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -O3
 EXTRA_FLAGS = -g
 COMPILATOR = cc
 

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 08:00:35 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/24 22:27:35 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/25 14:29:11 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	handle_argv_filling(char *str, t_cmd_params *cmd, t_list **dest,
 	if (!itab->backslash && (str[itab->i] == '$')
 		&& (itab->cur_quote != '\''))
 		itab->i += go_to_var_end(str + itab->i) - 1;
-	if (!itab->backslash && !itab->cur_quote && (str[itab->i] == '<'))
+	if (!itab->backslash && !itab->cur_quote && ft_strchr("<>", str[itab->i]))
 		add_redirection(str, itab, cmd, dest);
 }
 

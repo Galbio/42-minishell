@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/25 09:53:24 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/25 17:46:36 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ char			*get_var_name(char *str);
 t_list			*init_pipes(char *str);
 t_list			*split_separators(char *str, t_list **sep);
 char			handle_redirections(t_cmd_params *cmd);
+char			redirect_stdout(char *method, char *value);
 
 //commands
 void			execute_line(char *str, t_list **envp,
