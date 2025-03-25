@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:35:44 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/25 08:36:03 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/25 18:54:12 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	execute_line(char *str, t_list **envp, t_main_envp *imp)
 	t_list	*sep;
 	char	cur_sep;
 
+	if (ft_isonlywhitespaces(str))
+		return ;
 	sep = NULL;
 	cur_sep = ';';
 	commands_list = split_separators(str, &sep);
