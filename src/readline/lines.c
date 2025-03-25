@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 11:22:28 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/14 18:38:16 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/25 14:58:38 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	count_low_newlines(t_readline *data, t_char *to)
 		{
 			count += j / size.x
 				- (c->c[0] == '\n' * (j % size.x == 1)
-					* (c->previous->c[0] != '\n'));
+					* (!c->previous || c->previous->c[0] != '\n'));
 			j = 0;
 		}
 		c = c->next;

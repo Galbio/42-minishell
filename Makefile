@@ -21,7 +21,6 @@ FILES = main.c		\
 	argv/parse_cmd_return.c \
 	redirections/redirect_stdin.c \
 	redirections/redirect_stdout.c \
-	redirections/redirect_stdout.c \
 	redirections/add_redir_argv.c \
 	builtins/echo.c \
 	builtins/cd.c \
@@ -52,12 +51,15 @@ FILES = main.c		\
 	readline/char_utils.c	\
 	readline/cursor_position.c	\
 	readline/cursor_manager.c	\
+	readline/cursor_view.c	\
 	readline/ft_readline.c	\
 	readline/handle.c	\
 	readline/termios_manager.c	\
 	readline/char_list.c	\
 	readline/clean_readed.c	\
-	readline/display.c	\
+	readline/edition/write.c	\
+	readline/edition/delete.c	\
+	readline/edition/utils.c	\
 	readline/processing.c	\
 	readline/size.c	\
 	readline/utils.c	\
