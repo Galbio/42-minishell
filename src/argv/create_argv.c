@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 08:00:35 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/24 22:27:35 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/25 14:11:14 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static t_list	*fill_argv(char *str, t_cmd_params *cmd)
 	return (dest);
 }
 
-static void	rearrange_cmd(t_cmd_params *cmd, t_list *argv)
+static void	fill_return_argv(t_cmd_params *cmd, t_list *argv)
 {
 	char	**dest;
 	int		size;
@@ -77,6 +77,6 @@ t_cmd_params	*create_command_argv(t_cmd_params *cmd)
 	temp = *(cmd->argv);
 	cmd->argv = NULL;
 	argv = fill_argv(temp, cmd);
-	rearrange_cmd(cmd, argv);
+	fill_return_argv(cmd, argv);
 	return (cmd);
 }

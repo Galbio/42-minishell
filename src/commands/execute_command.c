@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/25 09:13:42 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/25 14:09:20 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@ static int	execute_single_bin(t_cmd_params *cmd)
 	if (pid < 0)
 		return (1);
 	if (!pid)
-	{
 		execute_bin(cmd);
-	}
 	waitpid(pid, &stat, 0);
 	if (WIFEXITED(stat))
 		return (WEXITSTATUS(stat));
@@ -32,18 +30,16 @@ static int	execute_single_bin(t_cmd_params *cmd)
 
 static void	manage_saves(int saves[3], char mode)
 {
-	if (!mode)
+	if (mode == 0)
 	{
 		saves[0] = dup(0);
 		saves[1] = dup(1);
 		saves[2] = dup(2);
+		return ;
 	}
-	else
-	{
-		dup2(saves[0], 0);
-		dup2(saves[1], 1);
-		dup2(saves[2], 2);
-	}
+	dup2(saves[0], 0);
+	dup2(saves[1], 1);
+	dup2(saves[2], 2);
 }
 
 static int	execute_single_command(t_cmd_params *cmd)
