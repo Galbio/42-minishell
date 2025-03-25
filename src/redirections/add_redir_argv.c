@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 22:20:19 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/25 18:01:51 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/25 18:03:03 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void	add_redirection(char *str, t_int_tab *itab,
 		add_to_argv(dest, str, itab, cmd);
 		itab->i++;
 	}
-	i = 0;
 	add_method(str, itab, cmd);
 	while (ft_strchr(" \n\t", str[itab->i]))
 		itab->i++;
