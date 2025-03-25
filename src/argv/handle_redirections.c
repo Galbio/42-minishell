@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 22:20:19 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/25 08:19:42 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/25 10:29:31 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,40 @@ static char	*get_redirect_text(char *str)
 	return (ft_substr(str, 0, itab.i));
 }
 
+static void	add_method(char *str, t_int_tab *itab, t_cmd_params *cmd)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	if (itab->i && (str[itab->i - 1] == '&'))
+		i = -1;
+	else if (itab->i)
+		while ((itab->i - i) && ft_isdigit(str[itab->i - i]))
+			i--;
+	j = 0;
+	while (ft_strchr("<>", str[itab->i + j]))
+		j++;
+	if ((j == 2) && (str[itab->i + 3] == '-')
+			&& !ft_strncmp("<<", str + itab->i, 2))
+		j++;
+}
+
 void	add_redirection(char *str, t_int_tab *itab,
 		t_cmd_params *cmd, t_list **dest)
 {
 	int		i;
 	char	*to_add;
 
-	if (itab->i && !ft_strchr(" \t\n", str[itab->i - 1]))
+	if (itab->i && ((str[itab->i - 1] == '&') || ft_isdigit(str[itab->i - 1])))
+		;
+	else if (itab->i && !ft_strchr(" \t\n", str[itab->i - 1]))
 	{
 		add_to_argv(dest, str, itab, cmd);
 		itab->i++;
 	}
 	i = 0;
+	add_method(str, itab, cmd);
 	while ((str[itab->i + i] == '<') && (i < 3))
 		i++;
 	if ((i == 2) && (str[itab->i + i] == '-'))
