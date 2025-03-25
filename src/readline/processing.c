@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:30 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/17 16:23:39 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/25 15:17:30 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*build_result(t_readline data, t_char *to)
 	int		i;
 	int		len;
 
-	if (!data.first || data.first->c[0] == '\n')
+	if (!data.first || (data.first->c[0] == '\n' && !data.first->next))
 		return (ft_strdup(""));
 	len = calculate_len(data, to);
 	if (!to && data.first && !data.actual)
