@@ -77,7 +77,7 @@ FILES = main.c		\
 
 OFILES = $(FILES:%.c=$(OBJS)/%.o)
 
-FLAGS = -Wall -Wextra -Werror -O3
+FLAGS = -Wall -Wextra -Werror
 EXTRA_FLAGS = -g
 COMPILATOR = cc
 
