@@ -6,13 +6,13 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:06:31 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/26 15:13:14 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/26 20:13:27 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-void	add_history(char *line)
+void	add_to_history(char *line)
 {
 	t_readline_core	*core;
 	char			*value;
@@ -30,8 +30,15 @@ t_array	get_history(void)
 	return (get_readline_core()->history);
 }
 
-void	free_history(int key, void *value)
+void	free_history_entry(int key, void *value)
 {
 	(void)key;
 	free(value);
+}
+
+int	get_history_maxsize(void)
+{
+	if (HISTORY_SIZE < 0 || HISTORY_SIZE >= 5000)
+		return (4999);
+	return (HISTORY_SIZE);
 }

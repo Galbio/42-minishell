@@ -85,9 +85,11 @@ FILES = main.c		\
 
 OFILES = $(FILES:%.c=$(OBJS)/%.o)
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -D HISTORY_SIZE=$(HISTORY_SIZE)
 EXTRA_FLAGS = -g
 COMPILATOR = cc
+
+HISTORY_SIZE ?= 500
 
 all: $(NAME)
 

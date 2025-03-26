@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:05:51 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/26 18:31:02 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/26 20:15:50 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,17 @@
 
 # include <fcntl.h>
 
-# define HISTORY_SIZE 500
+# ifndef HISTORY_SIZE
+#  define HISTORY_SIZE 500
+# endif
 
 //manager.c
-void	add_history(char *line);
+void	add_to_history(char *line);
 t_array	get_history(void);
-void	free_history(int key, void *value);
+void	free_history_entry(int key, void *value);
+int		get_history_maxsize(void);
+
+//writer.c
 void	save_history(void);
 
 //reader.c

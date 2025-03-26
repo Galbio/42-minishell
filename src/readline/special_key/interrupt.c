@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 14:22:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/26 15:14:45 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/26 20:16:47 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,13 @@ void	ctrl_c_key(t_readline *data)
 
 void	ctrl_d_key(t_readline *data)
 {
+	t_array	history;
+
 	if (data->first == NULL)
 	{
 		disable_raw_mode();
-		ft_array_unset(&get_readline_core()->history, free_history);
+		history = get_history();
+		ft_array_unset(&history, free_history_entry);
 		free_ft_readline(data);
 		write(0, "\nexit\n", 6);
 		exit(0);

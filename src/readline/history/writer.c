@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 12:17:54 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/26 19:17:42 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/26 20:18:47 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	save_history(void)
 	core = get_readline_core();
 	history = (char **)core->history;
 	i = ft_array_count(core->history) - 1;
-	if (i >= HISTORY_SIZE)
-		i = HISTORY_SIZE - 1;
+	if (i >= get_history_maxsize())
+		i = get_history_maxsize() - 1;
 	save_contents(history, count_total_chars(history, i), i);
 }
