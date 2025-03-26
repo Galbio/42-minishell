@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:08:19 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/26 14:09:52 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/26 16:51:08 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,15 @@ void	init_history(void)
 
 char	*get_history_file_contents(void)
 {
+	char	*path;
 	int		fd;
 	char	*contents;
 
-	fd = open(HISTORY_PATH, O_RDONLY);
+	path = get_history_path_full();
+	if (!path)
+		return (NULL);
+	fd = open(path, O_RDONLY);
+	free(path);
 	if (fd == -1)
 		return (NULL);
 	contents = ft_get_contents(fd);

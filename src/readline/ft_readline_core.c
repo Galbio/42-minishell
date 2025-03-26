@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:44:41 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/24 10:28:26 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/26 17:14:49 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,17 @@ static void	register_controls(void)
 	register_special_key(CTRL_H_KEY, backspace_key);
 	register_special_key(CTRL_K_KEY, stash_after_key);
 	register_special_key(CTRL_L_KEY, clear_key);
+	register_special_key(CTRL_N_KEY, next_history_key);
 	register_special_key(CTRL_O_KEY, breakline_key);
+	register_special_key(CTRL_P_KEY, previous_history_key);
 	register_special_key(CTRL_T_KEY, swap_key);
 	register_special_key(CTRL_U_KEY, stash_before_key);
 	register_special_key(CTRL_W_KEY, stash_before_in_word_key);
 	register_special_key(CTRL_Y_KEY, paste_stash_key);
+}
+
+static void	register_special_controls(void)
+{
 	register_special_key(CTRL_LEFT_ARROW_KEY, previous_word_key);
 	register_special_key(CTRL_RIGHT_ARROW_KEY, next_word_key);
 	register_special_key(CTRL_UP_ARROW_KEY, invalid_key);
@@ -69,6 +75,7 @@ t_readline_core	*get_readline_core(void)
 		init_history();
 		register_default();
 		register_controls();
+		register_special_controls();
 	}
 	return (core);
 }

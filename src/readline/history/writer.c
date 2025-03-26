@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 12:17:54 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/26 14:19:36 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/26 16:50:48 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,16 @@
 
 static void	put_contents(char *contents)
 {
-	int	fd;
+	char	*path;
+	int		fd;
 
-	(void)contents;
-	unlink(HISTORY_PATH);
-	fd = open(HISTORY_PATH, O_CREAT | O_WRONLY, 0644);
-	if (!fd)
+	path = get_history_path_full();
+	if (!path)
+		return ;
+	unlink(path);
+	fd = open(path, O_CREAT | O_WRONLY, 0644);
+	free(path);
+	if (fd == -1)
 		return ;
 	write(fd, contents, ft_strlen(contents));
 }

@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:05:51 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/26 14:10:40 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/26 16:55:01 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <fcntl.h>
 
-# define HISTORY_PATH "./.minishell_history"
 # define HISTORY_SIZE 500
 
 //manager.c
@@ -27,5 +26,14 @@ void	save_history(void);
 //reader.c
 void	init_history(void);
 char	*get_history_file_contents(void);
+
+//path.c
+void	set_history_path(char *path);
+char	*get_history_path(void);
+char	*get_history_path_full(void);
+
+//file.c
+void	set_history_filename(char *path);
+char	*get_history_filename(void);
 
 #endif
