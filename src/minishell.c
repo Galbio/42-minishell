@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/26 17:39:09 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/26 19:16:10 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void	init(char *home)
 	init_signals();
 	set_history_path(home);
 	set_history_filename(".minishell_history");
+	enable_history();
 }
 
 void	launch(t_list *envp, t_main_envp *imp)
