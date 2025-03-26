@@ -41,6 +41,7 @@ FILES = main.c		\
 	readline/history/writer.c	\
 	readline/history/file.c	\
 	readline/history/path.c	\
+	readline/history/state.c	\
 	readline/special_key/move.c	\
 	readline/special_key/history.c	\
 	readline/special_key/breakline.c	\

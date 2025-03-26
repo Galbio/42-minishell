@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:05:51 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/26 16:55:01 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/26 18:31:02 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,10 @@ char	*get_history_path_full(void);
 //file.c
 void	set_history_filename(char *path);
 char	*get_history_filename(void);
+
+//state.c
+void	enable_history(void);
+void	disable_history(void);
+int		is_history_enable(void);
 
 #endif

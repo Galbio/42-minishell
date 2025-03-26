@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 12:17:54 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/26 16:50:48 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/26 18:36:18 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,9 @@ void	save_history(void)
 	t_readline_core	*core;
 	char			**history;
 	int				i;
+
+	if (!is_history_enable())
+		return ;
 
 	core = get_readline_core();
 	history = (char **)core->history;
