@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:43:25 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/25 17:44:09 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:49:49 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,24 @@ static char	redirect_fd(char *str, int fd)
 	return (0);
 }
 
-static char	redirect_tofile(char *method, char *name)
+static char	redirect_fd_adress(char *src, char *dest)
+{
+	int		src_nb;
+	int		dest_nb;
+
+	src_nb = ft_atoi(src);
+	dest_nb = ft_atoi(dest);
+	dup2(dest_nb, src_nb);
+	return (0);
+}
+
+static char	redirect_tofile(char *method, char **name)
 {
 	int		fd;
 
-	fd = open(name, O_WRONLY | O_CREAT, 0644);
+	if (name[0][0])
+		return (redirect_fd_adress(method, name[1]));
+	fd = open(name[1], O_WRONLY | O_CREAT, 0644);
 	if (fd < 0)
 		return (1);
 	if (method[0] == '>')
@@ -53,11 +66,11 @@ static char	redirect_tofile(char *method, char *name)
 	return (0);
 }
 
-static char	redirect_appendfile(char *method, char *name)
+static char	redirect_appendfile(char *method, char **name)
 {
 	int		fd;
 
-	fd = open(name, O_WRONLY | O_APPEND | O_CREAT, 0644);
+	fd = open(name[1], O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (fd < 0)
 		return (1);
 	if (method[0] == '>')
@@ -70,7 +83,7 @@ static char	redirect_appendfile(char *method, char *name)
 	return (0);
 }
 
-char	redirect_stdout(char *method, char *value)
+char	redirect_stdout(char *method, char **value)
 {
 	int		i;
 
