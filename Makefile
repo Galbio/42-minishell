@@ -71,6 +71,7 @@ FILES = main.c		\
 	readline/stash.c	\
 	utils/init_int_tab.c \
 	utils/var_names_utils.c \
+	utils/is_only_nb.c \
 	utils/free_envp.c \
 	utils/trim_whitespaces.c \
 	utils/check_special_char.c
