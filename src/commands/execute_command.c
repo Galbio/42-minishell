@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/25 18:55:49 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/26 14:33:35 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	execute_single_command(t_cmd_params *cmd)
 	dup2(cmd->imp->output_fd, 1);
 	dup2(cmd->imp->input_fd, 0);
 	if (handle_redirections(cmd))
-		exit(1);
+		return (2);
 	temp = check_builtins(cmd->argv[0]);
 	if (!temp)
 		res = execute_single_bin(cmd);

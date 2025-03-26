@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 22:20:19 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/25 18:03:03 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/26 16:27:30 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	add_method(char *str, t_int_tab *itab, t_cmd_params *cmd)
 		while ((itab->i - i) && ft_isdigit(str[itab->i - i - 1]))
 			i++;
 	j = 0;
-	while (ft_strchr("<>", str[itab->i + j]))
+	while (str[itab->i + j] && ft_strchr("<>", str[itab->i + j]))
 		j++;
 	if ((j == 2) && (str[itab->i + 2] == '-')
 		&& !ft_strncmp("<<", str + itab->i, 2))
@@ -52,11 +52,51 @@ static void	add_method(char *str, t_int_tab *itab, t_cmd_params *cmd)
 	itab->i += j;
 }
 
+static void	add_value(char *to_add, char is_fd, t_cmd_params *cmd)
+{
+	char	**dest;
+
+	dest = malloc(sizeof(char **) * 3);
+	if (is_fd)
+		dest[0] = (void *)1;
+	else
+		dest[0] = NULL;
+	dest[1] = to_add;
+	dest[2] = NULL;
+	ft_lstadd_back(&(cmd->redir), ft_lstnew(dest));
+}
+
+static void	parse_redirect_value(char *str, t_int_tab *itab, t_cmd_params *cmd)
+{
+	char	*to_add;
+	char	value_is_fd;
+	int		i;
+
+	value_is_fd = 0;
+	if ((str[itab->i] == '&') && is_only_nb(str + itab->i + 1))
+	{
+		value_is_fd++;
+		itab->i++;
+	}
+	while (str[itab->i] && ft_strchr(" \n\t", str[itab->i]))
+		itab->i++;
+	to_add = get_redirect_text(str + itab->i);
+	itab->i += ft_strlen(to_add);
+	i = 0;
+	if (to_add[0])
+		to_add = make_splitted_str(parse_quotes(to_add, cmd), &i, 1);
+	else
+	{
+		free(to_add);
+		to_add = NULL;
+	}
+	add_value(to_add, value_is_fd, cmd);
+	itab->ret = itab->i;
+}
+
 void	add_redirection(char *str, t_int_tab *itab,
 		t_cmd_params *cmd, t_list **dest)
 {
-	char	*to_add;
-
 	if (itab->i && ((str[itab->i - 1] == '&') || ft_isdigit(str[itab->i - 1])))
 		;
 	else if (itab->i && !ft_strchr(" \t\n", str[itab->i - 1]))
@@ -65,10 +105,5 @@ void	add_redirection(char *str, t_int_tab *itab,
 		itab->i++;
 	}
 	add_method(str, itab, cmd);
-	while (ft_strchr(" \n\t", str[itab->i]))
-		itab->i++;
-	to_add = get_redirect_text(str + itab->i);
-	itab->i += ft_strlen(to_add);
-	ft_lstadd_back(&(cmd->redir), ft_lstnew(parse_quotes(to_add, cmd)));
-	itab->ret = itab->i;
+	parse_redirect_value(str, itab, cmd);
 }

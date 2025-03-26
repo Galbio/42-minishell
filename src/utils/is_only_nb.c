@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   is_only_nb.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/22 21:20:18 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/13 02:00:18 by gakarbou         ###   ########.fr       */
+/*   Created: 2025/03/26 15:53:56 by gakarbou          #+#    #+#             */
+/*   Updated: 2025/03/26 15:54:38 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+char	is_only_nb(char *str)
 {
-	t_main_envp	imp;
-	t_list		*env;
+	int		i;
 
-	(void)argc;
-	(void)argv;
-	env = parse_envp(envp, &imp);
-	launch(env, &imp);
-	free_envp(&env, &imp);
-	return (2);
+	i = 0;
+	while (str[i] && !ft_strchr(" \n\t", str[i]))
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (i != 0);
 }

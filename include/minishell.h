@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/26 10:13:28 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/25 17:48:43 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void			launch(t_list *envp, t_main_envp *imp);
 
 char			check_special_char(char *str, t_int_tab *itab);
 void			free_envp(t_list **envp, t_main_envp *imp);
+char			is_only_nb(char *str);
 
 t_int_tab		init_int_tab(void);
 
@@ -84,7 +85,7 @@ char			*get_var_name(char *str);
 t_list			*init_pipes(char *str);
 t_list			*split_separators(char *str, t_list **sep);
 char			handle_redirections(t_cmd_params *cmd);
-char			redirect_stdout(char *method, char *value);
+char			redirect_stdout(char *method, char **value);
 
 //commands
 void			execute_line(char *str, t_list **envp,
@@ -105,6 +106,7 @@ void			add_to_argv(t_list **dest, char *str, t_int_tab *itab,
 void			add_splitted_to_add(char *str, t_list **dest);
 char			*parse_var_return(char *str, char quote);
 char			*parse_quotes(char *str, t_cmd_params *cmd);
+char			*make_splitted_str(char *str, int *i, char is_sep);
 void			add_redirection(char *str, t_int_tab *itab,
 					t_cmd_params *cmd, t_list **dest);
 
