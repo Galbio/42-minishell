@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 22:20:19 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/26 13:54:11 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/26 14:29:29 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	add_method(char *str, t_int_tab *itab, t_cmd_params *cmd)
 		while ((itab->i - i) && ft_isdigit(str[itab->i - i - 1]))
 			i++;
 	j = 0;
-	while (ft_strchr("<>", str[itab->i + j]))
+	while (str[itab->i + j] && ft_strchr("<>", str[itab->i + j]))
 		j++;
 	if ((j == 2) && (str[itab->i + 2] == '-')
 		&& !ft_strncmp("<<", str + itab->i, 2))
@@ -57,7 +57,7 @@ char	is_only_nb(char *str)
 	int		i;
 
 	i = 0;
-	while (!ft_strchr(" \n\t\0", str[i]))
+	while (!ft_strchr(" \n\t", str[i]))
 	{
 		if (!ft_isdigit(str[i]))
 			return (0);
@@ -71,6 +71,7 @@ static void	add_value(char *str, t_int_tab *itab, t_cmd_params *cmd)
 	char	*to_add;
 	char	**dest;
 	char	value_is_fd;
+	int		i;
 
 	value_is_fd = 0;
 	if ((str[itab->i] == '&') && is_only_nb(str + itab->i + 1))
@@ -78,11 +79,15 @@ static void	add_value(char *str, t_int_tab *itab, t_cmd_params *cmd)
 		value_is_fd++;
 		itab->i++;
 	}
-	while (ft_strchr(" \n\t", str[itab->i]))
+	while (str[itab->i] && ft_strchr(" \n\t", str[itab->i]))
 		itab->i++;
 	to_add = get_redirect_text(str + itab->i);
 	itab->i += ft_strlen(to_add);
-	to_add = parse_quotes(to_add, cmd);
+	i = 0;
+	if (to_add[0])
+		to_add = make_splitted_str(parse_quotes(to_add, cmd), &i, 1);
+	else
+		to_add = NULL;
 	dest = malloc(sizeof(char *) * 2);
 	dest[0] = ft_strdup(&value_is_fd);
 	dest[1] = to_add;

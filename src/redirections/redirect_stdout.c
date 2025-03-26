@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:43:25 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/26 13:49:49 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/26 14:33:05 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,12 @@ char	redirect_stdout(char *method, char **value)
 {
 	int		i;
 
+	if (!value[1])
+	{
+		write(2, "minishell: syntax error ", 24);
+		write(2, "near unexpected token `newline'\n", 32);
+		return (1);
+	}
 	i = 0;
 	while (!ft_strchr("<>", method[i]))
 		i++;

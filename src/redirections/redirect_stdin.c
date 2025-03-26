@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_redirect.c                                  :+:      :+:    :+:   */
+/*   redirect_stdin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 00:17:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/25 17:44:15 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:17:18 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,19 +79,19 @@ static char	redirect_herestring(char *value, t_cmd_params *cmd)
 	return (0);
 }
 
-static char	redirect_stdin(char *method, char *value, t_cmd_params *cmd)
+static char	redirect_stdin(char *method, char **value, t_cmd_params *cmd)
 {
 	int		len;
 
 	len = ft_strlen(method);
 	if (len == 1)
 	{
-		if (redirect_herefile(value, cmd))
+		if (redirect_herefile(value[1], cmd))
 			return (1);
 	}
 	else if ((len == 3) && (method[2] == '<'))
 	{
-		if (redirect_herestring(value, cmd))
+		if (redirect_herestring(value[1], cmd))
 			return (1);
 	}
 	else
