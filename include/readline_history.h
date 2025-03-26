@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:05:51 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/24 09:50:17 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/26 14:10:40 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@
 
 //manager.c
 void	add_history(char *line);
-t_array	*get_history(void);
+t_array	get_history(void);
+void	free_history(int key, void *value);
 void	save_history(void);
 
 //reader.c

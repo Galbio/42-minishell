@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 10:17:19 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/24 11:00:42 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:52:10 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,11 @@ static void	restore_history(t_readline *data, char *value)
 void	previous_history_key(t_readline *data)
 {
 	t_readline_core	*core;
+	int				size;
 
 	core = get_readline_core();
-	if (data->history_index >= core->history->size)
+	size = ft_array_count(core->history);
+	if (data->history_index >= size)
 		return ;
 	if (data->history_index == 0)
 		data->current_input = data->first;
@@ -38,9 +40,9 @@ void	previous_history_key(t_readline *data)
 		free_chars(data->first);
 	data->first = NULL;
 	data->actual = NULL;
-	if (data->history_index < (core->history->size))
+	if (data->history_index < size)
 		data->history_index++;
-	restore_history(data, ((char **)core->history->content)[data->history_index - 1]);
+	restore_history(data, ((char **)core->history)[data->history_index - 1]);
 }
 
 void	next_history_key(t_readline *data)
@@ -63,6 +65,7 @@ void	next_history_key(t_readline *data)
 	{
 		data->first = NULL;
 		data->actual = NULL;
-		restore_history(data, ((char **)core->history->content)[data->history_index - 1]);
+		restore_history(data,
+			((char **)core->history)[data->history_index - 1]);
 	}
 }

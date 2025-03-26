@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 13:11:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/26 10:14:43 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/26 10:15:22 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ static char	*leave_readline(t_readline *data, char *res)
 {
 	disable_raw_mode();
 	free_ft_readline(data);
-	if (res && ft_strlen(res) != 0)
-		add_history(res);
 	show_cursor();
 	return (clean_backslashes(res));
 }
