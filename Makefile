@@ -8,20 +8,20 @@ LIBFT = libft
 LIBFTA = $(LIBFT)/libft.a
 LIBFTI = $(LIBFT)
 
-FT_PRINTF = ft_printf
-FT_PRINTFA = $(FT_PRINTF)/libftprintf.a
-FT_PRINTFI = $(FT_PRINTF)/include
-
 FILES = main.c		\
 	minishell.c	\
 	envp_parser.c \
-	create_argv.c \
-	var_parser.c \
 	bquotes_handler.c \
-	init_pipes.c \
-	whitespace_fixer.c \
 	signals.c		\
-	split_semicolon.c \
+	split_separators.c \
+	argv/create_argv.c \
+	argv/argv_utils.c \
+	argv/var_parser.c \
+	argv/add_splitted.c \
+	argv/parse_cmd_return.c \
+	redirections/redirect_stdin.c \
+	redirections/redirect_stdout.c \
+	redirections/add_redir_argv.c \
 	builtins/echo.c \
 	builtins/cd.c \
 	builtins/pwd.c \
@@ -30,8 +30,10 @@ FILES = main.c		\
 	builtins/export_no_args.c \
 	builtins/exit.c \
 	builtins/env.c \
+	commands/execute_line.c \
 	commands/execute_command.c \
 	commands/execute_command_utils.c \
+	commands/execute_subshell.c \
 	commands/execute_pipes.c \
 	commands/execute_bin.c \
 	readline/history/manager.c	\
@@ -53,15 +55,18 @@ FILES = main.c		\
 	readline/char_utils.c	\
 	readline/cursor_position.c	\
 	readline/cursor_manager.c	\
+	readline/cursor_view.c	\
 	readline/ft_readline.c	\
 	readline/handle.c	\
 	readline/termios_manager.c	\
 	readline/char_list.c	\
 	readline/clean_readed.c	\
-	readline/display.c	\
+	readline/edition/write.c	\
+	readline/edition/delete.c	\
+	readline/edition/utils.c	\
 	readline/processing.c	\
 	readline/size.c	\
-	readline/utils.c	\
+	readline/format.c	\
 	readline/stdin.c	\
 	readline/ft_readline_core.c	\
 	readline/exit.c		\
@@ -69,8 +74,9 @@ FILES = main.c		\
 	readline/lines.c		\
 	readline/stash.c	\
 	utils/init_int_tab.c \
-	utils/go_to_var_end.c \
+	utils/var_names_utils.c \
 	utils/free_envp.c \
+	utils/trim_whitespaces.c \
 	utils/check_special_char.c
 
 OFILES = $(FILES:%.c=$(OBJS)/%.o)
@@ -81,25 +87,20 @@ COMPILATOR = cc
 
 all: $(NAME)
 
-$(NAME): $(LIBFTA) $(FT_PRINTFA) $(OFILES)
-	$(COMPILATOR) $(FLAGS) $(OFILES) $(LIBFTA) $(FT_PRINTFA) -o $(NAME) -I $(INCLUDE) -I $(LIBFTI) -I $(FT_PRINTFA) $(EXTRA_FLAGS)
+$(NAME): $(LIBFTA) $(OFILES)
+	$(COMPILATOR) $(FLAGS) $(OFILES) $(LIBFTA) -o $(NAME) -I $(INCLUDE) -I $(LIBFTI) $(EXTRA_FLAGS)
 
 $(LIBFTA):
 	@make -C $(LIBFT) bonus > /dev/null
-
-$(FT_PRINTFA):
-	@make -C $(FT_PRINTF) bonus > /dev/null
 
 clean:
 	@rm -rf $(OFILES)
 	@rm -rf $(OBJS)
 	@make -C $(LIBFT) clean > /dev/null
-	@make -C $(FT_PRINTF) clean > /dev/null
 
 fclean: clean
 	@rm -rf $(NAME)
 	@make -C $(LIBFT) fclean > /dev/null
-	@make -C $(FT_PRINTF) fclean > /dev/null
 
 $(OBJS)/%.o: $(SRC)/%.c
 	@mkdir -p $(dir $@)

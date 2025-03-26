@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/17 20:09:46 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/26 10:14:00 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	launch(t_list *envp, t_main_envp *imp)
 {
 	char	*res;
-	t_list	*commands;
 
 	ft_readline_set_exit(0);
 	init_signals();
@@ -24,7 +23,7 @@ void	launch(t_list *envp, t_main_envp *imp)
 		res = ft_readline("$> ");
 		if (!res)
 			break ;
-		if (!clean_readed(&res))
+		if (ft_isonlywhitespaces(res))
 		{
 			free(res);
 			continue ;
@@ -32,10 +31,9 @@ void	launch(t_list *envp, t_main_envp *imp)
 		if (ft_strchr(res, '`'))
 			res = handle_bquotes(res);
 		imp->output_fd = 1;
-		commands = split_semicolon(res);
+		imp->input_fd = 0;
+		execute_line(res, &envp, imp);
 		free(res);
-		execute_line(commands, &envp, imp);
 	}
-	free(res);
-	printf("\n");
+	write(1, "\n", 1);
 }

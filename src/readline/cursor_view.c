@@ -1,33 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   breakline.c                                        :+:      :+:    :+:   */
+/*   cursor_view.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/14 14:23:31 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/25 16:12:45 by lroussel         ###   ########.fr       */
+/*   Created: 2025/03/25 13:46:41 by lroussel          #+#    #+#             */
+/*   Updated: 2025/03/25 15:47:16 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-void	breakline_key(t_readline *data)
+void	hide_cursor(void)
 {
-	char	*build;
+	write(0, HIDE_CURSOR, 6);
+}
 
-	build = build_result(*data, 0);
-	if (check_quotes(build) && check_backslashes(build))
-	{
-		end_key(data);
-		write(0, "\n", 1);
-		data->cursor.y++;
-		data->cursor.x = 0;
-		teleport_cursor(data->cursor);
-		return ;
-	}
-	process_default_key(data, "\n");
-	write(0, "\n", 1);
-	teleport_cursor(data->cursor);
-	on_write(data);
+void	show_cursor(void)
+{
+	write(0, SHOW_CURSOR, 6);
 }

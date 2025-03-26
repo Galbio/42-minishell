@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/24 10:36:28 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/26 10:13:45 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 # include <signal.h>
 # include "libft.h"
 # include "readline_history.h"
+
+# define HIDE_CURSOR "\e[?25l"
+# define SHOW_CURSOR "\e[?25h"
 
 typedef struct s_char
 {
@@ -80,6 +83,9 @@ int				get_cursor_position(t_vector2 *pos);
 
 int				clean_readed(char **readed);
 
+void			update_position(t_readline *data, t_vector2 size, char *build);
+void			print_build(char *build);
+
 void			on_write(t_readline *data);
 void			on_delete(t_readline *data);
 
@@ -95,7 +101,9 @@ void			disable_raw_mode(void);
 
 void			read_stdin_keys(char *buffer);
 
-char			get_open_quote(const char *stashed);
+int				check_quotes(const char *build);
+int				check_backslashes(const char *build);
+char			*clean_backslashes(char *build);
 void			init_terminal_size(t_vector2 *size);
 t_vector2		get_terminal_size(t_readline *data, int check_resize);
 int				count_low_newlines(t_readline *data, t_char *to);
@@ -146,5 +154,8 @@ void			free_ft_readline(t_readline *data);
 
 void			add_to_stash(t_char **stashed, t_char *node, int type);
 void			clean_stash(t_readline_core *core, int check_cat);
+
+void			hide_cursor(void);
+void			show_cursor(void);
 
 #endif
