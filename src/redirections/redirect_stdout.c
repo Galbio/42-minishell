@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:43:25 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/26 14:33:05 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:24:06 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ static char	redirect_fd_adress(char *src, char *dest)
 
 	src_nb = ft_atoi(src);
 	dest_nb = ft_atoi(dest);
+	if ((src_nb >= 1024) || (dest_nb >= 1024))
+		return (1);
 	dup2(dest_nb, src_nb);
 	return (0);
 }
