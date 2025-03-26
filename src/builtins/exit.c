@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:05:06 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/24 10:08:45 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/26 18:32:22 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	ms_exit(t_cmd_params *cmd)
 	if (!cmd->imp->is_bquoted)
 		write(2, "exit\n", 5);
 	if (!cmd->argv[1])
-		exit(0);
+		exit(cmd->imp->exit_status);
 	if (check_exit_errors(cmd->argv) == 1)
 		exit(2);
 	return (0);

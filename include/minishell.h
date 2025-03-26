@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/22 16:29:09 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:55:19 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@
 # include "libft.h"
 # include "readline.h"
 
+# ifndef ZSH
+#  define ZSH 0
+# endif
+
 typedef struct s_main_envp
 {
 	unsigned char	exit_status;
@@ -41,11 +45,13 @@ typedef struct s_main_envp
 	char			is_bquoted;
 	int				shell_level;
 	int				output_fd;
+	int				input_fd;
 }	t_main_envp;
 
 typedef struct s_cmd_params
 {
 	char		**argv;
+	t_list		*redir;
 	t_list		**envp;
 	t_main_envp	*imp;
 }	t_cmd_params;
@@ -65,6 +71,7 @@ void			launch(t_list *envp, t_main_envp *imp);
 
 char			check_special_char(char *str, t_int_tab *itab);
 void			free_envp(t_list **envp, t_main_envp *imp);
+char			is_only_nb(char *str);
 
 t_int_tab		init_int_tab(void);
 
@@ -75,28 +82,36 @@ char			*read_whole_fd(int fd);
 char			*handle_bquotes(char *res);
 char			*get_var_str(char *str);
 char			*get_var_name(char *str);
-t_list			*init_pipes(char *str, t_list **envp, t_main_envp *imp);
-t_list			*split_semicolon(char *str);
+t_list			*init_pipes(char *str);
+t_list			*split_separators(char *str, t_list **sep);
+char			handle_redirections(t_cmd_params *cmd);
+char			redirect_stdout(char *method, char **value);
 
 //commands
-void			execute_line(t_list *commands, t_list **envp,
+void			execute_line(char *str, t_list **envp,
 					t_main_envp *imp);
-int				execute_pipes(t_list *commands, t_list **envp,
+int				execute_command(t_list *commands, t_list **envp,
 					t_main_envp *imp);
-void			execute_bin(char **argv, t_main_envp *imp);
+int				execute_pipes(t_list *commands, t_cmd_params *cmd);
+int				execute_subshell(char *command, t_list **envp,
+					t_main_envp *imp);
+void			execute_bin(t_cmd_params *cmd);
 
 //argv
-char			**create_command_argv(char *str, t_list **envp,
-					t_main_envp *imp);
+t_cmd_params	*create_command_argv(t_cmd_params *cmd);
 void			handle_var(char *str, t_int_tab *itab, t_list **cmd_outputs,
-					t_cmd_params cmd);
+					t_cmd_params *cmd);
 void			add_to_argv(t_list **dest, char *str, t_int_tab *itab,
-					t_cmd_params cmd);
+					t_cmd_params *cmd);
 void			add_splitted_to_add(char *str, t_list **dest);
 char			*parse_var_return(char *str, char quote);
+char			*parse_quotes(char *str, t_cmd_params *cmd);
+char			*make_splitted_str(char *str, int *i, char is_sep);
+void			add_redirection(char *str, t_int_tab *itab,
+					t_cmd_params *cmd, t_list **dest);
 
 //pipe utils
-t_cmd_params	make_cmd(void *argv_ptr, t_list **envp, t_main_envp *imp);
+t_cmd_params	*make_cmd(void *argv_ptr, t_list **envp, t_main_envp *imp);
 int				wait_line_end_exec(int nb_cmd, int write_pipe,
 					int read_pipe, pid_t pid);
 void			go_to_next_command(t_list **commands, int *temp, int pipes[2]);
