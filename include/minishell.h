@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/26 15:55:19 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/26 20:40:15 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ typedef struct s_int_tab
 void			launch(t_list *envp, t_main_envp *imp);
 
 char			check_special_char(char *str, t_int_tab *itab);
-void			free_envp(t_list **envp, t_main_envp *imp);
+void			free_cmd(t_cmd_params *cmd, char mode);
+void			free_envp(t_list **envp, t_main_envp *imp, char is_bin);
 char			is_only_nb(char *str);
 
 t_int_tab		init_int_tab(void);
@@ -91,8 +92,8 @@ char			redirect_stdout(char *method, char **value);
 void			execute_line(char *str, t_list **envp,
 					t_main_envp *imp);
 int				execute_command(t_list *commands, t_list **envp,
-					t_main_envp *imp);
-int				execute_pipes(t_list *commands, t_cmd_params *cmd);
+					t_main_envp *imp, t_list *cmd_lst);
+int				execute_pipes(t_list *commands, t_cmd_params *cmd, t_list *cmd_lst);
 int				execute_subshell(char *command, t_list **envp,
 					t_main_envp *imp);
 void			execute_bin(t_cmd_params *cmd);

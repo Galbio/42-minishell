@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/26 14:33:35 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/26 20:39:08 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,11 @@ static int	execute_single_command(t_cmd_params *cmd)
 	while (cmd->argv[++temp])
 		free(cmd->argv[temp]);
 	free(cmd->argv);
+	free(cmd);
 	return (res);
 }
 
-int	execute_command(t_list *commands, t_list **envp, t_main_envp *imp)
+int	execute_command(t_list *commands, t_list **envp, t_main_envp *imp, t_list *cmd_lst)
 {
 	if (commands && !commands->next)
 	{
@@ -78,5 +79,5 @@ int	execute_command(t_list *commands, t_list **envp, t_main_envp *imp)
 		return (execute_single_command(create_command_argv(make_cmd(
 						&commands->content, envp, imp))));
 	}
-	return (execute_pipes(commands, make_cmd(NULL, envp, imp)));
+	return (execute_pipes(commands, make_cmd(NULL, envp, imp), cmd_lst));
 }

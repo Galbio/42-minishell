@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 20:09:48 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/25 08:53:08 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/26 21:01:21 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ static char	*get_command_path(char *str, char **paths)
 void	execute_bin(t_cmd_params *cmd)
 {
 	char	*path;
+	char	**argv;
+	char	**envp_cpy;
 
 	path = get_command_path(cmd->argv[0], cmd->imp->path);
 	if (!path)
@@ -60,6 +62,9 @@ void	execute_bin(t_cmd_params *cmd)
 		ft_putstr_fd(": command not found\n", 2);
 		exit(127);
 	}
-	execve(path, cmd->argv, cmd->imp->envp_cpy);
+	argv = cmd->argv;
+	envp_cpy = cmd->imp->envp_cpy;
+	free_cmd(cmd, 'b');
+	execve(path, argv, envp_cpy);
 	exit(1);
 }
