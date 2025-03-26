@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 22:20:19 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/26 14:29:29 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:28:12 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	add_method(char *str, t_int_tab *itab, t_cmd_params *cmd)
 	itab->i += j;
 }
 
-char	is_only_nb(char *str)
+static char	is_only_nb(char *str)
 {
 	int		i;
 
