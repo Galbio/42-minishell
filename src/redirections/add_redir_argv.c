@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 22:20:19 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/26 13:51:35 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:54:11 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ static void	add_value(char *str, t_int_tab *itab, t_cmd_params *cmd)
 		itab->i++;
 	to_add = get_redirect_text(str + itab->i);
 	itab->i += ft_strlen(to_add);
+	to_add = parse_quotes(to_add, cmd);
 	dest = malloc(sizeof(char *) * 2);
 	dest[0] = ft_strdup(&value_is_fd);
 	dest[1] = to_add;
