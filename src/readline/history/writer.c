@@ -6,13 +6,13 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 12:17:54 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/26 20:18:47 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/26 20:25:54 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-static void	put_contents(char *contents)
+static void	put_contents(char *contents, int size)
 {
 	char	*path;
 	int		fd;
@@ -25,7 +25,7 @@ static void	put_contents(char *contents)
 	free(path);
 	if (fd == -1)
 		return ;
-	write(fd, contents, ft_strlen(contents));
+	write(fd, contents, size);
 }
 
 static int	count_total_chars(char **history, int key)
@@ -48,8 +48,10 @@ static void	save_contents(char **history, int total_count, int i)
 	char			*contents;
 	int				j;
 	int				k;
+	int				size;
 
-	contents = malloc((total_count + i + 1) * sizeof(char));
+	size = total_count + i;
+	contents = malloc((size + 1) * sizeof(char));
 	if (!contents)
 		return ;
 	k = 0;
@@ -63,7 +65,7 @@ static void	save_contents(char **history, int total_count, int i)
 			contents[k++] = '\n';
 	}
 	contents[k] = '\0';
-	put_contents(contents);
+	put_contents(contents, size);
 	free(contents);
 }
 

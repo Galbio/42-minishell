@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:06:31 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/26 20:13:27 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/26 20:23:50 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,6 @@ void	free_history_entry(int key, void *value)
 int	get_history_maxsize(void)
 {
 	if (HISTORY_SIZE < 0 || HISTORY_SIZE >= 5000)
-		return (4999);
+		return (5000);
 	return (HISTORY_SIZE);
 }
