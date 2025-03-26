@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:00:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/26 19:09:39 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/26 21:14:44 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_readline_must_exit(void)
 	return (ext(2));
 }
 
-void	free_readline(void)
+void	free_readline_core(void)
 {
 	t_readline_core	*core;
 	int				i;
@@ -46,7 +46,6 @@ void	free_readline(void)
 	free(core->special_keys);
 	free_chars(core->stashed);
 	free(core);
-	free_readline_data(get_readline_data());
 }
 
 void	free_readline_data(t_readline *data)

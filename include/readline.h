@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/26 18:55:17 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/26 21:14:59 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ int				ft_readline_must_exit(void);
 void			ft_readline_set_exit(int v);
 void			ft_readline_sigint(void);
 void			ft_readline_init_signals(void);
-void			free_readline(void);
+void			free_readline_core(void);
 void			free_readline_data(t_readline *data);
 
 void			add_to_stash(t_char **stashed, t_char *node, int type);
