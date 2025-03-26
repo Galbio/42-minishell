@@ -36,7 +36,14 @@ FILES = main.c		\
 	commands/execute_subshell.c \
 	commands/execute_pipes.c \
 	commands/execute_bin.c \
-	readline/special_key/arrow.c	\
+	readline/history/manager.c	\
+	readline/history/reader.c	\
+	readline/history/writer.c	\
+	readline/history/file.c	\
+	readline/history/path.c	\
+	readline/history/state.c	\
+	readline/special_key/move.c	\
+	readline/special_key/history.c	\
 	readline/special_key/breakline.c	\
 	readline/special_key/delete.c	\
 	readline/special_key/factory.c	\
@@ -78,7 +85,9 @@ FILES = main.c		\
 
 OFILES = $(FILES:%.c=$(OBJS)/%.o)
 
-FLAGS = -Wall -Wextra -Werror
+HISTORY_SIZE ?= 500
+
+FLAGS = -Wall -Wextra -Werror -D HISTORY_SIZE=$(HISTORY_SIZE)
 EXTRA_FLAGS = -g
 COMPILATOR = cc
 

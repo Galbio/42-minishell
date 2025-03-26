@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 13:11:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/25 17:22:57 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/26 10:15:22 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ static void	init_readline(const char *prompt, t_readline *data)
 	data->first = NULL;
 	data->actual = data->first;
 	data->exit = 0;
+	data->history_index = 0;
+	data->current_input = NULL;
 }
 
 static char	*leave_readline(t_readline *data, char *res)

@@ -1,43 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 12:00:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/26 10:29:35 by lroussel         ###   ########.fr       */
+/*   Created: 2025/03/26 16:22:26 by lroussel          #+#    #+#             */
+/*   Updated: 2025/03/26 16:55:13 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-static int	ext(int v)
+static char	*hpath(char *value)
 {
-	static int	must_exit = 1;
+	static char	*path = ".";
 
-	if (v == 0 || v == 1)
-		must_exit = v;
-	return (must_exit);
+	if (value)
+		path = value;
+	return (path);
 }
 
-void	ft_readline_set_exit(int v)
+void	set_history_path(char *value)
 {
-	ext(v);
+	hpath(value);
 }
 
-int	ft_readline_must_exit(void)
+char	*get_history_path(void)
 {
-	return (ext(2));
+	return (hpath(NULL));
 }
 
-void	free_ft_readline(t_readline *data)
+char	*get_history_path_full(void)
 {
-	if (!data)
-		return ;
-	free_chars(data->first);
-	data->actual = NULL;
-	data->first = NULL;
-	free_chars(data->current_input);
-	data->current_input = NULL;
+	return (ft_pathjoin(get_history_path(), get_history_filename()));
 }

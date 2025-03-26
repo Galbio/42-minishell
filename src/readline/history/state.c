@@ -1,43 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   state.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 12:00:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/26 10:29:35 by lroussel         ###   ########.fr       */
+/*   Created: 2025/03/26 18:17:10 by lroussel          #+#    #+#             */
+/*   Updated: 2025/03/26 18:34:17 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "readline.h"
-
-static int	ext(int v)
+static int	hstate(int value)
 {
-	static int	must_exit = 1;
+	static int	state = 0;
 
-	if (v == 0 || v == 1)
-		must_exit = v;
-	return (must_exit);
+	if (value == 0 || value == 1)
+		state = value;
+	return (state);
 }
 
-void	ft_readline_set_exit(int v)
+void	enable_history(void)
 {
-	ext(v);
+	hstate(1);
 }
 
-int	ft_readline_must_exit(void)
+void	disable_history(void)
 {
-	return (ext(2));
+	hstate(0);
 }
 
-void	free_ft_readline(t_readline *data)
+int	is_history_enable(void)
 {
-	if (!data)
-		return ;
-	free_chars(data->first);
-	data->actual = NULL;
-	data->first = NULL;
-	free_chars(data->current_input);
-	data->current_input = NULL;
+	return (hstate(-1));
 }

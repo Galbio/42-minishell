@@ -6,23 +6,33 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/25 17:45:54 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/26 20:19:03 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	init(char *home)
+{
+	ft_readline_set_exit(0);
+	init_signals();
+	set_history_path(home);
+	set_history_filename(".minishell_history");
+	enable_history();
+}
+
 void	launch(t_list *envp, t_main_envp *imp)
 {
 	char	*res;
 
-	ft_readline_set_exit(0);
-	init_signals();
+	init(imp->home);
 	while (1)
 	{
 		res = ft_readline("$> ");
 		if (!res)
 			break ;
+		if (ft_strlen(res) >= 1)
+			add_to_history(res);
 		if (ft_isonlywhitespaces(res))
 		{
 			free(res);
