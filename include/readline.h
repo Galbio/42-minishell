@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/26 18:32:13 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/26 18:55:17 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_readline
 	t_vector2	old_tsize;
 	char		*buffer_ptr;
 	int			exit;
+	int			interrupt;
 }	t_readline;
 
 typedef struct s_special_key
@@ -144,8 +145,8 @@ int				ft_readline_must_exit(void);
 void			ft_readline_set_exit(int v);
 void			ft_readline_sigint(void);
 void			ft_readline_init_signals(void);
-void			free_ft_readline_core(void);
-void			free_ft_readline(t_readline *data);
+void			free_readline(void);
+void			free_readline_data(t_readline *data);
 
 void			add_to_stash(t_char **stashed, t_char *node, int type);
 void			clean_stash(t_readline_core *core, int check_cat);

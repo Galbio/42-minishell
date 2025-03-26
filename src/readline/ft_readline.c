@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 13:11:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/26 18:48:32 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/26 19:06:58 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,21 @@ static void	init_readline(const char *prompt, t_readline *data)
 	data->first = NULL;
 	data->actual = data->first;
 	data->exit = 0;
+	data->interrupt = 0;
 }
 
 static char	*leave_readline(t_readline *data, char *res)
 {
 	disable_raw_mode();
-	free_ft_readline(data);
+	if (data->interrupt)
+		free_readline();
+	else
+		free_readline_data(data);
 	show_cursor();
+	if (data->interrupt)
+		return (NULL);
+	if (!res && data->exit)
+		return (ft_strdup(""));
 	return (clean_backslashes(res));
 }
 
@@ -69,8 +77,8 @@ char	*ft_readline(const char *prompt)
 		while (buffer[i])
 		{
 			count = handle_key_input(&data, buffer + i);
-			if (data.exit)
-				return (leave_readline(&data, ft_strdup("")));
+			if (data.exit || data.interrupt)
+				return (leave_readline(&data, NULL));
 			i += count;
 		}
 		if (i != 0 && process_input(&data, buffer[i - 1]))
