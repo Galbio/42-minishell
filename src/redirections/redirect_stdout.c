@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:43:25 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/26 15:24:06 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/26 16:26:55 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static char	redirect_tofile(char *method, char **name)
 {
 	int		fd;
 
-	if (name[0][0])
+	if (name[0])
 		return (redirect_fd_adress(method, name[1]));
 	fd = open(name[1], O_WRONLY | O_CREAT, 0644);
 	if (fd < 0)

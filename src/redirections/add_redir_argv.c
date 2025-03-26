@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 22:20:19 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/26 15:28:12 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/26 16:27:30 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,24 +52,23 @@ static void	add_method(char *str, t_int_tab *itab, t_cmd_params *cmd)
 	itab->i += j;
 }
 
-static char	is_only_nb(char *str)
+static void	add_value(char *to_add, char is_fd, t_cmd_params *cmd)
 {
-	int		i;
+	char	**dest;
 
-	i = 0;
-	while (!ft_strchr(" \n\t", str[i]))
-	{
-		if (!ft_isdigit(str[i]))
-			return (0);
-		i++;
-	}
-	return (i != 0);
+	dest = malloc(sizeof(char **) * 3);
+	if (is_fd)
+		dest[0] = (void *)1;
+	else
+		dest[0] = NULL;
+	dest[1] = to_add;
+	dest[2] = NULL;
+	ft_lstadd_back(&(cmd->redir), ft_lstnew(dest));
 }
 
-static void	add_value(char *str, t_int_tab *itab, t_cmd_params *cmd)
+static void	parse_redirect_value(char *str, t_int_tab *itab, t_cmd_params *cmd)
 {
 	char	*to_add;
-	char	**dest;
 	char	value_is_fd;
 	int		i;
 
@@ -87,11 +86,11 @@ static void	add_value(char *str, t_int_tab *itab, t_cmd_params *cmd)
 	if (to_add[0])
 		to_add = make_splitted_str(parse_quotes(to_add, cmd), &i, 1);
 	else
+	{
+		free(to_add);
 		to_add = NULL;
-	dest = malloc(sizeof(char *) * 2);
-	dest[0] = ft_strdup(&value_is_fd);
-	dest[1] = to_add;
-	ft_lstadd_back(&(cmd->redir), ft_lstnew(dest));
+	}
+	add_value(to_add, value_is_fd, cmd);
 	itab->ret = itab->i;
 }
 
@@ -106,5 +105,5 @@ void	add_redirection(char *str, t_int_tab *itab,
 		itab->i++;
 	}
 	add_method(str, itab, cmd);
-	add_value(str, itab, cmd);
+	parse_redirect_value(str, itab, cmd);
 }
