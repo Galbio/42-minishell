@@ -6,57 +6,11 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 16:09:27 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 16:28:33 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	execute_sub_cmd(t_int_tab *itab, t_cmd_params *cmd,
-		int pipes[2], t_list **outputs)
-{
-	int			res;
-	t_list		**envp;
-	t_main_envp	*imp;
-
-	ft_lstclear(outputs, free);
-	ft_lstclear(cmd->extra, free);
-	cmd->extra = NULL;
-	free(itab->ptr2);
-	imp = cmd->imp;
-	envp = cmd->envp;
-	close(pipes[0]);
-	free_cmd(cmd, 1);
-	free(cmd);
-	imp->output_fd = pipes[1];
-	imp->is_bquoted++;
-	execute_line(itab->ptr1, envp, imp);
-	res = imp->exit_status;
-	free_envp(envp, imp);
-	exit(res);
-}
-
-static char	*handle_commands(t_int_tab *itab, t_cmd_params *cmd,
-		t_list **outputs)
-{
-	pid_t	pid;
-	int		pipes[2];
-	int		stat;
-	char	*dest;
-
-	if (pipe(pipes) < 0)
-		return (NULL);
-	pid = fork();
-	if (!pid)
-		execute_sub_cmd(itab, cmd, pipes, outputs);
-	close(pipes[1]);
-	waitpid(pid, &stat, 0);
-	if (WIFEXITED(stat))
-		cmd->imp->exit_status = WEXITSTATUS(stat);
-	dest = ft_get_contents(pipes[0]);
-	close(pipes[0]);
-	return (parse_var_return(dest, itab->cur_quote));
-}
 
 char	*get_var_value(char *name, t_list *cur, char quote)
 {
@@ -95,6 +49,26 @@ static char	*get_cmd(char *str)
 	return (ft_substr(str, 1, itab.i - 1));
 }
 
+static void	add_cmd_output(char *str, t_int_tab *itab,
+		char *output, t_list **cmd_outputs)
+{
+	if (!output && (str[itab->i + 1] != '{'))
+	{
+		output = ft_strdup("$");
+		free(itab->ptr1);
+		itab->res++;
+		ft_lstadd_back(cmd_outputs, ft_lstnew(output));
+		return ;
+	}
+	else if (!output)
+		output = ft_strdup("");
+	ft_lstadd_back(cmd_outputs, ft_lstnew(output));
+	itab->res += ft_strlen(output);
+	itab->i += ft_strlen(itab->ptr1)
+		+ (2 * (ft_strchr("({", str[itab->i + 1]) != 0));
+	free(itab->ptr1);
+}
+
 void	handle_var(char *str, t_int_tab *itab, t_list **cmd_outputs,
 		t_cmd_params *cmd)
 {
@@ -114,16 +88,5 @@ void	handle_var(char *str, t_int_tab *itab, t_list **cmd_outputs,
 		else
 			output = get_var_value(itab->ptr1, *(cmd->envp), itab->cur_quote);
 	}
-	if (!output)
-	{
-		output = ft_strdup("$");
-		free(itab->ptr1);
-		itab->res++;
-		ft_lstadd_back(cmd_outputs, ft_lstnew(output));
-		return ;
-	}
-	ft_lstadd_back(cmd_outputs, ft_lstnew(output));
-	itab->res += ft_strlen(output);
-	itab->i += ft_strlen(itab->ptr1) + (2 * (ft_strchr("({", str[itab->i +1]) != 0));
-	free(itab->ptr1);
+	add_cmd_output(str, itab, output, cmd_outputs);
 }

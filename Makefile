@@ -16,6 +16,7 @@ FILES = main.c		\
 	argv/create_argv.c \
 	argv/argv_utils.c \
 	argv/var_parser.c \
+	argv/exec_cmd.c \
 	argv/add_splitted.c \
 	argv/parse_cmd_return.c \
 	redirections/redirect_stdin.c \

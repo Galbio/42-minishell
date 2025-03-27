@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 16:16:32 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 15:17:29 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 16:36:46 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ char	*get_var_name(char *str)
 	if (*str == '{')
 		return (get_var_name(str + 1));
 	if (ft_isdigit(*str))
-		return (ft_itoa(*str + '0'));
+		return (ft_strdup("1"));
 	if (*str == '?')
 		return (ft_strdup("?"));
 	i = -1;
