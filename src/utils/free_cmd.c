@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:17:38 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 02:14:44 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 03:29:59 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	free_cmd(t_cmd_params *cmd, char mode)
 {
 	int		i;
 
+	ft_lstclear(&cmd->pipes, free);
 	if ((mode != 'b') && (mode != 's'))
 	{
 		i = -1;
@@ -44,7 +45,6 @@ void	free_cmd(t_cmd_params *cmd, char mode)
 			free(cmd->argv[i]);
 		free(cmd->argv);
 	}
-	ft_lstclear(&cmd->pipes, free);
 	if ((mode != 'c') && (mode != 's'))
 	{
 		ft_lstclear(&cmd->cmds, free);

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 02:15:51 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 04:09:24 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_cmd_params
 	t_list		*pipes;
 	t_list		*cmds;
 	t_list		*sep;
+	t_list		**extra;
 }	t_cmd_params;
 
 typedef struct s_int_tab
