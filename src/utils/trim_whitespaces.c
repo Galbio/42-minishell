@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:02:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/18 21:39:11 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 04:57:59 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	end_ws_streak(char *str, int len)
 	i = len - 1;
 	while (1)
 	{
-		if (ft_strchr(" \n\t", str[i]))
+		if (str[i] && ft_strchr(" \n\t", str[i]))
 		{
 			if (!i)
 				return (len);
@@ -33,18 +33,11 @@ static int	end_ws_streak(char *str, int len)
 	return (i + 1);
 }
 
-char	*trim_ws(char *str)
+static char	*fill_dest(char *str, int len, int i)
 {
 	char	*dest;
-	int		i;
 	int		ret;
-	int		len;
 
-	i = 0;
-	while (ft_strchr(" \n\t", str[i]))
-		i++;
-	len = ft_strlen(str + i);
-	len = end_ws_streak(str + i, len);
 	dest = malloc(sizeof(char) * (len + 1));
 	if (!dest)
 		return (NULL);
@@ -57,4 +50,23 @@ char	*trim_ws(char *str)
 	dest[ret] = 0;
 	free(str);
 	return (dest);
+}
+
+char	*trim_ws(char *str)
+{
+	int		i;
+	int		len;
+
+	i = 0;
+	if (!str)
+		return (NULL);
+	while (str[i] && ft_strchr(" \n\t", str[i]))
+		i++;
+	if (!str[i])
+	{
+		free(str);
+		return (NULL);
+	}
+	len = end_ws_streak(str + i, ft_strlen(str + i));
+	return (fill_dest(str, len, i));
 }
