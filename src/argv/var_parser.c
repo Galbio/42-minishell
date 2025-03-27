@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 09:13:48 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 16:09:27 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,9 +115,15 @@ void	handle_var(char *str, t_int_tab *itab, t_list **cmd_outputs,
 			output = get_var_value(itab->ptr1, *(cmd->envp), itab->cur_quote);
 	}
 	if (!output)
-		output = ft_strdup("");
+	{
+		output = ft_strdup("$");
+		free(itab->ptr1);
+		itab->res++;
+		ft_lstadd_back(cmd_outputs, ft_lstnew(output));
+		return ;
+	}
 	ft_lstadd_back(cmd_outputs, ft_lstnew(output));
 	itab->res += ft_strlen(output);
-	itab->i += ft_strlen(itab->ptr1) + (2 * (str[itab->i +1] == '('));
+	itab->i += ft_strlen(itab->ptr1) + (2 * (ft_strchr("({", str[itab->i +1]) != 0));
 	free(itab->ptr1);
 }
