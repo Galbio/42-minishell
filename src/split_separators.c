@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 19:39:43 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 04:49:21 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 16:22:48 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ static void	add_cmd(char *str, t_list **dest, t_int_tab *itab)
 {
 	ft_lstadd_back(dest, ft_lstnew(trim_ws(
 				ft_substr(str, itab->ret, itab->i - itab->ret))));
+	if (str[itab->i] != ';')
+		itab->i++;
 	itab->ret = itab->i + 1;
 }
 
