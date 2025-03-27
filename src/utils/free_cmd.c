@@ -6,11 +6,30 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:17:38 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 03:29:59 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 06:29:34 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	free_redir(t_list *cur, char res)
+{
+	t_list	*temp;
+	int		i;
+
+	i = 0;
+	while (cur)
+	{
+		temp = cur;
+		cur = cur->next;
+		if (i % 2)
+			free(((char **)(temp->content))[1]);
+		free(temp->content);
+		free(temp);
+		i++;
+	}
+	return (res);
+}
 
 void	free_envp(t_list **envp, t_main_envp *imp, char is_bin)
 {
@@ -50,6 +69,4 @@ void	free_cmd(t_cmd_params *cmd, char mode)
 		ft_lstclear(&cmd->cmds, free);
 		ft_lstclear(&cmd->sep, free);
 	}
-	if (cmd->redir)
-		ft_lstclear(&cmd->redir, free);
 }

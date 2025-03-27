@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 00:17:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/26 15:17:18 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 06:29:40 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,19 +110,19 @@ char	handle_redirections(t_cmd_params *cmd)
 	{
 		ret = (char *)cur->content;
 		if (!cur->next)
-			return (1);
+			return (free_redir(cmd->redir, 1));
 		i = 0;
 		while (!ft_strchr("<>", ret[i]))
 			i++;
 		if (ret[i] == '<')
 		{
 			if (redirect_stdin(ret, cur->next->content, cmd))
-				return (1);
+				return (free_redir(cmd->redir, 1));
 		}
 		else if (ret[i] == '>')
 			if (redirect_stdout(ret, cur->next->content))
-				return (1);
+				return (free_redir(cmd->redir, 1));
 		cur = cur->next->next;
 	}
-	return (0);
+	return (free_redir(cmd->redir, 0));
 }
