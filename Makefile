@@ -36,7 +36,7 @@ FILES = main.c		\
 	commands/execute_subshell.c \
 	commands/execute_pipes.c \
 	commands/execute_bin.c \
-	envp/envp_parser.c \
+	envp/parser.c \
 	envp/create_envp_cpy.c \
 	readline/history/manager.c	\
 	readline/history/reader.c	\

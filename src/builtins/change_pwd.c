@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 10:55:36 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 11:04:43 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 14:10:33 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ static void	get_pwd_nodes(t_list **envp, t_list **old_pwd, t_list **pwd)
 			*pwd = cur;
 		else if (!ft_strncmp("OLDPWD=", (char *)cur->content, 7))
 			*old_pwd = cur;
+		if (*old_pwd && *pwd)
+			return ;
 		cur = cur->next;
 	}
 }

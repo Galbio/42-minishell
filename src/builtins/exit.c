@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:05:06 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 08:12:16 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 14:08:16 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static char	parse_exit(t_cmd_params *cmd)
 		free(cmd);
 		exit(res);
 	}
-	return (0);
+	return (1);
 }
 
 int	ms_exit(t_cmd_params *cmd)
