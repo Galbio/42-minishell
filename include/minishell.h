@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 11:51:02 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 14:30:56 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void			free_envp(t_list **envp, t_main_envp *imp);
 char			free_redir(t_list *cur, char res);
 char			is_only_nb(char *str);
 char			*get_var_value(char *name, t_list *cur, char quote);
+char			*get_prompt(t_main_envp *imp);
 
 t_int_tab		init_int_tab(void);
 

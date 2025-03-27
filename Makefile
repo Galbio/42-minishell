@@ -12,6 +12,7 @@ FILES = main.c		\
 	minishell.c	\
 	bquotes_handler.c \
 	signals.c		\
+	get_prompt.c \
 	split_separators.c \
 	argv/create_argv.c \
 	argv/argv_utils.c \

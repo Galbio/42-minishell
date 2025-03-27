@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/27 04:11:41 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 14:45:02 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	launch(t_list *envp, t_main_envp *imp)
 	init(imp->home);
 	while (1)
 	{
-		res = ft_readline("$> ");
+		res = ft_readline(get_prompt(imp));
 		if (!res)
 			break ;
 		if (ft_strlen(res) >= 1)
