@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:17:38 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 06:29:34 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 07:11:31 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,13 @@ char	free_redir(t_list *cur, char res)
 	return (res);
 }
 
-void	free_envp(t_list **envp, t_main_envp *imp, char is_bin)
+void	free_envp(t_list **envp, t_main_envp *imp)
 {
 	int		i;
 
 	ft_lstclear(envp, free);
 	if (imp->is_bquoted)
 		free_readline_core();
-	i = -1;
-	if (!is_bin)
-	{
-		while (imp->envp_cpy && imp->envp_cpy[++i])
-			free(imp->envp_cpy[i]);
-		free(imp->envp_cpy);
-	}
 	i = -1;
 	while (imp->path && imp->path[++i])
 		free(imp->path[i]);

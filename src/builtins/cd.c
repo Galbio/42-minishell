@@ -6,34 +6,100 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 18:19:55 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/13 23:02:55 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 10:04:04 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ms_cd(t_cmd_params *cmd)
+int	cd_to_home(t_cmd_params *cmd)
 {
-	int	res;
+	int		res;
+	char	*home_val;
 
-	if (!cmd->argv[1])
+	home_val = get_var_value("HOME", *(cmd->envp), 0);
+	if (home_val)
+		chdir(home_val);
+	else
+		write(2, "minishell: cd: HOME not set\n", 28);
+	res = home_val != NULL;
+	free(home_val);
+	return (res);
+}
+
+static int	cd_absolute(t_cmd_params *cmd)
+{
+	int		res;
+
+	res = chdir(cmd->argv[2]);
+	if (res < 0)
 	{
-		res = getenv("HOME") != NULL;
-		if (res)
-			chdir(getenv("HOME"));
-		else
-			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-		return (res);
-	}
-	else if (cmd->argv[2])
-	{
-		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
+		write(2, "minishell: cd: ", 15);
+		ft_putstr_fd(cmd->argv[1], 2);
+		write(2, ": No such file or directory\n", 28);
 		return (1);
 	}
+	return (0);
+}
+
+static int	cd_oldpwd(t_cmd_params *cmd)
+{
+	char	*old_pwd;
+	int		res;
+
+	old_pwd = get_var_value("OLDPWD", *(cmd->envp), 0);
+	if (old_pwd)
+	{
+		res = chdir(old_pwd);
+		if (res < 0)
+		{
+			write(2, "minishell: cd: ", 15);
+			ft_putstr_fd(old_pwd, 2);
+			write(2, ": No such file or directory\n", 28);
+			return (1);
+		}
+		write(1, old_pwd, ft_strlen(old_pwd));
+		write(1, "\n", 1);
+	}
+	else
+		write(2, "minishell: cd: OLDPWD not set\n", 30);
+	res = old_pwd != NULL;
+	free(old_pwd);
+	return (res);
+}
+
+static int	handle_dash(t_cmd_params *cmd)
+{
+	if (!cmd->argv[1][1])
+		return (cd_oldpwd(cmd));
+	if ((cmd->argv[1][1] != '-') || (cmd->argv[1][2]))
+	{
+		write(2, "minishell: cd: -", 16);
+		ft_putchar_fd(cmd->argv[1][1], 2);
+		write(2, ": invalid option\n", 17);
+		return (1);
+	}
+	if ((cmd->argv[1][1] == '-') && !cmd->argv[2])
+		return (cd_to_home(cmd));
+	return (cd_absolute(cmd));
+}
+
+int	ms_cd(t_cmd_params *cmd)
+{
+	int		res;
+
+	if (!cmd->argv[1])
+		return (cd_to_home(cmd));
+	if (!cmd->argv[1][0])
+		return (0);
+	if (cmd->argv[1][0] == '-')
+		return (handle_dash(cmd));
 	res = chdir(cmd->argv[1]);
 	if (res < 0)
 	{
-		ft_putstr_fd(strerror(errno), 2);
+		write(2, "minishell: cd: ", 15);
+		ft_putstr_fd(cmd->argv[1], 2);
+		write(2, ": No such file or directory\n", 28);
 		return (1);
 	}
 	return (0);

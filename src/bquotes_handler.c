@@ -6,57 +6,55 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 22:12:44 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/11 21:31:24 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 08:21:01 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	get_bquoted_size(char *res)
+static int	get_bquoted_size(char *src)
 {
 	t_int_tab	itab;
 
 	itab = init_int_tab();
-	while (res[++itab.i])
+	while (src[++itab.i])
 	{
-		if (res[itab.i] == '`')
+		itab.backslash = itab.i && (src[itab.i - 1] == '\\') && !itab.backslash;
+		check_special_char(src, &itab);
+		if ((src[itab.i] == '`') && !itab.backslash && (itab.cur_quote != '\''))
 			itab.ret = !itab.ret;
-		if ((res[itab.i] == '`') && !itab.backslash && itab.ret)
+		if ((src[itab.i] == '`') && !itab.backslash
+			&& itab.ret && (itab.cur_quote != '\''))
 			itab.res++;
-		if ((res[itab.i] == '\\') && !itab.backslash)
-			itab.backslash = 1;
-		else if (res[itab.i] == '\\')
-			itab.backslash = 0;
 		itab.res++;
 	}
 	return (itab.res);
 }
 
-char	*handle_bquotes(char *res)
+char	*handle_bquotes(char *src)
 {
 	t_int_tab	itab;
 	char		*dest;
 
 	itab = init_int_tab();
-	dest = malloc(sizeof(char) * (get_bquoted_size(res) + 1));
+	dest = malloc(sizeof(char) * (get_bquoted_size(src) + 1));
 	if (!dest)
 		return (NULL);
-	while (res[++itab.i])
+	while (src[++itab.i])
 	{
-		if ((res[itab.i] == '`') && !itab.backslash)
+		itab.backslash = itab.i && (src[itab.i - 1] == '\\') && !itab.backslash;
+		check_special_char(src, &itab);
+		if ((src[itab.i] == '`') && !itab.backslash && (itab.cur_quote != '\''))
 			itab.ret = !itab.ret;
-		if ((res[itab.i] == '`') && itab.ret && !itab.backslash)
+		if ((src[itab.i] == '`') && itab.ret
+			&& !itab.backslash && (itab.cur_quote != '\''))
 			dest[itab.res++] = '$';
-		if ((res[itab.i] == '\\') && !itab.backslash)
-			itab.backslash = 1;
-		else if (res[itab.i] == '\\')
-			itab.backslash = 0;
-		if ((res[itab.i] == '`') && !itab.backslash)
+		if ((src[itab.i] == '`') && !itab.backslash && (itab.cur_quote != '\''))
 			dest[itab.res++] = ")("[itab.ret];
 		else
-			dest[itab.res++] = res[itab.i];
+			dest[itab.res++] = src[itab.i];
 	}
 	dest[itab.res] = 0;
-	free(res);
+	free(src);
 	return (dest);
 }

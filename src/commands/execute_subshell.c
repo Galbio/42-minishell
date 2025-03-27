@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 01:57:21 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 05:48:56 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 07:10:20 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	handle_subshell(t_cmd_params *cmd)
 	imp->is_bquoted++;
 	execute_line(get_subshell(command), envp, imp);
 	stat = imp->exit_status;
-	free_envp(envp, imp, 0);
+	free_envp(envp, imp);
 	exit(stat);
 }
 
