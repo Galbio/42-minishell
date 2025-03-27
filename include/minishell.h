@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 00:31:30 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 02:15:51 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_cmd_params
 	t_main_envp	*imp;
 	t_list		*pipes;
 	t_list		*cmds;
+	t_list		*sep;
 }	t_cmd_params;
 
 typedef struct s_int_tab
@@ -93,8 +94,8 @@ char			redirect_stdout(char *method, char **value);
 //commands
 void			execute_line(char *str, t_list **envp,
 					t_main_envp *imp);
-int				execute_command(t_list *commands, t_list **envp,
-					t_main_envp *imp, t_list *cmd_lst);
+int				execute_command(t_list *commands, t_cmd_params *params,
+					t_list *cmd_lst, t_list *sep);
 int				execute_pipes(t_cmd_params *cmd);
 int				execute_subshell(t_cmd_params *cmd);
 void			execute_bin(t_cmd_params *cmd);

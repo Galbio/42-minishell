@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 21:20:49 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 01:24:30 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 02:22:59 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,23 @@ static int	wait_line_end_exec(int nb_cmd, int write_pipe,
 	return (ret);
 }
 
+static void	handle_pipe_exec(t_cmd_params *cmd, char *command)
+{
+	t_list		**envp;
+	t_main_envp	*imp;
+	int			res;
+
+	imp = cmd->imp;
+	envp = cmd->envp;
+	free_cmd(cmd, 1);
+	free(cmd);
+	imp->is_bquoted++;
+	execute_line(command, envp, imp);
+	res = imp->exit_status;
+	free_envp(envp, imp, 0);
+	exit(res);
+}
+
 static void	execute_pipe_cmd(t_cmd_params *cmd, int pipes[2], int last)
 {
 	int		res;
@@ -60,6 +77,7 @@ static void	execute_pipe_cmd(t_cmd_params *cmd, int pipes[2], int last)
 	close(pipes[last]);
 	if (!command[0])
 	{
+		free(command);
 		close(pipes[!last]);
 		res = cmd->imp->exit_status;
 		free_cmd(cmd, 1);
@@ -68,13 +86,7 @@ static void	execute_pipe_cmd(t_cmd_params *cmd, int pipes[2], int last)
 	}
 	cmd->imp->input_fd = ((pipes[0] * last) + (cmd->imp->input_fd * !last));
 	cmd->imp->output_fd = ((cmd->imp->output_fd * last) + (pipes[1] * !last));
-	free_cmd(cmd, 1);
-	cmd->imp->is_bquoted++;
-	execute_line(command, cmd->envp, cmd->imp);
-	res = cmd->imp->exit_status;
-	free_envp(cmd->envp, cmd->imp, 0);
-	free(cmd);
-	exit(res);
+	handle_pipe_exec(cmd, command);
 }
 
 int	execute_pipes(t_cmd_params *cmd)

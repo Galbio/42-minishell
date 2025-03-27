@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 01:07:33 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 02:13:35 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,11 @@ static int	execute_single_command(t_cmd_params *cmd)
 	return (res);
 }
 
-int	execute_command(t_list *commands, t_list **envp, t_main_envp *imp, t_list *cmd_lst)
+int	execute_command(t_list *commands, t_cmd_params *params, t_list *cmd_lst, t_list *sep)
 {
-	t_cmd_params	*params;
-
-	params = make_cmd(NULL, envp, imp);
 	params->pipes = commands;
 	params->cmds = cmd_lst;
+	params->sep = sep;
 	if (commands && !commands->next)
 	{
 		if (((char *)(commands->content))[0] == '(')
