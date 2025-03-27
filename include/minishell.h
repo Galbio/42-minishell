@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 11:43:11 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 11:51:02 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ typedef struct s_main_envp
 	unsigned char	exit_status;
 	char			**path;
 	char			*home;
-	char			*pwd;
 	char			is_bquoted;
 	int				shell_level;
 	int				output_fd;
