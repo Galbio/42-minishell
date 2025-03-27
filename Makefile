@@ -81,7 +81,8 @@ FILES = main.c		\
 	utils/is_only_nb.c \
 	utils/free_envp.c \
 	utils/trim_whitespaces.c \
-	utils/check_special_char.c
+	utils/check_special_char.c	\
+	regex/regex.c
 
 OFILES = $(FILES:%.c=$(OBJS)/%.o)
 
