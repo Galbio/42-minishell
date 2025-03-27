@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 01:57:21 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 02:08:10 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 05:48:56 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,7 @@ static char	*get_subshell(char *str)
 		else if (!itab.backslash && !itab.cur_quote && (str[itab.i] == ')'))
 			itab.ret--;
 		if (!itab.ret)
-		{
-			dest = ft_substr(str, 1, itab.i - 1);
-			free(str);
-			return (dest);
-		}
+			break ;
 	}
 	dest = ft_substr(str, 1, itab.i - 1);
 	free(str);

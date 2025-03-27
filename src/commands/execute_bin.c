@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 20:09:48 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 02:01:21 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 05:48:22 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static char	*get_command_path(char *str, char **paths)
 	return (NULL);
 }
 
-void	cmd_not_found(t_cmd_params *cmd)
+static void	cmd_not_found(t_cmd_params *cmd)
 {
 	if (!cmd->imp->path)
 		ft_putstr_fd("minishell: ", 2);

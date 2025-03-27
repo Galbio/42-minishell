@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:44:41 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/26 17:14:49 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/27 05:44:23 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static void	register_controls(void)
 	register_special_key(CTRL_T_KEY, swap_key);
 	register_special_key(CTRL_U_KEY, stash_before_key);
 	register_special_key(CTRL_W_KEY, stash_before_in_word_key);
+	register_special_key(CTRL_Y_KEY, paste_stash_key);
 	register_special_key(CTRL_Y_KEY, paste_stash_key);
 }
 

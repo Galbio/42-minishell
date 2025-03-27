@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 21:20:49 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 02:22:59 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 05:48:34 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	go_to_next_command(t_list **commands, int *input_fd, int pipes[2])
 	*commands = (*commands)->next;
 	free(temp->content);
 	free(temp);
-	if (*input_fd)
+	if (*input_fd != 0)
 		close(*input_fd);
 	*input_fd = pipes[0];
 	close(pipes[1]);
