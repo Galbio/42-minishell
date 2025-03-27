@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 05:13:41 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/27 06:04:33 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,10 @@ typedef struct s_cmd_params
 	t_list		*redir;
 	t_list		**envp;
 	t_main_envp	*imp;
+	t_list		*pipes;
+	t_list		*cmds;
+	t_list		*sep;
+	t_list		**extra;
 }	t_cmd_params;
 
 typedef struct s_int_tab
@@ -70,7 +74,8 @@ typedef struct s_int_tab
 void			launch(t_list *envp, t_main_envp *imp);
 
 char			check_special_char(char *str, t_int_tab *itab);
-void			free_envp(t_list **envp, t_main_envp *imp);
+void			free_cmd(t_cmd_params *cmd, char mode);
+void			free_envp(t_list **envp, t_main_envp *imp, char is_bin);
 char			is_only_nb(char *str);
 
 t_int_tab		init_int_tab(void);
@@ -90,11 +95,10 @@ char			redirect_stdout(char *method, char **value);
 //commands
 void			execute_line(char *str, t_list **envp,
 					t_main_envp *imp);
-int				execute_command(t_list *commands, t_list **envp,
-					t_main_envp *imp);
-int				execute_pipes(t_list *commands, t_cmd_params *cmd);
-int				execute_subshell(char *command, t_list **envp,
-					t_main_envp *imp);
+int				execute_command(t_list *commands, t_cmd_params *params,
+					t_list *cmd_lst, t_list *sep);
+int				execute_pipes(t_cmd_params *cmd);
+int				execute_subshell(t_cmd_params *cmd);
 void			execute_bin(t_cmd_params *cmd);
 
 //argv
@@ -112,9 +116,6 @@ void			add_redirection(char *str, t_int_tab *itab,
 
 //pipe utils
 t_cmd_params	*make_cmd(void *argv_ptr, t_list **envp, t_main_envp *imp);
-int				wait_line_end_exec(int nb_cmd, int write_pipe,
-					int read_pipe, pid_t pid);
-void			go_to_next_command(t_list **commands, int *temp, int pipes[2]);
 char			check_builtins(char *name);
 int				handle_builtins(int code, t_cmd_params *cmd);
 int				go_to_var_end(char *str);
