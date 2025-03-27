@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 13:11:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/27 04:12:14 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 05:50:21 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ char	*ft_readline(const char *prompt)
 	while (1)
 	{
 		read_stdin_keys(buffer);
-		write(1, "\e[?25l", 6);
 		i = 0;
 		while (buffer[i])
 		{
@@ -87,7 +86,6 @@ char	*ft_readline(const char *prompt)
 			break ;
 		if (data.update)
 			on_write(&data);
-		write(1, "\e[?25h", 6);
 	}
 	return (leave_readline(&data, build_result(data, 0)));
 }
