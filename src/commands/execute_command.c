@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 04:08:00 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 05:04:24 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,11 @@ static int	execute_single_command(t_cmd_params *cmd)
 	int			saves[3];
 
 	if (ft_isonlywhitespaces(cmd->argv[0]))
+	{
+		free_cmd(cmd, 'c');
+		free(cmd);
 		return (0);
+	}
 	manage_saves(saves, 0);
 	res = cmd->imp->exit_status;
 	dup2(cmd->imp->output_fd, 1);
