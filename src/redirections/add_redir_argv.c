@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 22:20:19 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/26 16:27:30 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 06:23:13 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,25 +66,22 @@ static void	add_value(char *to_add, char is_fd, t_cmd_params *cmd)
 	ft_lstadd_back(&(cmd->redir), ft_lstnew(dest));
 }
 
-static void	parse_redirect_value(char *str, t_int_tab *itab, t_cmd_params *cmd)
+static void	parse_redirect_value(char *str, t_int_tab *itab,
+		t_cmd_params *cmd, char value_is_fd)
 {
 	char	*to_add;
-	char	value_is_fd;
+	char	*temp;
 	int		i;
 
-	value_is_fd = 0;
-	if ((str[itab->i] == '&') && is_only_nb(str + itab->i + 1))
-	{
-		value_is_fd++;
-		itab->i++;
-	}
-	while (str[itab->i] && ft_strchr(" \n\t", str[itab->i]))
-		itab->i++;
 	to_add = get_redirect_text(str + itab->i);
 	itab->i += ft_strlen(to_add);
 	i = 0;
 	if (to_add[0])
-		to_add = make_splitted_str(parse_quotes(to_add, cmd), &i, 1);
+	{
+		temp = parse_quotes(to_add, cmd);
+		to_add = make_splitted_str(temp, &i, 1);
+		free(temp);
+	}
 	else
 	{
 		free(to_add);
@@ -97,6 +94,8 @@ static void	parse_redirect_value(char *str, t_int_tab *itab, t_cmd_params *cmd)
 void	add_redirection(char *str, t_int_tab *itab,
 		t_cmd_params *cmd, t_list **dest)
 {
+	char	value_is_fd;
+
 	if (itab->i && ((str[itab->i - 1] == '&') || ft_isdigit(str[itab->i - 1])))
 		;
 	else if (itab->i && !ft_strchr(" \t\n", str[itab->i - 1]))
@@ -105,5 +104,13 @@ void	add_redirection(char *str, t_int_tab *itab,
 		itab->i++;
 	}
 	add_method(str, itab, cmd);
-	parse_redirect_value(str, itab, cmd);
+	value_is_fd = 0;
+	if ((str[itab->i] == '&') && is_only_nb(str + itab->i + 1))
+	{
+		value_is_fd++;
+		itab->i++;
+	}
+	while (str[itab->i] && ft_strchr(" \n\t", str[itab->i]))
+		itab->i++;
+	parse_redirect_value(str, itab, cmd, value_is_fd);
 }
