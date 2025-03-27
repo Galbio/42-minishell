@@ -6,20 +6,20 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 06:49:41 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 07:24:32 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 11:12:01 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	fill_dest(char *saw_shlvl, int lv, char *str, char **dest)
+static void	fill_dest(char *saw_shlvl, t_main_envp *imp, char *str, char **dest)
 {
 	char	*level;
 
 	if ((*saw_shlvl == 0) && !ft_strncmp("SHLVL=", str, 6))
 	{
 		*saw_shlvl = 1;
-		level = ft_itoa(lv);
+		level = ft_itoa(imp->exit_status + 1);
 		*dest = ft_strjoin("SHLVL=", level);
 		free(level);
 	}
@@ -38,16 +38,17 @@ char	**create_envp_cpy(t_list **envp, t_main_envp *imp)
 	if (!dest)
 		return (NULL);
 	saw_shlvl = 0;
-	if (imp->shell_level == 0)
+	if (!imp || imp->shell_level == 0)
 	{
-		ft_lstadd_back(envp, ft_lstnew(ft_strdup("SHLVL=0")));
+		if (imp)
+			ft_lstadd_back(envp, ft_lstnew(ft_strdup("SHLVL=0")));
 		saw_shlvl = 1;
 	}
 	i = 0;
 	cur = *envp;
 	while (cur)
 	{
-		fill_dest(&saw_shlvl, imp->shell_level + 1,
+		fill_dest(&saw_shlvl, imp,
 			(char *)cur->content, dest + i++);
 		cur = cur->next;
 	}

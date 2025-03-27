@@ -23,6 +23,7 @@ FILES = main.c		\
 	redirections/add_redir_argv.c \
 	builtins/echo.c \
 	builtins/cd.c \
+	builtins/change_pwd.c \
 	builtins/pwd.c \
 	builtins/unset.c \
 	builtins/export.c \

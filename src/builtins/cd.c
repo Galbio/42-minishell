@@ -6,13 +6,13 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 18:19:55 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 10:04:04 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 10:56:06 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	cd_to_home(t_cmd_params *cmd)
+static int	cd_to_home(t_cmd_params *cmd)
 {
 	int		res;
 	char	*home_val;
@@ -23,6 +23,7 @@ int	cd_to_home(t_cmd_params *cmd)
 	else
 		write(2, "minishell: cd: HOME not set\n", 28);
 	res = home_val != NULL;
+	change_envp_pwd(cmd->envp, getcwd(NULL, 0));
 	free(home_val);
 	return (res);
 }
@@ -39,6 +40,7 @@ static int	cd_absolute(t_cmd_params *cmd)
 		write(2, ": No such file or directory\n", 28);
 		return (1);
 	}
+	change_envp_pwd(cmd->envp, getcwd(NULL, 0));
 	return (0);
 }
 
@@ -64,6 +66,7 @@ static int	cd_oldpwd(t_cmd_params *cmd)
 	else
 		write(2, "minishell: cd: OLDPWD not set\n", 30);
 	res = old_pwd != NULL;
+	change_envp_pwd(cmd->envp, getcwd(NULL, 0));
 	free(old_pwd);
 	return (res);
 }
@@ -102,5 +105,6 @@ int	ms_cd(t_cmd_params *cmd)
 		write(2, ": No such file or directory\n", 28);
 		return (1);
 	}
+	change_envp_pwd(cmd->envp, getcwd(NULL, 0));
 	return (0);
 }
