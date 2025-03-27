@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:17:38 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/26 21:13:50 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 01:23:48 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,18 @@ void	free_envp(t_list **envp, t_main_envp *imp, char is_bin)
 	int		i;
 
 	ft_lstclear(envp, free);
+	if (imp->is_bquoted)
+		free_readline_core();
 	i = -1;
-	if (!is_bin)
+	if (!is_bin || imp->is_bquoted)
 	{
-		while (imp->envp_cpy[++i])
-			free(imp->envp_cpy[++i]);
+		while (imp->envp_cpy && imp->envp_cpy[++i])
+			free(imp->envp_cpy[i]);
 		free(imp->envp_cpy);
 	}
 	i = -1;
-	while (imp->path[++i])
-		free(imp->path[++i]);
+	while (imp->path && imp->path[++i])
+		free(imp->path[i]);
 	free(imp->path);
 	free(imp->home);
 }
@@ -38,13 +40,13 @@ void	free_cmd(t_cmd_params *cmd, char mode)
 	if (mode != 'b')
 	{
 		i = -1;
-		while (cmd->argv[++i])
+		while (cmd->argv && cmd->argv[++i])
 			free(cmd->argv[i]);
 		free(cmd->argv);
 	}
-	i = -1;
-	free_envp(cmd->envp, cmd->imp, mode == 'b');
-	ft_lstclear(&cmd->redir, free);
-	free(cmd);
-	free_readline(0);
+	ft_lstclear(&cmd->pipes, free);
+	if (mode != 'c')
+		ft_lstclear(&cmd->cmds, free);
+	if (cmd->redir)
+		ft_lstclear(&cmd->redir, free);
 }

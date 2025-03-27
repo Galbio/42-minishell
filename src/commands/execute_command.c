@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/26 20:39:08 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 01:07:33 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,22 +62,31 @@ static int	execute_single_command(t_cmd_params *cmd)
 	else
 		res = handle_builtins(temp, cmd);
 	manage_saves(saves, 1);
-	temp = -1;
-	while (cmd->argv[++temp])
-		free(cmd->argv[temp]);
-	free(cmd->argv);
+	free_cmd(cmd, 'c');
 	free(cmd);
 	return (res);
 }
 
 int	execute_command(t_list *commands, t_list **envp, t_main_envp *imp, t_list *cmd_lst)
 {
+	t_cmd_params	*params;
+
+	params = make_cmd(NULL, envp, imp);
+	params->pipes = commands;
+	params->cmds = cmd_lst;
 	if (commands && !commands->next)
 	{
 		if (((char *)(commands->content))[0] == '(')
-			return (execute_subshell((char *)commands->content, envp, imp));
-		return (execute_single_command(create_command_argv(make_cmd(
-						&commands->content, envp, imp))));
+		{
+			params->argv = (char **)(&(commands->content));
+			return (execute_subshell(params));
+		}
+		else
+		{
+			params->argv = (char **)(&(commands->content));
+			params = create_command_argv(params);
+			return (execute_single_command(params));
+		}
 	}
-	return (execute_pipes(commands, make_cmd(NULL, envp, imp), cmd_lst));
+	return (execute_pipes(params));
 }
