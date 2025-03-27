@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 18:40:47 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 11:39:36 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 11:40:45 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,7 @@ void	export_vars(t_list *envp)
 		while (envp_cpy[i][++j])
 			write_cor_char(envp_cpy[i][j]);
 		write(1, "\"\n", 2);
+		free(envp_cpy[i]);
 	}
+	free(envp_cpy);
 }
