@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:35:44 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 04:40:13 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 05:18:17 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,21 @@ static char	go_to_next_cmd(t_list **sep, t_list **cmd_list)
 	return (next_sep);
 }
 
+static char	init_execute_line(char *str, char *sep,
+		t_list **sep_list, t_list **cmd_list)
+{
+	if (ft_isonlywhitespaces(str))
+	{
+		free(str);
+		return (1);
+	}
+	*sep_list = NULL;
+	*sep = ';';
+	*cmd_list = split_separators(str, sep_list);
+	free(str);
+	return (0);
+}
+
 void	execute_line(char *str, t_list **envp, t_main_envp *imp)
 {
 	t_list	*commands_list;
@@ -40,15 +55,8 @@ void	execute_line(char *str, t_list **envp, t_main_envp *imp)
 	t_list	*sep;
 	char	cur_sep;
 
-	if (ft_isonlywhitespaces(str))
-	{
-		free(str);
+	if (init_execute_line(str, &cur_sep, &sep, &commands_list))
 		return ;
-	}
-	sep = NULL;
-	cur_sep = ';';
-	commands_list = split_separators(str, &sep);
-	free(str);
 	while (commands_list)
 	{
 		if (commands_list->content)
