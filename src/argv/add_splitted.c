@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 18:17:51 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/26 14:18:23 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 09:18:30 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ void	add_splitted_to_add(char *str, t_list **dest)
 {
 	int		i;
 
+	if (!str[0])
+		ft_lstadd_front(dest, ft_lstnew(ft_strdup("")));
 	i = 0;
 	while (str[i])
 	{
