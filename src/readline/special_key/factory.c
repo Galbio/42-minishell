@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:31:17 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/17 13:28:12 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/26 18:58:25 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,6 @@ static void	on_overwrite(char *sequence)
 	}
 	write(2, "]", 1);
 	write(2, "' already exist.\n", 17);
-	disable_raw_mode();
-	free_ft_readline(get_readline_data());
-	exit(5);
 }
 
 void	register_special_key(char *sequence, void (*callback)(t_readline *))

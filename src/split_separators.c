@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 19:39:43 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/24 18:22:44 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 04:49:21 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_list	*init_pipes(char *str)
 		if (!itab.backslash && !itab.cur_quote && (str[itab.i] == '$'))
 			itab.i += go_to_var_end(str + itab.i) - 1;
 		else if (!itab.backslash && !itab.cur_quote && (str[itab.i] == '('))
-			itab.i += go_to_subcmd_end(str + itab.i) - 1;
+			itab.i += go_to_subcmd_end(str + itab.i);
 		else if ((str[itab.i] == '|') && !itab.backslash && !itab.cur_quote
 			&& (str[itab.i + 1] != '|'))
 		{
@@ -86,7 +86,6 @@ static void	add_cmd(char *str, t_list **dest, t_int_tab *itab)
 {
 	ft_lstadd_back(dest, ft_lstnew(trim_ws(
 				ft_substr(str, itab->ret, itab->i - itab->ret))));
-	itab->i += 1 + (str[itab->i] != ';');
 	itab->ret = itab->i + 1;
 }
 

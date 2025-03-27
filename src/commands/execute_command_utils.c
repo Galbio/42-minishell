@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:22:50 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/25 00:19:19 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 00:37:46 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,37 +53,6 @@ char	check_builtins(char *name)
 	else if (ft_strncmp(name, "exit", 5) == 0)
 		return (7);
 	return (0);
-}
-
-void	go_to_next_command(t_list **commands, int *temp, int pipes[2])
-{
-	*commands = (*commands)->next;
-	if (*temp)
-		close(*temp);
-	*temp = pipes[0];
-	close(pipes[1]);
-}
-
-int	wait_line_end_exec(int nb_cmd, int write_pipe, int read_pipe, pid_t pid)
-{
-	int		i;
-	int		stat;
-	int		res;
-	int		ret;
-
-	if (write_pipe)
-		close(write_pipe);
-	close(read_pipe);
-	i = -1;
-	ret = 0;
-	while (++i < nb_cmd)
-	{
-		res = wait(&stat);
-		if (res == pid)
-			if (WIFEXITED(stat))
-				ret = WEXITSTATUS(stat);
-	}
-	return (ret);
 }
 
 t_cmd_params	*make_cmd(void *argv_ptr, t_list **envp, t_main_envp *imp)

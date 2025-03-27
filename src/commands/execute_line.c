@@ -6,13 +6,13 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:35:44 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/25 18:54:12 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 05:18:17 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	go_to_next_cmd(t_list **sep, t_list **cur_cmds, t_list **cmd_list)
+static char	go_to_next_cmd(t_list **sep, t_list **cmd_list)
 {
 	char	next_sep;
 	t_list	*tmp;
@@ -26,12 +26,26 @@ static char	go_to_next_cmd(t_list **sep, t_list **cur_cmds, t_list **cmd_list)
 		free(tmp->content);
 		free(tmp);
 	}
-	ft_lstclear(cur_cmds, free);
 	tmp = *cmd_list;
 	*cmd_list = tmp->next;
 	free(tmp->content);
 	free(tmp);
 	return (next_sep);
+}
+
+static char	init_execute_line(char *str, char *sep,
+		t_list **sep_list, t_list **cmd_list)
+{
+	if (ft_isonlywhitespaces(str))
+	{
+		free(str);
+		return (1);
+	}
+	*sep_list = NULL;
+	*sep = ';';
+	*cmd_list = split_separators(str, sep_list);
+	free(str);
+	return (0);
 }
 
 void	execute_line(char *str, t_list **envp, t_main_envp *imp)
@@ -41,19 +55,20 @@ void	execute_line(char *str, t_list **envp, t_main_envp *imp)
 	t_list	*sep;
 	char	cur_sep;
 
-	if (ft_isonlywhitespaces(str))
+	if (init_execute_line(str, &cur_sep, &sep, &commands_list))
 		return ;
-	sep = NULL;
-	cur_sep = ';';
-	commands_list = split_separators(str, &sep);
 	while (commands_list)
 	{
-		if (((cur_sep == '|') && imp->exit_status) || ((cur_sep == '&')
-				&& !imp->exit_status) || (cur_sep == ';'))
+		if (commands_list->content)
 		{
-			cur_commands = init_pipes((char *)commands_list->content);
-			imp->exit_status = execute_command(cur_commands, envp, imp);
+			if (((cur_sep == '|') && imp->exit_status) || ((cur_sep == '&')
+					&& !imp->exit_status) || (cur_sep == ';'))
+			{
+				cur_commands = init_pipes((char *)commands_list->content);
+				imp->exit_status = execute_command(cur_commands, make_cmd(
+							NULL, envp, imp), commands_list, sep);
+			}
 		}
-		cur_sep = go_to_next_cmd(&sep, &cur_commands, &commands_list);
+		cur_sep = go_to_next_cmd(&sep, &commands_list);
 	}
 }
