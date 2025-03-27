@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/26 21:20:18 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 04:12:58 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <termios.h>
 # include <signal.h>
 # include "libft.h"
+# include "readline_history.h"
 
 # define HIDE_CURSOR "\e[?25l"
 # define SHOW_CURSOR "\e[?25h"
@@ -34,15 +35,17 @@ typedef struct s_char
 typedef struct s_readline
 {
 	const char	*prompt;
+	char		*buffer_ptr;
 	t_char		*first;
 	t_char		*actual;
-	int			update;
+	t_char		*current_input;
 	t_vector2	pos;
 	t_vector2	cursor;
 	t_vector2	old_tsize;
-	char		*buffer_ptr;
+	int			update;
 	int			exit;
 	int			interrupt;
+	int			history_index;
 }	t_readline;
 
 typedef struct s_special_key
@@ -57,6 +60,7 @@ typedef struct s_main
 	t_special_key	**special_keys;
 	t_char			*stashed;
 	int				cat_stash;
+	t_array			history;
 }	t_readline_core;
 
 int				handle_key_input(t_readline *data, char *buffer);
@@ -120,8 +124,8 @@ t_special_key	**get_special_keys(void);
 
 void			invalid_key(t_readline *data);
 void			backspace_key(t_readline *data);
-void			left_arrow_key(t_readline *data);
-void			right_arrow_key(t_readline *data);
+void			move_left_key(t_readline *data);
+void			move_right_key(t_readline *data);
 void			home_key(t_readline *data);
 void			delete_key(t_readline *data);
 void			end_key(t_readline *data);
@@ -139,6 +143,8 @@ void			previous_word_key(t_readline *data);
 void			next_word_key(t_readline *data);
 void			five_tilde_key(t_readline *data);
 void			semicolon_five_tilde_key(t_readline *data);
+void			previous_history_key(t_readline *data);
+void			next_history_key(t_readline *data);
 
 t_readline		*get_readline_data(void);
 int				ft_readline_must_exit(void);
