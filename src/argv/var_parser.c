@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 04:09:31 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 04:14:07 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	execute_sub_cmd(t_int_tab *itab, t_cmd_params *cmd,
 
 	ft_lstclear(outputs, free);
 	ft_lstclear(cmd->extra, free);
-	cmd->other = NULL;
+	cmd->extra = NULL;
 	free(itab->ptr2);
 	imp = cmd->imp;
 	envp = cmd->envp;
