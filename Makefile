@@ -62,6 +62,7 @@ FILES = main.c		\
 	readline/processing.c	\
 	readline/size.c	\
 	readline/format.c	\
+	readline/check_heredoc.c \
 	readline/stdin.c	\
 	readline/ft_readline_core.c	\
 	readline/exit.c		\
