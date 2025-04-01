@@ -82,7 +82,9 @@ FILES = main.c		\
 	utils/free_cmd.c \
 	utils/trim_whitespaces.c \
 	utils/check_special_char.c	\
-	regex/regex.c
+	regex/regex.c		\
+	regex/len.c	\
+	regex/brackets.c
 
 OFILES = $(FILES:%.c=$(OBJS)/%.o)
 
