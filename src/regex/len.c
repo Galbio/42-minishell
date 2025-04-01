@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 15:57:44 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/31 15:57:55 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/01 16:41:50 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	min_value_len(char *pattern)
 {
-	int	i;
-	int	min_len;
+	int		i;
+	int		min_len;
 	char	*brackets;
 
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 06:06:08 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/01 16:30:06 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/01 16:43:12 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,8 @@ char	*find_brackets(char *text)
 	if (!is_bracket(text, 0))
 		return (NULL);
 	i = 1;
-	while (text[i] && !ft_iswhitespace(text[i]) && (text[i] == '[' || !is_bracket(text, i)))
+	while (text[i] && !ft_iswhitespace(text[i])
+		&& (text[i] == '[' || !is_bracket(text, i)))
 		i++;
 	if (text[i] != ']')
 		return (NULL);
@@ -135,13 +136,13 @@ char	*find_brackets_from_end(char *text, int index)
 
 	if (!is_bracket(text, index))
 		return (NULL);
-	
 	i = index - 1;
-	while (i > 0 && (!ft_iswhitespace(text[i]) && (!is_bracket(text, i) || (text[i - 1] != ']' && is_bracket(text, i - 1)))))
+	while (i > 0 && (!ft_iswhitespace(text[i]) && (!is_bracket(text, i)
+				|| (text[i - 1] != ']' && is_bracket(text, i - 1)))))
 		i--;
 	if (i == -1 || !is_bracket(text, i))
 		return (NULL);
-	return ft_substr(text, i, index - i + 1);
+	return (ft_substr(text, i, index - i + 1));
 }
 
 int	have_brackets(char *text)

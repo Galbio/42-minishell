@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:50:55 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/01 17:47:59 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/01 17:43:59 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ int	needed_count_end(char *pattern)
 	{
 		if (pattern[i] == ']')
 		{
-			brackets = find_brackets_from_end(pattern, i);
+			brackets = find_brackets(pattern + i);
 			if (brackets)
 				i -= ft_strlen(brackets) - 1;
 			free(brackets);
