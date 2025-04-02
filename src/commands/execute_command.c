@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/02 00:57:44 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 05:04:24 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	execute_single_bin(t_cmd_params *cmd)
 		return (1);
 	if (!pid)
 		execute_bin(cmd);
-	waitpid(-1, &stat, 0);
+	waitpid(pid, &stat, 0);
 	if (WIFEXITED(stat))
 		return (WEXITSTATUS(stat));
 	return (1);
