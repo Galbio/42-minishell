@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 00:16:35 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/02 01:57:57 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/02 16:28:15 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	get_parsed_size(char *str)
 	i = -1;
 	while (str[++i])
 	{
-		if (ft_strchr("\\\"", str[i]))
+		if ((str[i] == '"') || ((str[i] == '\\') && (str[i + 1] != '$')))
 			res++;
 		res++;
 	}
@@ -46,7 +46,7 @@ char	*parse_heredoc_quote(char *str)
 	dest[0] = '"';
 	while (str[++i])
 	{
-		if (ft_strchr("\\\"", str[i]))
+		if ((str[i] == '"') || ((str[i] == '\\') && (str[i + 1] != '$')))
 			dest[ret++] = '\\';
 		dest[ret++] = str[i];
 	}
