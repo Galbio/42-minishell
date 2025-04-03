@@ -83,12 +83,17 @@ FILES = main.c		\
 	utils/free_cmd.c \
 	utils/trim_whitespaces.c \
 	utils/check_special_char.c	\
-	regex/regex.c		\
-	regex/len.c	\
-	regex/brackets.c	\
-	regex/manager.c		\
-	regex/items.c		\
-	regex/utils.c
+	regex/checkers/bounds.c		\
+	regex/checkers/inside.c		\
+	regex/checkers/lengths.c		\
+	regex/checkers/first_occurence.c	\
+	regex/items/len.c	\
+	regex/items/brackets.c	\
+	regex/items/manager.c		\
+	regex/items/factory.c		\
+	regex/items/utils.c		\
+	regex/cleaner.c			\
+	regex/regex.c
 
 OFILES = $(FILES:%.c=$(OBJS)/%.o)
 
