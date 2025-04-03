@@ -13,7 +13,6 @@ FILES = main.c		\
 	bquotes_handler.c \
 	signals.c		\
 	split_separators.c \
-	research.c		\
 	argv/create_argv.c \
 	argv/argv_utils.c \
 	argv/var_parser.c \
@@ -79,6 +78,7 @@ FILES = main.c		\
 	readline/char_position.c	\
 	readline/lines.c		\
 	readline/stash.c	\
+	research/research.c		\
 	utils/init_int_tab.c \
 	utils/var_names_utils.c \
 	utils/is_only_nb.c \
