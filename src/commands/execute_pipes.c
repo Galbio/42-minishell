@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 21:20:49 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 05:48:34 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 07:10:37 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	handle_pipe_exec(t_cmd_params *cmd, char *command)
 	imp->is_bquoted++;
 	execute_line(command, envp, imp);
 	res = imp->exit_status;
-	free_envp(envp, imp, 0);
+	free_envp(envp, imp);
 	exit(res);
 }
 

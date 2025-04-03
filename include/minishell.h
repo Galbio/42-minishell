@@ -39,7 +39,6 @@
 typedef struct s_main_envp
 {
 	unsigned char	exit_status;
-	char			**envp_cpy;
 	char			**path;
 	char			*home;
 	char			is_bquoted;
@@ -75,12 +74,15 @@ void			launch(t_list *envp, t_main_envp *imp);
 
 char			check_special_char(char *str, t_int_tab *itab);
 void			free_cmd(t_cmd_params *cmd, char mode);
-void			free_envp(t_list **envp, t_main_envp *imp, char is_bin);
+void			free_envp(t_list **envp, t_main_envp *imp);
+char			free_redir(t_list *cur, char res);
 char			is_only_nb(char *str);
+char			*get_var_value(char *name, t_list *cur, char quote);
 
 t_int_tab		init_int_tab(void);
 
 t_list			*parse_envp(char **envp, t_main_envp *imp);
+char			**create_envp_cpy(t_list **envp, t_main_envp *imp);
 char			*parse_var(char *var_name, t_list **envp, t_main_envp *imp);
 char			*parse_commands(char *str, t_list *envp, t_main_envp *imp);
 char			*read_whole_fd(int fd);
@@ -133,6 +135,7 @@ int				ms_env(t_cmd_params *cmd);
 //builtins additional
 void			export_vars(t_list *envp);
 void			unset_var(char *name, t_list **envp, t_main_envp *imp);
+void			change_envp_pwd(t_list **envp, char *name);
 
 void			init_signals(void);
 

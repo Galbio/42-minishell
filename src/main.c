@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:20:18 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/26 20:29:53 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 07:47:54 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	env = parse_envp(envp, &imp);
 	launch(env, &imp);
-	free_envp(&env, &imp, 0);
+	free_envp(&env, &imp);
 	return (2);
 }

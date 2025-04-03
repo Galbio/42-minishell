@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:43:25 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/26 16:26:55 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 10:44:28 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,14 @@ static char	redirect_fd_adress(char *src, char *dest)
 	int		src_nb;
 	int		dest_nb;
 
-	src_nb = ft_atoi(src);
-	dest_nb = ft_atoi(dest);
+	if (!ft_isdigit(src[0]))
+		src_nb = 1;
+	else
+		src_nb = ft_atoi(src);
+	if (!ft_isdigit(dest[0]))
+		dest_nb = 1;
+	else
+		dest_nb = ft_atoi(dest);
 	if ((src_nb >= 1024) || (dest_nb >= 1024))
 		return (1);
 	dup2(dest_nb, src_nb);

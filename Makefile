@@ -10,7 +10,6 @@ LIBFTI = $(LIBFT)
 
 FILES = main.c		\
 	minishell.c	\
-	envp_parser.c \
 	bquotes_handler.c \
 	signals.c		\
 	split_separators.c \
@@ -25,6 +24,7 @@ FILES = main.c		\
 	redirections/add_redir_argv.c \
 	builtins/echo.c \
 	builtins/cd.c \
+	builtins/change_pwd.c \
 	builtins/pwd.c \
 	builtins/unset.c \
 	builtins/export.c \
@@ -37,6 +37,8 @@ FILES = main.c		\
 	commands/execute_subshell.c \
 	commands/execute_pipes.c \
 	commands/execute_bin.c \
+	envp/parser.c \
+	envp/create_envp_cpy.c \
 	readline/history/manager.c	\
 	readline/history/reader.c	\
 	readline/history/writer.c	\
