@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:20:18 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/01 14:28:08 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/03 15:55:38 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,21 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	
+	init_regexs();
+/*	t_regex_item*regex = get_regex_item_from_end(argv[2], ft_strlen(argv[2]) - 1);
+	if (!regex)
+		printf("(null)\n");
+	else
+	{
+		printf("%s\n", regex->last_finded);//regex_item_match(argv[1], argv[2], regex));
+	}
+	return (0);
+	*/
 	t_list	*res;
 	if (!argv[1])
-		res = process_wildcards("/home/sunset/cursus/minishell/", "[[[a-z]*[[[a-z]*[[[a-z]*[[[a-z]*[[[a-z]*[[[a-z]");
+		res = search_pattern("/home/sunset/cursus/minishell/", "[[[a-z]*[[[a-z]*[[[a-z]*[[[a-z]*[[[a-z]*[[[a-z]");
 	else
-		res = process_wildcards("/home/sunset/cursus/minishell/", argv[1]);
+		res = search_pattern("/home/sunset/cursus/minishell/", argv[1]);
 	if (!res)
 	{
 		printf("%s\n", argv[1]);

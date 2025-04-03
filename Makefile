@@ -14,6 +14,7 @@ FILES = main.c		\
 	bquotes_handler.c \
 	signals.c		\
 	split_separators.c \
+	research.c		\
 	argv/create_argv.c \
 	argv/argv_utils.c \
 	argv/var_parser.c \
@@ -84,7 +85,10 @@ FILES = main.c		\
 	utils/check_special_char.c	\
 	regex/regex.c		\
 	regex/len.c	\
-	regex/brackets.c
+	regex/brackets.c	\
+	regex/manager.c		\
+	regex/items.c		\
+	regex/utils.c
 
 OFILES = $(FILES:%.c=$(OBJS)/%.o)
 

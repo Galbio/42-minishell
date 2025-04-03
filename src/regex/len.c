@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 15:57:44 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/01 16:41:50 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/03 14:18:46 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	min_value_len(char *pattern)
 {
-	int		i;
-	int		min_len;
-	char	*brackets;
+	int				i;
+	int				min_len;
+	t_regex_item	*item;
 
 	i = 0;
 	min_len = 0;
@@ -24,9 +24,9 @@ int	min_value_len(char *pattern)
 	{
 		if (pattern[i] != '*')
 		{
-			brackets = find_brackets(pattern + i);
-			if (brackets)
-				i += ft_strlen(brackets) - 1;
+			item = get_regex_item(pattern + i);
+			if (item)
+				i += ft_strlen(item->last_finded) - 1;
 			min_len++;
 		}
 		i++;

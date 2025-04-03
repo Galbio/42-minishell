@@ -6,163 +6,75 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 06:06:08 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/01 16:43:12 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/03 15:03:34 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "regex.h"
 
-static void	parse_brackets(char *pattern, t_array *allowed)
+int	square_brackets_parse(char *value, t_array *array)
 {
-	int			j;
-	int			i;
-	int			count;
-	char		*values;
-
-	i = 1;
-	while (pattern[i] != ']')
-	{
-		count = 2 + 1 * (pattern[i + 1] && pattern[i + 1] == '-'
-				&& pattern[i + 2] && pattern[i + 2] != ']');
-		values = malloc(sizeof(char) * count);
-		j = 0;
-		while (j < (count - 1))
-		{
-			if (j == 1 && pattern[i + j] == '-')
-				i++;
-			values[j] = pattern[i + j];
-			j++;
-		}
-		i += j;
-		values[j] = '\0';
-		ft_array_push(allowed, values);
-	}
-}
-
-static int	is_correct_format(char *pattern)
-{
-	int	i;
-	int	open;
-	int	close;
-
-	i = 0;
-	open = 0;
-	close = 0;
-	while (pattern[i])
-	{
-		if (!open && pattern[i] == '[')
-			open = 1;
-		else if (pattern[i] == ']')
-		{
-			if (close)
-				return (0);
-			close = 1;
-		}
-		i++;
-	}
-	return (open && close);
-}
-
-int	brackets_match(char c, char *pattern)
-{
-	t_array	allowed;
+	int		count;
 	int		i;
-	int		in;
-	char	*value;
+	int		j;
+	char	*parsed;
 
-	if (!pattern)
+	count = 2 + 1 * (value[1] && value[1] == '-'
+			&& value[2] && value[2] != ']');
+	parsed = malloc(sizeof(char) * count);
+	if (!parsed)
 		return (0);
-	if (!is_correct_format(pattern))
-		return (0);
-	allowed = ft_array();
-	parse_brackets(pattern, &allowed);
 	i = 0;
-	in = 0;
-	while (i < ft_array_count(allowed))
+	j = 0;
+	while (i < (count - 1))
 	{
-		value = (char *)allowed[i];
-		if (!value[1])
-		{
-			if (c == value[0])
-			{
-				in = 1;
-				break ;
-			}
-		}
-		else if (c >= ft_min(value[0], value[1])
-			&& c <= ft_max(value[0], value[1]))
-		{
-			in = 1;
-			break ;
-		}
+		if (j == 1 && value[j] == '-')
+			j++;
+		parsed[i] = value[j];
+		i++;
+		j++;
+	}
+	parsed[i] = '\0';
+	ft_array_push(array, parsed);
+	return (j);
+}
+
+static int	square_brackets_test(char c, char *value)
+{
+	if (ft_strlen(value) == 2)
+		return (c >= ft_min(value[0], value[1])
+			&& c <= ft_max(value[0], value[1]));
+	return (c == value[0]);
+}
+
+int	square_brackets_match(char *value, t_array parsed)
+{
+	int	i;
+	int	size;
+
+	i = 0;
+	size = ft_array_count(parsed);
+	while (i < size)
+	{
+		if (square_brackets_test(value[0], ((char **)parsed)[i]))
+			return (1);
 		i++;
 	}
-	ft_array_unset(&allowed, ft_array_free_entry);
-	return (in);
+	return (0);
 }
 
-int	is_bracket(char *text, int index)
-{
-	int	n;
-
-	if (text[index] != '[' && text[index] != ']')
-		return (0);
-	n = 0;
-	while ((index - n) > 0 && text[index - n - 1] == '\\')
-		n++;
-	if (n % 2 == 1)
-		return (0);
-	return (1);
-}
-
-char	*find_brackets(char *text)
+int	square_brackets_neg_match(char *value, t_array parsed)
 {
 	int	i;
+	int	size;
 
-	if (!is_bracket(text, 0))
-		return (NULL);
-	i = 1;
-	while (text[i] && !ft_iswhitespace(text[i])
-		&& (text[i] == '[' || !is_bracket(text, i)))
+	i = 0;
+	size = ft_array_count(parsed);
+	while (i < size)
+	{
+		if (square_brackets_test(value[0], ((char **)parsed)[i]))
+			return (0);
 		i++;
-	if (text[i] != ']')
-		return (NULL);
-	return (ft_substr(text, 0, i + 1));
-}
-
-char	*find_brackets_from_end(char *text, int index)
-{
-	int	i;
-
-	if (!is_bracket(text, index))
-		return (NULL);
-	i = index - 1;
-	while (i > 0 && (!ft_iswhitespace(text[i]) && (!is_bracket(text, i)
-				|| (text[i - 1] != ']' && is_bracket(text, i - 1)))))
-		i--;
-	if (i == -1 || !is_bracket(text, i))
-		return (NULL);
-	return (ft_substr(text, i, index - i + 1));
-}
-
-int	have_brackets(char *text)
-{
-	char	*brackets;
-
-	brackets = find_brackets(text);
-	if (!brackets)
-		return (0);
-	free(brackets);
-	return (1);
-}
-
-int	have_brackets_from_end(char *text, int index)
-{
-	char	*brackets;
-
-	brackets = find_brackets_from_end(text, index);
-	if (!brackets)
-		return (0);
-	free(brackets);
+	}
 	return (1);
 }

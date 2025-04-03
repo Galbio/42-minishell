@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:50:55 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/01 17:47:59 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/03 14:16:20 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,24 +23,20 @@ static void	resize_value(char **value, int start, int end)
 
 int	check_beginning(char **text, char **pattern)
 {
-	int		i;
-	int		j;
-	char	*brackets;
+	int				i;
+	int				j;
+	t_regex_item	*item;
 
 	i = 0;
 	j = 0;
 	while ((*pattern)[i] && (*pattern)[i] != '*')
 	{
-		brackets = find_brackets((*pattern) + i);
-		if (brackets)
+		item = get_regex_item((*pattern) + i);
+		if (item)
 		{
-			if (!brackets_match((*text)[j], brackets))
-			{
-				free(brackets);
+			if (!regex_item_match((*text) + j, item->last_finded, item))
 				return (0);
-			}
-			i += ft_strlen(brackets) - 1;
-			free(brackets);
+			i += ft_strlen(item->last_finded) - 1;
 		}
 		else if ((*pattern)[i] != '?' && (*pattern)[i] != (*text)[j])
 			return (0);
@@ -54,24 +50,20 @@ int	check_beginning(char **text, char **pattern)
 
 int	check_end(char **text, char **pattern)
 {
-	int		i;
-	int		j;
-	char	*brackets;
+	int				i;
+	int				j;
+	t_regex_item	*item;
 
 	i = ft_strlen(*pattern) - 1;
 	j = ft_strlen(*text) - 1;
 	while (i >= 0 && (*pattern)[i] != '*')
 	{
-		brackets = find_brackets_from_end((*pattern), i);
-		if (brackets)
+		item = get_regex_item_from_end((*pattern), i);
+		if (item)
 		{
-			if (!brackets_match((*text)[j], brackets))
-			{
-				free(brackets);
+			if (!regex_item_match((*text) + j, item->last_finded, item))
 				return (0);
-			}
-			i -= ft_strlen(brackets) - 1;
-			free(brackets);
+			i -= ft_strlen(item->last_finded) - 1;
 		}
 		else if ((*pattern)[i] != '?' && (*pattern)[i] != (*text)[j])
 			return (0);
@@ -128,56 +120,30 @@ void	clean_pattern(char **pattern)
 
 int	needed_count(char *pattern)
 {
-	int		i;
-	int		needed;
-	char	*brackets;
+	int				i;
+	int				needed;
+	t_regex_item	*item;
 
 	i = 0;
 	needed = 0;
 	while (pattern[i] && pattern[i] != '*')
 	{
-		if (have_brackets(pattern + i))
-		{
-			brackets = find_brackets(pattern + i);
-			if (brackets)
-				i += ft_strlen(brackets) - 1;
-		}
+		item = get_regex_item(pattern + i);
+		if (item)
+			i += ft_strlen(item->last_finded) - 1;
 		needed++;
 		i++;
 	}
 	return (needed);
 }
 
-int	needed_count_end(char *pattern)
-{
-	int		i;
-	int		needed;
-	char	*brackets;
-
-	i = ft_strlen(pattern) - 1;
-	needed = 0;
-	while (i > 0 && pattern[i] != '*')
-	{
-		if (pattern[i] == ']')
-		{
-			brackets = find_brackets_from_end(pattern, i);
-			if (brackets)
-				i -= ft_strlen(brackets) - 1;
-			free(brackets);
-		}
-		needed++;
-		i--;
-	}
-	return (needed);
-}
-
 int	find_first_occurrence(char *text, char *pattern, int *pattern_start)
 {
-	int		i;
-	int		j;
-	int		finded;
-	char	*brackets;
-	int		needed;
+	int				i;
+	int				j;
+	int				finded;
+	t_regex_item	*item;
+	int				needed;
 
 	needed = needed_count(pattern);
 	i = 0;
@@ -185,13 +151,13 @@ int	find_first_occurrence(char *text, char *pattern, int *pattern_start)
 	finded = 0;
 	while (pattern[i] && pattern[i] != '*' && text[j])
 	{
-		brackets = find_brackets(pattern + i);
-		if (brackets)
+		item = get_regex_item(pattern + i);
+		if (item)
 		{
-			if (brackets_match(text[j], brackets))
+			if (regex_item_match(text + j, item->last_finded, item))
 			{
 				finded++;
-				i += ft_strlen(brackets);
+				i += ft_strlen(item->last_finded);
 			}
 			else
 			{
@@ -199,7 +165,6 @@ int	find_first_occurrence(char *text, char *pattern, int *pattern_start)
 				i = 0;
 				finded = 0;
 			}
-			free(brackets);
 		}
 		else if (pattern[i] == '?' || pattern[i] == text[j])
 		{
@@ -220,55 +185,6 @@ int	find_first_occurrence(char *text, char *pattern, int *pattern_start)
 	return (-1);
 }
 
-int	find_last_occurrence(char *text, char *pattern, int *pattern_end)
-{
-	int		i;
-	int		j;
-	int		finded;
-	int		needed;
-	char	*brackets;
-
-	needed = needed_count_end(pattern);
-	i = ft_strlen(pattern) - 1;
-	j = ft_strlen(text) - 1;
-	finded = 0;
-	while (i >= 0 && pattern[i] != '*' && j >= 0)
-	{
-		brackets = find_brackets_from_end(pattern, i);
-		if (brackets)
-		{
-			if (brackets_match(text[j], brackets))
-			{
-				finded++;
-				i -= ft_strlen(brackets);
-			}
-			else
-			{
-				j += finded;
-				i = ft_strlen(pattern) - 1;
-				finded = 0;
-			}
-			free(brackets);
-		}
-		else if (pattern[i] == '?' || pattern[i] == text[j])
-		{
-			finded++;
-			i--;
-		}
-		else
-		{
-			j += finded;
-			finded = 0;
-			i = ft_strlen(pattern) - 1;
-		}
-		j--;
-	}
-	*pattern_end = i;
-	if (finded == needed)
-		return (j + 1);
-	return (-1);
-}
-
 static int	exit_regex(char *v, char *pat, int res)
 {
 	free(v);
@@ -279,31 +195,28 @@ static int	exit_regex(char *v, char *pat, int res)
 int	check_middle(char *text, char *pattern)
 {
 	int	start;
-	int	end;
+	int	next;
 	int	pattern_start;
-	int	pattern_end;
+	int	next_p;
 
-	if (ft_strlen(pattern) == 0)
-		return (1);
-	start = find_first_occurrence(text, pattern, &pattern_start);
-	if (start == -1)
-		return (0);
-	if (!ft_strchr(pattern, '*'))
-		return (1);
-	end = find_last_occurrence(text, pattern, &pattern_end);
-	if (end == -1)
-		return (0);
-	if (end <= (start - 1))
-		return (0);
-	if (pattern_start == pattern_end || pattern_end == -1)
-		return (1);
-	text = ft_substr(text, start, end - 1);
-	pattern = ft_substr(pattern, pattern_start + 1,
-			pattern_end - pattern_start - 1);
-	return (exit_regex(text, pattern, check_middle(text, pattern)));
+	pattern_start = 0;
+	start = 0;
+	while (ft_strlen(pattern + pattern_start) > 0)
+	{
+		if (ft_strlen(pattern + pattern_start) == 1
+			&& (pattern + pattern_start)[0] == '*')
+			return (1);
+		next = find_first_occurrence(text + start,
+				pattern + pattern_start, &next_p);
+		pattern_start += next_p + 1;
+		if (next == -1)
+			return (0);
+		start += (next);
+	}
+	return (1);
 }
 
-int	basic_tests(char *text, char *pattern)
+int	len_tests(char *text, char *pattern)
 {
 	int	len;
 	int	max;
@@ -321,7 +234,7 @@ int	regex_match(char *text, char *pattern)
 {
 	int		len;
 
-	if (!basic_tests(text, pattern))
+	if (!len_tests(text, pattern))
 		return (0);
 	text = ft_strdup(text);
 	pattern = ft_strdup(pattern);
@@ -336,44 +249,4 @@ int	regex_match(char *text, char *pattern)
 	if (pattern[len - 1] == '*')
 		pattern[len - 1] = '\0';
 	return (exit_regex(text, pattern, check_middle(text, pattern + 1)));
-}
-
-void	nothing(int key, void *value)
-{
-	(void)key;
-	(void)value;
-}
-
-static void	add_to_list(t_list **head, t_list **cur, void *value)
-{
-	if (!(*head))
-	{
-		*head = ft_lstnew(value);
-		*cur = *head;
-		return ;
-	}
-	(*cur)->next = ft_lstnew(value);
-	*cur = (*cur)->next;
-}
-
-t_list	*process_wildcards(char *path, char *pattern)
-{
-	t_array	all;
-	int		i;
-	t_list	*head;
-	t_list	*cur;
-
-	all = ft_scandir(path, SCANDIR_SORT_DESCENDING, pattern[0] == '.', 0);
-	i = 0;
-	head = NULL;
-	while (i < ft_array_count(all))
-	{
-		if (regex_match((char *)all[i], pattern))
-			add_to_list(&head, &cur, all[i]);
-		else
-			free(all[i]);
-		i++;
-	}
-	ft_array_unset(&all, nothing);
-	return (head);
 }
