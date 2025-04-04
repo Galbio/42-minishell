@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:13:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/03 17:09:19 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/04 22:11:49 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 # include "libft.h"
 
-typedef struct s_regex
+typedef struct s_regex_item
 {
 	char	*format;
 	int		(*parse_callback)(char *value, t_array *array);
@@ -65,6 +65,7 @@ int					check_middle(char *text, char *pattern);
 
 //cleaner.c
 void				clean_pattern(char **pattern);
+void				free_regex_items(void);
 
 //first_occurence.c
 int					find_first_occurrence(char *text, char *pattern,

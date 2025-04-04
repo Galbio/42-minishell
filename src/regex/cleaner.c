@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 16:33:19 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/03 16:33:21 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/04 22:12:20 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,20 @@ void	clean_pattern(char **pattern)
 	new[j] = '\0';
 	free(*pattern);
 	*pattern = new;
+}
+
+static void	free_item_entry(int key, void *value)
+{
+	(void)key;
+	free(((t_regex_item *)value)->last_finded);
+	free(value);
+}
+
+void	free_regex_items(void)
+{
+	t_array	*items;
+
+	items = get_regex_items();
+	ft_array_unset(items, free_item_entry);
+	free(items);
 }
