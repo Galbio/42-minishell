@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 19:06:57 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/04 14:27:59 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/04 16:06:43 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ static char	*get_subshell(char *str)
 		if (!itab.ret)
 			break ;
 	}
-	dest = ft_substr(str, 1, itab.i - 1);
-	return (dest);
+	return (ft_substr(str, 1, itab.i - 1));
 }
 
 static void	check_heredocs(char *str, t_int_tab *itab,

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 18:54:43 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/04 13:37:33 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/04 16:05:44 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,12 @@ static int	get_parsed_size(char *str, t_main_envp *imp)
 		if (!itab.backslash && !itab.cur_quote
 			&& ft_strchr("<> \t", str[itab.i]))
 			break ;
-		else
-		{
-			if (itab.cur_quote && ft_strchr(" \n\t\\", str[itab.i]))
-				itab.res++;
+		if (itab.cur_quote && ft_strchr(" \n\t\\", str[itab.i]))
 			itab.res++;
-			if (!itab.cur_quote && itab.backslash
-				&& (str[itab.i] == '\\') && (str[itab.i + 1] == '\\'))
-				continue ;
-		}
+		itab.res++;
+		if (!itab.cur_quote && itab.backslash
+			&& (str[itab.i] == '\\') && (str[itab.i + 1] == '\\'))
+			continue ;
 	}
 	ft_lstadd_back(&imp->heredocs_infos,
 		ft_lstnew((void *)imp->actual_pos + itab.i - 1));
