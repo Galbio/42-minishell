@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 19:39:43 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/04 14:36:41 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:00:26 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ t_list	*split_separators(char *str, t_list **sep)
 		else if (!itab.backslash && !itab.cur_quote && (str[itab.i] == '('))
 			itab.i += go_to_subcmd_end(str + itab.i) - 1;
 		else if (!itab.backslash && !itab.cur_quote
-			&& handle_sep(str + itab.i, sep))
+			&& handle_separator(str + itab.i, sep))
 		{
 			add_cmd(str, &dest, &itab);
 			itab.ret += (str[itab.i] != ';');
