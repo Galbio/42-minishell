@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 19:06:57 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/04 16:06:43 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/04 17:54:14 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static char	*get_subshell(char *str)
 {
 	t_int_tab	itab;
-	char		*dest;
 
 	itab = init_int_tab();
 	while (str[++itab.i])
