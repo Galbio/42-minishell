@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 00:17:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/02 02:01:32 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/04 13:35:24 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static char	redirect_herefile(char *filename, t_cmd_params *cmd)
 	return (0);
 }
 
-static char	redirect_herestring(char *value, t_cmd_params *cmd, char is_heredoc)
+static char	redirect_herestring(char *value, t_cmd_params *cmd, int is_heredoc)
 {
 	int		pipes[2];
 	char	*old;
