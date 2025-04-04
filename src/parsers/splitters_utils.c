@@ -6,13 +6,12 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 22:54:49 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/02 00:53:45 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/04 14:34:41 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	is_sep(char *str, t_list **sep)
+int	handle_separator(char *str, t_list **sep)
 {
 	if (*str == ';')
 	{

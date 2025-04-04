@@ -6,13 +6,13 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 02:01:02 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/02 00:38:59 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/04 14:27:30 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_replace_str_part(char *src, int start, int replace_len,
+char	*ft_replace_part(char *src, int start, int replace_len,
 		char *to_add)
 {
 	char	*dest;
