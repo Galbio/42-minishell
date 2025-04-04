@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:35:44 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 05:18:17 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/01 13:28:04 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	execute_line(char *str, t_list **envp, t_main_envp *imp)
 			if (((cur_sep == '|') && imp->exit_status) || ((cur_sep == '&')
 					&& !imp->exit_status) || (cur_sep == ';'))
 			{
-				cur_commands = init_pipes((char *)commands_list->content);
+				cur_commands = split_pipes((char *)commands_list->content);
 				imp->exit_status = execute_command(cur_commands, make_cmd(
 							NULL, envp, imp), commands_list, sep);
 			}
