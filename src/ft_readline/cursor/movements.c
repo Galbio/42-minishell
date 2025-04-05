@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cursor_manager.c                                   :+:      :+:    :+:   */
+/*   movements.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:29:07 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/13 17:39:00 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/05 18:23:07 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-void	fix_coordinate(int *coordinate, int v1, int v2)
+static void	fix_coordinate(int *coordinate, int v1, int v2)
 {
 	if (*coordinate < 1)
 		*coordinate = v1;

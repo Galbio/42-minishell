@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 13:11:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/27 05:50:21 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/05 19:08:43 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,23 @@ t_readline	*get_readline_data(void)
 	return (rl(NULL));
 }
 
-static void	init_readline(const char *prompt, t_readline *data)
+static void	init_ft_readline(const char *prompt, t_readline *data)
 {
+	int	code;
+
 	enable_raw_mode();
 	write(2, prompt, ft_strlen(prompt));
 	rl(data);
 	data->prompt = prompt;
 	init_terminal_size(&data->old_tsize);
-	get_cursor_position(&data->pos);
-	while ((data->pos.x < 0)
-		|| (data->pos.y < 0)
-		|| (data->pos.x > data->old_tsize.x)
-		|| (data->pos.y > data->old_tsize.y))
-		get_cursor_position(&data->pos);
+	data->pos.x = 0;
+	data->pos.x = 0;
+	code = get_cursor_position(&data->pos);
+	if (code == -2)
+	{
+		data->pos.x = ft_strlen(prompt);
+		exit(1);
+	}
 	data->cursor = data->pos;
 	data->first = NULL;
 	data->actual = data->first;
@@ -48,7 +52,7 @@ static void	init_readline(const char *prompt, t_readline *data)
 	data->current_input = NULL;
 }
 
-static char	*leave_readline(t_readline *data, char *res)
+static char	*leave_ft_readline(t_readline *data, char *res)
 {
 	disable_raw_mode();
 	if (data->interrupt)
@@ -70,7 +74,7 @@ char	*ft_readline(const char *prompt)
 	int				i;
 	int				count;
 
-	init_readline(prompt, &data);
+	init_ft_readline(prompt, &data);
 	while (1)
 	{
 		read_stdin_keys(buffer);
@@ -79,7 +83,7 @@ char	*ft_readline(const char *prompt)
 		{
 			count = handle_key_input(&data, buffer + i);
 			if (data.exit || data.interrupt)
-				return (leave_readline(&data, NULL));
+				return (leave_ft_readline(&data, NULL));
 			i += count;
 		}
 		if (i != 0 && process_input(&data, buffer[i - 1]))
@@ -87,5 +91,5 @@ char	*ft_readline(const char *prompt)
 		if (data.update)
 			on_write(&data);
 	}
-	return (leave_readline(&data, build_result(data, 0)));
+	return (leave_ft_readline(&data, build_result(data, 0)));
 }

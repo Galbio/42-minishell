@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cursor_position.c                                  :+:      :+:    :+:   */
+/*   position.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 19:45:00 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/24 13:21:50 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/05 19:02:07 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,13 @@ int	get_cursor_position(t_vector2 *pos)
 	struct termios	old_term;
 	char			response[32];
 	int				status;
+
+	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
+	{
+		pos->x = 0;
+		pos->y = 0;
+		return (-2);
+	}
 
 	set_tcsamow(&old_term);
 	write(STDOUT_FILENO, "\033[6n", 4);
