@@ -6,13 +6,13 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:43:35 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/03 15:50:05 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/05 14:15:42 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "regex.h"
 
-int	is_start(char *value, char *format)
+int	match_start(char *value, char *format)
 {
 	int	i;
 
@@ -36,25 +36,22 @@ char	*get_end(char *format)
 	return (format + i + 3);
 }
 
-int	is_end(char *value, char *format)
+int	match_end(char *value, char *format)
 {
 	int	i;
-	int	j;
 
 	i = 0;
-	j = 0;
 	format = get_end(format);
-	while (format[i] && value[j])
+	while (format[i] && value[i])
 	{
-		if (!value[j] || (format[i] != value[j]))
+		if (!value[i] || (format[i] != value[i]))
 			return (0);
 		i++;
-		j++;
 	}
 	return (1);
 }
 
-int	is_another_end(char *text, int index)
+int	match_another_end(char *text, int index)
 {
 	t_array			*items;
 	int				size;
@@ -69,7 +66,7 @@ int	is_another_end(char *text, int index)
 	{
 		item = (*((t_regex_item ***)items))[i];
 		j = index - ft_strlen(get_end(item->format));
-		if (is_end(text + j, item->format))
+		if (match_end(text + j, item->format))
 			return (1);
 		i++;
 	}

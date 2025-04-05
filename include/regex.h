@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:13:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/04 22:11:49 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/05 14:10:11 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ int					regex_item_match(char *value, char *pattern,
 						t_regex_item *item);
 
 //utils.c
-int					is_start(char *value, char *format);
-int					is_end(char *value, char *format);
-int					is_another_end(char *text, int index);
+int					match_start(char *value, char *format);
+int					match_end(char *value, char *format);
+int					match_another_end(char *text, int index);
 
 //bounds.c
 int					check_beginning(char **text, char **pattern);

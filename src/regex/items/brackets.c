@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 06:06:08 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/03 15:03:34 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/05 14:22:48 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	square_brackets_parse(char *value, t_array *array)
 	int		j;
 	char	*parsed;
 
-	count = 2 + 1 * (value[1] && value[1] == '-'
+	count = 2 + (value[1] && value[1] == '-'
 			&& value[2] && value[2] != ']');
 	parsed = malloc(sizeof(char) * count);
 	if (!parsed)

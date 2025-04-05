@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/04 22:12:55 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/05 18:14:49 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static void	init(char *home)
 void	launch(t_list *envp, t_main_envp *imp)
 {
 	char		*res;
-	t_research	*finded;
 
 	init(imp->home);
 	while (1)
@@ -33,8 +32,6 @@ void	launch(t_list *envp, t_main_envp *imp)
 		res = ft_readline("$> ");
 		if (!res)
 			break ;
-		finded = parse_research(res);
-		(void)finded;
 		if (ft_strlen(res) >= 1)
 			add_to_history(res);
 		if (ft_isonlywhitespaces(res))

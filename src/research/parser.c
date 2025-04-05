@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 21:49:17 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/04 21:49:20 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/05 17:29:42 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ static char	*find_argument(char *value)
 	if (!value || !value[0])
 		return (NULL);
 	i = 0;
-	while (value[i] && value[i] != ' ' && value[i] != '\t' && value[i] != '\n'
-		&& value[i] != ';' && value[i] != '&' && value[i] != '|')
+	while (value[i] && !ft_strchr(" \t\n;&|", value[i]))
 		i++;
 	return (ft_substr(value, 0, i));
 }
@@ -44,8 +43,11 @@ static void	update_list(t_research **cur, t_research **head,
 	(*cur)->next = NULL;
 	(*cur)->addr = addr;
 	(*cur)->len = ft_strlen(argument);
-	splited = ft_split(argument, '/');
-	(*cur)->matches = search_pattern_recursive(".", splited);
+	splited = ft_split_raw(argument, '/');
+	if (argument[0] == '/')
+		(*cur)->matches = search_pattern_recursive("/", splited);
+	else
+		(*cur)->matches = search_pattern_recursive(".", splited);
 	i = 0;
 	while (splited[i])
 		free(splited[i++]);

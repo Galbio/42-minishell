@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   items.c                                            :+:      :+:    :+:   */
+/*   manager.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 15:43:12 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/03 15:43:22 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/05 14:14:36 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ char	*find_regex_item_value_from_end(char *text, int index,
 	}
 	i -= 3;
 	while (j >= 0 && !ft_iswhitespace(text[j])
-		&& !is_another_end(text, j))
+		&& !match_another_end(text, j))
 		j--;
-	while (!is_start(text + j, item->format))
+	while (!match_start(text + j, item->format))
 		j++;
-	if (j >= (int)ft_strlen(text) || !is_start(text + j, item->format))
-		return (0);
+	if (j >= (int)ft_strlen(text) || !match_start(text + j, item->format))
+		return (NULL);
 	return (ft_substr(text, j, index + 1 - j));
 }
 

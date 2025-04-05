@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   manager.c                                          :+:      :+:    :+:   */
+/*   factory.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 10:47:35 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/03 15:29:15 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/05 14:11:26 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_array	parse_regex_item(char *value, t_regex_item *item)
 		i++;
 	len = ft_strlen(value);
 	values = ft_array();
-	while (i < len && !is_end(value + i, item->format))
+	while (i < len && !match_end(value + i, item->format))
 		i += (item->parse_callback)(value + i, &values);
 	return (values);
 }

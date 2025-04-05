@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/04 21:43:52 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/05 14:34:57 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ typedef struct s_research
 {
 	char				*addr;
 	int					len;
-	t_array				matches;
+	t_list				*matches;
 	struct s_research	*next;
 }	t_research;
 
@@ -148,8 +148,8 @@ void			change_envp_pwd(t_list **envp, char *name);
 void			init_signals(void);
 
 void			init_regexs(void);
-t_array			search_pattern(char *path, char *pattern);
-t_array			search_pattern_recursive(char *path, char **path_details);
+t_list			*search_pattern(char *path, char *pattern);
+t_list			*search_pattern_recursive(char *base_path, char **path);
 t_research		*parse_research(char *value);
 
 #endif

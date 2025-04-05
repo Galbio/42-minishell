@@ -2,4 +2,3 @@
 **/*.a
 **/*.sw*
 minishell
-regex_tests
