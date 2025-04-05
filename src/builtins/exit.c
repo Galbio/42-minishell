@@ -6,11 +6,12 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:05:06 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 14:08:16 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/04 10:41:12 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "regex.h"
 
 static void	display_error(char code, char *name)
 {
@@ -65,7 +66,10 @@ static char	parse_exit(t_cmd_params *cmd)
 		free_cmd(cmd, 1);
 		free_envp(cmd->envp, cmd->imp);
 		if (!cmd->imp->is_bquoted)
+		{
 			free_readline_core();
+			free_regex_items();
+		}
 		free(cmd);
 		exit(res);
 	}
@@ -86,7 +90,10 @@ int	ms_exit(t_cmd_params *cmd)
 		free_cmd(cmd, 1);
 		free_envp(cmd->envp, cmd->imp);
 		if (!cmd->imp->is_bquoted)
+		{
 			free_readline_core();
+			free_regex_items();
+		}
 		free(cmd);
 		if (!av1)
 			exit(res);

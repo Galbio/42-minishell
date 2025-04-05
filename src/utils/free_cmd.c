@@ -6,11 +6,12 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:17:38 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 11:42:40 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/04 10:42:25 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "regex.h"
 
 char	free_redir(t_list *cur, char res)
 {
@@ -37,7 +38,10 @@ void	free_envp(t_list **envp, t_main_envp *imp)
 
 	ft_lstclear(envp, free);
 	if (imp->is_bquoted)
+	{
 		free_readline_core();
+		free_regex_items();
+	}
 	i = -1;
 	while (imp->path && imp->path[++i])
 		free(imp->path[i]);

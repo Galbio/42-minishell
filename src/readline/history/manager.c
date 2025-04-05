@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:06:31 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/26 20:23:50 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/03/27 07:22:24 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,6 @@ void	add_to_history(char *line)
 t_array	get_history(void)
 {
 	return (get_readline_core()->history);
-}
-
-void	free_history_entry(int key, void *value)
-{
-	(void)key;
-	free(value);
 }
 
 int	get_history_maxsize(void)
