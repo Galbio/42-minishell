@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 04:14:07 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 09:13:48 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	execute_sub_cmd(t_int_tab *itab, t_cmd_params *cmd,
 	imp->is_bquoted++;
 	execute_line(itab->ptr1, envp, imp);
 	res = imp->exit_status;
-	free_envp(envp, imp, 0);
+	free_envp(envp, imp);
 	exit(res);
 }
 
@@ -58,7 +58,7 @@ static char	*handle_commands(t_int_tab *itab, t_cmd_params *cmd,
 	return (parse_var_return(dest, itab->cur_quote));
 }
 
-static char	*get_var_value(char *name, t_list *cur, char quote)
+char	*get_var_value(char *name, t_list *cur, char quote)
 {
 	int		len;
 	char	*value;
@@ -71,7 +71,7 @@ static char	*get_var_value(char *name, t_list *cur, char quote)
 			return (parse_var_return(ft_strdup(value + len + 1), quote));
 		cur = cur->next;
 	}
-	return (ft_strdup(""));
+	return (NULL);
 }
 
 static char	*get_cmd(char *str)
@@ -114,6 +114,8 @@ void	handle_var(char *str, t_int_tab *itab, t_list **cmd_outputs,
 		else
 			output = get_var_value(itab->ptr1, *(cmd->envp), itab->cur_quote);
 	}
+	if (!output)
+		output = ft_strdup("");
 	ft_lstadd_back(cmd_outputs, ft_lstnew(output));
 	itab->res += ft_strlen(output);
 	itab->i += ft_strlen(itab->ptr1) + (2 * (str[itab->i +1] == '('));

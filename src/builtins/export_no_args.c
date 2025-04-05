@@ -6,11 +6,20 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 18:40:47 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/11 16:26:23 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 11:49:27 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	swap_addr(char **ptr1, char **ptr2)
+{
+	char	*temp;
+
+	temp = *ptr1;
+	*ptr1 = *ptr2;
+	*ptr2 = temp;
+}
 
 static void	write_cor_char(char c)
 {
@@ -32,24 +41,46 @@ static void	write_cor_char(char c)
 		write(1, &c, 1);
 }
 
+static void	sort_envp(char **envp)
+{
+	int		i;
+	int		j;
+
+	i = -1;
+	while (envp[++i])
+	{
+		j = i;
+		while (envp[++j])
+			if (ft_strncmp(envp[i], envp[j], -1) > 0)
+				swap_addr(&envp[i], &envp[j]);
+	}
+}
+
 void	export_vars(t_list *envp)
 {
-	char	*env;
+	char	**envp_cpy;
 	int		i;
+	int		j;
 
-	while (envp)
+	envp_cpy = create_envp_cpy(&envp, NULL);
+	sort_envp(envp_cpy);
+	i = -1;
+	while (envp_cpy[++i])
 	{
-		env = (char *)envp->content;
 		write(1, "declare -x ", 11);
-		i = -1;
-		while (env[++i] && env[i] != '=')
-			write(1, env + i, 1);
-		if (!env)
+		j = -1;
+		while (envp_cpy[i][++j] && (envp_cpy[i][j] != '='))
+			write(1, envp_cpy[i] + j, 1);
+		if (!envp_cpy[i])
+		{
+			free(envp_cpy);
 			return ;
+		}
 		write(1, "=\"", 2);
-		while (env[++i])
-			write_cor_char(env[i]);
+		while (envp_cpy[i][++j])
+			write_cor_char(envp_cpy[i][j]);
 		write(1, "\"\n", 2);
-		envp = envp->next;
+		free(envp_cpy[i]);
 	}
+	free(envp_cpy);
 }

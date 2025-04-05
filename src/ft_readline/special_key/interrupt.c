@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 14:22:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/27 04:14:55 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 08:26:27 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ctrl_d_key(t_readline *data)
 {
 	if (data->first == NULL)
 	{
-		write(0, "\nexit", 6);
+		write(0, "\nexit", 5);
 		data->interrupt = 1;
 	}
 	delete_key(data);
