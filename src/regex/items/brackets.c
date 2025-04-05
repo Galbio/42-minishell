@@ -28,8 +28,7 @@ int	square_brackets_parse(char *value, t_array *array)
 	j = 0;
 	while (i < (count - 1))
 	{
-		if (j == 1 && value[j] == '-')
-			j++;
+		j += ((j == 1) && (value[j] == '-'));
 		parsed[i] = value[j];
 		i++;
 		j++;
