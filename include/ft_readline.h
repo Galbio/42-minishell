@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/06 13:43:47 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/06 13:51:25 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ typedef struct s_special_key
 
 typedef struct s_readline
 {
-	t_special_key	**special_keys;
-	t_char			*stashed;
-	int				cat_stash;
-	t_array			history;
+	t_array	special_keys;
+	t_char	*stashed;
+	int		cat_stash;
+	t_array	history;
 }	t_readline;
 
 int				handle_key_input(t_readline_data *data, char *buffer);

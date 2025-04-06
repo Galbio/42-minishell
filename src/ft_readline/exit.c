@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:00:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/27 07:23:12 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/06 13:59:28 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,9 @@ int	ft_readline_must_exit(void)
 void	free_readline_core(void)
 {
 	t_readline	*core;
-	int			i;
 
 	core = get_readline_core();
-	i = 0;
-	while (core->special_keys[i])
-	{
-		free(core->special_keys[i]);
-		i++;
-	}
-	free(core->special_keys);
+	ft_array_unset(&core->special_keys, ft_array_free_entry);
 	free_chars(core->stashed);
 	ft_array_unset(&core->history, ft_array_free_entry);
 	free(core);

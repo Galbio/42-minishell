@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:44:41 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/27 06:01:41 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/06 13:52:10 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,7 @@ t_readline	*get_readline_core(void)
 	if (!core)
 	{
 		core = malloc(sizeof(t_readline));
-		core->special_keys = malloc(sizeof(t_special_key *));
-		core->special_keys[0] = NULL;
+		core->special_keys = ft_array();
 		core->stashed = NULL;
 		core->cat_stash = 0;
 		init_history();
