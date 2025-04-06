@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:46:45 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/25 15:23:41 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/05 22:01:49 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	clear_next_line(t_readline *data, t_vector2 size)
 	if (data->cursor.y < size.y - 1)
 	{
 		move_y(data, 1);
-		write(0, "\033[2K", 4);
+		write(get_extra_data_in_fd(), "\033[2K", 4);
 	}
 	if (first)
 		data->actual = NULL;

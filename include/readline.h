@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/27 04:12:58 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/06 12:45:02 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 
 # define HIDE_CURSOR "\e[?25l"
 # define SHOW_CURSOR "\e[?25h"
+# define CLEAR_TERMINAL "\033[2J"
 
 typedef struct s_char
 {
@@ -46,6 +47,9 @@ typedef struct s_readline
 	int			exit;
 	int			interrupt;
 	int			history_index;
+	int			display_prompt;
+	int			offset;
+	int			is_pipe;
 }	t_readline;
 
 typedef struct s_special_key
@@ -81,6 +85,7 @@ void			move_y(t_readline *data, int gap);
 void			teleport_cursor(t_vector2 pos);
 
 int				get_cursor_position(t_vector2 *pos);
+int				get_cursor_position_from_stdin(int *row, int *col);
 
 int				clean_readed(char **readed);
 
@@ -159,5 +164,8 @@ void			clean_stash(t_readline_core *core, int check_cat);
 
 void			hide_cursor(void);
 void			show_cursor(void);
+
+int				get_extra_data_in_fd(void);
+int				get_extra_data_out_fd(void);
 
 #endif

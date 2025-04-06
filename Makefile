@@ -78,6 +78,7 @@ FILES = main.c		\
 	ft_readline/char_position.c	\
 	ft_readline/lines.c		\
 	ft_readline/stash.c	\
+	ft_readline/utils.c	\
 	research/research.c		\
 	research/parser.c		\
 	utils/init_int_tab.c \

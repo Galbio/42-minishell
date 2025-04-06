@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/05 18:14:49 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/06 11:32:03 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,5 @@ void	launch(t_list *envp, t_main_envp *imp)
 		imp->input_fd = 0;
 		execute_line(res, &envp, imp);
 	}
-	write(1, "\n", 1);
+	write(STDIN_FILENO, "\n", 1);
 }

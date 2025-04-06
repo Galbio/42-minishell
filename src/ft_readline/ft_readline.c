@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 13:11:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/05 19:12:13 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/06 12:02:20 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,25 @@ t_readline	*get_readline_data(void)
 
 static void	init_ft_readline(const char *prompt, t_readline *data)
 {
-	int	code;
-
 	enable_raw_mode();
-	write(2, prompt, ft_strlen(prompt));
 	rl(data);
 	data->prompt = prompt;
 	init_terminal_size(&data->old_tsize);
 	data->pos.x = 0;
-	data->pos.x = 0;
-	code = get_cursor_position(&data->pos);
-	if (code == -2)
+	data->pos.y = 0;
+	get_cursor_position(&data->pos);
+	data->is_pipe = !isatty(STDIN_FILENO);
+	if (!data->is_pipe)
+		write(2, prompt, ft_strlen(prompt));
+	data->display_prompt = isatty(STDERR_FILENO);
+	data->offset = data->pos.x - 1;
+	if (data->display_prompt)
 	{
-		data->pos.x = ft_strlen(prompt);
-		exit(1);
+		data->pos.x += ft_strlen(prompt);
+		data->pos.y += data->pos.x / data->old_tsize.x;
+		data->pos.x -= ft_strlen(prompt)
+			- ft_strlen(last_newline((char *)prompt));
+		data->pos.x = data->pos.x % data->old_tsize.x;
 	}
 	data->cursor = data->pos;
 	data->first = NULL;
@@ -78,6 +83,11 @@ char	*ft_readline(const char *prompt)
 	while (1)
 	{
 		read_stdin_keys(buffer);
+		if (!buffer[0])
+		{
+			data.interrupt = 1;
+			return (leave_ft_readline(&data, NULL));
+		}
 		i = 0;
 		while (buffer[i])
 		{

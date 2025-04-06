@@ -6,18 +6,19 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 14:22:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/27 08:26:27 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/06 11:52:06 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
+#include "readline_keys.h"
 
 void	ctrl_c_key(t_readline *data)
 {
 	data->cursor = get_char_pos(data, last_char(data->first));
 	teleport_cursor(data->cursor);
 	write(0, "^C", 2);
-	write(1, "\n", 1);
+	write(0, "\n", 1);
 	if (ft_readline_must_exit())
 		data->interrupt = 1;
 	else

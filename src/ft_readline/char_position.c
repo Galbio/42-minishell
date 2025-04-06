@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 17:10:32 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/14 18:29:22 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/05 21:56:09 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ t_vector2	get_char_pos(t_readline *data, t_char *c)
 
 	build = build_result(*data, c);
 	size = get_terminal_size(data, 0);
-	prompt_len = ft_strlen_utf8(data->prompt);
+	prompt_len = (ft_strlen_utf8(last_newline((char *)data->prompt))
+			* data->display_prompt) + data->offset;
 	line_len = ft_strlen_utf8(last_newline(build));
 	if (line_len == (int)ft_strlen_utf8(build))
 		line_len += prompt_len;

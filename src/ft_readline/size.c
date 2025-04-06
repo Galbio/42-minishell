@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 10:22:14 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/11 12:34:22 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/06 12:44:26 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,15 @@ void	init_terminal_size(t_vector2 *size)
 {
 	struct winsize	w;
 
-	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+	ioctl(get_extra_data_out_fd(), TIOCGWINSZ, &w);
 	size->x = w.ws_col;
 	size->y = w.ws_row;
 }
 
 static void	on_resize(t_readline *data)
 {
-	get_cursor_position(&data->cursor);
+	write(STDIN_FILENO, "\033[6n", 4);
+	get_cursor_position_from_stdin(&data->cursor.y, &data->cursor.x);
 	data->pos.y = data->cursor.y - count_low_newlines(data, data->actual)
 		- count_hard_newlines(*data, data->actual);
 	if (data->pos.y < 1)
@@ -37,7 +38,7 @@ t_vector2	get_terminal_size(t_readline *data, int check_resize)
 	struct winsize	w;
 	t_vector2		size;
 
-	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+	ioctl(get_extra_data_out_fd(), TIOCGWINSZ, &w);
 	size.x = w.ws_col;
 	size.y = w.ws_row;
 	if (check_resize

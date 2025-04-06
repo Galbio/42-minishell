@@ -6,43 +6,23 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 11:22:28 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/25 14:58:38 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/05 21:35:29 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-static int	count_low_newlines_prompt(t_readline *data, int *j, t_vector2 size)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (data->prompt[i])
-	{
-		(*j)++;
-		if (data->prompt[i] == '\n' || (*j >= size.x))
-		{
-			count += *j / size.x - (data->prompt[i] == '\n'
-					* (*j % size.x == 1) * (data->prompt[i - 1] != '\n'));
-			*j = 0;
-		}
-		i++;
-	}
-	return (count);
-}
-
 int	count_low_newlines(t_readline *data, t_char *to)
 {
-	int			j;
 	t_vector2	size;
+	int			j;
 	int			count;
 	t_char		*c;
 
-	j = 0;
 	size = get_terminal_size(data, 0);
-	count = count_low_newlines_prompt(data, &j, size);
+	j = ((ft_strlen(last_newline((char *)data->prompt))
+				* data->display_prompt) % size.x) + data->offset;
+	count = 0;
 	if ((to && !data->actual) || (data->first && !data->actual))
 		return (count);
 	c = data->first;
@@ -63,14 +43,10 @@ int	count_low_newlines(t_readline *data, t_char *to)
 
 int	count_hard_newlines(t_readline data, t_char *to)
 {
-	int		i;
 	int		count;
 	t_char	*c;
 
-	i = 0;
 	count = 0;
-	while (data.prompt[i])
-		count += (data.prompt[i++] == '\n');
 	c = data.first;
 	if ((to && !data.actual) || (data.first && !data.actual))
 		return (count);

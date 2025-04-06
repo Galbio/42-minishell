@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 14:23:31 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/26 18:32:36 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/05 21:57:55 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	breakline_key(t_readline *data)
 	{
 		free(build);
 		end_key(data);
-		write(0, "\n", 1);
+		write(get_extra_data_in_fd(), "\n", 1);
 		data->cursor.y++;
 		data->cursor.x = 0;
 		teleport_cursor(data->cursor);
@@ -29,7 +29,7 @@ void	breakline_key(t_readline *data)
 	}
 	free(build);
 	process_default_key(data, "\n");
-	write(0, "\n", 1);
+	write(get_extra_data_in_fd(), "\n", 1);
 	teleport_cursor(data->cursor);
 	on_write(data);
 }

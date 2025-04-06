@@ -6,79 +6,132 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 19:45:00 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/05 19:02:07 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/06 11:21:32 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-static void	set_tcsamow(struct termios *old_term)
+int	parse_cursor_response(const char *buf, int *row, int *col)
 {
-	struct termios	new_term;
-
-	tcgetattr(STDIN_FILENO, old_term);
-	new_term = *old_term;
-	new_term.c_lflag &= ~(ICANON | ECHO);
-	tcsetattr(STDIN_FILENO, TCSANOW, &new_term);
-}
-
-static int	read_terminal_response(char *buffer, size_t size)
-{
-	size_t	i;
+	int	i;
 
 	i = 0;
-	while (i < size - 1)
+	*row = 0;
+	*col = 0;
+	if (buf[i] != '\033' || buf[i + 1] != '[')
+		return (0);
+	i += 2;
+	while (buf[i] >= '0' && buf[i] <= '9')
 	{
-		if (read(STDIN_FILENO, &buffer[i], 1) != 1)
-			break ;
-		if (buffer[i] == 'R')
-			break ;
+		*row = (*row * 10) + (buf[i] - '0');
 		i++;
 	}
-	buffer[i] = '\0';
-	return ((!(buffer[0] == '\033' && buffer[1] == '[')) * -1);
+	if (buf[i] != ';')
+		return (0);
+	i++;
+	while (buf[i] >= '0' && buf[i] <= '9')
+	{
+		*col = (*col * 10) + (buf[i] - '0');
+		i++;
+	}
+	if (buf[i] != 'R')
+		return (0);
+	return (1);
 }
 
-static int	parse_cursor_position(const char *response, int *rows, int *cols)
+void	read_cursor_response(int tty, char *buf)
 {
-	const char	*ptr;
+	int		i;
+	char	ch;
 
-	ptr = response + 2;
-	*rows = 0;
-	while (*ptr >= '0' && *ptr <= '9')
+	i = 0;
+	while (i < (int)(sizeof(buf) - 1))
 	{
-		*rows = *rows * 10 + (*ptr - '0');
-		ptr++;
+		if (read(tty, &ch, 1) != 1)
+			break ;
+		buf[i++] = ch;
+		if (ch == 'R')
+			break ;
 	}
-	if (*ptr++ != ';')
-		return (-1);
-	*cols = 0;
-	while (*ptr >= '0' && *ptr <= '9')
-	{
-		*cols = *cols * 10 + (*ptr - '0');
-		ptr++;
-	}
-	return ((*ptr != 'R') * -1);
+	buf[i] = '\0';
+}
+
+int	get_cursor_position_from_tty(int *row, int *col)
+{
+	struct termios	oldt;
+	struct termios	newt;
+	int				tty;
+	char			buf[32];
+
+	tty = open("/dev/tty", O_RDWR);
+	if (tty < 0)
+		return (0);
+	if (tcgetattr(tty, &oldt) == -1)
+		return (0);
+	newt = oldt;
+	newt.c_lflag &= ~(ICANON | ECHO);
+	if (tcsetattr(tty, TCSANOW, &newt) == -1)
+		return (0);
+	write(tty, "\033[6n", 4);
+	read_cursor_response(tty, buf);
+	tcsetattr(tty, TCSANOW, &oldt);
+	close(tty);
+	return (parse_cursor_response(buf, row, col));
+}
+
+int	parse_row_col_from_plain_text(const char *input, int *row, int *col)
+{
+	int	i;
+
+	i = 0;
+	*row = 0;
+	*col = 0;
+	while (input[i] == ' ' || input[i] == '\t')
+		i++;
+	if (!(input[i] >= '0' && input[i] <= '9'))
+		return (0);
+	while (input[i] >= '0' && input[i] <= '9')
+		*row = (*row * 10) + (input[i++] - '0');
+	while (input[i] == ' ' || input[i] == '\t')
+		i++;
+	if (!(input[i] >= '0' && input[i] <= '9'))
+		return (0);
+	while (input[i] >= '0' && input[i] <= '9')
+		*col = (*col * 10) + (input[i++] - '0');
+	return (1);
+}
+
+int	get_cursor_position_from_stdin(int *row, int *col)
+{
+	int		n;
+	int		i;
+	char	input[32];
+
+	n = read(STDIN_FILENO, input, sizeof(input) - 1);
+	if (n <= 0)
+		return (0);
+	input[n] = '\0';
+	if (parse_cursor_response(input, row, col)
+		|| parse_row_col_from_plain_text(input, row, col))
+		return (1);
+	i = 0;
+	while (i < n && input[i] == ' ')
+		i++;
+	while (i < n && input[i] >= '0' && input[i] <= '9')
+		*row = (*row) * 10 + (input[i++] - '0');
+	while (i < n && (input[i] == ' ' || input[i] == '\t'))
+		i++;
+	while (i < n && input[i] >= '0' && input[i] <= '9')
+		*col = (*col) * 10 + (input[i++] - '0');
+	if ((*row) > 0 && (*col) > 0)
+		return (1);
+	return (0);
 }
 
 int	get_cursor_position(t_vector2 *pos)
 {
-	struct termios	old_term;
-	char			response[32];
-	int				status;
-
-	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
-	{
-		pos->x = 0;
-		pos->y = 0;
-		return (-2);
-	}
-
-	set_tcsamow(&old_term);
-	write(STDOUT_FILENO, "\033[6n", 4);
-	status = read_terminal_response(response, sizeof(response));
-	tcsetattr(STDIN_FILENO, TCSANOW, &old_term);
-	if (status == -1)
-		return (-1);
-	return (parse_cursor_position(response, &pos->y, &pos->x));
+	if (isatty(STDIN_FILENO) && get_cursor_position_from_tty(&pos->y, &pos->x))
+		return (1);
+	return (get_cursor_position_from_stdin(&pos->y, &pos->x));
 }
