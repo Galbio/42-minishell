@@ -39,7 +39,7 @@ typedef struct s_readline_data
 	const char		*prompt;
 	char			*buffer_ptr;
 	t_readline_char	*first;
-	t_readline_char	*actual;
+	t_readline_char	*current;
 	t_readline_char	*current_input;
 	t_vector2		pos;
 	t_vector2		cursor;
@@ -123,7 +123,7 @@ void			init_terminal_size(t_vector2 *size);
 t_vector2		get_terminal_size(t_readline_data *data, int check_resize);
 int				count_low_newlines(t_readline_data *data, t_readline_char *to);
 int				count_hard_newlines(t_readline_data data, t_readline_char *to);
-t_vector2		actual_char_pos(t_readline_data *data);
+t_vector2		current_char_pos(t_readline_data *data);
 
 char			*last_newline(char *build);
 t_vector2		get_char_pos(t_readline_data *data, t_readline_char *c);

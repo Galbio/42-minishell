@@ -24,7 +24,7 @@ void	on_write(t_readline_data *data)
 	teleport_cursor(data->pos);
 	print_build(build);
 	free(build);
-	data->cursor = get_char_pos(data, data->actual);
+	data->cursor = get_char_pos(data, data->current);
 	teleport_cursor(data->cursor);
 	show_cursor();
 }

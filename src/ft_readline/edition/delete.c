@@ -17,9 +17,9 @@ static void	clear_next_line(t_readline_data *data, t_vector2 size)
 	int	first;
 
 	first = 0;
-	if (!data->actual)
+	if (!data->current)
 	{
-		data->actual = data->first;
+		data->current = data->first;
 		first = 1;
 	}
 	data->cursor = get_char_pos(data, last_char(data->first));
@@ -29,7 +29,7 @@ static void	clear_next_line(t_readline_data *data, t_vector2 size)
 		write(get_extra_data_in_fd(), "\033[2K", 4);
 	}
 	if (first)
-		data->actual = NULL;
+		data->current = NULL;
 }
 
 void	on_delete(t_readline_data *data)
@@ -46,8 +46,8 @@ void	on_delete(t_readline_data *data)
 	write(0, " ", 1);
 	free(build);
 	clear_next_line(data, size);
-	if (data->actual && data->actual->next)
-		data->cursor = get_char_pos(data, data->actual);
+	if (data->current && data->current->next)
+		data->cursor = get_char_pos(data, data->current);
 	else
 		data->cursor = get_char_pos(data, NULL);
 	teleport_cursor(data->cursor);

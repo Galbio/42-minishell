@@ -39,7 +39,7 @@ void	previous_history_key(t_readline_data *data)
 	else
 		free_chars(data->first);
 	data->first = NULL;
-	data->actual = NULL;
+	data->current = NULL;
 	if (data->history_index < size)
 		data->history_index++;
 	restore_history(data, ((char **)main->history)[data->history_index - 1]);
@@ -57,14 +57,14 @@ void	next_history_key(t_readline_data *data)
 	if (data->history_index == 0)
 	{
 		data->first = data->current_input;
-		data->actual = last_char(data->first);
+		data->current = last_char(data->first);
 		data->current_input = NULL;
 		on_write(data);
 	}
 	else
 	{
 		data->first = NULL;
-		data->actual = NULL;
+		data->current = NULL;
 		restore_history(data,
 			((char **)main->history)[data->history_index - 1]);
 	}

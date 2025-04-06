@@ -17,24 +17,24 @@ void	swap_key(t_readline_data *data)
 	char		*tmp;
 	int			i;
 
-	if (!data->actual || data->actual == data->first)
+	if (!data->current || data->current == data->first)
 		return ;
-	if (!data->actual->next)
-		data->actual = data->actual->previous;
-	tmp = ft_strdup(data->actual->sequence);
+	if (!data->current->next)
+		data->current = data->current->previous;
+	tmp = ft_strdup(data->current->sequence);
 	i = 0;
 	while (i < 4)
 	{
-		data->actual->sequence[i] = data->actual->next->sequence[i];
+		data->current->sequence[i] = data->current->next->sequence[i];
 		i++;
 	}
 	i = 0;
 	while (i < 4)
 	{
-		data->actual->next->sequence[i] = tmp[i];
+		data->current->next->sequence[i] = tmp[i];
 		i++;
 	}
-	data->actual = data->actual->next;
+	data->current = data->current->next;
 	free(tmp);
 	on_write(data);
 }

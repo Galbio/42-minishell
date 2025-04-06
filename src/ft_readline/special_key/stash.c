@@ -16,13 +16,13 @@ void	stash_before_key(t_readline_data *data)
 {
 	t_readline	*main;
 
-	if (!data->first || !data->actual)
+	if (!data->first || !data->current)
 		return ;
 	main = get_readline_struct();
 	clean_stash(main, 0);
-	while (data->actual)
+	while (data->current)
 	{
-		add_to_stash(&main->stashed, new_char(data->actual->sequence), 0);
+		add_to_stash(&main->stashed, new_char(data->current->sequence), 0);
 		backspace_key(data);
 	}
 }
@@ -31,11 +31,11 @@ void	stash_after_key(t_readline_data *data)
 {
 	t_readline	*main;
 
-	if (!data->first || (data->actual && !data->actual->next))
+	if (!data->first || (data->current && !data->current->next))
 		return ;
 	main = get_readline_struct();
 	clean_stash(main, 0);
-	if (!data->actual)
+	if (!data->current)
 	{
 		while (data->first)
 		{
@@ -44,9 +44,9 @@ void	stash_after_key(t_readline_data *data)
 		}
 		return ;
 	}
-	while (data->actual->next)
+	while (data->current->next)
 	{
-		add_to_stash(&main->stashed, new_char(data->actual->next->sequence), 1);
+		add_to_stash(&main->stashed, new_char(data->current->next->sequence), 1);
 		delete_key(data);
 	}
 }

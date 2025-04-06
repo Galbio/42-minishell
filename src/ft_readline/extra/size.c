@@ -25,11 +25,11 @@ static void	on_resize(t_readline_data *data)
 {
 	write(STDIN_FILENO, "\033[6n", 4);
 	get_cursor_position_from_stdin(&data->cursor.y, &data->cursor.x);
-	data->pos.y = data->cursor.y - count_low_newlines(data, data->actual)
-		- count_hard_newlines(*data, data->actual);
+	data->pos.y = data->cursor.y - count_low_newlines(data, data->current)
+		- count_hard_newlines(*data, data->current);
 	if (data->pos.y < 1)
 		data->pos.y = 1;
-	data->cursor = get_char_pos(data, data->actual);
+	data->cursor = get_char_pos(data, data->current);
 	teleport_cursor(data->cursor);
 }
 

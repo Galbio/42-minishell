@@ -14,10 +14,10 @@
 
 void	move_left_key(t_readline_data *data)
 {
-	if (data->actual)
+	if (data->current)
 	{
-		data->actual = data->actual->previous;
-		data->cursor = get_char_pos(data, data->actual);
+		data->current = data->current->previous;
+		data->cursor = get_char_pos(data, data->current);
 		teleport_cursor(data->cursor);
 		get_readline_struct()->cat_stash = 0;
 	}
@@ -25,17 +25,17 @@ void	move_left_key(t_readline_data *data)
 
 void	move_right_key(t_readline_data *data)
 {
-	if (!data->actual && data->first)
+	if (!data->current && data->first)
 	{
-		data->actual = data->first;
-		data->cursor = get_char_pos(data, data->actual);
+		data->current = data->first;
+		data->cursor = get_char_pos(data, data->current);
 		teleport_cursor(data->cursor);
 		get_readline_struct()->cat_stash = 0;
 	}
-	else if (data->actual && data->actual->next)
+	else if (data->current && data->current->next)
 	{
-		data->actual = data->actual->next;
-		data->cursor = get_char_pos(data, data->actual);
+		data->current = data->current->next;
+		data->cursor = get_char_pos(data, data->current);
 		teleport_cursor(data->cursor);
 		get_readline_struct()->cat_stash = 0;
 	}

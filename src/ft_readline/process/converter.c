@@ -64,7 +64,7 @@ char	*list_to_string(t_readline_data data, t_readline_char *to)
 	if (!data.first || (data.first->sequence[0] == '\n' && !data.first->next))
 		return (ft_strdup(""));
 	len = calculate_len(data, to);
-	if (!to && data.first && !data.actual)
+	if (!to && data.first && !data.current)
 		return (ft_strdup(""));
 	result = malloc(sizeof(char) * (len + 2));
 	ft_bzero(result, len + 2);

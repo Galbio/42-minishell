@@ -54,20 +54,20 @@ int	process_default_key(t_readline_data *data, char *buffer)
 	if (!data->first)
 	{
 		data->first = new_char(value);
-		data->actual = data->first;
+		data->current = data->first;
 	}
 	else
 	{
-		if (!data->actual && data->first)
+		if (!data->current && data->first)
 		{
 			add_char_front(&data->first, new_char(value));
-			data->actual = data->first;
+			data->current = data->first;
 			write(1, "\033[C", 3);
 		}
 		else
 		{
-			add_char_after(&data->actual, new_char(value));
-			data->actual = data->actual->next;
+			add_char_after(&data->current, new_char(value));
+			data->current = data->current->next;
 		}
 	}
 	return (len);

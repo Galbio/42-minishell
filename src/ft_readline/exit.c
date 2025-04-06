@@ -47,7 +47,7 @@ void	free_readline_data(t_readline_data *data)
 	if (!data)
 		return ;
 	free_chars(data->first);
-	data->actual = NULL;
+	data->current = NULL;
 	data->first = NULL;
 	free_chars(data->current_input);
 	data->current_input = NULL;

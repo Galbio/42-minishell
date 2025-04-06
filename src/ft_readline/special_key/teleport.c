@@ -14,15 +14,15 @@
 
 void	home_key(t_readline_data *data)
 {
-	data->actual = NULL;
-	data->cursor = get_char_pos(data, data->actual);
+	data->current = NULL;
+	data->cursor = get_char_pos(data, data->current);
 	teleport_cursor(data->cursor);
 }
 
 void	end_key(t_readline_data *data)
 {
-	data->actual = last_char(data->first);
-	data->cursor = get_char_pos(data, data->actual);
+	data->current = last_char(data->first);
+	data->cursor = get_char_pos(data, data->current);
 	teleport_cursor(data->cursor);
 }
 
@@ -30,15 +30,15 @@ void	previous_word_key(t_readline_data *data)
 {
 	int	as;
 
-	if (!data->first || !data->actual)
+	if (!data->first || !data->current)
 		return ;
 	as = 1;
-	while (data->actual && (as || data->actual->sequence[0] != ' '))
+	while (data->current && (as || data->current->sequence[0] != ' '))
 	{
-		as &= data->actual->sequence[0] == ' ';
-		data->actual = data->actual->previous;
+		as &= data->current->sequence[0] == ' ';
+		data->current = data->current->previous;
 	}
-	data->cursor = get_char_pos(data, data->actual);
+	data->cursor = get_char_pos(data, data->current);
 	teleport_cursor(data->cursor);
 }
 
@@ -46,16 +46,16 @@ void	next_word_key(t_readline_data *data)
 {
 	int	as;
 
-	if (!data->first || (data->actual && !data->actual->next))
+	if (!data->first || (data->current && !data->current->next))
 		return ;
-	if (data->first && !data->actual)
-		data->actual = data->first;
+	if (data->first && !data->current)
+		data->current = data->first;
 	as = 1;
-	while (data->actual->next && (as || data->actual->next->sequence[0] != ' '))
+	while (data->current->next && (as || data->current->next->sequence[0] != ' '))
 	{
-		data->actual = data->actual->next;
-		as &= data->actual->sequence[0] == ' ';
+		data->current = data->current->next;
+		as &= data->current->sequence[0] == ' ';
 	}
-	data->cursor = get_char_pos(data, data->actual);
+	data->cursor = get_char_pos(data, data->current);
 	teleport_cursor(data->cursor);
 }

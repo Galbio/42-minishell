@@ -16,15 +16,15 @@ void	backspace_key(t_readline_data *data)
 {
 	if (!data->first)
 		return ;
-	if (data->actual == data->first)
+	if (data->current == data->first)
 	{
 		data->first = data->first->next;
-		remove_char(&data->actual);
-		data->actual = NULL;
+		remove_char(&data->current);
+		data->current = NULL;
 		on_delete(data);
 		return ;
 	}
-	remove_char(&data->actual);
+	remove_char(&data->current);
 	on_delete(data);
 }
 
@@ -32,9 +32,9 @@ void	delete_key(t_readline_data *data)
 {
 	t_readline_char	*tmp;
 
-	if (!data->first || (data->actual && !data->actual->next))
+	if (!data->first || (data->current && !data->current->next))
 		return ;
-	if (data->first && !data->actual)
+	if (data->first && !data->current)
 	{
 		tmp = data->first->next;
 		remove_char(&data->first);
@@ -42,10 +42,10 @@ void	delete_key(t_readline_data *data)
 		on_delete(data);
 		return ;
 	}
-	if (data->actual->next)
+	if (data->current->next)
 	{
-		data->actual = data->actual->next;
-		remove_char(&data->actual);
+		data->current = data->current->next;
+		remove_char(&data->current);
 		on_delete(data);
 	}
 }

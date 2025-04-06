@@ -55,7 +55,7 @@ void	init_readline_data(const char *prompt, t_readline_data *data)
 	data->cursor = data->pos;
 	data->prompt = prompt;
 	data->first = NULL;
-	data->actual = data->first;
+	data->current = data->first;
 	data->exit = 0;
 	data->interrupt = 0;
 	data->history_index = 0;

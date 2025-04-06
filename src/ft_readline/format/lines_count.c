@@ -23,7 +23,7 @@ int	count_low_newlines(t_readline_data *data, t_readline_char *to)
 	j = ((ft_strlen(ft_getlast_newline((char *)data->prompt))
 				* data->display_prompt) % size.x) + data->offset;
 	count = 0;
-	if ((to && !data->actual) || (data->first && !data->actual))
+	if ((to && !data->current) || (data->first && !data->current))
 		return (count);
 	c = data->first;
 	while (c && (to == NULL || c != to->next))
@@ -48,7 +48,7 @@ int	count_hard_newlines(t_readline_data data, t_readline_char *to)
 
 	count = 0;
 	c = data.first;
-	if ((to && !data.actual) || (data.first && !data.actual))
+	if ((to && !data.current) || (data.first && !data.current))
 		return (count);
 	while (c && (to == NULL || c != to->next))
 	{
