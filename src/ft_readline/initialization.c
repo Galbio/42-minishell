@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 13:04:04 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/06 13:14:10 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/06 14:07:51 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	init_environnement(const char *prompt, t_readline_data *data)
 		data->pos.x += ft_strlen(prompt);
 		data->pos.y += data->pos.x / data->old_tsize.x;
 		data->pos.x -= ft_strlen(prompt)
-			- ft_strlen(last_newline((char *)prompt));
+			- ft_strlen(ft_getlast_newline((char *)prompt));
 		data->pos.x = data->pos.x % data->old_tsize.x;
 	}
 }

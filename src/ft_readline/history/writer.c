@@ -71,15 +71,15 @@ static void	save_contents(char **history, int total_count, int i)
 
 void	save_history(void)
 {
-	t_readline	*core;
+	t_readline	*main;
 	char		**history;
 	int			i;
 
 	if (!is_history_enable())
 		return ;
-	core = get_readline_core();
-	history = (char **)core->history;
-	i = ft_array_count(core->history) - 1;
+	main = get_readline_struct();
+	history = (char **)main->history;
+	i = ft_array_count(main->history) - 1;
 	if (i >= get_history_maxsize())
 		i = get_history_maxsize() - 1;
 	save_contents(history, count_total_chars(history, i), i);

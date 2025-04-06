@@ -1,16 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   format.c                                           :+:      :+:    :+:   */
+/*   checker.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:11:11 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/25 19:18:13 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/06 15:09:19 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_readline.h"
+
+static int	fc(int v)
+{
+	static int	format_check = 1;
+
+	if (v == 0 || v == 1)
+		format_check = v;
+	return (format_check);
+}
+
+void	ft_readline_set_check_format(int v)
+{
+	fc(v);
+}
+
+int	ft_readline_is_format_checked(void)
+{
+	return (fc(2));
+}
 
 int	check_quotes(const char *build)
 {
@@ -18,10 +37,12 @@ int	check_quotes(const char *build)
 	char	cur_quote;
 	char	back_slashed;
 
-	i = 0;
+	if (!ft_readline_is_format_checked())
+		return (1);
+	i = -1;
 	cur_quote = 0;
 	back_slashed = 0;
-	while (build[i])
+	while (build[++i])
 	{
 		if (build[i] == '\\' && !back_slashed)
 			back_slashed = 1;
@@ -35,7 +56,6 @@ int	check_quotes(const char *build)
 		}
 		else
 			back_slashed = 0;
-		i++;
 	}
 	return (cur_quote == 0);
 }
@@ -44,6 +64,8 @@ int	check_backslashes(const char *build)
 {
 	int	i;
 
+	if (!ft_readline_is_format_checked())
+		return (1);
 	i = 0;
 	while (build[i])
 	{
@@ -56,47 +78,4 @@ int	check_backslashes(const char *build)
 		i++;
 	}
 	return (1);
-}
-
-static int	new_size(char *build, int old_size)
-{
-	int	i;
-	int	len;
-
-	i = 0;
-	len = 0;
-	while (i < old_size)
-	{
-		if ((i + 3 <= old_size) && (ft_strncmp(build + i, "\\\n", 2) == 0))
-			i += 2;
-		len++;
-		i++;
-	}
-	return (len);
-}
-
-char	*clean_backslashes(char *build)
-{
-	char	*res;
-	int		i;
-	int		j;
-	int		old_size;
-
-	old_size = ft_strlen(build);
-	res = malloc((new_size(build, old_size) + 1) * sizeof(char));
-	if (!res)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (i < old_size)
-	{
-		if ((i + 3 <= old_size) && (ft_strncmp(build + i, "\\\n", 2) == 0))
-			i += 2;
-		res[j] = build[i];
-		j++;
-		i++;
-	}
-	res[j] = '\0';
-	free(build);
-	return (res);
 }

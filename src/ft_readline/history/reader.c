@@ -12,7 +12,7 @@
 
 #include "ft_readline.h"
 
-static void	parse_history(const char *content, t_readline *core)
+static void	parse_history(const char *content, t_readline *main)
 {
 	char	**values;
 	int		i;
@@ -25,7 +25,7 @@ static void	parse_history(const char *content, t_readline *core)
 	{
 		if (ft_strlen(values[i]) == 0)
 			free(values[i]);
-		ft_array_unshift(&core->history, values[i]);
+		ft_array_unshift(&main->history, values[i]);
 		i++;
 	}
 	free(values);
@@ -34,14 +34,14 @@ static void	parse_history(const char *content, t_readline *core)
 void	init_history(void)
 {
 	char		*contents;
-	t_readline	*core;
+	t_readline	*main;
 
-	core = get_readline_core();
-	core->history = ft_array();
+	main = get_readline_struct();
+	main->history = ft_array();
 	contents = get_history_file_contents();
 	if (!contents)
 		return ;
-	parse_history(contents, core);
+	parse_history(contents, main);
 	free(contents);
 }
 

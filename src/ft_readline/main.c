@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_readline_core.c                                 :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:44:41 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/06 13:52:10 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/06 14:33:44 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,20 +61,20 @@ static void	register_special_controls(void)
 	register_special_key(CTRL_PAGE_DOWN_KEY, semicolon_five_tilde_key);
 }
 
-t_readline	*get_readline_core(void)
+t_readline	*get_readline_struct(void)
 {
-	static t_readline	*core = NULL;
+	static t_readline	*main = NULL;
 
-	if (!core)
+	if (!main)
 	{
-		core = malloc(sizeof(t_readline));
-		core->special_keys = ft_array();
-		core->stashed = NULL;
-		core->cat_stash = 0;
+		main = malloc(sizeof(t_readline));
+		main->special_keys = ft_array();
+		main->stashed = NULL;
+		main->cat_stash = 0;
 		init_history();
 		register_default();
 		register_controls();
 		register_special_controls();
 	}
-	return (core);
+	return (main);
 }

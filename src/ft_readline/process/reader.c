@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stash.c                                            :+:      :+:    :+:   */
+/*   reader.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/17 16:23:56 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/17 16:50:26 by lroussel         ###   ########.fr       */
+/*   Created: 2025/02/26 15:16:08 by lroussel          #+#    #+#             */
+/*   Updated: 2025/04/06 14:14:07 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_readline.h"
 
-void	add_to_stash(t_char **stashed, t_char *node, int type)
+int	read_stdin_keys(char *buffer)
 {
-	if (!(*stashed))
-		*stashed = node;
-	else if (type == 0)
-		add_char_front(stashed, node);
-	else if (type == 1)
-		add_char_back(*stashed, node);
-}
+	int		byte_read;
 
-void	clean_stash(t_readline *core, int check_cat)
-{
-	if (!check_cat || !core->cat_stash)
+	byte_read = read(STDIN_FILENO, buffer, 4095);
+	if (byte_read == -1)
 	{
-		free_chars(core->stashed);
-		core->stashed = NULL;
+		buffer[0] = '\0';
+		return (0);
 	}
-	if (check_cat)
-		core->cat_stash = 1;
+	buffer[byte_read] = '\0';
+	return (buffer[0] != '\0');
 }

@@ -31,15 +31,15 @@ int	ft_readline_must_exit(void)
 	return (ext(2));
 }
 
-void	free_readline_core(void)
+void	free_readline_main(void)
 {
-	t_readline	*core;
+	t_readline	*main;
 
-	core = get_readline_core();
-	ft_array_unset(&core->special_keys, ft_array_free_entry);
-	free_chars(core->stashed);
-	ft_array_unset(&core->history, ft_array_free_entry);
-	free(core);
+	main = get_readline_struct();
+	ft_array_unset(&main->special_keys, ft_array_free_entry);
+	free_chars(main->stashed);
+	ft_array_unset(&main->history, ft_array_free_entry);
+	free(main);
 }
 
 void	free_readline_data(t_readline_data *data)

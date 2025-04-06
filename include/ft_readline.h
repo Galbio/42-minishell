@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/06 13:51:25 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/06 15:08:33 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void			init_readline_data(const char *prompt, t_readline_data *data);
 
 char			*ft_readline(const char *prompt);
 
-char			*build_result(t_readline_data data, t_char *to);
+char			*list_to_string(t_readline_data data, t_char *to);
 int				process_input(t_readline_data *data, char last_c);
 
 int				process_default_key(t_readline_data *data, char *buffer);
@@ -112,8 +112,11 @@ void			disable_raw_mode(void);
 
 int				read_stdin_keys(char *buffer);
 
+void			ft_readline_set_check_format(int v);
+int				ft_readline_is_format_checked(void);
 int				check_quotes(const char *build);
 int				check_backslashes(const char *build);
+
 char			*clean_backslashes(char *build);
 void			init_terminal_size(t_vector2 *size);
 t_vector2		get_terminal_size(t_readline_data *data, int check_resize);
@@ -124,7 +127,7 @@ t_vector2		actual_char_pos(t_readline_data *data);
 char			*last_newline(char *build);
 t_vector2		get_char_pos(t_readline_data *data, t_char *c);
 
-t_readline		*get_readline_core(void);
+t_readline		*get_readline_struct(void);
 
 void			register_special_key(char *sequence,
 					void (*callback)(t_readline_data *));
@@ -161,11 +164,11 @@ int				ft_readline_must_exit(void);
 void			ft_readline_set_exit(int v);
 void			ft_readline_sigint(void);
 void			ft_readline_init_signals(void);
-void			free_readline_core(void);
+void			free_readline_main(void);
 void			free_readline_data(t_readline_data *data);
 
 void			add_to_stash(t_char **stashed, t_char *node, int type);
-void			clean_stash(t_readline *core, int check_cat);
+void			clean_stash(t_readline *main, int check_cat);
 
 void			hide_cursor(void);
 void			show_cursor(void);

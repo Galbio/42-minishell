@@ -16,7 +16,7 @@ void	breakline_key(t_readline_data *data)
 {
 	char	*build;
 
-	build = build_result(*data, 0);
+	build = list_to_string(*data, 0);
 	if (check_quotes(build) && check_backslashes(build))
 	{
 		free(build);

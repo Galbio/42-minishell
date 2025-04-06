@@ -41,7 +41,7 @@ void	register_special_key(char *sequence,
 	new = malloc(sizeof(t_special_key));
 	new->sequence = sequence;
 	new->callback = callback;
-	ft_array_push(&get_readline_core()->special_keys, new);
+	ft_array_push(&get_readline_struct()->special_keys, new);
 }
 
 t_special_key	*get_by_sequence(char *sequence)
@@ -51,7 +51,7 @@ t_special_key	*get_by_sequence(char *sequence)
 	int				size;
 	t_special_key	*element;
 
-	special_keys = get_readline_core()->special_keys;
+	special_keys = get_readline_struct()->special_keys;
 	i = 0;
 	size = ft_array_count(special_keys);
 	while (i < size)

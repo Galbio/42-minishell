@@ -27,11 +27,11 @@ static void	restore_history(t_readline_data *data, char *value)
 
 void	previous_history_key(t_readline_data *data)
 {
-	t_readline	*core;
+	t_readline	*main;
 	int			size;
 
-	core = get_readline_core();
-	size = ft_array_count(core->history);
+	main = get_readline_struct();
+	size = ft_array_count(main->history);
 	if (data->history_index >= size)
 		return ;
 	if (data->history_index == 0)
@@ -42,14 +42,14 @@ void	previous_history_key(t_readline_data *data)
 	data->actual = NULL;
 	if (data->history_index < size)
 		data->history_index++;
-	restore_history(data, ((char **)core->history)[data->history_index - 1]);
+	restore_history(data, ((char **)main->history)[data->history_index - 1]);
 }
 
 void	next_history_key(t_readline_data *data)
 {
-	t_readline	*core;
+	t_readline	*main;
 
-	core = get_readline_core();
+	main = get_readline_struct();
 	if (data->history_index <= 0)
 		return ;
 	free_chars(data->first);
@@ -66,6 +66,6 @@ void	next_history_key(t_readline_data *data)
 		data->first = NULL;
 		data->actual = NULL;
 		restore_history(data,
-			((char **)core->history)[data->history_index - 1]);
+			((char **)main->history)[data->history_index - 1]);
 	}
 }

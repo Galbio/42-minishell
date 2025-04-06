@@ -12,54 +12,6 @@
 
 #include "ft_readline.h"
 
-static int	create_value(char *value, char *buffer)
-{
-	int	len;
-	int	i;
-
-	len = ft_bytes_count(buffer[0]);
-	i = 0;
-	while (i < len)
-	{
-		value[i] = buffer[i];
-		i++;
-	}
-	while (i < 4)
-	{
-		value[i] = '\0';
-		i++;
-	}
-	return (len);
-}
-
-int	process_default_key(t_readline_data *data, char *buffer)
-{
-	int		len;
-	char	value[4];
-
-	len = create_value(value, buffer);
-	if (!data->first)
-	{
-		data->first = new_char(value);
-		data->actual = data->first;
-	}
-	else
-	{
-		if (!data->actual && data->first)
-		{
-			add_char_front(&data->first, new_char(value));
-			data->actual = data->first;
-			write(1, "\033[C", 3);
-		}
-		else
-		{
-			add_char_after(&data->actual, new_char(value));
-			data->actual = data->actual->next;
-		}
-	}
-	return (len);
-}
-
 static int	handle_special_keys(t_readline_data *data, char *buffer)
 {
 	t_special_key	*key;

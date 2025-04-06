@@ -19,7 +19,7 @@ static void	handle_sigint(void)
 
 static void	handle_sigquit(void)
 {
-	write(0, "Quit (core dumped)\n", 19);
+	write(0, "Quit (main dumped)\n", 19);
 }
 
 static void	handle_signals(int id)

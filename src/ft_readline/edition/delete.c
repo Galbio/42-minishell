@@ -38,7 +38,7 @@ void	on_delete(t_readline_data *data)
 	t_vector2	size;
 
 	hide_cursor();
-	build = build_result(*data, last_char(data->first));
+	build = list_to_string(*data, last_char(data->first));
 	size = get_terminal_size(data, 1);
 	update_position(data, size, build);
 	teleport_cursor(data->pos);

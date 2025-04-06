@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 11:22:28 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/05 21:35:29 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/06 14:08:19 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	count_low_newlines(t_readline_data *data, t_char *to)
 	t_char		*c;
 
 	size = get_terminal_size(data, 0);
-	j = ((ft_strlen(last_newline((char *)data->prompt))
+	j = ((ft_strlen(ft_getlast_newline((char *)data->prompt))
 				* data->display_prompt) % size.x) + data->offset;
 	count = 0;
 	if ((to && !data->actual) || (data->first && !data->actual))

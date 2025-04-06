@@ -14,20 +14,20 @@
 
 void	add_to_history(char *line)
 {
-	t_readline	*core;
+	t_readline	*main;
 	char		*value;
 
-	core = get_readline_core();
+	main = get_readline_struct();
 	value = ft_strdup(line);
 	if (!value)
 		return ;
-	ft_array_unshift(&core->history, value);
+	ft_array_unshift(&main->history, value);
 	save_history();
 }
 
 t_array	get_history(void)
 {
-	return (get_readline_core()->history);
+	return (get_readline_struct()->history);
 }
 
 int	get_history_maxsize(void)

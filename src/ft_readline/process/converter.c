@@ -54,7 +54,7 @@ static void	paste_on(char **result, t_char *c, int *i)
 	}
 }
 
-char	*build_result(t_readline_data data, t_char *to)
+char	*list_to_string(t_readline_data data, t_char *to)
 {
 	char	*result;
 	t_char	*c;
@@ -76,16 +76,4 @@ char	*build_result(t_readline_data data, t_char *to)
 		c = c->next;
 	}
 	return (result);
-}
-
-int	process_input(t_readline_data *data, char last_c)
-{
-	char		*build;
-	int			res;
-
-	build = build_result(*data, last_char(data->first));
-	res = (last_c == '\n' || last_c == CTRL_O_KEY[0])
-		&& check_quotes(build) && check_backslashes(build);
-	free(build);
-	return (res);
 }

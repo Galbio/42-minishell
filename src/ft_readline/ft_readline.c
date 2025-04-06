@@ -16,7 +16,7 @@ static char	*leave_readline(t_readline_data *data, char *res)
 {
 	disable_raw_mode();
 	if (data->interrupt)
-		free_readline_core();
+		free_readline_main();
 	else
 		free_readline_data(data);
 	show_cursor();
@@ -53,5 +53,5 @@ char	*ft_readline(const char *prompt)
 		if (data.update)
 			on_write(&data);
 	}
-	return (leave_readline(&data, build_result(data, 0)));
+	return (leave_readline(&data, list_to_string(data, 0)));
 }
