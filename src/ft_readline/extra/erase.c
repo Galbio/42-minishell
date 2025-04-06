@@ -13,9 +13,9 @@
 #include "ft_readline.h"
 #include "ft_readline_keys.h"
 
-void	erase_after_cursor(int fd, int newline)
+void	erase_after_cursor(int fd, int new_line)
 {
 	write(fd, ERASE_AFTER_CURSOR, 3);
-	if (newline)
+	if (new_line)
 		write(fd, "\n", 1);
 }

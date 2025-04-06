@@ -12,7 +12,7 @@
 
 #include "ft_readline.h"
 
-void	add_to_stash(t_char **stashed, t_char *node, int type)
+void	add_to_stash(t_readline_char **stashed, t_readline_char *node, int type)
 {
 	if (!(*stashed))
 		*stashed = node;

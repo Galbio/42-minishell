@@ -12,9 +12,9 @@
 
 #include "ft_readline.h"
 
-void	add_char_back(t_char *head, t_char *c)
+void	add_char_back(t_readline_char *head, t_readline_char *c)
 {
-	t_char	*cur;
+	t_readline_char	*cur;
 
 	if (!head || !c)
 		return ;
@@ -26,9 +26,9 @@ void	add_char_back(t_char *head, t_char *c)
 	c->next = NULL;
 }
 
-void	add_char_front(t_char **head, t_char *c)
+void	add_char_front(t_readline_char **head, t_readline_char *c)
 {
-	t_char	*tmp;
+	t_readline_char	*tmp;
 
 	if (!c)
 		return ;
@@ -44,9 +44,9 @@ void	add_char_front(t_char **head, t_char *c)
 	*head = c;
 }
 
-void	add_char_after(t_char **element, t_char *c)
+void	add_char_after(t_readline_char **element, t_readline_char *c)
 {
-	t_char	*old_next;
+	t_readline_char	*old_next;
 
 	if (!c)
 		return ;
@@ -63,9 +63,9 @@ void	add_char_after(t_char **element, t_char *c)
 	c->previous = *element;
 }
 
-void	add_char_before(t_char *element, t_char *c)
+void	add_char_before(t_readline_char *element, t_readline_char *c)
 {
-	t_char	*old_previous;
+	t_readline_char	*old_previous;
 
 	if (!element || !c)
 		return ;
@@ -77,10 +77,10 @@ void	add_char_before(t_char *element, t_char *c)
 	c->next = element;
 }
 
-void	remove_char(t_char **element)
+void	remove_char(t_readline_char **element)
 {
-	t_char	*previous;
-	t_char	*next;
+	t_readline_char	*previous;
+	t_readline_char	*next;
 
 	if (!*element)
 		return ;

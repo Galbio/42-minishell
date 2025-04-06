@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   processing.c                                       :+:      :+:    :+:   */
+/*   converter.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:30 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/25 16:51:38 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/06 15:37:05 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_readline.h"
 #include "ft_readline_keys.h"
 
-static int	calculate_len(t_readline_data data, t_char *to)
+static int	calculate_len(t_readline_data data, t_readline_char *to)
 {
-	int		len;
-	t_char	*c;
+	int				len;
+	t_readline_char	*c;
 
 	if (!to)
 	{
@@ -41,7 +41,7 @@ static int	calculate_len(t_readline_data data, t_char *to)
 	return (len);
 }
 
-static void	paste_on(char **result, t_char *c, int *i)
+static void	paste_on(char **result, t_readline_char *c, int *i)
 {
 	int		j;
 
@@ -54,12 +54,12 @@ static void	paste_on(char **result, t_char *c, int *i)
 	}
 }
 
-char	*list_to_string(t_readline_data data, t_char *to)
+char	*list_to_string(t_readline_data data, t_readline_char *to)
 {
-	char	*result;
-	t_char	*c;
-	int		i;
-	int		len;
+	char			*result;
+	t_readline_char	*c;
+	int				i;
+	int				len;
 
 	if (!data.first || (data.first->c[0] == '\n' && !data.first->next))
 		return (ft_strdup(""));

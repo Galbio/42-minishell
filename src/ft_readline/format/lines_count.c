@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lines.c                                            :+:      :+:    :+:   */
+/*   lines_count.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 11:22:28 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/06 14:08:19 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/06 15:37:29 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_readline.h"
 
-int	count_low_newlines(t_readline_data *data, t_char *to)
+int	count_low_newlines(t_readline_data *data, t_readline_char *to)
 {
-	t_vector2	size;
-	int			j;
-	int			count;
-	t_char		*c;
+	t_vector2			size;
+	int					j;
+	int					count;
+	t_readline_char		*c;
 
 	size = get_terminal_size(data, 0);
 	j = ((ft_strlen(ft_getlast_newline((char *)data->prompt))
@@ -41,10 +41,10 @@ int	count_low_newlines(t_readline_data *data, t_char *to)
 	return (count);
 }
 
-int	count_hard_newlines(t_readline_data data, t_char *to)
+int	count_hard_newlines(t_readline_data data, t_readline_char *to)
 {
-	int		count;
-	t_char	*c;
+	int				count;
+	t_readline_char	*c;
 
 	count = 0;
 	c = data.first;

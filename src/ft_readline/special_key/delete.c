@@ -30,7 +30,7 @@ void	backspace_key(t_readline_data *data)
 
 void	delete_key(t_readline_data *data)
 {
-	t_char	*tmp;
+	t_readline_char	*tmp;
 
 	if (!data->first || (data->actual && !data->actual->next))
 		return ;

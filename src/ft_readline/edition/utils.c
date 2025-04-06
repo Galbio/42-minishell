@@ -14,7 +14,7 @@
 
 static void	fix_last_line(t_readline_data *data, t_vector2 size)
 {
-	t_char	*last;
+	t_readline_char	*last;
 
 	last = last_char(data->first);
 	data->pos.y = size.y - count_low_newlines(data, last)

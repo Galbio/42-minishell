@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 20:01:50 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/17 17:02:17 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/06 15:36:37 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ void	stash_after_key(t_readline_data *data)
 
 void	paste_stash_key(t_readline_data *data)
 {
-	t_char		*cur;
-	t_readline	*main;
+	t_readline_char		*cur;
+	t_readline			*main;
 
 	main = get_readline_struct();
 	main->cat_stash = 0;
