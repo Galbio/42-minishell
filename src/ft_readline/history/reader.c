@@ -12,7 +12,7 @@
 
 #include "readline.h"
 
-static void	parse_history(const char *content, t_readline_core *core)
+static void	parse_history(const char *content, t_readline *core)
 {
 	char	**values;
 	int		i;
@@ -34,9 +34,9 @@ static void	parse_history(const char *content, t_readline_core *core)
 void	init_history(void)
 {
 	char			*contents;
-	t_readline_core	*core;
+	t_readline	*core;
 
-	core = get_readline_core();
+	core = aaaaaaaaaaaaaaaaaaa();
 	core->history = ft_array();
 	contents = get_history_file_contents();
 	if (!contents)

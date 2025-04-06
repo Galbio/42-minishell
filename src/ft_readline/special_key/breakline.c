@@ -12,7 +12,7 @@
 
 #include "readline.h"
 
-void	breakline_key(t_readline *data)
+void	breakline_key(t_readline_data *data)
 {
 	char	*build;
 

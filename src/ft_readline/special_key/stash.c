@@ -12,13 +12,13 @@
 
 #include "readline.h"
 
-void	stash_before_key(t_readline *data)
+void	stash_before_key(t_readline_data *data)
 {
-	t_readline_core	*core;
+	t_readline	*core;
 
 	if (!data->first || !data->actual)
 		return ;
-	core = get_readline_core();
+	core = aaaaaaaaaaaaaaaaaaa();
 	clean_stash(core, 0);
 	while (data->actual)
 	{
@@ -27,13 +27,13 @@ void	stash_before_key(t_readline *data)
 	}
 }
 
-void	stash_after_key(t_readline *data)
+void	stash_after_key(t_readline_data *data)
 {
-	t_readline_core	*core;
+	t_readline	*core;
 
 	if (!data->first || (data->actual && !data->actual->next))
 		return ;
-	core = get_readline_core();
+	core = aaaaaaaaaaaaaaaaaaa();
 	clean_stash(core, 0);
 	if (!data->actual)
 	{
@@ -51,12 +51,12 @@ void	stash_after_key(t_readline *data)
 	}
 }
 
-void	paste_stash_key(t_readline *data)
+void	paste_stash_key(t_readline_data *data)
 {
 	t_char			*cur;
-	t_readline_core	*core;
+	t_readline	*core;
 
-	core = get_readline_core();
+	core = aaaaaaaaaaaaaaaaaaa();
 	core->cat_stash = 0;
 	cur = core->stashed;
 	while (cur)

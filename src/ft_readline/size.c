@@ -21,7 +21,7 @@ void	init_terminal_size(t_vector2 *size)
 	size->y = w.ws_row;
 }
 
-static void	on_resize(t_readline *data)
+static void	on_resize(t_readline_data *data)
 {
 	write(STDIN_FILENO, "\033[6n", 4);
 	get_cursor_position_from_stdin(&data->cursor.y, &data->cursor.x);
@@ -33,7 +33,7 @@ static void	on_resize(t_readline *data)
 	teleport_cursor(data->cursor);
 }
 
-t_vector2	get_terminal_size(t_readline *data, int check_resize)
+t_vector2	get_terminal_size(t_readline_data *data, int check_resize)
 {
 	struct winsize	w;
 	t_vector2		size;

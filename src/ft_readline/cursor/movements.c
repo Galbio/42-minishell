@@ -20,7 +20,7 @@ static void	fix_coordinate(int *coordinate, int v1, int v2)
 		*coordinate = v2;
 }
 
-void	move_cursor(t_readline *data, int gap)
+void	move_cursor(t_readline_data *data, int gap)
 {
 	t_vector2	size;
 	int			s;
@@ -49,7 +49,7 @@ void	move_cursor(t_readline *data, int gap)
 	teleport_cursor(data->cursor);
 }
 
-void	move_x(t_readline *data, int gap)
+void	move_x(t_readline_data *data, int gap)
 {
 	t_vector2	size;
 	int			s;
@@ -72,7 +72,7 @@ void	move_x(t_readline *data, int gap)
 	teleport_cursor(*cursor);
 }
 
-void	move_y(t_readline *data, int gap)
+void	move_y(t_readline_data *data, int gap)
 {
 	t_vector2	size;
 	int			s;

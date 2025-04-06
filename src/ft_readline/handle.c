@@ -32,7 +32,7 @@ static int	create_value(char *value, char *buffer)
 	return (len);
 }
 
-int	process_default_key(t_readline *data, char *buffer)
+int	process_default_key(t_readline_data *data, char *buffer)
 {
 	int		len;
 	char	value[4];
@@ -60,7 +60,7 @@ int	process_default_key(t_readline *data, char *buffer)
 	return (len);
 }
 
-static int	handle_special_keys(t_readline *data, char *buffer)
+static int	handle_special_keys(t_readline_data *data, char *buffer)
 {
 	t_special_key	*key;
 
@@ -76,7 +76,7 @@ static int	handle_special_keys(t_readline *data, char *buffer)
 	return (0);
 }
 
-int	handle_key_input(t_readline *data, char *buffer)
+int	handle_key_input(t_readline_data *data, char *buffer)
 {
 	int	res;
 

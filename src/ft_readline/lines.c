@@ -12,7 +12,7 @@
 
 #include "readline.h"
 
-int	count_low_newlines(t_readline *data, t_char *to)
+int	count_low_newlines(t_readline_data *data, t_char *to)
 {
 	t_vector2	size;
 	int			j;
@@ -41,7 +41,7 @@ int	count_low_newlines(t_readline *data, t_char *to)
 	return (count);
 }
 
-int	count_hard_newlines(t_readline data, t_char *to)
+int	count_hard_newlines(t_readline_data data, t_char *to)
 {
 	int		count;
 	t_char	*c;

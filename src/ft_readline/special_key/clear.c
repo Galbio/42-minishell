@@ -12,7 +12,7 @@
 
 #include "readline.h"
 
-void	clear_key(t_readline *data)
+void	clear_key(t_readline_data *data)
 {
 	write(get_extra_data_in_fd(), CLEAR_TERMINAL, 4);
 	data->pos.x = 0;

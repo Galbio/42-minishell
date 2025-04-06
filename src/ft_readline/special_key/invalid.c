@@ -12,7 +12,7 @@
 
 #include "readline.h"
 
-void	invalid_key(t_readline *data)
+void	invalid_key(t_readline_data *data)
 {
 	(void)data;
 }

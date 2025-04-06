@@ -13,7 +13,7 @@
 #include "readline.h"
 #include "readline_keys.h"
 
-void	ctrl_c_key(t_readline *data)
+void	ctrl_c_key(t_readline_data *data)
 {
 	data->cursor = get_char_pos(data, last_char(data->first));
 	teleport_cursor(data->cursor);
@@ -25,7 +25,7 @@ void	ctrl_c_key(t_readline *data)
 		data->exit = 1;
 }
 
-void	ctrl_d_key(t_readline *data)
+void	ctrl_d_key(t_readline_data *data)
 {
 	if (data->first == NULL)
 	{

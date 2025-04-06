@@ -12,7 +12,7 @@
 
 #include "readline.h"
 
-static void	stash_and_delete(t_readline_core *core, t_readline *data,
+static void	stash_and_delete(t_readline *core, t_readline_data *data,
 		char *c, int type)
 {
 	add_to_stash(&core->stashed, new_char(c), type);
@@ -22,14 +22,14 @@ static void	stash_and_delete(t_readline_core *core, t_readline *data,
 		backspace_key(data);
 }
 
-void	stash_before_in_word_key(t_readline *data)
+void	stash_before_in_word_key(t_readline_data *data)
 {
-	t_readline_core	*core;
+	t_readline	*core;
 	int				as;
 
 	if (!data->first || !data->actual)
 		return ;
-	core = get_readline_core();
+	core = aaaaaaaaaaaaaaaaaaa();
 	clean_stash(core, 1);
 	as = data->actual->c[0] == ' ';
 	while (data->actual && (as || data->actual->c[0] != ' '))
@@ -40,14 +40,14 @@ void	stash_before_in_word_key(t_readline *data)
 	}
 }
 
-void	stash_after_in_word_key(t_readline *data)
+void	stash_after_in_word_key(t_readline_data *data)
 {
-	t_readline_core	*core;
+	t_readline	*core;
 	int				as;
 
 	if (!data->first || (data->actual && !data->actual->next))
 		return ;
-	core = get_readline_core();
+	core = aaaaaaaaaaaaaaaaaaa();
 	clean_stash(core, 1);
 	if (!data->actual)
 	{

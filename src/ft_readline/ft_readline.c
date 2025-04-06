@@ -12,21 +12,21 @@
 
 #include "readline.h"
 
-static t_readline	*rl(t_readline *value)
+static t_readline_data	*rl(t_readline_data *value)
 {
-	static t_readline	*data = NULL;
+	static t_readline_data	*data = NULL;
 
 	if (data == NULL && value)
 		data = value;
 	return (data);
 }
 
-t_readline	*get_readline_data(void)
+t_readline_data	*get_readline_data(void)
 {
 	return (rl(NULL));
 }
 
-static void	init_ft_readline(const char *prompt, t_readline *data)
+static void	init_ft_readline(const char *prompt, t_readline_data *data)
 {
 	enable_raw_mode();
 	rl(data);
@@ -57,7 +57,7 @@ static void	init_ft_readline(const char *prompt, t_readline *data)
 	data->current_input = NULL;
 }
 
-static char	*leave_ft_readline(t_readline *data, char *res)
+static char	*leave_ft_readline(t_readline_data *data, char *res)
 {
 	disable_raw_mode();
 	if (data->interrupt)
@@ -74,7 +74,7 @@ static char	*leave_ft_readline(t_readline *data, char *res)
 
 char	*ft_readline(const char *prompt)
 {
-	t_readline		data;
+	t_readline_data		data;
 	char			buffer[4096];
 	int				i;
 	int				count;

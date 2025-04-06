@@ -12,7 +12,7 @@
 
 #include "readline.h"
 
-static void	fix_last_line(t_readline *data, t_vector2 size)
+static void	fix_last_line(t_readline_data *data, t_vector2 size)
 {
 	t_char	*last;
 
@@ -21,7 +21,7 @@ static void	fix_last_line(t_readline *data, t_vector2 size)
 		- count_hard_newlines(*data, last);
 }
 
-void	update_position(t_readline *data, t_vector2 size,
+void	update_position(t_readline_data *data, t_vector2 size,
 		char *build)
 {
 	if (data->cursor.y == size.y)

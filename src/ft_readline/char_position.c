@@ -28,7 +28,7 @@ char	*last_newline(char *build)
 	return (newline);
 }
 
-t_vector2	get_char_pos(t_readline *data, t_char *c)
+t_vector2	get_char_pos(t_readline_data *data, t_char *c)
 {
 	char		*build;
 	t_vector2	size;

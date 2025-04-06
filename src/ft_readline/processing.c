@@ -13,7 +13,7 @@
 #include "readline.h"
 #include "readline_keys.h"
 
-static int	calculate_len(t_readline data, t_char *to)
+static int	calculate_len(t_readline_data data, t_char *to)
 {
 	int		len;
 	t_char	*c;
@@ -54,7 +54,7 @@ static void	paste_on(char **result, t_char *c, int *i)
 	}
 }
 
-char	*build_result(t_readline data, t_char *to)
+char	*build_result(t_readline_data data, t_char *to)
 {
 	char	*result;
 	t_char	*c;
@@ -78,7 +78,7 @@ char	*build_result(t_readline data, t_char *to)
 	return (result);
 }
 
-int	process_input(t_readline *data, char last_c)
+int	process_input(t_readline_data *data, char last_c)
 {
 	char		*build;
 	int			res;

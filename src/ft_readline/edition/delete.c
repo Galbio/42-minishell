@@ -12,7 +12,7 @@
 
 #include "readline.h"
 
-static void	clear_next_line(t_readline *data, t_vector2 size)
+static void	clear_next_line(t_readline_data *data, t_vector2 size)
 {
 	int	first;
 
@@ -32,7 +32,7 @@ static void	clear_next_line(t_readline *data, t_vector2 size)
 		data->actual = NULL;
 }
 
-void	on_delete(t_readline *data)
+void	on_delete(t_readline_data *data)
 {
 	char		*build;
 	t_vector2	size;

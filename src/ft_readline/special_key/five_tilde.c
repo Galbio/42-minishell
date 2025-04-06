@@ -12,14 +12,14 @@
 
 #include "readline.h"
 
-void	five_tilde_key(t_readline *data)
+void	five_tilde_key(t_readline_data *data)
 {
 	process_default_key(data, "5");
 	process_default_key(data, "~");
 	on_write(data);
 }
 
-void	semicolon_five_tilde_key(t_readline *data)
+void	semicolon_five_tilde_key(t_readline_data *data)
 {
 	process_default_key(data, ";");
 	process_default_key(data, "5");

@@ -22,7 +22,7 @@ void	add_to_stash(t_char **stashed, t_char *node, int type)
 		add_char_back(*stashed, node);
 }
 
-void	clean_stash(t_readline_core *core, int check_cat)
+void	clean_stash(t_readline *core, int check_cat)
 {
 	if (!check_cat || !core->cat_stash)
 	{

@@ -12,7 +12,7 @@
 
 #include "readline.h"
 
-void	backspace_key(t_readline *data)
+void	backspace_key(t_readline_data *data)
 {
 	if (!data->first)
 		return ;
@@ -28,7 +28,7 @@ void	backspace_key(t_readline *data)
 	on_delete(data);
 }
 
-void	delete_key(t_readline *data)
+void	delete_key(t_readline_data *data)
 {
 	t_char	*tmp;
 

@@ -12,7 +12,7 @@
 
 #include "readline.h"
 
-void	swap_key(t_readline *data)
+void	swap_key(t_readline_data *data)
 {
 	char		*tmp;
 	int			i;

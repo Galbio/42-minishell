@@ -12,21 +12,21 @@
 
 #include "readline.h"
 
-void	home_key(t_readline *data)
+void	home_key(t_readline_data *data)
 {
 	data->actual = NULL;
 	data->cursor = get_char_pos(data, data->actual);
 	teleport_cursor(data->cursor);
 }
 
-void	end_key(t_readline *data)
+void	end_key(t_readline_data *data)
 {
 	data->actual = last_char(data->first);
 	data->cursor = get_char_pos(data, data->actual);
 	teleport_cursor(data->cursor);
 }
 
-void	previous_word_key(t_readline *data)
+void	previous_word_key(t_readline_data *data)
 {
 	int	as;
 
@@ -42,7 +42,7 @@ void	previous_word_key(t_readline *data)
 	teleport_cursor(data->cursor);
 }
 
-void	next_word_key(t_readline *data)
+void	next_word_key(t_readline_data *data)
 {
 	int	as;
 

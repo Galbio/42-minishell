@@ -33,10 +33,10 @@ int	ft_readline_must_exit(void)
 
 void	free_readline_core(void)
 {
-	t_readline_core	*core;
+	t_readline	*core;
 	int				i;
 
-	core = get_readline_core();
+	core = aaaaaaaaaaaaaaaaaaa();
 	i = 0;
 	while (core->special_keys[i])
 	{
@@ -49,7 +49,7 @@ void	free_readline_core(void)
 	free(core);
 }
 
-void	free_readline_data(t_readline *data)
+void	free_readline_data(t_readline_data *data)
 {
 	if (!data)
 		return ;

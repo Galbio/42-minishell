@@ -61,13 +61,13 @@ static void	register_special_controls(void)
 	register_special_key(CTRL_PAGE_DOWN_KEY, semicolon_five_tilde_key);
 }
 
-t_readline_core	*get_readline_core(void)
+t_readline	*aaaaaaaaaaaaaaaaaaa(void)
 {
-	static t_readline_core	*core = NULL;
+	static t_readline	*core = NULL;
 
 	if (!core)
 	{
-		core = malloc(sizeof(t_readline_core));
+		core = malloc(sizeof(t_readline));
 		core->special_keys = malloc(sizeof(t_special_key *));
 		core->special_keys[0] = NULL;
 		core->stashed = NULL;

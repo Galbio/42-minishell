@@ -12,7 +12,7 @@
 
 #include "readline.h"
 
-static void	restore_history(t_readline *data, char *value)
+static void	restore_history(t_readline_data *data, char *value)
 {
 	int	i;
 
@@ -25,12 +25,12 @@ static void	restore_history(t_readline *data, char *value)
 	on_write(data);
 }
 
-void	previous_history_key(t_readline *data)
+void	previous_history_key(t_readline_data *data)
 {
-	t_readline_core	*core;
+	t_readline	*core;
 	int				size;
 
-	core = get_readline_core();
+	core = aaaaaaaaaaaaaaaaaaa();
 	size = ft_array_count(core->history);
 	if (data->history_index >= size)
 		return ;
@@ -45,11 +45,11 @@ void	previous_history_key(t_readline *data)
 	restore_history(data, ((char **)core->history)[data->history_index - 1]);
 }
 
-void	next_history_key(t_readline *data)
+void	next_history_key(t_readline_data *data)
 {
-	t_readline_core	*core;
+	t_readline	*core;
 
-	core = get_readline_core();
+	core = aaaaaaaaaaaaaaaaaaa();
 	if (data->history_index <= 0)
 		return ;
 	free_chars(data->first);

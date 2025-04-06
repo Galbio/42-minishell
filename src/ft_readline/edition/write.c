@@ -12,7 +12,7 @@
 
 #include "readline.h"
 
-void	on_write(t_readline *data)
+void	on_write(t_readline_data *data)
 {
 	char		*build;
 	t_vector2	size;
