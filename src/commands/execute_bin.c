@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 20:09:48 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 07:10:54 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/06 23:02:49 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,12 @@ static char	*get_command_path(char *str, char **paths)
 
 static void	cmd_not_found(t_cmd_params *cmd)
 {
+	t_array	args;
+
 	if (!cmd->imp->path)
-		ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(cmd->argv[0], 2);
-	ft_putstr_fd(": command not found\n", 2);
+		write(2, "minishell: ", 11);
+	args = simple_arg(cmd->argv[0]);
+	display_translation(2, "command.notfound", &args, 1);
 	free_cmd(cmd, 1);
 	cmd->imp->is_bquoted++;
 	free_envp(cmd->envp, cmd->imp);

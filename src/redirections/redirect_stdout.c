@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:43:25 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 10:44:28 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/06 23:02:35 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 static char	redirect_fd(char *str, int fd)
 {
 	int		nb;
+	t_array	args;
+	char	*v;
 
 	if (*str == '&')
 	{
@@ -27,9 +29,11 @@ static char	redirect_fd(char *str, int fd)
 	nb = ft_atoi(str);
 	if (nb >= 1024)
 	{
-		write(2, "minishell: ", 12);
-		ft_putnbr_fd(nb, 2);
-		write(2, ": Bad file descriptor\n", 22);
+		args = simple_arg("minishell");
+		v = ft_itoa(nb);
+		add_translation_arg(&args, v);
+		display_translation(2, "redirections.badfiledesc", &args, 1);
+		free(v);
 		return (1);
 	}
 	dup2(fd, nb);
@@ -93,12 +97,13 @@ static char	redirect_appendfile(char *method, char **name)
 
 char	redirect_stdout(char *method, char **value)
 {
-	int		i;
+	int			i;
+	t_array		args;
 
 	if (!value[1])
 	{
-		write(2, "minishell: syntax error ", 24);
-		write(2, "near unexpected token `newline'\n", 32);
+		args = simple_arg("minishell");
+		display_translation(2, "redirections.syntaxenl", &args, 1);
 		return (1);
 	}
 	i = 0;

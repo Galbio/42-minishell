@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/05 14:34:57 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/06 19:28:53 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 
 # include "libft.h"
 # include "readline.h"
+# include "translations.h"
 
 # ifndef ZSH
 #  define ZSH 0
@@ -139,6 +140,7 @@ int				ms_unset(t_cmd_params *cmd);
 int				ms_exit(t_cmd_params *cmd);
 int				ms_export(t_cmd_params *cmd);
 int				ms_env(t_cmd_params *cmd);
+int				ms_lang(t_cmd_params *cmd);
 
 //builtins additional
 void			export_vars(t_list *envp);
