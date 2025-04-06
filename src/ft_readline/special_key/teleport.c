@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 14:21:37 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/06 15:48:30 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/06 16:04:17 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void	next_word_key(t_readline_data *data)
 	if (data->first && !data->current)
 		data->current = data->first;
 	as = 1;
-	while (data->current->next && (as || data->current->next->sequence[0] != ' '))
+	while (data->current->next
+		&& (as || data->current->next->sequence[0] != ' '))
 	{
 		data->current = data->current->next;
 		as &= data->current->sequence[0] == ' ';

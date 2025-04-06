@@ -16,7 +16,7 @@ static char	*leave_readline(t_readline_data *data, char *res)
 {
 	disable_raw_mode();
 	if (data->interrupt)
-		free_readline_main();
+		free_readline();
 	else
 		free_readline_data(data);
 	show_cursor();

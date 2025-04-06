@@ -39,7 +39,7 @@ void	free_envp(t_list **envp, t_main_envp *imp)
 	ft_lstclear(envp, free);
 	if (imp->is_bquoted)
 	{
-		free_readline_main();
+		free_readline();
 		free_regex_items();
 	}
 	i = -1;

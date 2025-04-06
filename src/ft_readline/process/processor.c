@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 14:50:35 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/06 14:50:44 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/06 16:01:49 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	process_default_key(t_readline_data *data, char *buffer)
 		{
 			add_char_front(&data->first, new_char(value));
 			data->current = data->first;
-			write(1, "\033[C", 3);
+			write(1, MOVE_CURSOR_RIGHT, 3);
 		}
 		else
 		{

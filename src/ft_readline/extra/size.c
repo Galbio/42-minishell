@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 10:22:14 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/06 12:44:26 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/06 15:56:55 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	init_terminal_size(t_vector2 *size)
 
 static void	on_resize(t_readline_data *data)
 {
-	write(STDIN_FILENO, "\033[6n", 4);
+	write(get_extra_data_in_fd(), DISPLAY_CURSOR_POSITION, 4);
 	get_cursor_position_from_stdin(&data->cursor.y, &data->cursor.x);
 	data->pos.y = data->cursor.y - count_low_newlines(data, data->current)
 		- count_hard_newlines(*data, data->current);

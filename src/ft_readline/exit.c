@@ -31,7 +31,7 @@ int	ft_readline_must_exit(void)
 	return (ext(2));
 }
 
-void	free_readline_main(void)
+void	free_readline(void)
 {
 	t_readline	*main;
 

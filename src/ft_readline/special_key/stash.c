@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 20:01:50 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/06 15:47:23 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/06 16:04:31 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void	stash_after_key(t_readline_data *data)
 	}
 	while (data->current->next)
 	{
-		add_to_stash(&main->stashed, new_char(data->current->next->sequence), 1);
+		add_to_stash(&main->stashed,
+			new_char(data->current->next->sequence), 1);
 		delete_key(data);
 	}
 }

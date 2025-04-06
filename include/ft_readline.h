@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/06 15:17:46 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/06 16:01:16 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,13 @@
 
 # define HIDE_CURSOR "\e[?25l"
 # define SHOW_CURSOR "\e[?25h"
+# define DISPLAY_CURSOR_POSITION "\033[6n"
 # define CLEAR_TERMINAL "\033[2J"
 # define ERASE_AFTER_CURSOR "\033[K"
+# define MOVE_CURSOR_UP "\033[A"
+# define MOVE_CURSOR_DOWN "\033[B"
+# define MOVE_CURSOR_RIGHT "\033[C"
+# define MOVE_CURSOR_LEFT "\033[D"
 
 typedef struct s_readline_char
 {
@@ -165,7 +170,7 @@ int				ft_readline_must_exit(void);
 void			ft_readline_set_exit(int v);
 void			ft_readline_sigint(void);
 void			ft_readline_init_signals(void);
-void			free_readline_main(void);
+void			free_readline(void);
 void			free_readline_data(t_readline_data *data);
 
 void			add_to_stash(t_readline_char **stashed, t_readline_char *node,
