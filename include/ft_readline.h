@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/06 15:08:33 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/06 15:17:46 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define HIDE_CURSOR "\e[?25l"
 # define SHOW_CURSOR "\e[?25h"
 # define CLEAR_TERMINAL "\033[2J"
+# define ERASE_AFTER_CURSOR "\033[K"
 
 typedef struct s_char
 {
@@ -175,5 +176,7 @@ void			show_cursor(void);
 
 int				get_extra_data_in_fd(void);
 int				get_extra_data_out_fd(void);
+
+void			erase_after_cursor(int fd, int newline);
 
 #endif

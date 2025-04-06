@@ -72,6 +72,7 @@ READLINE_FILES =	ft_readline/char/list.c					\
 					ft_readline/edition/delete.c			\
 					ft_readline/edition/utils.c				\
 					ft_readline/edition/write.c				\
+					ft_readline/extra/erase.c					\
 					ft_readline/extra/fd.c					\
 					ft_readline/extra/raw_mode.c			\
 					ft_readline/extra/size.c				\
