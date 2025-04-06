@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 00:17:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 06:29:40 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/06 22:53:43 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 static char	init_herefiles(char *filename, int pipes[2], int *fd)
 {
+	t_array	args;
+
 	*fd = open(filename, O_RDONLY);
 	if (*fd < 0)
 	{
-		write(2, "minishell: ", 11);
-		write(2, filename, ft_strlen(filename));
-		write(2, ": No such file or directory\n", 28);
+		args = simple_arg("minishell");
+		add_translation_arg(&args, filename);
+		display_translation(2, "herefiles.filedirnotfound", &args, 1);
 		return (1);
 	}
 	if (pipe(pipes))

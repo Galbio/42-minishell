@@ -6,11 +6,12 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/05 18:14:49 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/06 19:22:15 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "translations.h"
 
 static void	init(char *home)
 {
@@ -20,6 +21,7 @@ static void	init(char *home)
 	set_history_filename(".minishell_history");
 	enable_history();
 	init_regexs();
+	init_translations();
 }
 
 void	launch(t_list *envp, t_main_envp *imp)

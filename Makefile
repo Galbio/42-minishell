@@ -30,6 +30,7 @@ FILES = main.c		\
 	builtins/export_no_args.c \
 	builtins/exit.c \
 	builtins/env.c \
+	builtins/lang.c \
 	commands/execute_line.c \
 	commands/execute_command.c \
 	commands/execute_command_utils.c \
@@ -86,6 +87,12 @@ FILES = main.c		\
 	utils/free_cmd.c \
 	utils/trim_whitespaces.c \
 	utils/check_special_char.c	\
+	translations/args/manager.c	\
+	translations/args/utils.c	\
+	translations/initialization.c	\
+	translations/manager.c	\
+	translations/parser.c	\
+	translations/free.c	\
 	regex/checkers/bounds.c		\
 	regex/checkers/inside.c		\
 	regex/checkers/lengths.c		\

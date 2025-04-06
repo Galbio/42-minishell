@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:05:06 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/04 10:41:12 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/06 22:30:17 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,16 @@
 
 static void	display_error(char code, char *name)
 {
+	t_array	args;
+
+	args = base_command_args("minishell", "exit");
 	if (!code)
 	{
-		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		display_translation(2, "command.toomanyargs", &args, 1);
 		return ;
 	}
-	ft_putstr_fd("minishell: exit: ", 2);
-	ft_putstr_fd(name, 2);
-	ft_putstr_fd(": numertic argument required\n", 2);
+	add_translation_arg(&args, name);
+	display_translation(2, "command.numargrequired", &args, 1);
 }
 
 static char	check_exit_error(char **argv)
@@ -69,6 +71,7 @@ static char	parse_exit(t_cmd_params *cmd)
 		{
 			free_readline_core();
 			free_regex_items();
+			free_translations();
 		}
 		free(cmd);
 		exit(res);
@@ -84,7 +87,7 @@ int	ms_exit(t_cmd_params *cmd)
 	res = cmd->imp->exit_status;
 	av1 = cmd->argv[1] != NULL;
 	if (!cmd->imp->is_bquoted)
-		write(2, "exit\n", 5);
+		display_translation(2, "exit", NULL, 1);
 	if (!av1 || (parse_exit(cmd) == 1))
 	{
 		free_cmd(cmd, 1);
@@ -93,6 +96,7 @@ int	ms_exit(t_cmd_params *cmd)
 		{
 			free_readline_core();
 			free_regex_items();
+			free_translations();
 		}
 		free(cmd);
 		if (!av1)
