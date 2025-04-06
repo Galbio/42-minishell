@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 20:46:31 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/17 13:31:29 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/06 15:48:03 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,17 @@ void	swap_key(t_readline_data *data)
 		return ;
 	if (!data->actual->next)
 		data->actual = data->actual->previous;
-	tmp = ft_strdup(data->actual->c);
+	tmp = ft_strdup(data->actual->sequence);
 	i = 0;
 	while (i < 4)
 	{
-		data->actual->c[i] = data->actual->next->c[i];
+		data->actual->sequence[i] = data->actual->next->sequence[i];
 		i++;
 	}
 	i = 0;
 	while (i < 4)
 	{
-		data->actual->next->c[i] = tmp[i];
+		data->actual->next->sequence[i] = tmp[i];
 		i++;
 	}
 	data->actual = data->actual->next;

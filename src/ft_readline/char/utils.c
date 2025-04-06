@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 19:53:50 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/06 15:36:00 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/06 15:40:18 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_readline_char	*new_char(char c[4])
 	i = 0;
 	while (i != 4)
 	{
-		res->c[i] = c[i];
+		res->sequence[i] = c[i];
 		i++;
 	}
 	res->previous = NULL;

@@ -29,7 +29,7 @@
 
 typedef struct s_readline_char
 {
-	char					c[4];
+	char					sequence[4];
 	struct s_readline_char	*previous;
 	struct s_readline_char	*next;
 }	t_readline_char;

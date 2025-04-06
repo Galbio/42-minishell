@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 20:01:50 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/06 15:36:37 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/06 15:47:23 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	stash_before_key(t_readline_data *data)
 	clean_stash(main, 0);
 	while (data->actual)
 	{
-		add_to_stash(&main->stashed, new_char(data->actual->c), 0);
+		add_to_stash(&main->stashed, new_char(data->actual->sequence), 0);
 		backspace_key(data);
 	}
 }
@@ -39,14 +39,14 @@ void	stash_after_key(t_readline_data *data)
 	{
 		while (data->first)
 		{
-			add_to_stash(&main->stashed, new_char(data->first->c), 1);
+			add_to_stash(&main->stashed, new_char(data->first->sequence), 1);
 			delete_key(data);
 		}
 		return ;
 	}
 	while (data->actual->next)
 	{
-		add_to_stash(&main->stashed, new_char(data->actual->next->c), 1);
+		add_to_stash(&main->stashed, new_char(data->actual->next->sequence), 1);
 		delete_key(data);
 	}
 }
@@ -61,7 +61,7 @@ void	paste_stash_key(t_readline_data *data)
 	cur = main->stashed;
 	while (cur)
 	{
-		process_default_key(data, cur->c);
+		process_default_key(data, cur->sequence);
 		cur = cur->next;
 	}
 	on_write(data);

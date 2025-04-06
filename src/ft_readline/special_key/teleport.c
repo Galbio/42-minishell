@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 14:21:37 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/17 17:13:23 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/06 15:48:30 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ void	previous_word_key(t_readline_data *data)
 	if (!data->first || !data->actual)
 		return ;
 	as = 1;
-	while (data->actual && (as || data->actual->c[0] != ' '))
+	while (data->actual && (as || data->actual->sequence[0] != ' '))
 	{
-		as &= data->actual->c[0] == ' ';
+		as &= data->actual->sequence[0] == ' ';
 		data->actual = data->actual->previous;
 	}
 	data->cursor = get_char_pos(data, data->actual);
@@ -51,10 +51,10 @@ void	next_word_key(t_readline_data *data)
 	if (data->first && !data->actual)
 		data->actual = data->first;
 	as = 1;
-	while (data->actual->next && (as || data->actual->next->c[0] != ' '))
+	while (data->actual->next && (as || data->actual->next->sequence[0] != ' '))
 	{
 		data->actual = data->actual->next;
-		as &= data->actual->c[0] == ' ';
+		as &= data->actual->sequence[0] == ' ';
 	}
 	data->cursor = get_char_pos(data, data->actual);
 	teleport_cursor(data->cursor);

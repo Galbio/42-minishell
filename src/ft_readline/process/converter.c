@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:30 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/06 15:37:05 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/06 15:44:18 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,19 @@ static int	calculate_len(t_readline_data data, t_readline_char *to)
 		if (!data.first)
 			return (0);
 		c = data.first;
-		len = ft_strlen(c->c);
+		len = ft_strlen(c->sequence);
 		while (c->next)
 		{
-			len += ft_strlen(c->c);
+			len += ft_strlen(c->sequence);
 			c = c->next;
 		}
 		return (len);
 	}
-	len = ft_strlen(to->c);
+	len = ft_strlen(to->sequence);
 	c = to;
 	while (c->previous)
 	{
-		len += ft_strlen(c->c);
+		len += ft_strlen(c->sequence);
 		c = c->previous;
 	}
 	return (len);
@@ -46,9 +46,9 @@ static void	paste_on(char **result, t_readline_char *c, int *i)
 	int		j;
 
 	j = 0;
-	while (c->c[j])
+	while (c->sequence[j])
 	{
-		(*result)[*i] = c->c[j];
+		(*result)[*i] = c->sequence[j];
 		j++;
 		(*i)++;
 	}
@@ -61,7 +61,7 @@ char	*list_to_string(t_readline_data data, t_readline_char *to)
 	int				i;
 	int				len;
 
-	if (!data.first || (data.first->c[0] == '\n' && !data.first->next))
+	if (!data.first || (data.first->sequence[0] == '\n' && !data.first->next))
 		return (ft_strdup(""));
 	len = calculate_len(data, to);
 	if (!to && data.first && !data.actual)
