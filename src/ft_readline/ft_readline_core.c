@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "readline.h"
-#include "readline_keys.h"
+#include "ft_readline.h"
+#include "ft_readline_keys.h"
 
 static void	register_default(void)
 {

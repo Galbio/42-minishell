@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   readline_keys.h                                    :+:      :+:    :+:   */
+/*   ft_readline_keys.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef READLINE_KEYS_H
-# define READLINE_KEYS_H
+#ifndef FT_READLINE_KEYS_H
+# define FT_READLINE_KEYS_H
 
 # define BREAKLINE_KEY "\n"
 # define BACKSPACE_KEY "\x7F"

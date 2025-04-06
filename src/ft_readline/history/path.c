@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "readline.h"
+#include "ft_readline.h"
 
 static char	*hpath(char *value)
 {

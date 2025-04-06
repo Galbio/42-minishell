@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "readline.h"
+#include "ft_readline.h"
 
 char	*last_newline(char *build)
 {

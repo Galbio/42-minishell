@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   readline.h                                         :+:      :+:    :+:   */
+/*   ft_readline.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/06 12:45:02 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/06 13:43:47 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef READLINE_H
-# define READLINE_H
+#ifndef FT_READLINE_H
+# define FT_READLINE_H
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -86,14 +86,19 @@ void			teleport_cursor(t_vector2 pos);
 
 int				get_cursor_position(t_vector2 *pos);
 int				get_cursor_position_from_stdin(int *row, int *col);
+int				get_cursor_position_from_tty(int *row, int *col);
+int				parse_cursor_response(const char *buf, int *row, int *col);
 
 int				clean_readed(char **readed);
 
-void			update_position(t_readline_data *data, t_vector2 size, char *build);
+void			update_position(t_readline_data *data, t_vector2 size,
+					char *build);
 void			print_build(char *build);
 
 void			on_write(t_readline_data *data);
 void			on_delete(t_readline_data *data);
+
+void			init_readline_data(const char *prompt, t_readline_data *data);
 
 char			*ft_readline(const char *prompt);
 
@@ -105,7 +110,7 @@ int				process_default_key(t_readline_data *data, char *buffer);
 void			enable_raw_mode(void);
 void			disable_raw_mode(void);
 
-void			read_stdin_keys(char *buffer);
+int				read_stdin_keys(char *buffer);
 
 int				check_quotes(const char *build);
 int				check_backslashes(const char *build);
@@ -119,7 +124,7 @@ t_vector2		actual_char_pos(t_readline_data *data);
 char			*last_newline(char *build);
 t_vector2		get_char_pos(t_readline_data *data, t_char *c);
 
-t_readline	*get_readline_core(void);
+t_readline		*get_readline_core(void);
 
 void			register_special_key(char *sequence,
 					void (*callback)(t_readline_data *));
@@ -151,7 +156,7 @@ void			semicolon_five_tilde_key(t_readline_data *data);
 void			previous_history_key(t_readline_data *data);
 void			next_history_key(t_readline_data *data);
 
-t_readline_data		*get_readline_data(void);
+t_readline_data	*get_readline_data(void);
 int				ft_readline_must_exit(void);
 void			ft_readline_set_exit(int v);
 void			ft_readline_sigint(void);

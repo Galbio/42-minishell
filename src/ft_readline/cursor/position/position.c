@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "readline.h"
+#include "ft_readline.h"
 
 int	parse_cursor_response(const char *buf, int *row, int *col)
 {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "readline.h"
+#include "ft_readline.h"
 
 int	read_stdin_keys(char *buffer)
 {

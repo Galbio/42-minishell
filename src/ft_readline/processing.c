@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "readline.h"
-#include "readline_keys.h"
+#include "ft_readline.h"
+#include "ft_readline_keys.h"
 
 static int	calculate_len(t_readline_data data, t_char *to)
 {

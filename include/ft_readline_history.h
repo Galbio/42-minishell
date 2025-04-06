@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   readline_history.h                                 :+:      :+:    :+:   */
+/*   ft_readline_history.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef READLINE_HISTORY_H
-# define READLINE_HISTORY_H
+#ifndef FT_READLINE_HISTORY_H
+# define FT_READLINE_HISTORY_H
 
 # include <fcntl.h>
 

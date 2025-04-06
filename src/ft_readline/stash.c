@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "readline.h"
+#include "ft_readline.h"
 
 void	add_to_stash(t_char **stashed, t_char *node, int type)
 {

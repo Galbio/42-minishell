@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "readline.h"
+#include "ft_readline.h"
 
 static void	fix_coordinate(int *coordinate, int v1, int v2)
 {

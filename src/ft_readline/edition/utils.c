@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "readline.h"
+#include "ft_readline.h"
 
 static void	fix_last_line(t_readline_data *data, t_vector2 size)
 {

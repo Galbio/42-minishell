@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "readline.h"
+#include "ft_readline.h"
 
 static int	parse_row_col_from_plain_text(const char *input, int *row, int *col)
 {

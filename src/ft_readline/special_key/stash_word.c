@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "readline.h"
+#include "ft_readline.h"
 
 static void	stash_and_delete(t_readline *core, t_readline_data *data,
 		char *c, int type)
