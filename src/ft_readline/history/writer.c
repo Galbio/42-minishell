@@ -45,10 +45,10 @@ static int	count_total_chars(char **history, int key)
 
 static void	save_contents(char **history, int total_count, int i)
 {
-	char			*contents;
-	int				j;
-	int				k;
-	int				size;
+	char	*contents;
+	int		j;
+	int		k;
+	int		size;
 
 	size = total_count + i;
 	contents = malloc((size + 1) * sizeof(char));
@@ -72,12 +72,12 @@ static void	save_contents(char **history, int total_count, int i)
 void	save_history(void)
 {
 	t_readline	*core;
-	char			**history;
-	int				i;
+	char		**history;
+	int			i;
 
 	if (!is_history_enable())
 		return ;
-	core = aaaaaaaaaaaaaaaaaaa();
+	core = get_readline_core();
 	history = (char **)core->history;
 	i = ft_array_count(core->history) - 1;
 	if (i >= get_history_maxsize())

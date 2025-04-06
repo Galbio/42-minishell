@@ -18,7 +18,7 @@ void	stash_before_key(t_readline_data *data)
 
 	if (!data->first || !data->actual)
 		return ;
-	core = aaaaaaaaaaaaaaaaaaa();
+	core = get_readline_core();
 	clean_stash(core, 0);
 	while (data->actual)
 	{
@@ -33,7 +33,7 @@ void	stash_after_key(t_readline_data *data)
 
 	if (!data->first || (data->actual && !data->actual->next))
 		return ;
-	core = aaaaaaaaaaaaaaaaaaa();
+	core = get_readline_core();
 	clean_stash(core, 0);
 	if (!data->actual)
 	{
@@ -53,10 +53,10 @@ void	stash_after_key(t_readline_data *data)
 
 void	paste_stash_key(t_readline_data *data)
 {
-	t_char			*cur;
+	t_char		*cur;
 	t_readline	*core;
 
-	core = aaaaaaaaaaaaaaaaaaa();
+	core = get_readline_core();
 	core->cat_stash = 0;
 	cur = core->stashed;
 	while (cur)

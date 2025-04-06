@@ -58,10 +58,13 @@ FILES = main.c		\
 	ft_readline/special_key/swap.c	\
 	ft_readline/special_key/five_tilde.c	\
 	ft_readline/char_utils.c	\
-	ft_readline/cursor/position.c	\
+	ft_readline/cursor/position/position.c	\
+	ft_readline/cursor/position/stdin.c	\
+	ft_readline/cursor/position/tty.c	\
 	ft_readline/cursor/movements.c	\
 	ft_readline/cursor/view.c	\
 	ft_readline/ft_readline.c	\
+	ft_readline/initialization.c	\
 	ft_readline/handle.c	\
 	ft_readline/termios_manager.c	\
 	ft_readline/char_list.c	\

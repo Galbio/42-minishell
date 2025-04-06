@@ -34,9 +34,9 @@ int	ft_readline_must_exit(void)
 void	free_readline_core(void)
 {
 	t_readline	*core;
-	int				i;
+	int			i;
 
-	core = aaaaaaaaaaaaaaaaaaa();
+	core = get_readline_core();
 	i = 0;
 	while (core->special_keys[i])
 	{

@@ -25,11 +25,11 @@ static void	stash_and_delete(t_readline *core, t_readline_data *data,
 void	stash_before_in_word_key(t_readline_data *data)
 {
 	t_readline	*core;
-	int				as;
+	int			as;
 
 	if (!data->first || !data->actual)
 		return ;
-	core = aaaaaaaaaaaaaaaaaaa();
+	core = get_readline_core();
 	clean_stash(core, 1);
 	as = data->actual->c[0] == ' ';
 	while (data->actual && (as || data->actual->c[0] != ' '))
@@ -43,11 +43,11 @@ void	stash_before_in_word_key(t_readline_data *data)
 void	stash_after_in_word_key(t_readline_data *data)
 {
 	t_readline	*core;
-	int				as;
+	int			as;
 
 	if (!data->first || (data->actual && !data->actual->next))
 		return ;
-	core = aaaaaaaaaaaaaaaaaaa();
+	core = get_readline_core();
 	clean_stash(core, 1);
 	if (!data->actual)
 	{

@@ -6,58 +6,13 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 13:11:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/06 12:02:20 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/06 13:24:06 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "readline.h"
 
-static t_readline_data	*rl(t_readline_data *value)
-{
-	static t_readline_data	*data = NULL;
-
-	if (data == NULL && value)
-		data = value;
-	return (data);
-}
-
-t_readline_data	*get_readline_data(void)
-{
-	return (rl(NULL));
-}
-
-static void	init_ft_readline(const char *prompt, t_readline_data *data)
-{
-	enable_raw_mode();
-	rl(data);
-	data->prompt = prompt;
-	init_terminal_size(&data->old_tsize);
-	data->pos.x = 0;
-	data->pos.y = 0;
-	get_cursor_position(&data->pos);
-	data->is_pipe = !isatty(STDIN_FILENO);
-	if (!data->is_pipe)
-		write(2, prompt, ft_strlen(prompt));
-	data->display_prompt = isatty(STDERR_FILENO);
-	data->offset = data->pos.x - 1;
-	if (data->display_prompt)
-	{
-		data->pos.x += ft_strlen(prompt);
-		data->pos.y += data->pos.x / data->old_tsize.x;
-		data->pos.x -= ft_strlen(prompt)
-			- ft_strlen(last_newline((char *)prompt));
-		data->pos.x = data->pos.x % data->old_tsize.x;
-	}
-	data->cursor = data->pos;
-	data->first = NULL;
-	data->actual = data->first;
-	data->exit = 0;
-	data->interrupt = 0;
-	data->history_index = 0;
-	data->current_input = NULL;
-}
-
-static char	*leave_ft_readline(t_readline_data *data, char *res)
+static char	*leave_readline(t_readline_data *data, char *res)
 {
 	disable_raw_mode();
 	if (data->interrupt)
@@ -75,25 +30,22 @@ static char	*leave_ft_readline(t_readline_data *data, char *res)
 char	*ft_readline(const char *prompt)
 {
 	t_readline_data		data;
-	char			buffer[4096];
-	int				i;
-	int				count;
+	char				buffer[4096];
+	int					i;
+	int					count;
 
-	init_ft_readline(prompt, &data);
+	init_readline_data(prompt, &data);
 	while (1)
 	{
-		read_stdin_keys(buffer);
-		if (!buffer[0])
-		{
-			data.interrupt = 1;
-			return (leave_ft_readline(&data, NULL));
-		}
+		data.interrupt = !read_stdin_keys(buffer);
+		if (data.interrupt)
+			return (leave_readline(&data, NULL));
 		i = 0;
 		while (buffer[i])
 		{
 			count = handle_key_input(&data, buffer + i);
 			if (data.exit || data.interrupt)
-				return (leave_ft_readline(&data, NULL));
+				return (leave_readline(&data, NULL));
 			i += count;
 		}
 		if (i != 0 && process_input(&data, buffer[i - 1]))
@@ -101,5 +53,5 @@ char	*ft_readline(const char *prompt)
 		if (data.update)
 			on_write(&data);
 	}
-	return (leave_ft_readline(&data, build_result(data, 0)));
+	return (leave_readline(&data, build_result(data, 0)));
 }

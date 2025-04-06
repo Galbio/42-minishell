@@ -31,14 +31,15 @@ static void	on_overwrite(char *sequence)
 	write(2, "' already exist.\n", 17);
 }
 
-void	register_special_key(char *sequence, void (*callback)(t_readline_data *))
+void	register_special_key(char *sequence,
+	void (*callback)(t_readline_data *))
 {
 	t_readline	*main;
-	int				count;
+	int			count;
 
 	if (get_by_sequence(sequence) != NULL)
 		on_overwrite(sequence);
-	main = aaaaaaaaaaaaaaaaaaa();
+	main = get_readline_core();
 	count = get_special_keys_count();
 	main->special_keys = ft_realloc(
 			main->special_keys,
@@ -56,7 +57,7 @@ t_special_key	*get_by_sequence(char *sequence)
 	t_special_key	**special_keys;
 	int				i;
 
-	special_keys = aaaaaaaaaaaaaaaaaaa()->special_keys;
+	special_keys = get_readline_core()->special_keys;
 	i = 0;
 	while (special_keys[i])
 	{
@@ -71,7 +72,7 @@ t_special_key	*get_by_sequence(char *sequence)
 
 t_special_key	**get_special_keys(void)
 {
-	return (aaaaaaaaaaaaaaaaaaa()->special_keys);
+	return (get_readline_core()->special_keys);
 }
 
 int	get_special_keys_count(void)
@@ -79,7 +80,7 @@ int	get_special_keys_count(void)
 	t_special_key	**special_keys;
 	int				i;
 
-	special_keys = aaaaaaaaaaaaaaaaaaa()->special_keys;
+	special_keys = get_readline_core()->special_keys;
 	i = 0;
 	while (special_keys[i])
 		i++;

@@ -19,7 +19,7 @@ void	move_left_key(t_readline_data *data)
 		data->actual = data->actual->previous;
 		data->cursor = get_char_pos(data, data->actual);
 		teleport_cursor(data->cursor);
-		aaaaaaaaaaaaaaaaaaa()->cat_stash = 0;
+		get_readline_core()->cat_stash = 0;
 	}
 }
 
@@ -30,13 +30,13 @@ void	move_right_key(t_readline_data *data)
 		data->actual = data->first;
 		data->cursor = get_char_pos(data, data->actual);
 		teleport_cursor(data->cursor);
-		aaaaaaaaaaaaaaaaaaa()->cat_stash = 0;
+		get_readline_core()->cat_stash = 0;
 	}
 	else if (data->actual && data->actual->next)
 	{
 		data->actual = data->actual->next;
 		data->cursor = get_char_pos(data, data->actual);
 		teleport_cursor(data->cursor);
-		aaaaaaaaaaaaaaaaaaa()->cat_stash = 0;
+		get_readline_core()->cat_stash = 0;
 	}
 }

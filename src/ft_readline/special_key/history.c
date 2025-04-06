@@ -28,9 +28,9 @@ static void	restore_history(t_readline_data *data, char *value)
 void	previous_history_key(t_readline_data *data)
 {
 	t_readline	*core;
-	int				size;
+	int			size;
 
-	core = aaaaaaaaaaaaaaaaaaa();
+	core = get_readline_core();
 	size = ft_array_count(core->history);
 	if (data->history_index >= size)
 		return ;
@@ -49,7 +49,7 @@ void	next_history_key(t_readline_data *data)
 {
 	t_readline	*core;
 
-	core = aaaaaaaaaaaaaaaaaaa();
+	core = get_readline_core();
 	if (data->history_index <= 0)
 		return ;
 	free_chars(data->first);

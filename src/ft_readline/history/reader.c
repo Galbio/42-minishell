@@ -33,10 +33,10 @@ static void	parse_history(const char *content, t_readline *core)
 
 void	init_history(void)
 {
-	char			*contents;
+	char		*contents;
 	t_readline	*core;
 
-	core = aaaaaaaaaaaaaaaaaaa();
+	core = get_readline_core();
 	core->history = ft_array();
 	contents = get_history_file_contents();
 	if (!contents)
