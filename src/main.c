@@ -6,11 +6,12 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:20:18 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 07:47:54 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/04 09:51:41 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "regex.h"
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -22,5 +23,6 @@ int	main(int argc, char **argv, char **envp)
 	env = parse_envp(envp, &imp);
 	launch(env, &imp);
 	free_envp(&env, &imp);
+	free_regex_items();
 	return (2);
 }
