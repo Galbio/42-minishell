@@ -22,10 +22,6 @@ FILES = main.c		\
 	redirections/redirect_stdin.c \
 	redirections/redirect_stdout.c \
 	redirections/add_redir_argv.c \
-	redirections/heredoc/handle_heredoc.c \
-	redirections/heredoc/parse_heredocs.c \
-	redirections/heredoc/heredoc_quote_parser.c \
-	redirections/heredoc/handle_heredoc_utils.c \
 	builtins/echo.c \
 	builtins/cd.c \
 	builtins/change_pwd.c \
@@ -41,6 +37,7 @@ FILES = main.c		\
 	commands/execute_subshell.c \
 	commands/execute_pipes.c \
 	commands/execute_bin.c \
+	commands/execute_subcmd.c \
 	envp/parser.c \
 	envp/create_envp_cpy.c \
 	readline/history/manager.c	\
@@ -89,7 +86,6 @@ FILES = main.c		\
 	utils/free_cmd.c \
 	utils/get_subcmd.c \
 	utils/trim_whitespaces.c \
-	utils/ft_replace_str_part.c \
 	utils/check_special_char.c
 
 OFILES = $(FILES:%.c=$(OBJS)/%.o)
