@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/07 22:06:53 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/07 22:08:23 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,8 +151,5 @@ int				ms_env(t_cmd_params *cmd);
 void			export_vars(t_list *envp);
 void			unset_var(char *name, t_list **envp, t_main_envp *imp);
 void			change_envp_pwd(t_list **envp, char *name);
-
-char			*ft_replace_str_part(char *src, int start, int replace_len,
-					char *to_add);
 
 #endif

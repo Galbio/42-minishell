@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:21:27 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/07 21:50:11 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/07 22:10:23 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	get_subcmd_size(char *str)
 	return (itab.i);
 }
 
+//might other options later
 char	*get_subcmd(char *str)
 {
 	return (ft_substr(str, 1, get_subcmd_size(str) - 2));

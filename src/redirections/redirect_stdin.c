@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 00:17:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/04 13:35:24 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 06:29:40 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static char	redirect_herefile(char *filename, t_cmd_params *cmd)
 	return (0);
 }
 
-static char	redirect_herestring(char *value, t_cmd_params *cmd, int is_heredoc)
+static char	redirect_herestring(char *value, t_cmd_params *cmd)
 {
 	int		pipes[2];
 	char	*old;
@@ -70,8 +70,7 @@ static char	redirect_herestring(char *value, t_cmd_params *cmd, int is_heredoc)
 		free(old);
 	}
 	write(pipes[1], value, ft_strlen(value));
-	if (!is_heredoc)
-		write(pipes[1], "\n", 1);
+	write(pipes[1], "\n", 1);
 	close(pipes[1]);
 	dup2(pipes[0], 0);
 	if (cmd->imp->input_fd)
@@ -92,12 +91,11 @@ static char	redirect_stdin(char *method, char **value, t_cmd_params *cmd)
 	}
 	else if ((len == 3) && (method[2] == '<'))
 	{
-		if (redirect_herestring(value[1], cmd, 0))
+		if (redirect_herestring(value[1], cmd))
 			return (1);
 	}
 	else
-		if (redirect_herestring(value[1], cmd, 1))
-			return (1);
+		write(2, "heredocs lol\n", 13);
 	return (0);
 }
 
