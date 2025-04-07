@@ -6,35 +6,11 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 01:57:21 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 07:10:20 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/07 14:59:30 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static char	*get_subshell(char *str)
-{
-	t_int_tab	itab;
-	char		*dest;
-
-	itab = init_int_tab();
-	while (str[++itab.i])
-	{
-		itab.backslash = itab.i && (str[itab.i - 1] == '\\') && !itab.backslash;
-		check_special_char(str, &itab);
-		if (!itab.backslash && !itab.cur_quote && (str[itab.i] == '$'))
-			itab.i += go_to_var_end(str + itab.i) - 1;
-		else if (!itab.backslash && !itab.cur_quote && (str[itab.i] == '('))
-			itab.ret++;
-		else if (!itab.backslash && !itab.cur_quote && (str[itab.i] == ')'))
-			itab.ret--;
-		if (!itab.ret)
-			break ;
-	}
-	dest = ft_substr(str, 1, itab.i - 1);
-	free(str);
-	return (dest);
-}
 
 static void	handle_subshell(t_cmd_params *cmd)
 {
@@ -49,7 +25,7 @@ static void	handle_subshell(t_cmd_params *cmd)
 	free_cmd(cmd, 'b');
 	free(cmd);
 	imp->is_bquoted++;
-	execute_line(get_subshell(command), envp, imp);
+	execute_line(get_subcmd(command), envp, imp);
 	stat = imp->exit_status;
 	free_envp(envp, imp);
 	exit(stat);

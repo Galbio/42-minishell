@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 09:13:48 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/07 18:36:31 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,25 +74,27 @@ char	*get_var_value(char *name, t_list *cur, char quote)
 	return (NULL);
 }
 
-static char	*get_cmd(char *str)
+static char	*handle_braces(char *str, t_cmd_params *cmd, char quote)
 {
-	t_int_tab	itab;
+	char	*dest;
+	char	*temp;
 
-	itab = init_int_tab();
-	while (str[++itab.i])
+	if (*str == '#')
 	{
-		itab.backslash = itab.i && (str[itab.i - 1] == '\\') && !itab.backslash;
-		check_special_char(str, &itab);
-		if (!itab.backslash && !itab.cur_quote && (str[itab.i] == '$'))
-			itab.i += go_to_var_end(str + itab.i) - 1;
-		else if (!itab.backslash && !itab.cur_quote && (str[itab.i] == '('))
-			itab.ret++;
-		else if (!itab.backslash && !itab.cur_quote && (str[itab.i] == ')'))
-			itab.ret--;
-		if (!itab.ret)
-			return (ft_substr(str, 1, itab.i - 1));
+		if (str[1] == '#')
+			return (ft_itoa(0));
+		dest = handle_braces(str + 1, cmd, quote);
+		temp = dest;
+		dest = ft_itoa(ft_strlen(dest));
+		free(temp);
+		return (dest);
 	}
-	return (ft_substr(str, 1, itab.i - 1));
+	if (*str == '?')
+		return (ft_itoa((int)cmd->imp->exit_status));
+	dest = get_var_value(str, *(cmd->envp), quote);
+	if (!dest)
+		dest = ft_strdup("");
+	return (dest);
 }
 
 void	handle_var(char *str, t_int_tab *itab, t_list **cmd_outputs,
@@ -100,17 +102,22 @@ void	handle_var(char *str, t_int_tab *itab, t_list **cmd_outputs,
 {
 	char	*output;
 
-	if (str[itab->i + 1] == '(')
+	if (ft_strchr("{(", str[itab->i + 1]))
 	{
-		itab->ptr1 = get_cmd(str + itab->i + 1);
+		itab->ptr1 = get_subcmd(str + itab->i + 1);
 		itab->ptr2 = str;
-		output = handle_commands(itab, cmd, cmd_outputs);
+		if (str[itab->i + 1] == '(')
+			output = handle_commands(itab, cmd, cmd_outputs);
+		else
+			output = handle_braces(itab->ptr1, cmd, itab->cur_quote);
 	}
 	else
 	{
 		itab->ptr1 = get_var_name(str + itab->i + 1);
 		if (itab->ptr1[0] == '?')
 			output = ft_itoa((int)cmd->imp->exit_status);
+		else if (itab->ptr1[0] == '#')
+			output = ft_itoa(0);
 		else
 			output = get_var_value(itab->ptr1, *(cmd->envp), itab->cur_quote);
 	}
@@ -118,6 +125,6 @@ void	handle_var(char *str, t_int_tab *itab, t_list **cmd_outputs,
 		output = ft_strdup("");
 	ft_lstadd_back(cmd_outputs, ft_lstnew(output));
 	itab->res += ft_strlen(output);
-	itab->i += ft_strlen(itab->ptr1) + (2 * (str[itab->i +1] == '('));
+	itab->i += ft_strlen(itab->ptr1) + (2 * (ft_strchr("({", str[itab->i + 1]) != 0));
 	free(itab->ptr1);
 }

@@ -87,6 +87,7 @@ FILES = main.c		\
 	utils/var_names_utils.c \
 	utils/is_only_nb.c \
 	utils/free_cmd.c \
+	utils/get_subcmd.c \
 	utils/trim_whitespaces.c \
 	utils/ft_replace_str_part.c \
 	utils/check_special_char.c
