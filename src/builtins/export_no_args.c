@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 18:40:47 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 11:49:27 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/08 00:03:07 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,15 +71,14 @@ void	export_vars(t_list *envp)
 		j = -1;
 		while (envp_cpy[i][++j] && (envp_cpy[i][j] != '='))
 			write(1, envp_cpy[i] + j, 1);
-		if (!envp_cpy[i])
+		if (envp_cpy[i][j])
 		{
-			free(envp_cpy);
-			return ;
+			write(1, "=\"", 2);
+			while (envp_cpy[i][++j])
+				write_cor_char(envp_cpy[i][j]);
+			write(1, "\"", 1);
 		}
-		write(1, "=\"", 2);
-		while (envp_cpy[i][++j])
-			write_cor_char(envp_cpy[i][j]);
-		write(1, "\"\n", 2);
+		write(1, "\n", 1);
 		free(envp_cpy[i]);
 	}
 	free(envp_cpy);

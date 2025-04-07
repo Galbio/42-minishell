@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/07 22:03:59 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/07 23:55:03 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ char	*get_var_value(char *name, t_list *cur, char quote)
 	while (cur)
 	{
 		value = (char *)cur->content;
+		value += (value[0] == '\\');
 		if ((value[len] == '=') && !ft_strncmp(name, value, len))
 			return (parse_var_return(ft_strdup(value + len + 1), quote));
 		cur = cur->next;

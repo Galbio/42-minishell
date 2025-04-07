@@ -14,6 +14,7 @@ FILES = main.c		\
 	argv/create_argv.c \
 	argv/argv_utils.c \
 	argv/var_parser.c \
+	argv/local_var_handling.c \
 	argv/add_splitted.c \
 	argv/parse_cmd_return.c \
 	parsers/split_separators.c \

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 18:19:55 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 10:56:06 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/08 01:05:00 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,20 @@ static int	cd_to_home(t_cmd_params *cmd)
 	int		res;
 	char	*home_val;
 
+	res = 0;
 	home_val = get_var_value("HOME", *(cmd->envp), 0);
 	if (home_val)
-		chdir(home_val);
+		res = chdir(home_val);
 	else
 		write(2, "minishell: cd: HOME not set\n", 28);
+	if (res)
+	{
+		write(2, "minishell: cd: ", 15);
+		ft_putstr_fd(home_val, 2);
+		write(2, ": No such file or directory\n", 28);
+		free(home_val);
+		return (1);
+	}
 	res = home_val != NULL;
 	change_envp_pwd(cmd->envp, getcwd(NULL, 0));
 	free(home_val);
