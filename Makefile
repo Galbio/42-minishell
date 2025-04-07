@@ -38,7 +38,6 @@ FILES = main.c		\
 	commands/execute_subshell.c \
 	commands/execute_pipes.c \
 	commands/execute_bin.c \
-	commands/execute_subcmd.c \
 	envp/parser.c \
 	envp/create_envp_cpy.c \
 	readline/history/manager.c	\
@@ -87,7 +86,6 @@ FILES = main.c		\
 	utils/var_names_utils.c \
 	utils/is_only_nb.c \
 	utils/free_cmd.c \
-	utils/get_subcmd.c \
 	utils/trim_whitespaces.c \
 	utils/check_special_char.c	\
 	regex/checkers/bounds.c		\
