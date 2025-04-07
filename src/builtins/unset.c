@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 19:34:13 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/08 01:21:49 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/08 01:33:29 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ void	unset_var(char *name, t_list **envp, t_main_envp *imp)
 	while (cur)
 	{
 		env = (char *)cur->content;
-		if (!ft_strncmp(env + (env[0] == '\\'), name, len + 1))
+		if (!ft_strncmp(env + (env[0] == '\\'), name, len)
+			&& ft_strchr("=\0", env[len]))
 		{
 			delete_env(i, envp);
 			check_is_imp(name, imp);

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:04:41 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/08 01:22:47 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/08 01:39:08 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ static int	add_envp(char *name, t_list **envp)
 	while (cur)
 	{
 		value = (char *)cur->content;
-		if (!ft_strncmp(value + (value[0] == '\\'), name, i + 1))
+		if (!ft_strncmp(value + (value[0] == '\\'), name, i)
+			&& ft_strchr("=\0", value[i + (value[0] == '\\')]))
 		{
 			if (value[0] == '\\')
 				cur->content = ft_strdup(value + 1);
