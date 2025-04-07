@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 20:57:20 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/08 00:15:50 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 04:13:54 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,7 @@ void	add_var_to_dest(char *dest, char *str, t_int_tab *itab,
 	free(temp->content);
 	free(temp);
 	itab->res += len;
-	if (ft_strchr("{(", str[itab->i + 1]))
-		itab->i += get_subcmd_size(str + itab->i + 1);
-	else if (!ft_strchr("~%+=]}./\\:\0", str[itab->i + 1]))
-		itab->i += go_to_var_end(str + itab->i) - 1;
+	itab->i += go_to_var_end(str + itab->i) - 1;
 }
 
 static int	get_parsed_size(char *str, t_list **cmd_outputs, t_cmd_params *cmd)
