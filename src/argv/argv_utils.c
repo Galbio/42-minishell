@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 20:57:20 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/07 18:57:37 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/07 21:47:42 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	add_var_to_dest(char *dest, char *str, t_int_tab *itab,
 	itab->res += len;
 	if (ft_strchr("{(", str[itab->i + 1]))
 		itab->i += get_subcmd_size(str + itab->i + 1);
-	else
+	else if (!ft_strchr("~%+=]}./\\:\0", str[itab->i + 1]))
 		itab->i += go_to_var_end(str + itab->i) - 1;
 }
 

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/07 18:36:31 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/07 21:50:29 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,34 +97,46 @@ static char	*handle_braces(char *str, t_cmd_params *cmd, char quote)
 	return (dest);
 }
 
-void	handle_var(char *str, t_int_tab *itab, t_list **cmd_outputs,
+static char	*get_var_output(char *str, t_int_tab *itab, t_list **cmd_outputs,
 		t_cmd_params *cmd)
 {
-	char	*output;
-
 	if (ft_strchr("{(", str[itab->i + 1]))
 	{
 		itab->ptr1 = get_subcmd(str + itab->i + 1);
 		itab->ptr2 = str;
 		if (str[itab->i + 1] == '(')
-			output = handle_commands(itab, cmd, cmd_outputs);
-		else
-			output = handle_braces(itab->ptr1, cmd, itab->cur_quote);
+			return (handle_commands(itab, cmd, cmd_outputs));
+		return (handle_braces(itab->ptr1, cmd, itab->cur_quote));
 	}
 	else
 	{
 		itab->ptr1 = get_var_name(str + itab->i + 1);
 		if (itab->ptr1[0] == '?')
-			output = ft_itoa((int)cmd->imp->exit_status);
+			return (ft_itoa((int)cmd->imp->exit_status));
 		else if (itab->ptr1[0] == '#')
-			output = ft_itoa(0);
-		else
-			output = get_var_value(itab->ptr1, *(cmd->envp), itab->cur_quote);
+			return (ft_itoa(0));
+		return (get_var_value(itab->ptr1, *(cmd->envp), itab->cur_quote));
 	}
+	return (NULL);
+}
+
+void	handle_var(char *str, t_int_tab *itab, t_list **cmd_outputs,
+		t_cmd_params *cmd)
+{
+	char	*output;
+
+	if (ft_strchr("~%+=]}./\\:\0", str[itab->i + 1]))
+	{
+		ft_lstadd_back(cmd_outputs, ft_lstnew(ft_strdup("$")));
+		itab->res++;
+		return ;
+	}
+	output = get_var_output(str, itab, cmd_outputs, cmd);
 	if (!output)
 		output = ft_strdup("");
 	ft_lstadd_back(cmd_outputs, ft_lstnew(output));
 	itab->res += ft_strlen(output);
-	itab->i += ft_strlen(itab->ptr1) + (2 * (ft_strchr("({", str[itab->i + 1]) != 0));
+	itab->i += ft_strlen(itab->ptr1)
+		+ (2 * (ft_strchr("({", str[itab->i + 1]) != 0));
 	free(itab->ptr1);
 }
