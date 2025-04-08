@@ -10,17 +10,22 @@ LIBFTI = $(LIBFT)
 
 FILES = main.c		\
 	minishell.c	\
-	bquotes_handler.c \
 	signals.c		\
-	split_separators.c \
 	argv/create_argv.c \
 	argv/argv_utils.c \
 	argv/var_parser.c \
 	argv/add_splitted.c \
 	argv/parse_cmd_return.c \
+	parsers/split_separators.c \
+	parsers/splitters_utils.c \
+	parsers/bquotes_handler.c \
 	redirections/redirect_stdin.c \
 	redirections/redirect_stdout.c \
 	redirections/add_redir_argv.c \
+	redirections/heredoc/handle_heredoc.c \
+	redirections/heredoc/parse_heredocs.c \
+	redirections/heredoc/heredoc_quote_parser.c \
+	redirections/heredoc/handle_heredoc_utils.c \
 	builtins/echo.c \
 	builtins/cd.c \
 	builtins/change_pwd.c \
