@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/08 17:39:54 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/08 20:55:51 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int				handle_separator(char *str, t_list **sep);
 char			handle_redirections(t_cmd_params *cmd);
 char			redirect_stdout(char *method, char **value);
 char			is_only_nb(char *str);
-char			*get_var_value(char *name, t_list *cur, char quote);
+char			*get_var_value(char *name, t_list *cur);
 
 //heredoc
 char			*parse_heredoc_value(char *str, t_main_envp *imp);
