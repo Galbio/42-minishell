@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:43:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/06 15:18:32 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/08 15:05:08 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ void	update_position(t_readline_data *data, t_vector2 size,
 void	print_build(char *build)
 {
 	int	i;
-	int	in;
+	int	in_fd;
 
-	in = get_extra_data_in_fd();
+	in_fd = get_extra_data_in_fd();
 	if (!build || !build[0])
 	{
-		erase_after_cursor(in, 0);
+		erase_after_cursor(in_fd, 0);
 		return ;
 	}
 	i = 0;
@@ -54,13 +54,13 @@ void	print_build(char *build)
 	if (i > 1 && build[i - 1] == '\n')
 	{
 		write(0, build, i - 1);
-		erase_after_cursor(in, 1);
+		erase_after_cursor(in_fd, 1);
 	}
 	else if (i == 1 && build[0] == '\n')
-		erase_after_cursor(in, 1);
+		erase_after_cursor(in_fd, 1);
 	else
 		write(0, build, i);
-	erase_after_cursor(in, 0);
+	erase_after_cursor(in_fd, 0);
 	if (i < (int)ft_strlen(build))
 		print_build(build + i);
 }

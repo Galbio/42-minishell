@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 13:27:37 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/06 13:29:49 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/08 15:16:43 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,15 @@ static int	parse_row_col_from_plain_text(const char *input, int *row, int *col)
 	*col = 0;
 	while (input[i] == ' ' || input[i] == '\t')
 		i++;
-	if (!(input[i] >= '0' && input[i] <= '9'))
+	if (!ft_isdigit(input[i]))
 		return (0);
-	while (input[i] >= '0' && input[i] <= '9')
+	while (ft_isdigit(input[i]))
 		*row = (*row * 10) + (input[i++] - '0');
 	while (input[i] == ' ' || input[i] == '\t')
 		i++;
-	if (!(input[i] >= '0' && input[i] <= '9'))
+	if (!ft_isdigit(input[i]))
 		return (0);
-	while (input[i] >= '0' && input[i] <= '9')
+	while (ft_isdigit(input[i]))
 		*col = (*col * 10) + (input[i++] - '0');
 	return (1);
 }
@@ -50,11 +50,11 @@ int	get_cursor_position_from_stdin(int *row, int *col)
 	i = 0;
 	while (i < n && input[i] == ' ')
 		i++;
-	while (i < n && input[i] >= '0' && input[i] <= '9')
+	while (i < n && ft_isdigit(input[i]))
 		*row = (*row) * 10 + (input[i++] - '0');
 	while (i < n && (input[i] == ' ' || input[i] == '\t'))
 		i++;
-	while (i < n && input[i] >= '0' && input[i] <= '9')
+	while (i < n && ft_isdigit(input[i]))
 		*col = (*col) * 10 + (input[i++] - '0');
 	if ((*row) > 0 && (*col) > 0)
 		return (1);

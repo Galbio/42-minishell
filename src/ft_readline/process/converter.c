@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:30 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/06 15:44:18 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/08 17:44:38 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ static void	paste_on(char **result, t_readline_char *c, int *i)
 	j = 0;
 	while (c->sequence[j])
 	{
-		(*result)[*i] = c->sequence[j];
+		(*result)[*i + j] = c->sequence[j];
 		j++;
-		(*i)++;
 	}
+	*i += j;
 }
 
 char	*list_to_string(t_readline_data data, t_readline_char *to)
@@ -67,6 +67,8 @@ char	*list_to_string(t_readline_data data, t_readline_char *to)
 	if (!to && data.first && !data.current)
 		return (ft_strdup(""));
 	result = malloc(sizeof(char) * (len + 2));
+	if (!result)
+		return (NULL);
 	ft_bzero(result, len + 2);
 	c = data.first;
 	i = 0;

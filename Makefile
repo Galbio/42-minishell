@@ -63,7 +63,6 @@ READLINE_FILES =	ft_readline/char/list.c					\
 					ft_readline/char/position.c				\
 					ft_readline/char/utils.c				\
 					ft_readline/clean/backslashes.c			\
-					ft_readline/clean/readed.c				\
 					ft_readline/cursor/position/position.c	\
 					ft_readline/cursor/position/stdin.c		\
 					ft_readline/cursor/position/tty.c		\

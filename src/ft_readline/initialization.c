@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 13:04:04 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/06 14:07:51 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/08 14:22:02 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ t_readline_data	*get_readline_data(void)
 
 static void	init_environnement(const char *prompt, t_readline_data *data)
 {
+	int	len;
+
 	data->pos.x = 0;
 	data->pos.y = 0;
 	get_cursor_position(&data->pos);
@@ -39,10 +41,10 @@ static void	init_environnement(const char *prompt, t_readline_data *data)
 	data->offset = data->pos.x - 1;
 	if (data->display_prompt)
 	{
-		data->pos.x += ft_strlen(prompt);
+		len = ft_strlen(prompt);
+		data->pos.x += len;
 		data->pos.y += data->pos.x / data->old_tsize.x;
-		data->pos.x -= ft_strlen(prompt)
-			- ft_strlen(ft_getlast_newline((char *)prompt));
+		data->pos.x -= len - ft_strlen(ft_getlast_newline((char *)prompt));
 		data->pos.x = data->pos.x % data->old_tsize.x;
 	}
 }

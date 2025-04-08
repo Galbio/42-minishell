@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 06:13:23 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/07 10:11:03 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/08 17:47:10 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	enable_raw_mode(void)
 {
 	struct termios	raw;
 
+	if (!isatty(STDIN_FILENO))
+		return ;
 	old();
 	tcgetattr(STDIN_FILENO, &raw);
 	raw.c_lflag &= ~(ECHO | ICANON);
@@ -40,5 +42,7 @@ void	enable_raw_mode(void)
 
 void	disable_raw_mode(void)
 {
+	if (!isatty(STDIN_FILENO))
+		return ;
 	tcsetattr(STDIN_FILENO, TCSANOW, old());
 }

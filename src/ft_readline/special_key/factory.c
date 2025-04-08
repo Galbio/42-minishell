@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:31:17 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/06 14:00:40 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/08 14:36:27 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	register_special_key(char *sequence,
 	if (get_by_sequence(sequence) != NULL)
 		on_overwrite(sequence);
 	new = malloc(sizeof(t_special_key));
+	if (!new)
+		return ;
 	new->sequence = sequence;
 	new->callback = callback;
 	ft_array_push(&get_readline_struct()->special_keys, new);
