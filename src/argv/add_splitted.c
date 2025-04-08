@@ -6,21 +6,18 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 18:17:51 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/08 22:21:32 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/08 22:34:20 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*join_matched(t_list *matches)
+char	*join_matched(t_list *matches, int i, int len)
 {
 	char	*dest;
-	int		len;
-	int		i;
 	t_list	*cur;
 
 	cur = matches;
-	len = 0;
 	while (cur)
 	{
 		len += ft_strlen(cur->content);
@@ -31,11 +28,10 @@ char	*join_matched(t_list *matches)
 	dest = malloc(sizeof(char) * (len + 1));
 	if (!dest)
 		return (NULL);
-	i = 0;
 	while (matches)
 	{
 		len = ft_strlen(matches->content);
-		ft_memcpy(dest + i, matches->content, len); 
+		ft_memcpy(dest + i, matches->content, len);
 		i += len;
 		matches = matches->next;
 		if (matches)
@@ -45,7 +41,7 @@ char	*join_matched(t_list *matches)
 	return (dest);
 }
 
-static void	replace_wildcard(char **src, char **str)
+static void	replace_wildcard(char **src, char **str, int *tried_wildcard)
 {
 	t_research	*ret;
 	char		*joined;
@@ -54,12 +50,12 @@ static void	replace_wildcard(char **src, char **str)
 	int			diff;
 
 	ret = parse_research(*str);
-	if (!ret)
+	if (!ret->matches)
 		return ;
 	sep = 0;
 	while (str[0][sep] && !ft_strchr(" \n\t", str[0][sep]))
 		sep++;
-	joined = join_matched(ret->matches);
+	joined = join_matched(ret->matches, 0, 0);
 	temp = joined;
 	joined = ft_strreplace_part(*str, 0, sep, joined);
 	free(temp);
@@ -70,9 +66,10 @@ static void	replace_wildcard(char **src, char **str)
 	free(temp);
 	free(joined);
 	*str = *src + diff;
+	(*tried_wildcard)++;
 }
 
-static int	get_splitted_size(char **src, char *str)
+static int	get_splitted_size(char **src, char *str, int tried_wildcard)
 {
 	int		res;
 	int		i;
@@ -87,8 +84,8 @@ static int	get_splitted_size(char **src, char *str)
 			is_sep = 0;
 		else if (!is_sep || !ft_iswhitespace(str[i]))
 		{
-			if (is_sep && ft_strchr("[?*", str[i]))
-				replace_wildcard(src, &str);
+			if (!tried_wildcard && is_sep && ft_strchr("[?*", str[i]))
+				replace_wildcard(src, &str, &tried_wildcard);
 			res++;
 			if ((str[i] == '\\') && (str[i + 1] == '\\'))
 				i++;
@@ -105,7 +102,7 @@ char	*make_splitted_str(char **str, int *i, char is_sep)
 	char	*dest;
 	int		ret;
 
-	dest = malloc(sizeof(char) * (get_splitted_size(str, str[0] + *i) + 1));
+	dest = malloc(sizeof(char) * (get_splitted_size(str, str[0] + *i, 0) + 1));
 	if (!dest)
 		return (NULL);
 	ret = 0;

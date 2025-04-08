@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 20:57:20 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/08 21:06:10 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/08 22:25:19 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ static int	get_parsed_size(char *str, t_list **cmd_outputs, t_cmd_params *cmd)
 		{
 			if (itab.cur_quote && ft_strchr(" \n\t\\", str[itab.i]))
 				itab.res++;
-			else if (ft_strchr("*[?", str[itab.i]) && (itab.cur_quote || itab.backslash))
+			else if (ft_strchr("*[?", str[itab.i])
+				&& (itab.cur_quote || itab.backslash))
 				itab.res++;
 			itab.res++;
 			if (!itab.cur_quote && itab.backslash
@@ -72,7 +73,8 @@ static void	fill_dest(char *dest, t_int_tab *itab, char *str,
 	{
 		if (itab->cur_quote && ft_strchr(" \n\t\\", str[itab->i]))
 			dest[itab->res++] = '\\';
-		else if (ft_strchr("*[?", str[itab->i]) && (itab->cur_quote || itab->backslash))
+		else if (ft_strchr("*[?", str[itab->i])
+			&& (itab->cur_quote || itab->backslash))
 			dest[itab->res++] = '\\';
 		dest[itab->res++] = str[itab->i];
 		if (!itab->cur_quote && itab->backslash
@@ -96,8 +98,6 @@ char	*parse_quotes(char *str, t_cmd_params *cmd)
 	while (str[++itab.i])
 		fill_dest(dest, &itab, str, &cmd_outputs);
 	dest[itab.ret] = 0;
-	t_research *truc = parse_research(dest);
-	(void)truc;
 	free(str);
 	return (dest);
 }
