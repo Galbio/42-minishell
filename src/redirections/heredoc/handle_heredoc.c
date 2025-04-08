@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 19:06:57 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/04 17:54:14 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/08 14:34:54 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static char	*replace_heredocs(char *str, t_list *infos)
 		i = (long)infos->content + len_diff;
 		end = (long)infos->next->content + len_diff;
 		temp = str;
-		str = ft_replace_part(str, i, end - i + 1,
+		str = ft_strreplace_part(str, i, end - i + 1,
 				infos->next->next->content);
 		free(temp);
 		len_diff += ft_strlen(infos->next->next->content) - (end - i + 1);

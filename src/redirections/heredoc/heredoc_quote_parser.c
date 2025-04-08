@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 00:16:35 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/02 16:28:15 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/08 15:09:23 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ static int	get_parsed_size(char *str)
 	i = -1;
 	while (str[++i])
 	{
-		if ((str[i] == '"') || ((str[i] == '\\') && (str[i + 1] != '$')))
-			res++;
+		res += (str[i] == '"') || ((str[i] == '\\') && (str[i + 1] != '$'));
 		res++;
 	}
 	return (res);
