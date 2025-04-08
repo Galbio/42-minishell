@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 18:17:51 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/08 23:46:03 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/08 23:55:30 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,22 +50,22 @@ static void	replace_wildcard(char **src, char **str, int *tried_wildcard)
 	int			diff;
 
 	ret = parse_research(*str);
-	if (!ret->matches)
-		return ;
-	sep = 0;
-	while (str[0][sep] && !ft_strchr(" \n\t", str[0][sep]))
-		sep++;
-	joined = join_matched(ret->matches, 0, 0);
-	temp = joined;
-	joined = ft_strreplace_part(*str, 0, sep, joined);
-	free(temp);
-	diff = (*str - *src);
-	temp = ft_substr(*src, 0, diff);
-	free(*src);
-	*src = ft_strjoin(temp, joined);
-	free(temp);
-	free(joined);
-	*str = *src + diff;
+	if (ret->matches)
+	{
+		sep = 0;
+		while (str[0][sep] && !ft_strchr(" \n\t", str[0][sep]))
+			sep++;
+		temp = join_matched(ret->matches, 0, 0);
+		joined = ft_strreplace_part(*str, 0, sep, temp);
+		free(temp);
+		diff = (*str - *src);
+		temp = ft_substr(*src, 0, diff);
+		free(*src);
+		*src = ft_strjoin(temp, joined);
+		free(temp);
+		free(joined);
+		*str = *src + diff;
+	}
 	(*tried_wildcard)++;
 	free_regex_match(ret);
 }

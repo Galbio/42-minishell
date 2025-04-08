@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/08 23:45:25 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/08 23:49:16 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,8 +153,6 @@ void			add_redirection(char *str, t_int_tab *itab,
 					t_cmd_params *cmd, t_list **dest);
 char			*handle_commands(t_int_tab *itab, t_cmd_params *cmd,
 					t_list **outputs);
-t_list			*fill_argv(char *str, t_cmd_params *cmd);
-char			**fill_return_argv(t_cmd_params *cmd, t_list *argv);
 
 //pipe utils
 t_cmd_params	*make_cmd(void *argv_ptr, t_list **envp, t_main_envp *imp);

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 08:00:35 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/08 23:12:57 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/03/27 05:01:49 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	handle_argv_filling(char *str, t_cmd_params *cmd, t_list **dest,
 	}
 }
 
-t_list	*fill_argv(char *str, t_cmd_params *cmd)
+static t_list	*fill_argv(char *str, t_cmd_params *cmd)
 {
 	t_list		*dest;
 	t_int_tab	itab;
@@ -45,7 +45,7 @@ t_list	*fill_argv(char *str, t_cmd_params *cmd)
 	return (dest);
 }
 
-char	**fill_return_argv(t_cmd_params *cmd, t_list *argv)
+static void	fill_return_argv(t_cmd_params *cmd, t_list *argv)
 {
 	char	**dest;
 	int		size;
@@ -58,7 +58,7 @@ char	**fill_return_argv(t_cmd_params *cmd, t_list *argv)
 	if (!dest)
 	{
 		cmd->argv = NULL;
-		return (NULL);
+		return ;
 	}
 	dest[size] = 0;
 	if (!argv)
@@ -71,15 +71,16 @@ char	**fill_return_argv(t_cmd_params *cmd, t_list *argv)
 		free(temp);
 	}
 	cmd->argv = dest;
-	return (dest);
 }
 
 t_cmd_params	*create_command_argv(t_cmd_params *cmd)
 {
+	t_list	*argv;
 	char	*temp;
 
 	temp = *(cmd->argv);
 	cmd->argv = NULL;
-	fill_return_argv(cmd, fill_argv(temp, cmd));
+	argv = fill_argv(temp, cmd);
+	fill_return_argv(cmd, argv);
 	return (cmd);
 }
