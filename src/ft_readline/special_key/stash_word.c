@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:02:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/06 16:10:24 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/07 15:22:37 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	stash_before_in_word_key(t_readline_data *data)
 
 void	stash_after_in_word_key(t_readline_data *data)
 {
-	int			as;
+	int			space_mode;
 
 	if (!data->first || (data->current && !data->current->next))
 		return ;
