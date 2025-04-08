@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/08 15:44:48 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/08 17:39:54 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ void			split_cmds(char *res, t_list **cmds);
 t_list			*split_pipes(char *str);
 t_list			*split_separators(char *str, t_list **sep);
 void			add_cmd(char *str, t_list **dest, t_int_tab *itab);
+char			*get_subcmd(char *str);
+int				get_subcmd_size(char *str);
 int				handle_separator(char *str, t_list **sep);
 
 //redirections
@@ -148,6 +150,8 @@ char			*parse_quotes(char *str, t_cmd_params *cmd);
 char			*make_splitted_str(char *str, int *i, char is_sep);
 void			add_redirection(char *str, t_int_tab *itab,
 					t_cmd_params *cmd, t_list **dest);
+char			*handle_commands(t_int_tab *itab, t_cmd_params *cmd,
+					t_list **outputs);
 
 //pipe utils
 t_cmd_params	*make_cmd(void *argv_ptr, t_list **envp, t_main_envp *imp);
@@ -169,8 +173,6 @@ int				ms_env(t_cmd_params *cmd);
 void			export_vars(t_list *envp);
 void			unset_var(char *name, t_list **envp, t_main_envp *imp);
 void			change_envp_pwd(t_list **envp, char *name);
-
-void			init_signals(void);
 
 void			init_regexs(void);
 t_list			*search_pattern(char *path, char *pattern);
