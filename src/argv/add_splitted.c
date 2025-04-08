@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 18:17:51 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/08 22:44:48 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/08 23:46:03 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ static void	replace_wildcard(char **src, char **str, int *tried_wildcard)
 	free(joined);
 	*str = *src + diff;
 	(*tried_wildcard)++;
+	free_regex_match(ret);
 }
 
 static int	get_splitted_size(char **src, char *str, int tried_wildcard)

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/08 23:13:07 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/08 23:45:25 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ char			check_special_char(char *str, t_int_tab *itab);
 void			free_cmd(t_cmd_params *cmd, char mode);
 void			free_envp(t_list **envp, t_main_envp *imp);
 char			free_redir(t_list *cur, char res);
+void			free_regex_match(t_research *regex);
 
 //parsing
 char			*handle_bquotes(char *res);

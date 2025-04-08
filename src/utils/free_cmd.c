@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:17:38 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/04 10:42:25 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/08 23:46:12 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,19 @@ char	free_redir(t_list *cur, char res)
 		i++;
 	}
 	return (res);
+}
+
+void	free_regex_match(t_research *regex)
+{
+	void	*temp;
+
+	while (regex)
+	{
+		temp = regex;
+		ft_lstclear(&regex->matches, free);
+		regex = regex->next;
+		free(temp);
+	}
 }
 
 void	free_envp(t_list **envp, t_main_envp *imp)
