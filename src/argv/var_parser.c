@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/07 22:03:59 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/08 17:38:58 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	*handle_braces(char *str, t_cmd_params *cmd, char quote)
 	char	*dest;
 	char	*temp;
 
-	if (*str == '#')
+	if (str[0] == '#')
 	{
 		if (str[1] == '#')
 			return (ft_itoa(0));

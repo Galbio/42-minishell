@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 19:39:43 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/08 17:28:31 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/08 18:11:24 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	split_cmds(char *res, t_list **cmds)
 		if (!itab.backslash && !itab.cur_quote && (res[itab.i] == '$'))
 			itab.i += go_to_var_end(res + itab.i) - 1;
 		else if (!itab.backslash && !itab.cur_quote && (res[itab.i] == '('))
-			itab.i += go_to_subcmd_end(res + itab.i) - 1;
+			itab.i += get_subcmd_size(res + itab.i) - 1;
 		if (!itab.cur_quote && (res[itab.i] == '\n'))
 			add_cmd(res, cmds, &itab);
 	}
