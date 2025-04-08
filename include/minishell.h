@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/08 15:08:07 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/08 15:10:42 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,14 @@ typedef struct s_int_tab
 	char	*ptr1;
 	char	*ptr2;
 }	t_int_tab;
+
+typedef struct s_research
+{
+	char				*addr;
+	int					len;
+	t_list				*matches;
+	struct s_research	*next;
+}	t_research;
 
 void			launch(t_list *envp, t_main_envp *imp);
 void			init_signals(void);
@@ -161,5 +169,12 @@ int				ms_env(t_cmd_params *cmd);
 void			export_vars(t_list *envp);
 void			unset_var(char *name, t_list **envp, t_main_envp *imp);
 void			change_envp_pwd(t_list **envp, char *name);
+
+void			init_signals(void);
+
+void			init_regexs(void);
+t_list			*search_pattern(char *path, char *pattern);
+t_list			*search_pattern_recursive(char *base_path, char **path);
+t_research		*parse_research(char *value);
 
 #endif
