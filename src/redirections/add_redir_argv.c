@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 22:20:19 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/08 21:36:58 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/08 23:15:15 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,42 +52,26 @@ static void	add_method(char *str, t_int_tab *itab, t_cmd_params *cmd)
 	itab->i += j;
 }
 
-static void	add_value(char *to_add, char is_fd, t_cmd_params *cmd)
+static void	add_value(char **argv, char is_fd, t_cmd_params *cmd)
 {
-	char	**dest;
+	t_list	*end;
 
-	dest = malloc(sizeof(char **) * 3);
+	end = ft_lstlast(cmd->redir);
 	if (is_fd)
-		dest[0] = (void *)1;
+		end->next = ft_lstnew((void *)1);
 	else
-		dest[0] = NULL;
-	dest[1] = to_add;
-	dest[2] = NULL;
-	ft_lstadd_back(&(cmd->redir), ft_lstnew(dest));
+		end->next = ft_lstnew((void *)0);
+	end->next->next = ft_lstnew(argv);
 }
 
 static void	parse_redirect_value(char *str, t_int_tab *itab,
 		t_cmd_params *cmd, char value_is_fd)
 {
 	char	*to_add;
-	char	*temp;
-	int		i;
 
 	to_add = get_redirect_text(str + itab->i);
 	itab->i += ft_strlen(to_add);
-	i = 0;
-	if (to_add[0])
-	{
-		temp = parse_quotes(to_add, cmd);
-		to_add = make_splitted_str(&temp, &i, 1);
-		free(temp);
-	}
-	else
-	{
-		free(to_add);
-		to_add = NULL;
-	}
-	add_value(to_add, value_is_fd, cmd);
+	add_value(fill_return_argv(cmd, fill_argv(to_add, cmd)), value_is_fd, cmd);
 	itab->ret = itab->i;
 }
 
