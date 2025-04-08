@@ -6,13 +6,13 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 18:17:51 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/08 23:55:30 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/09 00:50:10 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*join_matched(t_list *matches, int i, int len)
+static char	*join_matched(t_list *matches, int i, int len)
 {
 	char	*dest;
 	t_list	*cur;
