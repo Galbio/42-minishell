@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:44:41 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/06 14:33:44 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/08 19:15:47 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,14 @@ static void	register_default(void)
 	register_special_key(LEFT_ARROW_KEY, move_left_key);
 	register_special_key(RIGHT_ARROW_KEY, move_right_key);
 	register_special_key(INSERT_KEY, invalid_key);
-	register_special_key(HOME_KEY, home_key);
+	register_special_key(WHOME_KEY, home_key);
 	register_special_key(DELETE_KEY, delete_key);
-	register_special_key(END_KEY, end_key);
+	register_special_key(WEND_KEY, end_key);
 	register_special_key(BREAKLINE_KEY, breakline_key);
+	register_special_key(LHOME_KEY, home_key);
+	register_special_key(LEND_KEY, end_key);
+	register_special_key(PAGE_UP_KEY, invalid_key);
+	register_special_key(PAGE_DOWN_KEY, nofive_buttilde_key);
 }
 
 static void	register_controls(void)

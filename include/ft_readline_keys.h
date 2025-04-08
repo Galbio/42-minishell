@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 16:19:29 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/06 15:12:09 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/08 19:11:24 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@
 # define LEFT_ARROW_KEY "\x1B[D"
 # define DELETE_KEY "\x1B[3~"
 # define INSERT_KEY "\x1B[2~"
-# define HOME_KEY "\x1B[1~"
-# define END_KEY "\x1B[4~"
+# define WHOME_KEY "\x1B[1~"
+# define WEND_KEY "\x1B[4~"
+# define LHOME_KEY "\x1B[H"
+# define LEND_KEY "\x1B[F"
 # define PAGE_UP_KEY "\x1B[5~"
 # define PAGE_DOWN_KEY "\x1B[6~"
 # define CTRL_A_KEY "\x01"

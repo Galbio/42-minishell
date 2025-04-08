@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/06 16:01:16 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/08 19:17:12 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,7 @@ t_special_key	*get_by_sequence(char *sequence);
 //special_key/five_tilde.c
 void			five_tilde_key(t_readline_data *data);
 void			semicolon_five_tilde_key(t_readline_data *data);
+void			nofive_buttilde_key(t_readline_data *data);
 
 
 //special_key/history.c

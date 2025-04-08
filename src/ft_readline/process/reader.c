@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 15:16:08 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/06 14:14:07 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/08 19:03:42 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ int	read_stdin_keys(char *buffer)
 		return (0);
 	}
 	buffer[byte_read] = '\0';
-	return (buffer[0] != '\0');
+	return (1);
+	return (!(buffer[0] == '\0' && !isatty(STDIN_FILENO)));
 }
