@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/07 22:11:50 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/08 17:28:38 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ typedef struct s_main_envp
 	int				shell_level;
 	int				output_fd;
 	int				input_fd;
+	long			actual_pos;
+	t_list			*heredocs_infos;
 }	t_main_envp;
 
 typedef struct s_cmd_params
@@ -95,15 +97,26 @@ char			*handle_bquotes(char *res);
 t_list			*split_pipes(char *str);
 t_list			*split_separators(char *str, t_list **sep);
 void			add_cmd(char *str, t_list **dest, t_int_tab *itab);
-char			is_sep(char *str, t_list **sep);
 char			*get_subcmd(char *str);
 int				get_subcmd_size(char *str);
+int				handle_separator(char *str, t_list **sep);
 
 //redirections
 char			handle_redirections(t_cmd_params *cmd);
 char			redirect_stdout(char *method, char **value);
 char			is_only_nb(char *str);
 char			*get_var_value(char *name, t_list *cur, char quote);
+
+//heredoc
+char			*parse_heredoc_value(char *str, t_main_envp *imp);
+char			*identify_heredoc(char *str, t_list **heredocs,
+					t_main_envp *imp);
+char			*parse_heredoc_quote(char *str);
+void			free_heredocs(t_list *cur);
+void			add_heredoc_history(t_list *cur, t_list **end);
+char			advance_itab(char *str, t_int_tab *itab, char *ignore_tab);
+char			*wait_value(t_list **heredocs, char *value, char ignore_tab);
+char			*add_line(char *content, char *line);
 
 //envp
 t_list			*parse_envp(char **envp, t_main_envp *imp);
