@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 00:17:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/04 13:35:24 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/08 15:45:52 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,19 +86,10 @@ static char	redirect_stdin(char *method, char **value, t_cmd_params *cmd)
 
 	len = ft_strlen(method);
 	if (len == 1)
-	{
-		if (redirect_herefile(value[1], cmd))
-			return (1);
-	}
+		return (redirect_herefile(value[1], cmd));
 	else if ((len == 3) && (method[2] == '<'))
-	{
-		if (redirect_herestring(value[1], cmd, 0))
-			return (1);
-	}
-	else
-		if (redirect_herestring(value[1], cmd, 1))
-			return (1);
-	return (0);
+		return (redirect_herestring(value[1], cmd, 0));
+	return (redirect_herestring(value[1], cmd, 1));
 }
 
 char	handle_redirections(t_cmd_params *cmd)
