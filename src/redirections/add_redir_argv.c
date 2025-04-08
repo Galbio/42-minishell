@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 22:20:19 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 06:23:13 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/08 21:36:58 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static void	parse_redirect_value(char *str, t_int_tab *itab,
 	if (to_add[0])
 	{
 		temp = parse_quotes(to_add, cmd);
-		to_add = make_splitted_str(temp, &i, 1);
+		to_add = make_splitted_str(&temp, &i, 1);
 		free(temp);
 	}
 	else
