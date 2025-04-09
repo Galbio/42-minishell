@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 23:57:32 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 13:57:12 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/10 00:36:13 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,11 @@ void	handle_important(char *str, t_main_envp *imp)
 		important[3]++;
 		imp->path = parse_path(str + 5);
 	}
+	else if (!imp->pwd && !important[4] && !ft_strncmp("PWD=", str, 4))
+	{
+		important[4]++;
+		imp->pwd = ft_strdup(str + 5);
+	}
 }
 
 t_list	*parse_envp(char **envp, t_main_envp *imp)
@@ -93,6 +98,7 @@ t_list	*parse_envp(char **envp, t_main_envp *imp)
 		return (NULL);
 	dest = NULL;
 	i = -1;
+	imp->pwd = getcwd(NULL, 0);
 	while (envp[++i])
 	{
 		if (!ft_strncmp(envp[i], "SHLVL=", 6))

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 10:55:36 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 14:10:33 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/10 00:47:51 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,43 @@ static void	get_pwd_nodes(t_list **envp, t_list **old_pwd, t_list **pwd)
 	}
 }
 
-void	change_envp_pwd(t_list **envp, char *new)
+static int	update_pwd(t_main_envp *imp, char **new_path, char **arg)
+{
+	if ((*new_path) == NULL)
+	{
+		if (!imp->pwd)
+		{
+			printf("chdir: error retrieving current directory: getcwd: cannot");
+			printf(" access parent directories: No such file or directory\n");
+			if (ft_iscurrent_dirpath(*arg))
+				*new_path = ft_strdup(".");
+			else
+				*new_path = ft_cleanpath(*arg);
+		}
+		else if (ft_iscurrent_dirpath(*arg))
+			return (0);
+		else if (imp->pwd[0] == '.' && !imp->pwd[1])
+			*new_path = ft_cleanpath(*arg);
+		else
+		{
+			*arg = ft_cleanpath(*arg);
+			*new_path = ft_pathjoin(imp->pwd, *arg);
+		}
+	}
+	free(imp->pwd);
+	imp->pwd = ft_strdup(*new_path);
+	return (1);
+}
+
+void	change_envp_pwd(t_list **envp, t_main_envp *imp,
+	char *new_path, char *arg)
 {
 	t_list	*pwd;
 	t_list	*old_pwd;
 	void	*temp;
 
+	if (!update_pwd(imp, &new_path, &arg))
+		return ;
 	get_pwd_nodes(envp, &old_pwd, &pwd);
 	temp = NULL;
 	if (pwd)
@@ -50,10 +81,10 @@ void	change_envp_pwd(t_list **envp, char *new)
 		else
 			ft_lstadd_back(envp, ft_lstnew(
 					ft_strjoin("OLD", pwd->content)));
-		pwd->content = ft_strjoin("PWD=", new);
+		pwd->content = ft_strjoin("PWD=", new_path);
 		free(temp);
 	}
 	else
-		ft_lstadd_back(envp, ft_lstnew(ft_strjoin("PWD=", new)));
-	free(new);
+		ft_lstadd_back(envp, ft_lstnew(ft_strjoin("PWD=", new_path)));
+	free(new_path);
 }
