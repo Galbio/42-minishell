@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 06:49:41 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/07 23:50:12 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/09 20:24:57 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,11 @@
 static int	get_envp_size(t_list *envp)
 {
 	int		res;
-	char	*temp;
 
 	res = 0;
 	while (envp)
 	{
-		temp = (char *)envp->content;
-		if (temp[0] != '\\')
+		if (((char *)(envp->content))[0] != '\\')
 			res++;
 		envp = envp->next;
 	}

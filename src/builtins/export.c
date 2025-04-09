@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:04:41 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/08 01:39:08 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/09 20:24:01 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,28 @@ static int	check_invalid_name(char *name, int *i)
 	return (0);
 }
 
-static int	add_envp(char *name, t_list **envp)
+static int	match_value(t_list *cur, char *name, int i)
 {
 	char	*value;
+	char	is_local;
+
+	value = (char *)cur->content;
+	is_local = value[0] == '\\';
+	if (!ft_strncmp(value + is_local, name, i)
+		&& ft_strchr("=\0", value[i + is_local]))
+	{
+		if (is_local)
+			cur->content = ft_strdup(value + 1);
+		else
+			cur->content = ft_strdup(name);
+		free(value);
+		return (1);
+	}
+	return (0);
+}
+
+static int	add_envp(char *name, t_list **envp)
+{
 	t_list	*cur;
 	int		i;
 
@@ -51,17 +70,8 @@ static int	add_envp(char *name, t_list **envp)
 	cur = *envp;
 	while (cur)
 	{
-		value = (char *)cur->content;
-		if (!ft_strncmp(value + (value[0] == '\\'), name, i)
-			&& ft_strchr("=\0", value[i + (value[0] == '\\')]))
-		{
-			if (value[0] == '\\')
-				cur->content = ft_strdup(value + 1);
-			else
-				cur->content = ft_strdup(name);
-			free(value);
+		if (match_value(cur, name, i))
 			return (0);
-		}
 		cur = cur->next;
 	}
 	ft_lstadd_back(envp, ft_lstnew(ft_strdup(name)));
