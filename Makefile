@@ -35,6 +35,7 @@ FILES = main.c		\
 	builtins/export_no_args.c \
 	builtins/exit.c \
 	builtins/env.c \
+	builtins/alias.c \
 	commands/execute_line.c \
 	commands/execute_command.c \
 	commands/execute_command_utils.c \

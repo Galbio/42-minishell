@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/08 17:39:54 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/09 02:29:19 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_main_envp
 	int				input_fd;
 	long			actual_pos;
 	t_list			*heredocs_infos;
+	t_list			*aliases;
 }	t_main_envp;
 
 typedef struct s_cmd_params
@@ -168,6 +169,7 @@ int				ms_unset(t_cmd_params *cmd);
 int				ms_exit(t_cmd_params *cmd);
 int				ms_export(t_cmd_params *cmd);
 int				ms_env(t_cmd_params *cmd);
+int				ms_alias(t_cmd_params *cmd);
 
 //builtins additional
 void			export_vars(t_list *envp);
