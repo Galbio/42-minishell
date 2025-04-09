@@ -6,13 +6,13 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 00:16:33 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/08 01:15:23 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:13:10 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	update_if_is_exist(char *str, t_list **envp, int equal_pos)
+static void	add_to_envp(char *str, t_list **envp, int equal_pos)
 {
 	char	*value;
 	t_list	*cur;
@@ -28,33 +28,40 @@ static void	update_if_is_exist(char *str, t_list **envp, int equal_pos)
 			else
 				cur->content = ft_strjoin("\\", str);
 			free(value);
+			free(str);
 			return ;
 		}
 		cur = cur->next;
 	}
 	ft_lstadd_back(envp, ft_lstnew(ft_strjoin("\\", str)));
+	free(str);
 }
 
-static void	add_local(char *str, t_int_tab *itab, t_cmd_params *cmd, int i)
+static void	add_local(char *str, t_int_tab *itab,
+		t_cmd_params *cmd, int equal_pos)
 {
 	char	*value;
-	int		equal_pos;
+	char	*to_add;
+	int		i;
 
-	equal_pos = i;
-	while (str[i] && !ft_strchr(" \n\t", str[i]))
-		i++;
-	value = parse_quotes(ft_substr(str, 0, i), cmd);
-	update_if_is_exist(value, cmd->envp, equal_pos);
+	value = parse_quotes(ft_substr(str, equal_pos + 1, itab->i), cmd);
+	i = 0;
+	to_add = make_splitted_str(&value, &i, 1);
 	free(value);
-	while (str[i] && ft_strchr(" \n\t", str[i]))
-		i++;
-	itab->ret = i;
-	itab->i = i - 1;
+	i = equal_pos;
+	value = ft_substr(str, 0, equal_pos + 1);
+	add_to_envp(ft_strjoin(value, to_add), cmd->envp, equal_pos);
+	free(value);
+	free(to_add);
+	while (str[itab->i] && ft_strchr(" \n\t", str[itab->i]))
+		itab->i++;
+	itab->ret = itab->i--;
 }
 
 void	handle_local_appending(char *str, t_int_tab *itab, t_cmd_params *cmd)
 {
 	int		i;
+	int		equal_pos;
 
 	if (ft_isdigit(str[0]))
 		return ;
@@ -66,5 +73,16 @@ void	handle_local_appending(char *str, t_int_tab *itab, t_cmd_params *cmd)
 		if (!ft_isalnum(str[i]) && (str[i] != '_'))
 			return ;
 	}
-	add_local(str, itab, cmd, i);
+	itab->i = i;
+	equal_pos = itab->i;
+	while (str[++itab->i])
+	{
+		itab->backslash = itab->i && (str[itab->i - 1] == '\\')
+			&& !itab->backslash;
+		check_special_char(str, itab);
+		if (!itab->backslash && !itab->cur_quote
+			&& ft_strchr(" \n\t", str[itab->i]))
+			break ;
+	}
+	add_local(str, itab, cmd, equal_pos);
 }

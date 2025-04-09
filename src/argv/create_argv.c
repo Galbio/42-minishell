@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 08:00:35 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/08 01:46:45 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/09 17:43:59 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,21 @@ static void	fill_return_argv(t_cmd_params *cmd, t_list *argv)
 t_cmd_params	*create_command_argv(t_cmd_params *cmd)
 {
 	t_list	*argv;
+	char	*input;
 	char	*temp;
 
-	temp = *(cmd->argv);
+	input = *(cmd->argv);
+	temp = input;
+	input = handle_aliases(input, cmd->imp->aliases);
+	if (!input)
+		input = temp;
+	else
+	{
+		free(cmd->pipes->content);
+		cmd->pipes->content = input;
+	}
 	cmd->argv = NULL;
-	argv = fill_argv(temp, cmd);
+	argv = fill_argv(input, cmd);
 	fill_return_argv(cmd, argv);
 	return (cmd);
 }

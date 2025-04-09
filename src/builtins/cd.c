@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 18:19:55 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/08 01:05:00 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/09 17:43:24 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	cd_to_home(t_cmd_params *cmd)
 	char	*home_val;
 
 	res = 0;
-	home_val = get_var_value("HOME", *(cmd->envp), 0);
+	home_val = get_var_value("HOME", *(cmd->envp));
 	if (home_val)
 		res = chdir(home_val);
 	else
@@ -58,7 +58,7 @@ static int	cd_oldpwd(t_cmd_params *cmd)
 	char	*old_pwd;
 	int		res;
 
-	old_pwd = get_var_value("OLDPWD", *(cmd->envp), 0);
+	old_pwd = get_var_value("OLDPWD", *(cmd->envp));
 	if (old_pwd)
 	{
 		res = chdir(old_pwd);

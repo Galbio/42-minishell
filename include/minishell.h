@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/08 01:48:18 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/09 17:42:41 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # include <unistd.h>
 
 # include "libft.h"
-# include "readline.h"
+# include "ft_readline.h"
 
 # ifndef ZSH
 #  define ZSH 0
@@ -45,6 +45,9 @@ typedef struct s_main_envp
 	int				shell_level;
 	int				output_fd;
 	int				input_fd;
+	long			actual_pos;
+	t_list			*heredocs_infos;
+	t_list			*aliases;
 }	t_main_envp;
 
 typedef struct s_cmd_params
@@ -89,19 +92,35 @@ char			check_special_char(char *str, t_int_tab *itab);
 void			free_cmd(t_cmd_params *cmd, char mode);
 void			free_envp(t_list **envp, t_main_envp *imp);
 char			free_redir(t_list *cur, char res);
+void			free_regex_match(t_research *regex);
 
 //parsing
 char			*handle_bquotes(char *res);
+void			split_cmds(char *res, t_list **cmds);
 t_list			*split_pipes(char *str);
 t_list			*split_separators(char *str, t_list **sep);
 void			add_cmd(char *str, t_list **dest, t_int_tab *itab);
-char			is_sep(char *str, t_list **sep);
+char			*get_subcmd(char *str);
+int				get_subcmd_size(char *str);
+int				handle_separator(char *str, t_list **sep);
+char			*handle_aliases(char *input, t_list *aliases);
 
 //redirections
 char			handle_redirections(t_cmd_params *cmd);
 char			redirect_stdout(char *method, char **value);
 char			is_only_nb(char *str);
-char			*get_var_value(char *name, t_list *cur, char quote);
+char			*get_var_value(char *name, t_list *cur);
+
+//heredoc
+char			*parse_heredoc_value(char *str, t_main_envp *imp);
+char			*identify_heredoc(char *str, t_list **heredocs,
+					t_main_envp *imp);
+char			*parse_heredoc_quote(char *str);
+void			free_heredocs(t_list *cur);
+void			add_heredoc_history(t_list *cur, t_list **end);
+char			advance_itab(char *str, t_int_tab *itab, char *ignore_tab);
+char			*wait_value(t_list **heredocs, char *value, char ignore_tab);
+char			*add_line(char *content, char *line);
 
 //envp
 t_list			*parse_envp(char **envp, t_main_envp *imp);
@@ -131,11 +150,13 @@ void			add_to_argv(t_list **dest, char *str, t_int_tab *itab,
 void			add_splitted_to_add(char *str, t_list **dest);
 char			*parse_var_return(char *str, char quote);
 char			*parse_quotes(char *str, t_cmd_params *cmd);
-char			*make_splitted_str(char *str, int *i, char is_sep);
+char			*make_splitted_str(char **str, int *i, char is_sep);
 void			add_redirection(char *str, t_int_tab *itab,
 					t_cmd_params *cmd, t_list **dest);
 void			handle_local_appending(char *str, t_int_tab *itab,
 					t_cmd_params *cmd);
+char			*handle_commands(t_int_tab *itab, t_cmd_params *cmd,
+					t_list **outputs);
 
 //pipe utils
 t_cmd_params	*make_cmd(void *argv_ptr, t_list **envp, t_main_envp *imp);
@@ -152,6 +173,7 @@ int				ms_unset(t_cmd_params *cmd);
 int				ms_exit(t_cmd_params *cmd);
 int				ms_export(t_cmd_params *cmd);
 int				ms_env(t_cmd_params *cmd);
+int				ms_alias(t_cmd_params *cmd);
 
 //builtins additional
 void			export_vars(t_list *envp);
