@@ -6,15 +6,18 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/09 18:41:36 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/09 19:58:03 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "ft_readline_keys.h"
 
 static void	init(char *home)
 {
 	ft_readline_set_exit(0);
+	ft_readline_register_event(CTRL_C_KEY, on_sigint);
+	ft_readline_register_event(CTRL_BACKSLASH_KEY, on_sigquit);
 	init_signals();
 	set_history_path(home);
 	set_history_filename(".minishell_history");
@@ -34,17 +37,6 @@ static void	init_execution(t_list *envp, t_main_envp *imp, t_list **cmds)
 	if (ft_strchr(res, '`'))
 		res = handle_bquotes(res);
 	execute_line(res, &envp, imp);
-}
-
-static void	on_finish_execution(t_main_envp *imp)
-{
-	int		code;
-
-	code = get_sig_exitcode();
-	if (code == -1)
-		return ;
-	imp->exit_status = code;
-	reset_sig_exitcode();
 }
 
 void	launch(t_list *envp, t_main_envp *imp)
@@ -68,7 +60,6 @@ void	launch(t_list *envp, t_main_envp *imp)
 		free(res);
 		while (cmds)
 			init_execution(envp, imp, &cmds);
-		on_finish_execution(imp);
 	}
 	write(STDIN_FILENO, "\n", 1);
 }

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 21:20:49 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 07:10:37 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/09 20:02:24 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	handle_pipe_exec(t_cmd_params *cmd, char *command)
 	free(cmd);
 	imp->is_bquoted++;
 	execute_line(command, envp, imp);
-	res = imp->exit_status;
+	res = get_exit_status();
 	free_envp(envp, imp);
 	exit(res);
 }
@@ -79,7 +79,7 @@ static void	execute_pipe_cmd(t_cmd_params *cmd, int pipes[2], int last)
 	{
 		free(command);
 		close(pipes[!last]);
-		res = cmd->imp->exit_status;
+		res = get_exit_status();
 		free_cmd(cmd, 1);
 		free(cmd);
 		exit(res);

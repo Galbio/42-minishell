@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 18:35:09 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/09 19:56:56 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@
 
 typedef struct s_main_envp
 {
-	unsigned char	exit_status;
 	char			**path;
 	char			*home;
 	char			is_bquoted;
@@ -84,8 +83,10 @@ typedef struct s_research
 void			launch(t_list *envp, t_main_envp *imp);
 
 //signals
-void			set_sig_exitcode(void);
+void			reset_sig_exitcode(void);
 int				get_sig_exitcode(void);
+void			on_sigint(t_readline_data *data);
+void			on_sigquit(t_readline_data *data);
 void			init_signals(void);
 
 //misc
@@ -186,5 +187,9 @@ void			init_regexs(void);
 t_list			*search_pattern(char *path, char *pattern);
 t_list			*search_pattern_recursive(char *base_path, char **path);
 t_research		*parse_research(char *value);
+
+//exit status
+void			set_exit_status(unsigned char status);
+unsigned char	get_exit_status(void);
 
 #endif

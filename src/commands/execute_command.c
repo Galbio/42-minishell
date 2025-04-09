@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 05:04:24 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/09 20:19:45 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,13 @@ static int	execute_single_bin(t_cmd_params *cmd)
 	pid = fork();
 	if (pid < 0)
 		return (1);
+	set_exit_status(1);
 	if (!pid)
 		execute_bin(cmd);
 	waitpid(pid, &stat, 0);
 	if (WIFEXITED(stat))
 		return (WEXITSTATUS(stat));
-	return (1);
+	return (get_exit_status());
 }
 
 static void	manage_saves(int saves[3], char mode)
@@ -55,7 +56,7 @@ static int	execute_single_command(t_cmd_params *cmd)
 		return (0);
 	}
 	manage_saves(saves, 0);
-	res = cmd->imp->exit_status;
+	res = get_exit_status();
 	dup2(cmd->imp->output_fd, 1);
 	dup2(cmd->imp->input_fd, 0);
 	if (handle_redirections(cmd))

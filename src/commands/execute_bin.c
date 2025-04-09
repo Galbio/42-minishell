@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 20:09:48 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 07:10:54 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/09 20:17:54 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	execute_bin(t_cmd_params *cmd)
 	free_cmd(cmd, 'b');
 	free_envp(cmd->envp, cmd->imp);
 	free(cmd);
+	set_exit_status(1);
 	execve(path, argv, envp_cpy);
-	exit(1);
+	exit(get_exit_status());
 }

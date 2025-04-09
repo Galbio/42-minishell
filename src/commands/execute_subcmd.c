@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 22:01:47 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/07 22:02:53 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/09 20:02:59 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	execute_sub_cmd(t_int_tab *itab, t_cmd_params *cmd,
 	imp->output_fd = pipes[1];
 	imp->is_bquoted++;
 	execute_line(itab->ptr1, envp, imp);
-	res = imp->exit_status;
+	res = get_exit_status();
 	free_envp(envp, imp);
 	exit(res);
 }
@@ -52,7 +52,7 @@ char	*handle_commands(t_int_tab *itab, t_cmd_params *cmd,
 	close(pipes[1]);
 	waitpid(pid, &stat, 0);
 	if (WIFEXITED(stat))
-		cmd->imp->exit_status = WEXITSTATUS(stat);
+		set_exit_status(WEXITSTATUS(stat));
 	dest = ft_get_contents(pipes[0]);
 	close(pipes[0]);
 	return (parse_var_return(dest, itab->cur_quote));
