@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 02:21:06 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 03:05:43 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/09 13:57:29 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static int	add_alias(char *name, t_main_envp *imp)
 			return (1);
 		}
 	}
-	ft_lstadd_back(&imp->aliases, ft_lstnew(ft_strdup(name)));
+	ft_lstadd_front(&imp->aliases, ft_lstnew(ft_strdup(name)));
 	return (0);
 }
 
