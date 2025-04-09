@@ -6,13 +6,13 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 02:21:06 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 14:30:19 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:35:10 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	list_aliases(t_list *cur, int len)
+static void	list_aliases(t_list *cur, int len)
 {
 	char	*val;
 	int		i;
@@ -35,7 +35,6 @@ static int	list_aliases(t_list *cur, int len)
 		write(1, "'\n", 2);
 		cur = cur->next;
 	}
-	return (0);
 }
 
 static void	display_error(char *name, int code)
