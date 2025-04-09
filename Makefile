@@ -10,7 +10,6 @@ LIBFTI = $(LIBFT)
 
 FILES =	main.c		\
 	minishell.c	\
-	signals.c		\
 	argv/create_argv.c \
 	argv/argv_utils.c \
 	argv/var_parser.c \
@@ -54,6 +53,7 @@ FILES =	main.c		\
 	utils/is_only_nb.c \
 	utils/free_cmd.c \
 	utils/get_subcmd.c \
+	utils/get_cmd_depth.c \
 	utils/trim_whitespaces.c \
 	utils/check_special_char.c	\
 	regex/checkers/bounds.c		\
@@ -66,7 +66,9 @@ FILES =	main.c		\
 	regex/items/factory.c		\
 	regex/items/utils.c		\
 	regex/cleaner.c			\
-	regex/regex.c
+	regex/regex.c	\
+	signals/exit_status.c	\
+	signals/handler.c
 
 
 READLINE_FILES =	ft_readline/char/list.c					\
@@ -81,7 +83,7 @@ READLINE_FILES =	ft_readline/char/list.c					\
 					ft_readline/edition/delete.c			\
 					ft_readline/edition/utils.c				\
 					ft_readline/edition/write.c				\
-					ft_readline/extra/erase.c					\
+					ft_readline/extra/erase.c				\
 					ft_readline/extra/fd.c					\
 					ft_readline/extra/raw_mode.c			\
 					ft_readline/extra/size.c				\
@@ -98,19 +100,20 @@ READLINE_FILES =	ft_readline/char/list.c					\
 					ft_readline/process/handler.c			\
 					ft_readline/process/reader.c			\
 					ft_readline/process/stash.c				\
-					ft_readline/special_key/breakline.c		\
-					ft_readline/special_key/clear.c			\
-					ft_readline/special_key/delete.c		\
-					ft_readline/special_key/factory.c		\
-					ft_readline/special_key/five_tilde.c	\
-					ft_readline/special_key/history.c		\
-					ft_readline/special_key/interrupt.c		\
-					ft_readline/special_key/invalid.c		\
-					ft_readline/special_key/move.c			\
-					ft_readline/special_key/stash_word.c	\
-					ft_readline/special_key/stash.c			\
-					ft_readline/special_key/swap.c			\
-					ft_readline/special_key/teleport.c		\
+					ft_readline/events/default/breakline.c	\
+					ft_readline/events/default/clear.c		\
+					ft_readline/events/default/delete.c		\
+					ft_readline/events/default/five_tilde.c	\
+					ft_readline/events/default/history.c	\
+					ft_readline/events/default/interrupt.c	\
+					ft_readline/events/default/invalid.c	\
+					ft_readline/events/default/move.c		\
+					ft_readline/events/default/stash_word.c	\
+					ft_readline/events/default/stash.c		\
+					ft_readline/events/default/swap.c		\
+					ft_readline/events/default/teleport.c	\
+					ft_readline/events/default_events.c		\
+					ft_readline/events/factory.c			\
 					ft_readline/exit.c						\
 					ft_readline/ft_readline.c				\
 					ft_readline/initialization.c			\

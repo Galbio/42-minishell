@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:00:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/06 13:59:28 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/09 19:07:43 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	free_readline(void)
 	t_readline	*main;
 
 	main = get_readline_struct();
-	ft_array_unset(&main->special_keys, ft_array_free_entry);
+	ft_lstclear(&main->events, free);
 	free_chars(main->stashed);
 	ft_array_unset(&main->history, ft_array_free_entry);
 	free(main);

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 23:57:32 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 13:57:12 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/09 22:41:48 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,6 @@ t_list	*parse_envp(char **envp, t_main_envp *imp)
 			ft_lstadd_back(&dest, ft_lstnew(ft_strdup(envp[i])));
 		handle_important(envp[i], imp);
 	}
-	imp->is_bquoted = 0;
-	imp->exit_status = 0;
 	imp->aliases = NULL;
 	return (dest);
 }

@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/09 17:19:28 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/09 20:09:04 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <unistd.h>
 # include <sys/ioctl.h>
 # include <termios.h>
-# include <signal.h>
 # include "libft.h"
 # include "ft_readline_history.h"
 
@@ -59,16 +58,16 @@ typedef struct s_readline_data
 	int				is_pipe;
 }	t_readline_data;
 
-typedef struct s_special_key
+typedef struct s_readline_event
 {
 	char	*sequence;
 	void	(*callback)(t_readline_data *);
 
-}	t_special_key;
+}	t_readline_event;
 
 typedef struct s_readline
 {
-	t_array			special_keys;
+	t_list			*events;
 	t_readline_char	*stashed;
 	int				cat_stash;
 	t_array			history;
@@ -165,58 +164,62 @@ void			add_to_stash(t_readline_char **stashed, t_readline_char *node,
 					int type);
 void			clean_stash(t_readline *main, int check_cat);
 
-//special_key/breakline.c
+//events/default/breakline.c
 void			breakline_key(t_readline_data *data);
 
-//special_key/clear.c
+//events/default/clear.c
 void			clear_key(t_readline_data *data);
 
-//special_key/delete.c
+//events/default/delete.c
 void			backspace_key(t_readline_data *data);
 void			delete_key(t_readline_data *data);
 
-//special_key/factory.c
-void			register_special_key(char *sequence,
-					void (*callback)(t_readline_data *));
-t_special_key	*get_by_sequence(char *sequence);
-
-//special_key/five_tilde.c
+//events/default/five_tilde.c
 void			five_tilde_key(t_readline_data *data);
 void			semicolon_five_tilde_key(t_readline_data *data);
 void			nofive_buttilde_key(t_readline_data *data);
 
-//special_key/history.c
+//events/default/history.c
 void			previous_history_key(t_readline_data *data);
 void			next_history_key(t_readline_data *data);
 
-//special_key/interrupt.c
+//events/default/interrupt.c
 void			ctrl_c_key(t_readline_data *data);
 void			ctrl_d_key(t_readline_data *data);
 
-//special_key/invalid.c
+//events/default/invalid.c
 void			invalid_key(t_readline_data *data);
 
-//special_key/move.c
+//events/default/move.c
 void			move_left_key(t_readline_data *data);
 void			move_right_key(t_readline_data *data);
 
-//special_key/stash_word.c
+//events/default/stash_word.c
 void			stash_before_in_word_key(t_readline_data *data);
 void			stash_after_in_word_key(t_readline_data *data);
 
-//special_key/stash.c
+//events/default/stash.c
 void			stash_before_key(t_readline_data *data);
 void			stash_after_key(t_readline_data *data);
 void			paste_stash_key(t_readline_data *data);
 
-//special_key/swap.c
+//events/default/swap.c
 void			swap_key(t_readline_data *data);
 
-//special_key/teleport.c
+//events/default/teleport.c
 void			home_key(t_readline_data *data);
 void			end_key(t_readline_data *data);
 void			previous_word_key(t_readline_data *data);
 void			next_word_key(t_readline_data *data);
+
+//events/factory.c
+void			ft_readline_register_event(char *sequence,
+					void (*callback)(t_readline_data *));
+int				ft_readline_execute_events(t_readline_data *data,
+					char *sequence);
+
+//events/default_events.c
+void			ft_readline_register_default_events(void);
 
 //exit.c
 int				ft_readline_must_exit(void);
