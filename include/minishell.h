@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 02:29:19 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/09 13:52:38 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void			add_cmd(char *str, t_list **dest, t_int_tab *itab);
 char			*get_subcmd(char *str);
 int				get_subcmd_size(char *str);
 int				handle_separator(char *str, t_list **sep);
+char			*handle_aliases(char *input, t_list *aliases);
 
 //redirections
 char			handle_redirections(t_cmd_params *cmd);
