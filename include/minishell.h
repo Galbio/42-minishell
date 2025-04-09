@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 13:59:21 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:35:09 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,10 @@ typedef struct s_research
 }	t_research;
 
 void			launch(t_list *envp, t_main_envp *imp);
+
+//signals
+void			set_sig_exitcode(void);
+int				get_sig_exitcode(void);
 void			init_signals(void);
 
 //misc
