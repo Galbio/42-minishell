@@ -19,11 +19,11 @@ static void	list_aliases(t_list *cur, int len)
 
 	while (cur && len--)
 	{
-		write(1, "alias ", 6);
 		i = 0;
 		val = (char *)cur->content;
 		while (val[i] && (val[i] != '='))
 			i++;
+		write(1, "alias ", 6);
 		write(1, val, i + 1);
 		write(1, "'", 1);
 		while (val[++i])
