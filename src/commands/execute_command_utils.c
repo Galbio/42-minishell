@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:22:50 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 00:37:46 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:31:03 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	handle_builtins(int code, t_cmd_params *cmd)
 		return (ms_env(cmd));
 	else if (code == 7)
 		return (ms_exit(cmd));
+	else if (code == 8)
+		return (ms_alias(cmd));
 	return (0);
 }
 
@@ -52,6 +54,8 @@ char	check_builtins(char *name)
 		return (6);
 	else if (ft_strncmp(name, "exit", 5) == 0)
 		return (7);
+	else if (ft_strncmp(name, "alias", 6) == 0)
+		return (8);
 	return (0);
 }
 

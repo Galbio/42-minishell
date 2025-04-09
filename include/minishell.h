@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/05 14:34:57 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/09 13:59:21 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,9 @@ typedef struct s_main_envp
 	int				shell_level;
 	int				output_fd;
 	int				input_fd;
+	long			actual_pos;
+	t_list			*heredocs_infos;
+	t_list			*aliases;
 }	t_main_envp;
 
 typedef struct s_cmd_params
@@ -79,28 +82,55 @@ typedef struct s_research
 }	t_research;
 
 void			launch(t_list *envp, t_main_envp *imp);
+void			init_signals(void);
 
+//misc
+t_int_tab		init_int_tab(void);
 char			check_special_char(char *str, t_int_tab *itab);
+
+//free functions
 void			free_cmd(t_cmd_params *cmd, char mode);
 void			free_envp(t_list **envp, t_main_envp *imp);
 char			free_redir(t_list *cur, char res);
-char			is_only_nb(char *str);
-char			*get_var_value(char *name, t_list *cur, char quote);
+void			free_regex_match(t_research *regex);
 
-t_int_tab		init_int_tab(void);
-
-t_list			*parse_envp(char **envp, t_main_envp *imp);
-char			**create_envp_cpy(t_list **envp, t_main_envp *imp);
-char			*parse_var(char *var_name, t_list **envp, t_main_envp *imp);
-char			*parse_commands(char *str, t_list *envp, t_main_envp *imp);
-char			*read_whole_fd(int fd);
+//parsing
 char			*handle_bquotes(char *res);
-char			*get_var_str(char *str);
-char			*get_var_name(char *str);
-t_list			*init_pipes(char *str);
+void			split_cmds(char *res, t_list **cmds);
+t_list			*split_pipes(char *str);
 t_list			*split_separators(char *str, t_list **sep);
+void			add_cmd(char *str, t_list **dest, t_int_tab *itab);
+char			*get_subcmd(char *str);
+int				get_subcmd_size(char *str);
+int				handle_separator(char *str, t_list **sep);
+char			*handle_aliases(char *input, t_list *aliases);
+
+//redirections
 char			handle_redirections(t_cmd_params *cmd);
 char			redirect_stdout(char *method, char **value);
+char			is_only_nb(char *str);
+char			*get_var_value(char *name, t_list *cur);
+
+//heredoc
+char			*parse_heredoc_value(char *str, t_main_envp *imp);
+char			*identify_heredoc(char *str, t_list **heredocs,
+					t_main_envp *imp);
+char			*parse_heredoc_quote(char *str);
+void			free_heredocs(t_list *cur);
+void			add_heredoc_history(t_list *cur, t_list **end);
+char			advance_itab(char *str, t_int_tab *itab, char *ignore_tab);
+char			*wait_value(t_list **heredocs, char *value, char ignore_tab);
+char			*add_line(char *content, char *line);
+
+//envp
+t_list			*parse_envp(char **envp, t_main_envp *imp);
+char			**create_envp_cpy(t_list **envp, t_main_envp *imp);
+
+//variables
+char			*parse_var(char *var_name, t_list **envp, t_main_envp *imp);
+char			*parse_commands(char *str, t_list *envp, t_main_envp *imp);
+char			*get_var_str(char *str);
+char			*get_var_name(char *str);
 
 //commands
 void			execute_line(char *str, t_list **envp,
@@ -120,9 +150,11 @@ void			add_to_argv(t_list **dest, char *str, t_int_tab *itab,
 void			add_splitted_to_add(char *str, t_list **dest);
 char			*parse_var_return(char *str, char quote);
 char			*parse_quotes(char *str, t_cmd_params *cmd);
-char			*make_splitted_str(char *str, int *i, char is_sep);
+char			*make_splitted_str(char **str, int *i, char is_sep);
 void			add_redirection(char *str, t_int_tab *itab,
 					t_cmd_params *cmd, t_list **dest);
+char			*handle_commands(t_int_tab *itab, t_cmd_params *cmd,
+					t_list **outputs);
 
 //pipe utils
 t_cmd_params	*make_cmd(void *argv_ptr, t_list **envp, t_main_envp *imp);
@@ -139,13 +171,12 @@ int				ms_unset(t_cmd_params *cmd);
 int				ms_exit(t_cmd_params *cmd);
 int				ms_export(t_cmd_params *cmd);
 int				ms_env(t_cmd_params *cmd);
+int				ms_alias(t_cmd_params *cmd);
 
 //builtins additional
 void			export_vars(t_list *envp);
 void			unset_var(char *name, t_list **envp, t_main_envp *imp);
 void			change_envp_pwd(t_list **envp, char *name);
-
-void			init_signals(void);
 
 void			init_regexs(void);
 t_list			*search_pattern(char *path, char *pattern);

@@ -10,17 +10,23 @@ LIBFTI = $(LIBFT)
 
 FILES =	main.c		\
 	minishell.c	\
-	bquotes_handler.c \
 	signals.c		\
-	split_separators.c \
 	argv/create_argv.c \
 	argv/argv_utils.c \
 	argv/var_parser.c \
 	argv/add_splitted.c \
 	argv/parse_cmd_return.c \
+	parsers/split_separators.c \
+	parsers/splitters_utils.c \
+	parsers/bquotes_handler.c \
+	parsers/handle_aliases.c \
 	redirections/redirect_stdin.c \
 	redirections/redirect_stdout.c \
 	redirections/add_redir_argv.c \
+	redirections/heredoc/handle_heredoc.c \
+	redirections/heredoc/parse_heredocs.c \
+	redirections/heredoc/heredoc_quote_parser.c \
+	redirections/heredoc/handle_heredoc_utils.c \
 	builtins/echo.c \
 	builtins/cd.c \
 	builtins/change_pwd.c \
@@ -30,20 +36,24 @@ FILES =	main.c		\
 	builtins/export_no_args.c \
 	builtins/exit.c \
 	builtins/env.c \
+	builtins/alias.c \
 	commands/execute_line.c \
 	commands/execute_command.c \
 	commands/execute_command_utils.c \
 	commands/execute_subshell.c \
 	commands/execute_pipes.c \
 	commands/execute_bin.c \
+	commands/execute_subcmd.c \
 	envp/parser.c \
 	envp/create_envp_cpy.c \
 	research/research.c		\
 	research/parser.c		\
+	research/free.c			\
 	utils/init_int_tab.c \
 	utils/var_names_utils.c \
 	utils/is_only_nb.c \
 	utils/free_cmd.c \
+	utils/get_subcmd.c \
 	utils/trim_whitespaces.c \
 	utils/check_special_char.c	\
 	regex/checkers/bounds.c		\
