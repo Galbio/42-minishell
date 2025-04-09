@@ -48,10 +48,10 @@ static void	display_error(char *name, int code)
 		write(2, ": not found\n", 12);
 		return ;
 	}
-	write(2, "minishell: alias: `", 19);
 	i = 0;
 	while (name[i] && name[i] != '=')
 		i++;
+	write(2, "minishell: alias: `", 19);
 	write(2, name, i);
 	write(2, "': invalid alias name\n", 22);
 }
