@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 02:21:06 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 14:35:10 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:49:10 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,14 @@ static void	list_aliases(t_list *cur, int len)
 		val = (char *)cur->content;
 		while (val[i] && (val[i] != '='))
 			i++;
-		write(1, "alias ", 6);
-		write(1, val, i + 1);
-		write(1, "'", 1);
+		printf("alias %.*s'", i + 1, val);
 		while (val[++i])
 		{
 			if (val[i] == '\'')
-				write(1, "'\\'", 3);
-			write(1, val + i, 1);
+				printf("'\\'");
+			printf("%c", *(val + i));
 		}
-		write(1, "'\n", 2);
+		printf("'\n");
 		cur = cur->next;
 	}
 }
