@@ -21,4 +21,4 @@ jobs:
           pip install norminette
 
       - name: Run Norminette
-        run: norminette
+        run: norminette --no-colors
