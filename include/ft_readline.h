@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/09 15:37:27 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/09 17:19:28 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ typedef struct s_readline
 void			add_char_back(t_readline_char *head, t_readline_char *c);
 void			add_char_front(t_readline_char **head, t_readline_char *c);
 void			add_char_after(t_readline_char **element, t_readline_char *c);
-void			add_char_before(t_readline_char *element, t_readline_char *c);
 void			remove_char(t_readline_char **element);
 
 //char/position.c
@@ -99,7 +98,6 @@ int				get_cursor_position(t_vector2 *pos);
 //cursor/position/stdin.c
 int				get_cursor_position_from_stdin(int *row, int *col);
 
-
 //cursor/position/tty.c
 int				get_cursor_position_from_tty(int *row, int *col);
 
@@ -118,7 +116,7 @@ void			on_delete(t_readline_data *data);
 
 //edition/utils.c
 void			update_position(t_readline_data *data, t_vector2 size,
-	char *build);
+					char *build);
 void			print_build(char *build);
 
 //edition/write.c
@@ -146,7 +144,6 @@ int				check_quotes(const char *build);
 int				check_backslashes(const char *build);
 
 //format/lines_count
-int				count_low_newlines_size(t_readline_data *data, t_readline_char *to, t_vector2 size);
 int				count_low_newlines(t_readline_data *data, t_readline_char *to);
 int				count_hard_newlines(t_readline_data data, t_readline_char *to);
 
@@ -165,7 +162,7 @@ int				read_stdin_keys(char *buffer);
 
 //process/stash.c
 void			add_to_stash(t_readline_char **stashed, t_readline_char *node,
-	int type);
+					int type);
 void			clean_stash(t_readline *main, int check_cat);
 
 //special_key/breakline.c
@@ -180,14 +177,13 @@ void			delete_key(t_readline_data *data);
 
 //special_key/factory.c
 void			register_special_key(char *sequence,
-	void (*callback)(t_readline_data *));
+					void (*callback)(t_readline_data *));
 t_special_key	*get_by_sequence(char *sequence);
 
 //special_key/five_tilde.c
 void			five_tilde_key(t_readline_data *data);
 void			semicolon_five_tilde_key(t_readline_data *data);
 void			nofive_buttilde_key(t_readline_data *data);
-
 
 //special_key/history.c
 void			previous_history_key(t_readline_data *data);
@@ -213,7 +209,6 @@ void			stash_before_key(t_readline_data *data);
 void			stash_after_key(t_readline_data *data);
 void			paste_stash_key(t_readline_data *data);
 
-
 //special_key/swap.c
 void			swap_key(t_readline_data *data);
 
@@ -223,37 +218,20 @@ void			end_key(t_readline_data *data);
 void			previous_word_key(t_readline_data *data);
 void			next_word_key(t_readline_data *data);
 
-
-
-
-
-
-void			init_readline_data(const char *prompt, t_readline_data *data);
-
-char			*ft_readline(const char *prompt);
-
-
-
-
-
-t_vector2		current_char_pos(t_readline_data *data);
-
-char			*last_newline(char *build);
-
-t_readline		*get_readline_struct(void);
-
-int				get_special_keys_count(void);
-t_special_key	**get_special_keys(void);
-
-
-t_readline_data	*get_readline_data(void);
+//exit.c
 int				ft_readline_must_exit(void);
 void			ft_readline_set_exit(int v);
-void			ft_readline_sigint(void);
-void			ft_readline_init_signals(void);
 void			free_readline(void);
 void			free_readline_data(t_readline_data *data);
 
+//ft_readline.c
+char			*ft_readline(const char *prompt);
 
+//initialization.c
+t_readline_data	*get_readline_data(void);
+void			init_readline_data(const char *prompt, t_readline_data *data);
+
+//main.c
+t_readline		*get_readline_struct(void);
 
 #endif

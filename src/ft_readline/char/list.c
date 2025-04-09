@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   char_list.c                                        :+:      :+:    :+:   */
+/*   list.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 16:53:08 by lroussel          #+#    #+#             */
-/*   Updated: 2025/02/23 18:21:12 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/09 17:19:14 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,20 +61,6 @@ void	add_char_after(t_readline_char **element, t_readline_char *c)
 	c->next = old_next;
 	(*element)->next = c;
 	c->previous = *element;
-}
-
-void	add_char_before(t_readline_char *element, t_readline_char *c)
-{
-	t_readline_char	*old_previous;
-
-	if (!element || !c)
-		return ;
-	old_previous = element->previous;
-	if (old_previous)
-		old_previous->next = c;
-	c->previous = old_previous;
-	element->previous = c;
-	c->next = element;
 }
 
 void	remove_char(t_readline_char **element)

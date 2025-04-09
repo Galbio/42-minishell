@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:43:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/09 15:24:41 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/09 17:16:48 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	fix_last_line(t_readline_data *data, t_vector2 size)
 void	update_position(t_readline_data *data, t_vector2 size,
 		char *build)
 {
-	int	lines;
+	int				lines;
 	t_readline_char	*last;
 
 	last = last_char(data->first);
@@ -32,7 +32,7 @@ void	update_position(t_readline_data *data, t_vector2 size,
 	if (data->pos.y + lines >= size.y)
 	{
 		if (((ft_strlen_utf8(ft_getlast_newline((char *)data->prompt))
-				* data->display_prompt + data->offset)
+					* data->display_prompt + data->offset)
 				+ (int)ft_strlen_utf8(ft_getlast_newline(build)))
 			% size.x == 0)
 		{

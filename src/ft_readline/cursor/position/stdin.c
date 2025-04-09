@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 13:27:37 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/08 15:16:43 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/09 17:20:12 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,5 @@ int	get_cursor_position_from_stdin(int *row, int *col)
 		i++;
 	while (i < n && ft_isdigit(input[i]))
 		*col = (*col) * 10 + (input[i++] - '0');
-	if ((*row) > 0 && (*col) > 0)
-		return (1);
-	return (0);
+	return ((*row) > 0 && (*col) > 0);
 }

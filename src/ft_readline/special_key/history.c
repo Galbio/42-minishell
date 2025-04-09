@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 10:17:19 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/09 13:36:03 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/09 17:17:19 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static void	update_prompt_position(t_readline_data *data, char *value)
 {
-	int	i;
-	int	count;
-	int	v;
+	int			i;
+	int			count;
+	int			v;
 	t_vector2	size;
 
 	i = 0;
