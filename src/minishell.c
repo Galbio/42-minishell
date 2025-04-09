@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/09 20:30:04 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/09 20:42:43 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ static void	init(char *home)
 	set_history_filename(".minishell_history");
 	enable_history();
 	ft_readline_register_event(CTRL_C_KEY, on_sigint);
-	ft_readline_register_event(CTRL_BACKSLASH_KEY, on_sigquit);
 	init_signals();
 	init_regexs();
 }
@@ -29,6 +28,7 @@ static void	init_execution(t_list *envp, t_main_envp *imp, t_list **cmds)
 {
 	char	*res;
 
+	set_exit_status(0);
 	imp->output_fd = 1;
 	imp->input_fd = 0;
 	imp->actual_pos = 0;

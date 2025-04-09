@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 20:25:07 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/09 20:43:57 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ void			launch(t_list *envp, t_main_envp *imp);
 
 //signals
 void			on_sigint(t_readline_data *data);
-void			on_sigquit(t_readline_data *data);
 void			init_signals(void);
 
 //exit status
