@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/09 20:52:47 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/09 22:41:58 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,15 @@ static void	init(char *home)
 static void	init_execution(t_list *envp, t_main_envp *imp, t_list **cmds)
 {
 	char	*res;
+	int		exit_status;
 
 	imp->output_fd = 1;
 	imp->input_fd = 0;
 	imp->actual_pos = 0;
 	imp->heredocs_infos = NULL;
+	exit_status = get_exit_status();
+	if (exit_status >= 256)
+		set_exit_status(exit_status - 256);
 	res = identify_heredoc((*cmds)->content, cmds, imp);
 	if (ft_strchr(res, '`'))
 		res = handle_bquotes(res);

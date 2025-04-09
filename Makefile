@@ -53,6 +53,7 @@ FILES =	main.c		\
 	utils/is_only_nb.c \
 	utils/free_cmd.c \
 	utils/get_subcmd.c \
+	utils/get_cmd_depth.c \
 	utils/trim_whitespaces.c \
 	utils/check_special_char.c	\
 	regex/checkers/bounds.c		\

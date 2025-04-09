@@ -1,30 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_status.c                                      :+:      :+:    :+:   */
+/*   get_cmd_depth.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/09 19:45:53 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/09 21:29:23 by gakarbou         ###   ########.fr       */
+/*   Created: 2025/04/09 22:00:24 by gakarbou          #+#    #+#             */
+/*   Updated: 2025/04/09 22:03:19 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-static unsigned char	exit_status(int v)
+int	get_depth(int v)
 {
-	static int	status = 0;
+	static int	depth = 0;
 
-	if (v >= 0)
-		status = v;
-	return (status);
-}
-
-void	set_exit_status(int status)
-{
-	exit_status(status);
-}
-
-unsigned char	get_exit_status(void)
-{
-	return (exit_status(-1));
+	if (v < 0)
+		depth++;
+	return (depth);
 }

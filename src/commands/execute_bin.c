@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 20:09:48 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 20:17:54 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/09 22:24:35 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ static void	cmd_not_found(t_cmd_params *cmd)
 	ft_putstr_fd(cmd->argv[0], 2);
 	ft_putstr_fd(": command not found\n", 2);
 	free_cmd(cmd, 1);
-	cmd->imp->is_bquoted++;
 	free_envp(cmd->envp, cmd->imp);
 	free(cmd);
 	exit(127);
@@ -66,6 +65,7 @@ void	execute_bin(t_cmd_params *cmd)
 	char	**argv;
 	char	**envp_cpy;
 
+	get_depth(-1);
 	path = get_command_path(cmd->argv[0], cmd->imp->path);
 	if (!path)
 		cmd_not_found(cmd);
@@ -74,7 +74,6 @@ void	execute_bin(t_cmd_params *cmd)
 	free_cmd(cmd, 'b');
 	free_envp(cmd->envp, cmd->imp);
 	free(cmd);
-	set_exit_status(1);
 	execve(path, argv, envp_cpy);
-	exit(get_exit_status());
+	exit(1);
 }

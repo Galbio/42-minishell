@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:17:38 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 03:38:11 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/09 22:06:15 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	free_envp(t_list **envp, t_main_envp *imp)
 	int		i;
 
 	ft_lstclear(envp, free);
-	if (imp->is_bquoted)
+	if (get_depth(0))
 	{
 		free_readline();
 		free_regex_items();

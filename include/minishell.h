@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 20:51:10 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/09 22:41:08 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ typedef struct s_main_envp
 {
 	char			**path;
 	char			*home;
-	char			is_bquoted;
 	int				shell_level;
 	int				output_fd;
 	int				input_fd;
@@ -87,8 +86,9 @@ void			on_sigint(t_readline_data *data);
 void			init_signals(void);
 
 //exit status
-void			set_exit_status(unsigned char status);
-unsigned char	get_exit_status(void);
+void			set_exit_status(int status);
+int				get_exit_status(void);
+int				get_depth(int v);
 
 //misc
 t_int_tab		init_int_tab(void);
