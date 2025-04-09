@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 02:21:06 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 13:57:29 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:30:19 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ static int	list_aliases(t_list *cur, int len)
 
 	while (cur && len--)
 	{
-		val = (char *)cur->content;
 		write(1, "alias ", 6);
 		i = 0;
+		val = (char *)cur->content;
 		while (val[i] && (val[i] != '='))
 			i++;
 		write(1, val, i + 1);
@@ -107,7 +107,10 @@ int	ms_alias(t_cmd_params *cmd)
 	int		res;
 
 	if (!cmd->argv[1] || (cmd->argv[1][0] == '#'))
-		return (list_aliases(cmd->imp->aliases, -1));
+	{
+		list_aliases(cmd->imp->aliases, -1);
+		return (0);
+	}
 	i = 0;
 	res = 0;
 	while (cmd->argv[++i])
@@ -117,5 +120,5 @@ int	ms_alias(t_cmd_params *cmd)
 		else
 			res += print_single_alias(cmd->argv[i], cmd->imp);
 	}
-	return (0);
+	return (res && 1);
 }
