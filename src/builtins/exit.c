@@ -67,7 +67,7 @@ static char	parse_exit(t_cmd_params *cmd)
 		free_envp(cmd->envp, cmd->imp);
 		if (!cmd->imp->is_bquoted)
 		{
-			free_readline_core();
+			free_readline();
 			free_regex_items();
 		}
 		free(cmd);
@@ -91,7 +91,7 @@ int	ms_exit(t_cmd_params *cmd)
 		free_envp(cmd->envp, cmd->imp);
 		if (!cmd->imp->is_bquoted)
 		{
-			free_readline_core();
+			free_readline();
 			free_regex_items();
 		}
 		free(cmd);

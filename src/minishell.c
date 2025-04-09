@@ -58,5 +58,5 @@ void	launch(t_list *envp, t_main_envp *imp)
 		while (cmds)
 			init_execution(envp, imp, &cmds);
 	}
-	write(1, "\n", 1);
+	write(STDIN_FILENO, "\n", 1);
 }
