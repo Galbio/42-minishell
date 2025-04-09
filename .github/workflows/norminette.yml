@@ -21,4 +21,8 @@ jobs:
           pip install norminette
 
       - name: Run Norminette
-        run: norminette --no-colors
+        - name: Run Norminette
+        run: |
+          OUTPUT=$(norminette)
+          echo "$OUTPUT"
+          echo "$OUTPUT" | grep -q "Error" && exit 1 || exit 0
