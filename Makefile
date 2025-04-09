@@ -19,6 +19,7 @@ FILES = main.c		\
 	parsers/split_separators.c \
 	parsers/splitters_utils.c \
 	parsers/bquotes_handler.c \
+	parsers/handle_aliases.c \
 	redirections/redirect_stdin.c \
 	redirections/redirect_stdout.c \
 	redirections/add_redir_argv.c \
@@ -35,6 +36,7 @@ FILES = main.c		\
 	builtins/export_no_args.c \
 	builtins/exit.c \
 	builtins/env.c \
+	builtins/alias.c \
 	commands/execute_line.c \
 	commands/execute_command.c \
 	commands/execute_command_utils.c \
