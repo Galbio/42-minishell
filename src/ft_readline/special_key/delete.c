@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 14:19:01 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/15 20:00:46 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:06:01 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 
 void	backspace_key(t_readline_data *data)
 {
-	if (!data->first)
+	t_readline_char	*tmp;
+
+	if (!data->first || !data->current)
 		return ;
 	if (data->current == data->first)
 	{
-		data->first = data->first->next;
-		remove_char(&data->current);
+		tmp = data->first->next;
+		remove_char(&data->first);
+		data->first = tmp;
 		data->current = NULL;
 		on_delete(data);
 		return ;

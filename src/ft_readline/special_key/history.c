@@ -6,16 +6,45 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 10:17:19 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/26 18:14:54 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/09 13:36:03 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_readline.h"
 
+static void	update_prompt_position(t_readline_data *data, char *value)
+{
+	int	i;
+	int	count;
+	int	v;
+	t_vector2	size;
+
+	i = 0;
+	count = 0;
+	while (value[i])
+	{
+		if (value[i] == '\n')
+			count++;
+		i++;
+	}
+	size = get_terminal_size(data, 0);
+	count += (ft_strlen(ft_getlast_newline(value)) / size.x);
+	v = data->pos.y + count;
+	if (v >= size.y)
+		data->pos.y -= v - size.y;
+	while (count--)
+		write(1, "\n", 1);
+}
+
 static void	restore_history(t_readline_data *data, char *value)
 {
 	int	i;
 
+	data->cursor = data->pos;
+	teleport_cursor(data->cursor);
+	update_prompt_position(data, value);
+	data->cursor = data->pos;
+	teleport_cursor(data->cursor);
 	i = 0;
 	while (value[i])
 	{
@@ -23,6 +52,7 @@ static void	restore_history(t_readline_data *data, char *value)
 		i++;
 	}
 	on_write(data);
+	write(get_extra_data_in_fd(), CLEAR_TERMINAL_AFTER_CURSOR, 4);
 }
 
 void	previous_history_key(t_readline_data *data)
@@ -56,10 +86,12 @@ void	next_history_key(t_readline_data *data)
 	data->history_index--;
 	if (data->history_index == 0)
 	{
+		data->cursor = data->pos;
 		data->first = data->current_input;
 		data->current = last_char(data->first);
 		data->current_input = NULL;
 		on_write(data);
+		write(1, "\033[0J", 4);
 	}
 	else
 	{

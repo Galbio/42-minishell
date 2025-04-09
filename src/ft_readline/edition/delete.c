@@ -6,46 +6,41 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:46:45 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/05 22:01:49 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:31:20 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_readline.h"
 
-static void	clear_next_line(t_readline_data *data, t_vector2 size)
+static void	clear_next_lines(t_readline_data *data)
 {
-	int	first;
-
-	first = 0;
 	if (!data->current)
 	{
 		data->current = data->first;
-		first = 1;
-	}
-	data->cursor = get_char_pos(data, last_char(data->first));
-	if (data->cursor.y < size.y - 1)
-	{
-		move_y(data, 1);
-		write(get_extra_data_in_fd(), "\033[2K", 4);
-	}
-	if (first)
+		teleport_cursor(get_char_pos(data, last_char(data->current)));
 		data->current = NULL;
+	}
+	else
+		teleport_cursor(get_char_pos(data, last_char(data->current)));
+	write(get_extra_data_in_fd(), CLEAR_TERMINAL_AFTER_CURSOR, 4);
+	teleport_cursor(data->cursor);
 }
 
 void	on_delete(t_readline_data *data)
 {
 	char		*build;
-	t_vector2	size;
 
+	get_terminal_size(data, 1);
 	hide_cursor();
-	build = list_to_string(*data, last_char(data->first));
-	size = get_terminal_size(data, 1);
-	update_position(data, size, build);
+	if (data->current)
+		build = list_to_string(*data, last_char(data->current));
+	else
+		build = list_to_string(*data, last_char(data->first));
 	teleport_cursor(data->pos);
 	print_build(build);
 	write(0, " ", 1);
+	clear_next_lines(data);
 	free(build);
-	clear_next_line(data, size);
 	if (data->current && data->current->next)
 		data->cursor = get_char_pos(data, data->current);
 	else

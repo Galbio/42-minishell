@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/08 19:17:12 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/09 15:37:27 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define HIDE_CURSOR "\e[?25l"
 # define SHOW_CURSOR "\e[?25h"
 # define DISPLAY_CURSOR_POSITION "\033[6n"
+# define CLEAR_TERMINAL_AFTER_CURSOR "\033[0J"
 # define CLEAR_TERMINAL "\033[2J"
 # define ERASE_AFTER_CURSOR "\033[K"
 # define MOVE_CURSOR_UP "\033[A"
@@ -145,6 +146,7 @@ int				check_quotes(const char *build);
 int				check_backslashes(const char *build);
 
 //format/lines_count
+int				count_low_newlines_size(t_readline_data *data, t_readline_char *to, t_vector2 size);
 int				count_low_newlines(t_readline_data *data, t_readline_char *to);
 int				count_hard_newlines(t_readline_data data, t_readline_char *to);
 

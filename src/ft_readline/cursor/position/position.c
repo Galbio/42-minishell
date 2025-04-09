@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 19:45:00 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/06 13:30:48 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:51:39 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	parse_cursor_response(const char *buf, int *row, int *col)
 
 int	get_cursor_position(t_vector2 *pos)
 {
-	if (isatty(STDIN_FILENO) && get_cursor_position_from_tty(&pos->y, &pos->x))
+	if (get_cursor_position_from_tty(&pos->y, &pos->x))
 		return (1);
 	return (get_cursor_position_from_stdin(&pos->y, &pos->x));
 }
