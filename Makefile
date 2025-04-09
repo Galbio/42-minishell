@@ -86,6 +86,7 @@ FILES = main.c		\
 	readline/stash.c	\
 	research/research.c		\
 	research/parser.c		\
+	research/free.c			\
 	utils/init_int_tab.c \
 	utils/var_names_utils.c \
 	utils/is_only_nb.c \

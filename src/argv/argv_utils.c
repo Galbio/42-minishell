@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 20:57:20 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/07 21:47:42 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/08 22:25:19 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@ static int	get_parsed_size(char *str, t_list **cmd_outputs, t_cmd_params *cmd)
 		{
 			if (itab.cur_quote && ft_strchr(" \n\t\\", str[itab.i]))
 				itab.res++;
+			else if (ft_strchr("*[?", str[itab.i])
+				&& (itab.cur_quote || itab.backslash))
+				itab.res++;
 			itab.res++;
 			if (!itab.cur_quote && itab.backslash
 				&& (str[itab.i] == '\\') && (str[itab.i + 1] == '\\'))
@@ -69,6 +72,9 @@ static void	fill_dest(char *dest, t_int_tab *itab, char *str,
 	else
 	{
 		if (itab->cur_quote && ft_strchr(" \n\t\\", str[itab->i]))
+			dest[itab->res++] = '\\';
+		else if (ft_strchr("*[?", str[itab->i])
+			&& (itab->cur_quote || itab->backslash))
 			dest[itab->res++] = '\\';
 		dest[itab->res++] = str[itab->i];
 		if (!itab->cur_quote && itab->backslash

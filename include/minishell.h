@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/08 17:39:54 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/08 23:49:16 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ char			check_special_char(char *str, t_int_tab *itab);
 void			free_cmd(t_cmd_params *cmd, char mode);
 void			free_envp(t_list **envp, t_main_envp *imp);
 char			free_redir(t_list *cur, char res);
+void			free_regex_match(t_research *regex);
 
 //parsing
 char			*handle_bquotes(char *res);
@@ -106,7 +107,7 @@ int				handle_separator(char *str, t_list **sep);
 char			handle_redirections(t_cmd_params *cmd);
 char			redirect_stdout(char *method, char **value);
 char			is_only_nb(char *str);
-char			*get_var_value(char *name, t_list *cur, char quote);
+char			*get_var_value(char *name, t_list *cur);
 
 //heredoc
 char			*parse_heredoc_value(char *str, t_main_envp *imp);
@@ -147,7 +148,7 @@ void			add_to_argv(t_list **dest, char *str, t_int_tab *itab,
 void			add_splitted_to_add(char *str, t_list **dest);
 char			*parse_var_return(char *str, char quote);
 char			*parse_quotes(char *str, t_cmd_params *cmd);
-char			*make_splitted_str(char *str, int *i, char is_sep);
+char			*make_splitted_str(char **str, int *i, char is_sep);
 void			add_redirection(char *str, t_int_tab *itab,
 					t_cmd_params *cmd, t_list **dest);
 char			*handle_commands(t_int_tab *itab, t_cmd_params *cmd,
