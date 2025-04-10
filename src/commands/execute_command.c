@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 22:39:33 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:29:41 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ static int	execute_single_command(t_cmd_params *cmd)
 	manage_saves(saves, 0);
 	if (res < 256)
 	{
-		if (handle_redirections(cmd))
-			return (2);
+		/*if (handle_redirections(cmd))
+			return (2);*/
 		temp = check_builtins(cmd->argv[0]);
 		if (!temp)
 			res = execute_single_bin(cmd);

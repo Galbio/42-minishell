@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 22:20:19 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/08 23:40:42 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:17:44 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ static char	*get_redirect_text(char *str)
 	return (ft_substr(str, 0, itab.i));
 }
 
-static void	add_method(char *str, t_int_tab *itab, t_cmd_params *cmd)
+static char	*get_method(char *str, t_int_tab *itab)
 {
+	char	*dest;
 	int		i;
 	int		j;
 
@@ -47,55 +48,42 @@ static void	add_method(char *str, t_int_tab *itab, t_cmd_params *cmd)
 	if ((j == 2) && (str[itab->i + 2] == '-')
 		&& !ft_strncmp("<<", str + itab->i, 2))
 		j++;
-	ft_lstadd_back(&(cmd->redir), ft_lstnew(
-			ft_substr(str + itab->i - i, 0, j + i)));
+	dest = ft_substr(str + itab->i - i, 0, j + i);
 	itab->i += j;
+	return (dest);
 }
 
-static void	add_value(char *to_add, char is_fd, t_cmd_params *cmd)
+static char	**parse_redirect_value(char *str, t_int_tab *itab,
+		t_cmd_params *cmd)
 {
 	char	**dest;
-
-	dest = malloc(sizeof(char **) * 3);
-	if (is_fd)
-		dest[0] = (void *)1;
-	else
-		dest[0] = NULL;
-	dest[1] = to_add;
-	dest[2] = NULL;
-	ft_lstadd_back(&(cmd->redir), ft_lstnew(dest));
-}
-
-static void	parse_redirect_value(char *str, t_int_tab *itab,
-		t_cmd_params *cmd, char value_is_fd)
-{
 	char	*to_add;
-	char	*temp;
-	int		i;
 
 	to_add = get_redirect_text(str + itab->i);
 	itab->i += ft_strlen(to_add);
-	i = 0;
 	if (to_add[0])
 	{
-		temp = parse_quotes(to_add, cmd);
-		to_add = make_splitted_str(&temp, &i, 1);
-		free(temp);
+		dest = fill_return_argv(fill_argv(to_add, cmd));
+		free(to_add);
 	}
 	else
 	{
 		free(to_add);
 		to_add = NULL;
+		dest = NULL;
 	}
-	add_value(to_add, value_is_fd, cmd);
 	itab->ret = itab->i;
+	return (dest);
 }
 
 void	add_redirection(char *str, t_int_tab *itab,
 		t_cmd_params *cmd, t_list **dest)
 {
-	char	value_is_fd;
+	t_redirection	*to_add;
 
+	to_add = malloc(sizeof(t_redirection));
+	if (!to_add)
+		return ;
 	if (itab->i && ((str[itab->i - 1] == '&') || ft_isdigit(str[itab->i - 1])))
 		;
 	else if (itab->i && !ft_strchr(" \t\n", str[itab->i - 1]))
@@ -103,14 +91,15 @@ void	add_redirection(char *str, t_int_tab *itab,
 		add_to_argv(dest, str, itab, cmd);
 		itab->i++;
 	}
-	add_method(str, itab, cmd);
-	value_is_fd = 0;
+	to_add->method = get_method(str, itab);
+	to_add->is_fd = 0;
 	if ((str[itab->i] == '&') && is_only_nb(str + itab->i + 1))
 	{
-		value_is_fd++;
+		to_add->is_fd++;
 		itab->i++;
 	}
 	while (str[itab->i] && ft_strchr(" \n\t", str[itab->i]))
 		itab->i++;
-	parse_redirect_value(str, itab, cmd, value_is_fd);
+	to_add->values = parse_redirect_value(str, itab, cmd);
+	ft_lstadd_back(&(cmd->redir), ft_lstnew(to_add));
 }

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 08:00:35 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 17:43:59 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:16:05 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	handle_argv_filling(char *str, t_cmd_params *cmd, t_list **dest,
 		handle_local_appending(str, itab, cmd);
 }
 
-static t_list	*fill_argv(char *str, t_cmd_params *cmd)
+t_list	*fill_argv(char *str, t_cmd_params *cmd)
 {
 	t_list		*dest;
 	t_int_tab	itab;
@@ -48,7 +48,7 @@ static t_list	*fill_argv(char *str, t_cmd_params *cmd)
 	return (dest);
 }
 
-static void	fill_return_argv(t_cmd_params *cmd, t_list *argv)
+char	**fill_return_argv(t_list *argv)
 {
 	char	**dest;
 	int		size;
@@ -59,10 +59,7 @@ static void	fill_return_argv(t_cmd_params *cmd, t_list *argv)
 		size = 1;
 	dest = malloc(sizeof(char *) * (size + 1));
 	if (!dest)
-	{
-		cmd->argv = NULL;
-		return ;
-	}
+		return (NULL);
 	dest[size] = 0;
 	if (!argv)
 		dest[0] = ft_strdup("");
@@ -73,12 +70,11 @@ static void	fill_return_argv(t_cmd_params *cmd, t_list *argv)
 		argv = argv->next;
 		free(temp);
 	}
-	cmd->argv = dest;
+	return (dest);
 }
 
 t_cmd_params	*create_command_argv(t_cmd_params *cmd)
 {
-	t_list	*argv;
 	char	*input;
 	char	*temp;
 
@@ -93,7 +89,6 @@ t_cmd_params	*create_command_argv(t_cmd_params *cmd)
 		cmd->pipes->content = input;
 	}
 	cmd->argv = NULL;
-	argv = fill_argv(input, cmd);
-	fill_return_argv(cmd, argv);
+	cmd->argv = fill_return_argv(fill_argv(input, cmd));
 	return (cmd);
 }

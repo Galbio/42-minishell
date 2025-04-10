@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/10 14:38:36 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:16:20 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,8 @@ void			execute_bin(t_cmd_params *cmd);
 
 //argv
 t_cmd_params	*create_command_argv(t_cmd_params *cmd);
+t_list			*fill_argv(char *str, t_cmd_params *cmd);
+char			**fill_return_argv(t_list *argv);
 void			handle_var(char *str, t_int_tab *itab, t_list **cmd_outputs,
 					t_cmd_params *cmd);
 void			add_to_argv(t_list **dest, char *str, t_int_tab *itab,
