@@ -6,31 +6,37 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/09 18:14:18 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:34:25 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "ft_readline_keys.h"
 
 static void	init(char *home)
 {
 	ft_readline_set_exit(0);
-	init_signals();
 	set_history_path(home);
 	set_history_filename(".minishell_history");
 	enable_history();
+	ft_readline_register_event(CTRL_C_KEY, on_sigint);
+	init_signals();
 	init_regexs();
+	set_exit_status(0);
 }
 
 static void	init_execution(t_list *envp, t_main_envp *imp, t_list **cmds)
 {
 	char	*res;
+	int		exit_status;
 
 	imp->output_fd = 1;
 	imp->input_fd = 0;
 	imp->actual_pos = 0;
 	imp->heredocs_infos = NULL;
-	imp->is_bquoted = 0;
+	exit_status = get_exit_status();
+	if (exit_status >= 256)
+		set_exit_status(exit_status - 256);
 	res = identify_heredoc((*cmds)->content, cmds, imp);
 	if (ft_strchr(res, '`'))
 		res = handle_bquotes(res);

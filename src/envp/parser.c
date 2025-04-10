@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 23:57:32 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 18:14:24 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:35:19 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ t_list	*parse_envp(char **envp, t_main_envp *imp)
 	void	*temp;
 	int		i;
 
-	imp->exit_status = 0;
 	imp->aliases = NULL;
 	imp->home = NULL;
 	imp->path = NULL;

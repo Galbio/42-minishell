@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 20:30:44 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:33:51 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char	*handle_braces(char *str, t_cmd_params *cmd)
 		return (dest);
 	}
 	if (*str == '?')
-		return (ft_itoa((int)cmd->imp->exit_status));
+		return (ft_itoa(get_exit_status()));
 	dest = get_var_value(str, *(cmd->envp));
 	if (!dest)
 		dest = ft_strdup("");
@@ -68,7 +68,7 @@ static char	*get_var_output(char *str, t_int_tab *itab, t_list **cmd_outputs,
 	{
 		itab->ptr1 = get_var_name(str + itab->i + 1);
 		if (itab->ptr1[0] == '?')
-			return (ft_itoa((int)cmd->imp->exit_status));
+			return (ft_itoa(get_exit_status()));
 		else if (itab->ptr1[0] == '#')
 			return (ft_itoa(0));
 		return (get_var_value(itab->ptr1, *(cmd->envp)));

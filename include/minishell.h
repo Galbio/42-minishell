@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 17:42:41 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:33:43 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,8 @@
 
 typedef struct s_main_envp
 {
-	unsigned char	exit_status;
 	char			**path;
 	char			*home;
-	char			is_bquoted;
 	int				shell_level;
 	int				output_fd;
 	int				input_fd;
@@ -82,7 +80,15 @@ typedef struct s_research
 }	t_research;
 
 void			launch(t_list *envp, t_main_envp *imp);
+
+//signals
+void			on_sigint(t_readline_data *data);
 void			init_signals(void);
+
+//exit status
+void			set_exit_status(int status);
+int				get_exit_status(void);
+int				get_depth(int v);
 
 //misc
 t_int_tab		init_int_tab(void);

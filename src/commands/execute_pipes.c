@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 21:20:49 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/27 07:10:37 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/09 22:35:35 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,11 @@ static int	wait_line_end_exec(int nb_cmd, int write_pipe,
 	{
 		res = wait(&stat);
 		if (res == pid)
-			if (WIFEXITED(stat))
+		{
+			ret = get_exit_status();
+			if ((ret < 256) && WIFEXITED(stat))
 				ret = WEXITSTATUS(stat);
+		}
 	}
 	free_cmd(cmd, 'c');
 	free(cmd);
@@ -61,9 +64,9 @@ static void	handle_pipe_exec(t_cmd_params *cmd, char *command)
 	envp = cmd->envp;
 	free_cmd(cmd, 1);
 	free(cmd);
-	imp->is_bquoted++;
+	get_depth(-1);
 	execute_line(command, envp, imp);
-	res = imp->exit_status;
+	res = get_exit_status();
 	free_envp(envp, imp);
 	exit(res);
 }
@@ -79,7 +82,7 @@ static void	execute_pipe_cmd(t_cmd_params *cmd, int pipes[2], int last)
 	{
 		free(command);
 		close(pipes[!last]);
-		res = cmd->imp->exit_status;
+		res = get_exit_status();
 		free_cmd(cmd, 1);
 		free(cmd);
 		exit(res);
