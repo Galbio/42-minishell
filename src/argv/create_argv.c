@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 08:00:35 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 13:54:51 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/09 17:43:59 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ static void	handle_argv_filling(char *str, t_cmd_params *cmd, t_list **dest,
 		if (!str[itab->i])
 			itab->i--;
 	}
+	if (!itab->backslash && !itab->cur_quote && (str[itab->i] == '=')
+		&& (*dest == NULL))
+		handle_local_appending(str, itab, cmd);
 }
 
 static t_list	*fill_argv(char *str, t_cmd_params *cmd)

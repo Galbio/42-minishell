@@ -6,11 +6,25 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 06:49:41 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 20:04:10 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:34:54 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	get_envp_size(t_list *envp)
+{
+	int		res;
+
+	res = 0;
+	while (envp)
+	{
+		if (((char *)(envp->content))[0] != '\\')
+			res++;
+		envp = envp->next;
+	}
+	return (res);
+}
 
 static void	fill_dest(char *saw_shlvl, char *str, char **dest)
 {
@@ -23,7 +37,7 @@ static void	fill_dest(char *saw_shlvl, char *str, char **dest)
 		*dest = ft_strjoin("SHLVL=", level);
 		free(level);
 	}
-	else
+	else if (str[0] != '\\')
 		*dest = ft_strdup(str);
 }
 
@@ -34,7 +48,7 @@ char	**create_envp_cpy(t_list **envp, t_main_envp *imp)
 	int		i;
 	char	saw_shlvl;
 
-	dest = malloc(sizeof(char *) * (ft_lstsize(*envp) + 1));
+	dest = malloc(sizeof(char *) * (get_envp_size(*envp) + 1));
 	if (!dest)
 		return (NULL);
 	saw_shlvl = 0;

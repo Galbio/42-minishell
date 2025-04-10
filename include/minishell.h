@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 22:41:08 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:33:43 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,8 @@ char			*parse_quotes(char *str, t_cmd_params *cmd);
 char			*make_splitted_str(char **str, int *i, char is_sep);
 void			add_redirection(char *str, t_int_tab *itab,
 					t_cmd_params *cmd, t_list **dest);
+void			handle_local_appending(char *str, t_int_tab *itab,
+					t_cmd_params *cmd);
 char			*handle_commands(t_int_tab *itab, t_cmd_params *cmd,
 					t_list **outputs);
 
