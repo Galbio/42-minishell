@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 10:55:36 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/10 00:47:51 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:28:41 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static int	update_pwd(t_main_envp *imp, char **new_path, char **arg)
 		{
 			*arg = ft_cleanpath(*arg);
 			*new_path = ft_pathjoin(imp->pwd, *arg);
+			free(*arg);
 		}
 	}
 	free(imp->pwd);
