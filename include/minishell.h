@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/10 14:54:23 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/09 22:41:08 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ typedef struct s_main_envp
 {
 	char			**path;
 	char			*home;
-	char			*pwd;
 	int				shell_level;
 	int				output_fd;
 	int				input_fd;
@@ -173,7 +172,7 @@ char			*trim_ws(char *str);
 //builtins
 int				ms_cd(t_cmd_params *cmd);
 int				ms_echo(t_cmd_params *cmd);
-int				ms_pwd(t_cmd_params *cmd);
+int				ms_pwd(void);
 int				ms_unset(t_cmd_params *cmd);
 int				ms_exit(t_cmd_params *cmd);
 int				ms_export(t_cmd_params *cmd);
@@ -183,8 +182,7 @@ int				ms_alias(t_cmd_params *cmd);
 //builtins additional
 void			export_vars(t_list *envp);
 void			unset_var(char *name, t_list **envp, t_main_envp *imp);
-void			change_envp_pwd(t_list **envp, t_main_envp *imp,
-					char *new_path, char *arg);
+void			change_envp_pwd(t_list **envp, char *name);
 
 void			init_regexs(void);
 t_list			*search_pattern(char *path, char *pattern);
