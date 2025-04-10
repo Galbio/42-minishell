@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/10 14:33:43 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:38:36 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,13 @@ typedef struct s_cmd_params
 	t_list		*sep;
 	t_list		**extra;
 }	t_cmd_params;
+
+typedef struct s_redirection
+{
+	int			is_fd;
+	char		*method;
+	char		**values;
+}	t_redirection;
 
 typedef struct s_int_tab
 {
