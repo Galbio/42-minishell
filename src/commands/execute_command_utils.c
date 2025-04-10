@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:22:50 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 14:31:03 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/09 23:11:41 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	handle_builtins(int code, t_cmd_params *cmd)
 	else if (code == 2)
 		return (ms_cd(cmd));
 	else if (code == 3)
-		return (ms_pwd());
+		return (ms_pwd(cmd));
 	else if (code == 4)
 		return (ms_export(cmd));
 	else if (code == 5)
