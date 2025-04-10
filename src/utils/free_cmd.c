@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:17:38 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/10 00:56:11 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/10 18:21:00 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,23 @@
 
 char	free_redir(t_list *cur, char res)
 {
-	t_list	*temp;
-	int		i;
+	t_list			*temp;
+	t_redirection	*redir;
+	int				i;
 
 	i = 0;
 	while (cur)
 	{
+		redir = cur->content;
+		i = -1;
+		while (redir->values[++i])
+			free(redir->values[i]);
+		free(redir->values);
+		free(redir->method);
+		free(redir->og_str);
 		temp = cur;
 		cur = cur->next;
-		if (i % 2)
-			free(((char **)(temp->content))[1]);
-		free(temp->content);
 		free(temp);
-		i++;
 	}
 	return (res);
 }
