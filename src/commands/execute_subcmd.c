@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 22:01:47 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 22:32:29 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:56:14 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ char	*handle_commands(t_int_tab *itab, t_cmd_params *cmd,
 	if (!pid)
 		execute_sub_cmd(itab, cmd, pipes, outputs);
 	close(pipes[1]);
+	waitpid(pid, &stat, 0);
 	if ((get_exit_status() < 256) && WIFEXITED(stat))
 		set_exit_status(WEXITSTATUS(stat));
 	dest = ft_get_contents(pipes[0]);
