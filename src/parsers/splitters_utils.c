@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 22:54:49 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/11 01:39:19 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/11 01:54:18 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	print_error(char *str, t_int_tab *itab)
 	write(2, "minishell: syntax error", 23);
 	if (str[itab->ret])
 	{
-		write(2, "near unexpected token `", 23);
+		write(2, " near unexpected token `", 24);
 		write(2, str + itab->i, 1 + (str[itab->i + 1] == str[itab->i]));
 		write(2, "'\n", 2);
 	}
