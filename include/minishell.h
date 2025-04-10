@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/10 17:55:31 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/11 00:37:25 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,8 @@ int				execute_command(t_list *commands, t_cmd_params *params,
 					t_list *cmd_lst, t_list *sep);
 int				execute_pipes(t_cmd_params *cmd);
 int				execute_subshell(t_cmd_params *cmd);
-void			execute_bin(t_cmd_params *cmd);
+int				execute_single_bin(t_cmd_params *cmd, int is_env);
+void			execute_bin(t_cmd_params *cmd, int is_env);
 
 //argv
 t_cmd_params	*create_command_argv(t_cmd_params *cmd);
