@@ -6,11 +6,25 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 22:54:49 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/04 14:59:29 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/11 01:39:19 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	print_error(char *str, t_int_tab *itab)
+{
+	write(2, "minishell: syntax error", 23);
+	if (str[itab->ret])
+	{
+		write(2, "near unexpected token `", 23);
+		write(2, str + itab->i, 1 + (str[itab->i + 1] == str[itab->i]));
+		write(2, "'\n", 2);
+	}
+	else
+		write(2, ": unexpected end of file\n", 25);
+	set_exit_status(258);
+}
 
 int	handle_separator(char *str, t_list **sep)
 {
@@ -32,9 +46,26 @@ int	handle_separator(char *str, t_list **sep)
 	return (0);
 }
 
-void	add_cmd(char *str, t_list **dest, t_int_tab *itab)
+int	add_cmd(char *str, t_list **dest, t_int_tab *itab)
 {
-	ft_lstadd_back(dest, ft_lstnew(trim_ws(
-				ft_substr(str, itab->ret, itab->i - itab->ret))));
-	itab->ret = itab->i + 1;
+	char	*temp;
+
+	temp = ft_substr(str, itab->ret, itab->i - itab->ret);
+	if (ft_isonlywhitespaces(temp) || ft_isonlywhitespaces(str + itab->i))
+	{
+		free(temp);
+		print_error(str, itab);
+		return (1);
+	}
+	ft_lstadd_back(dest, ft_lstnew(trim_ws(temp)));
+	itab->ret = (itab->i + 1 + (str[itab->i] != ';'));
+	if (!str[itab->ret - 1])
+		itab->ret--;
+	if (!str[itab->ret])
+	{
+		print_error(str, itab);
+		return (1);
+	}
+	itab->i += (str[itab->i] != ';');
+	return (0);
 }
