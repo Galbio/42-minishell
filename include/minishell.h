@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/10 15:16:20 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/10 17:31:06 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct s_cmd_params
 typedef struct s_redirection
 {
 	int			is_fd;
+	char		*og_str;
 	char		*method;
 	char		**values;
 }	t_redirection;
@@ -120,7 +121,7 @@ char			*handle_aliases(char *input, t_list *aliases);
 
 //redirections
 char			handle_redirections(t_cmd_params *cmd);
-char			redirect_stdout(char *method, char **value);
+char			redirect_stdout(t_redirection *ret);
 char			is_only_nb(char *str);
 char			*get_var_value(char *name, t_list *cur);
 

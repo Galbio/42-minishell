@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 22:20:19 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/10 15:17:44 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/10 17:44:49 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ static char	*get_redirect_text(char *str)
 		if (!itab.backslash && !itab.cur_quote
 			&& ft_strchr(" \n\t", str[itab.i]))
 			return (ft_substr(str, 0, itab.i));
-		if (!itab.backslash && !itab.cur_quote && (str[itab.i] == '$'))
-			itab.i += go_to_var_end(str + itab.i) - 1;
+		if (!itab.backslash && (itab.cur_quote != '\'') && (str[itab.i] == '$')
+			&& ft_strchr("({", str[itab.i + 1]))
+			itab.i += get_subcmd_size(str + itab.i);
 	}
 	return (ft_substr(str, 0, itab.i));
 }
@@ -53,22 +54,18 @@ static char	*get_method(char *str, t_int_tab *itab)
 	return (dest);
 }
 
-static char	**parse_redirect_value(char *str, t_int_tab *itab,
+static char	**parse_redirect_value(char *to_add, t_int_tab *itab,
 		t_cmd_params *cmd)
 {
 	char	**dest;
-	char	*to_add;
 
-	to_add = get_redirect_text(str + itab->i);
 	itab->i += ft_strlen(to_add);
 	if (to_add[0])
 	{
 		dest = fill_return_argv(fill_argv(to_add, cmd));
-		free(to_add);
 	}
 	else
 	{
-		free(to_add);
 		to_add = NULL;
 		dest = NULL;
 	}
@@ -100,6 +97,7 @@ void	add_redirection(char *str, t_int_tab *itab,
 	}
 	while (str[itab->i] && ft_strchr(" \n\t", str[itab->i]))
 		itab->i++;
-	to_add->values = parse_redirect_value(str, itab, cmd);
+	to_add->og_str = get_redirect_text(str + itab->i);
+	to_add->values = parse_redirect_value(to_add->og_str, itab, cmd);
 	ft_lstadd_back(&(cmd->redir), ft_lstnew(to_add));
 }
