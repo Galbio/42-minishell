@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 23:57:32 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/10 00:55:52 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:16:40 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	handle_important(char *str, t_main_envp *imp)
 		important[3]++;
 		imp->path = parse_path(str + 5);
 	}
-	else if (!imp->pwd && !important[4] && !ft_strncmp("PWD=", str, 4))
+	else if (!imp->pwd && !important[4] && !ft_strncmp("PWD=", str, 4) && str[4] != '\0')
 	{
 		important[4]++;
 		imp->pwd = ft_strdup(str + 5);
