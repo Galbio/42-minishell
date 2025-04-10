@@ -65,13 +65,6 @@ typedef struct s_cmd_params
 	t_list		**extra;
 }	t_cmd_params;
 
-typedef struct s_redirection
-{
-	int			is_fd;
-	char		*method;
-	char		**values;
-}	t_redirection;
-
 typedef struct s_int_tab
 {
 	int		i;
