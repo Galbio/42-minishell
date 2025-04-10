@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 19:10:51 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/09 19:36:11 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:04:16 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 static void	register_default(void)
 {
+	ft_readline_register_event(TAB_KEY, tab_key);
+	ft_readline_register_event(BREAKLINE_KEY, breakline_key);
 	ft_readline_register_event(BACKSPACE_KEY, backspace_key);
 	ft_readline_register_event(UP_ARROW_KEY, previous_history_key);
 	ft_readline_register_event(DOWN_ARROW_KEY, next_history_key);
@@ -24,7 +26,6 @@ static void	register_default(void)
 	ft_readline_register_event(WHOME_KEY, home_key);
 	ft_readline_register_event(DELETE_KEY, delete_key);
 	ft_readline_register_event(WEND_KEY, end_key);
-	ft_readline_register_event(BREAKLINE_KEY, breakline_key);
 	ft_readline_register_event(LHOME_KEY, home_key);
 	ft_readline_register_event(LEND_KEY, end_key);
 	ft_readline_register_event(PAGE_UP_KEY, invalid_key);

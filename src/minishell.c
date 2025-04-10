@@ -6,17 +6,18 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/09 22:41:58 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:19:30 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "ft_readline_keys.h"
 
-static void	init(char *home)
+static void	init(t_main_envp *imp)
 {
 	ft_readline_set_exit(0);
-	set_history_path(home);
+	ft_readline_set_path_ptr(&imp->path);
+	set_history_path(imp->home);
 	set_history_filename(".minishell_history");
 	enable_history();
 	ft_readline_register_event(CTRL_C_KEY, on_sigint);
@@ -48,7 +49,7 @@ void	launch(t_list *envp, t_main_envp *imp)
 	char	*res;
 	t_list	*cmds;
 
-	init(imp->home);
+	init(imp);
 	while (1)
 	{
 		cmds = NULL;

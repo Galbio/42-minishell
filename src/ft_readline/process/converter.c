@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:30 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/09 14:09:17 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/10 18:12:34 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	calculate_len(t_readline_data data, t_readline_char *to)
 	return (len);
 }
 
-static void	paste_on(char **result, t_readline_char *c, int *i)
+static void	paste_on(char **result, t_readline_char *c, int *i, int incr)
 {
 	int		j;
 
@@ -51,7 +51,7 @@ static void	paste_on(char **result, t_readline_char *c, int *i)
 		(*result)[*i + j] = c->sequence[j];
 		j++;
 	}
-	*i += j;
+	*i += incr * j;
 }
 
 char	*list_to_string(t_readline_data data, t_readline_char *to)
@@ -74,8 +74,39 @@ char	*list_to_string(t_readline_data data, t_readline_char *to)
 	i = 0;
 	while (c && (!to || c != to->next))
 	{
-		paste_on(&result, c, &i);
+		paste_on(&result, c, &i, 1);
 		c = c->next;
+	}
+	return (result);
+}
+
+char	*get_argument_before(t_readline_char *position)
+{
+	int	i;
+	t_readline_char	*cur;
+	char	*result;
+
+	if (!position)
+		return (NULL);
+	cur = position;
+	i = 0;
+	while (cur && !ft_strchr(" \t\n;&|", cur->sequence[0]))
+	{
+		i += ft_strlen(cur->sequence);
+		cur = cur->previous;
+	}
+	if (i == 0)
+		return (NULL);
+	cur = position;
+	result = malloc(sizeof(char) * (i + 1));
+	if (!result)
+		return (NULL);
+	result[i] = '\0';
+	i--;
+	while (i >= 0)
+	{
+		paste_on(&result, cur, &i, -1);
+		cur = cur->previous;
 	}
 	return (result);
 }

@@ -6,13 +6,14 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 16:19:29 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/08 19:11:24 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:03:59 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_READLINE_KEYS_H
 # define FT_READLINE_KEYS_H
 
+# define TAB_KEY "\t"
 # define BREAKLINE_KEY "\n"
 # define BACKSPACE_KEY "\x7F"
 # define UP_ARROW_KEY "\x1B[A"
