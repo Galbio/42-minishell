@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 20:09:48 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/11 00:36:48 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:44:21 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,28 +47,19 @@ static char	*get_command_path(char *str, char **paths)
 	return (NULL);
 }
 
-static void	cmd_not_found(t_cmd_params *cmd, int is_env)
+static void	cmd_not_found(t_cmd_params *cmd)
 {
-	if (!is_env)
-	{
-		if (!cmd->imp->path)
-			ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(cmd->argv[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
-	}
-	else
-	{
-		write(2, "env: ‘", 6);
-		ft_putstr_fd(cmd->argv[0], 2);
-		write(2, ": No such file or directory\n", 28);
-	}
+	if (!cmd->imp->path)
+		ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(cmd->argv[0], 2);
+	ft_putstr_fd(": command not found\n", 2);
 	free_cmd(cmd, 1);
 	free_envp(cmd->envp, cmd->imp);
 	free(cmd);
 	exit(127);
 }
 
-void	execute_bin(t_cmd_params *cmd, int is_env)
+void	execute_bin(t_cmd_params *cmd)
 {
 	char	*path;
 	char	**argv;
@@ -78,7 +69,7 @@ void	execute_bin(t_cmd_params *cmd, int is_env)
 	get_depth(-1);
 	path = get_command_path(cmd->argv[0], cmd->imp->path);
 	if (!path)
-		cmd_not_found(cmd, is_env);
+		cmd_not_found(cmd);
 	argv = cmd->argv;
 	envp_cpy = create_envp_cpy(cmd->envp, cmd->imp);
 	free_cmd(cmd, 'b');
