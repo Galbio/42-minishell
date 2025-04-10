@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 20:09:48 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 22:24:35 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:44:21 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	execute_bin(t_cmd_params *cmd)
 	char	*path;
 	char	**argv;
 	char	**envp_cpy;
+	int		i;
 
 	get_depth(-1);
 	path = get_command_path(cmd->argv[0], cmd->imp->path);
@@ -75,5 +76,14 @@ void	execute_bin(t_cmd_params *cmd)
 	free_envp(cmd->envp, cmd->imp);
 	free(cmd);
 	execve(path, argv, envp_cpy);
+	i = -1;
+	while (envp_cpy[++i])
+		free(envp_cpy[i]);
+	free(envp_cpy);
+	i = -1;
+	while (argv[++i])
+		free(argv[i]);
+	free(argv);
+	free(path);
 	exit(1);
 }

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/10 14:33:43 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/10 17:55:31 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,14 @@ typedef struct s_cmd_params
 	t_list		*sep;
 	t_list		**extra;
 }	t_cmd_params;
+
+typedef struct s_redirection
+{
+	int			is_fd;
+	char		*og_str;
+	char		*method;
+	char		**values;
+}	t_redirection;
 
 typedef struct s_int_tab
 {
@@ -113,7 +121,7 @@ char			*handle_aliases(char *input, t_list *aliases);
 
 //redirections
 char			handle_redirections(t_cmd_params *cmd);
-char			redirect_stdout(char *method, char **value);
+char			redirect_stdout(t_redirection *ret);
 char			is_only_nb(char *str);
 char			*get_var_value(char *name, t_list *cur);
 
@@ -149,6 +157,8 @@ void			execute_bin(t_cmd_params *cmd);
 
 //argv
 t_cmd_params	*create_command_argv(t_cmd_params *cmd);
+t_list			*fill_argv(char *str, t_cmd_params *cmd);
+char			**fill_return_argv(t_list *argv);
 void			handle_var(char *str, t_int_tab *itab, t_list **cmd_outputs,
 					t_cmd_params *cmd);
 void			add_to_argv(t_list **dest, char *str, t_int_tab *itab,
