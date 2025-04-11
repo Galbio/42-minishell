@@ -14,10 +14,10 @@ FILES =	main.c		\
 	argv/argv_utils.c \
 	argv/var_parser.c \
 	argv/local_var_handling.c \
-	argv/brace_expansion.c \
-	argv/brace_methods.c \
 	argv/add_splitted.c \
 	argv/parse_cmd_return.c \
+	argv/braces/brace_expansion.c \
+	argv/braces/brace_methods.c \
 	parsers/split_separators.c \
 	parsers/splitters_utils.c \
 	parsers/bquotes_handler.c \
