@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/10 14:33:51 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/11 16:55:26 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,27 +30,17 @@ char	*get_var_value(char *name, t_list *cur)
 	return (NULL);
 }
 
-static char	*handle_braces(char *str, t_cmd_params *cmd)
+static char	*handle_braces(char *str, t_cmd_params *cmd, char *src)
 {
-	char	*dest;
-	char	*temp;
-
-	if (str[0] == '#')
+	if (ft_strchr("0123456789!@$%^&*()[]{},./?\\ \t\n", str[0]))
 	{
-		if (str[1] == '#')
-			return (ft_itoa(0));
-		dest = handle_braces(str + 1, cmd);
-		temp = dest;
-		dest = ft_itoa(ft_strlen(dest));
-		free(temp);
-		return (dest);
+		write(2, "minishell: ", 11);
+		ft_putstr_fd(src, 2);
+		write(2, ": bad substitution\n", 19);
+		set_exit_status(257);
+		return (NULL);
 	}
-	if (*str == '?')
-		return (ft_itoa(get_exit_status()));
-	dest = get_var_value(str, *(cmd->envp));
-	if (!dest)
-		dest = ft_strdup("");
-	return (dest);
+	return (handle_brace_option(str, cmd, src));
 }
 
 static char	*get_var_output(char *str, t_int_tab *itab, t_list **cmd_outputs,
@@ -62,7 +52,7 @@ static char	*get_var_output(char *str, t_int_tab *itab, t_list **cmd_outputs,
 		itab->ptr2 = str;
 		if (str[itab->i + 1] == '(')
 			return (handle_commands(itab, cmd, cmd_outputs));
-		return (handle_braces(itab->ptr1, cmd));
+		return (handle_braces(itab->ptr1, cmd, str));
 	}
 	else
 	{
