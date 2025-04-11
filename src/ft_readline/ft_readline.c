@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 13:11:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/08 18:01:43 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/11 15:32:55 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,7 @@
 static char	*leave_readline(t_readline_data *data, char *res)
 {
 	disable_raw_mode();
-	if (data->interrupt)
-	{
-		free_readline_data(data);
-		free_readline();
-	}
-	else
-		free_readline_data(data);
+	free_readline_data(data);
 	show_cursor();
 	if (data->interrupt)
 		return (NULL);
