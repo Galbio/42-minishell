@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 02:02:39 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/11 22:34:49 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/11 22:39:39 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*wait_value(t_list **heredocs, char *value, char ignore_tab)
 	}
 }
 
-char	advance_itab(char *str, t_int_tab *itab, char *ignore_tab, int save)
+char	advance_itab(char *str, t_int_tab *itab, char *ignore_tab, char save)
 {
 	int		count;
 	int		i;

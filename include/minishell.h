@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/11 22:35:09 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/11 22:39:28 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ char			*parse_heredoc_quote(char *str);
 void			free_heredocs(t_list *cur);
 void			add_heredoc_history(t_list *cur, t_list **end);
 char			advance_itab(char *str, t_int_tab *itab,
-					char *ignore_tab, int save);
+					char *ignore_tab, char save);
 char			*wait_value(t_list **heredocs, char *value, char ignore_tab);
 char			*add_line(char *content, char *line);
 
