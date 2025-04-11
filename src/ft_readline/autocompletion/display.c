@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 16:06:31 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/11 23:59:01 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 00:42:55 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static void	print_values(t_array occurences, int size, int col, int max)
 {
 	int		i;
-	int		j;
 	char	*value;
 	int		len;
 
@@ -27,16 +26,10 @@ static void	print_values(t_array occurences, int size, int col, int max)
 		len = ft_strlen(value);
 		if (value[len - 1] == '/')
 			value[len - 1] = '\0';
-		printf("%s", (char *)occurences[i]);
-		j = 0;
-		while (j < max - len)
-		{
-			printf(" ");
-			j++;
-		}
-		i++;
-		if ((i - 1) % col == 0)
+		printf("%-*s", max, (char *)occurences[i]);
+		if (i % col == 0)
 			printf("\n");
+		i++;
 	}
 	printf("\n");
 }

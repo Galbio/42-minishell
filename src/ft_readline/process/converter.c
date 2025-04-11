@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:30 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/11 23:55:41 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 00:44:37 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,7 @@ char	*get_argument_before(t_readline_char *position)
 	result = malloc(sizeof(char) * (i + 1));
 	if (!result)
 		return (NULL);
-	result[i] = '\0';
-	i--;
+	result[i--] = '\0';
 	while (i >= 0)
 		cur = paste_on(&result, cur, &i, -1);
 	return (result);
