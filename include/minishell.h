@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/11 01:43:00 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/11 22:39:28 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void			init_signals(void);
 void			set_exit_status(int status);
 int				get_exit_status(void);
 int				get_depth(int v);
+void			token_error(char *str);
 
 //misc
 t_int_tab		init_int_tab(void);
@@ -132,7 +133,8 @@ char			*identify_heredoc(char *str, t_list **heredocs,
 char			*parse_heredoc_quote(char *str);
 void			free_heredocs(t_list *cur);
 void			add_heredoc_history(t_list *cur, t_list **end);
-char			advance_itab(char *str, t_int_tab *itab, char *ignore_tab);
+char			advance_itab(char *str, t_int_tab *itab,
+					char *ignore_tab, char save);
 char			*wait_value(t_list **heredocs, char *value, char ignore_tab);
 char			*add_line(char *content, char *line);
 
