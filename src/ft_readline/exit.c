@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:00:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/09 19:07:43 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/11 19:05:44 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,9 @@ void	free_readline_data(t_readline_data *data)
 	data->first = NULL;
 	free_chars(data->current_input);
 	data->current_input = NULL;
+	if (data->tab_pressed)
+	{
+		ft_array_unset(&data->occurences, ft_array_free_entry);
+		data->tab_pressed = 0;
+	}
 }

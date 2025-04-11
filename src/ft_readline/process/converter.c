@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:30 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/10 18:12:34 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/11 18:58:02 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,18 @@ char	*list_to_string(t_readline_data data, t_readline_char *to)
 		c = c->next;
 	}
 	return (result);
+}
+
+int	is_first_argument(t_readline_char *position)
+{
+	t_readline_char	*cur;
+
+	if (!position)
+		return (1);
+	cur = position;
+	while (cur && !ft_strchr(" \t\n;&|", cur->sequence[0]))
+		cur = cur->previous;
+	return (!cur);
 }
 
 char	*get_argument_before(t_readline_char *position)

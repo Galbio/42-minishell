@@ -6,55 +6,72 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 13:27:37 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/09 17:20:12 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/11 18:48:58 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_readline.h"
 
-static int	parse_row_col_from_plain_text(const char *input, int *row, int *col)
+static void	set_tcsamow(struct termios *old_term)
 {
-	int	i;
+	struct termios	new_term;
+
+	tcgetattr(STDIN_FILENO, old_term);
+	new_term = *old_term;
+	new_term.c_lflag &= ~(ICANON | ECHO);
+	tcsetattr(STDIN_FILENO, TCSANOW, &new_term);
+}
+
+static int	read_terminal_response(char *buffer, size_t size)
+{
+	size_t	i;
 
 	i = 0;
-	*row = 0;
-	*col = 0;
-	while (input[i] == ' ' || input[i] == '\t')
+	while (i < size - 1)
+	{
+		if (read(STDIN_FILENO, &buffer[i], 1) != 1)
+			break ;
+		if (buffer[i] == 'R')
+			break ;
 		i++;
-	if (!ft_isdigit(input[i]))
-		return (0);
-	while (ft_isdigit(input[i]))
-		*row = (*row * 10) + (input[i++] - '0');
-	while (input[i] == ' ' || input[i] == '\t')
-		i++;
-	if (!ft_isdigit(input[i]))
-		return (0);
-	while (ft_isdigit(input[i]))
-		*col = (*col * 10) + (input[i++] - '0');
-	return (1);
+	}
+	buffer[i] = '\0';
+	return ((!(buffer[0] == '\033' && buffer[1] == '[')) * -1);
+}
+
+static int	parse_cursor_position(const char *response, int *rows, int *cols)
+{
+	const char	*ptr;
+
+	ptr = response + 2;
+	*rows = 0;
+	while (ft_isdigit(*ptr))
+	{
+		*rows = *rows * 10 + (*ptr - '0');
+		ptr++;
+	}
+	if (*ptr++ != ';')
+		return (-1);
+	*cols = 0;
+	while (ft_isdigit(*ptr))
+	{
+		*cols = *cols * 10 + (*ptr - '0');
+		ptr++;
+	}
+	return ((*ptr != 'R') * -1);
 }
 
 int	get_cursor_position_from_stdin(int *row, int *col)
 {
-	int		n;
-	int		i;
-	char	input[32];
+	struct termios	old_term;
+	char			response[32];
+	int				status;
 
-	n = read(STDIN_FILENO, input, sizeof(input) - 1);
-	if (n <= 0)
-		return (0);
-	input[n] = '\0';
-	if (parse_cursor_response(input, row, col)
-		|| parse_row_col_from_plain_text(input, row, col))
-		return (1);
-	i = 0;
-	while (i < n && input[i] == ' ')
-		i++;
-	while (i < n && ft_isdigit(input[i]))
-		*row = (*row) * 10 + (input[i++] - '0');
-	while (i < n && (input[i] == ' ' || input[i] == '\t'))
-		i++;
-	while (i < n && ft_isdigit(input[i]))
-		*col = (*col) * 10 + (input[i++] - '0');
-	return ((*row) > 0 && (*col) > 0);
+	set_tcsamow(&old_term);
+	write(STDOUT_FILENO, "\033[6n", 4);
+	status = read_terminal_response(response, sizeof(response));
+	tcsetattr(STDIN_FILENO, TCSANOW, &old_term);
+	if (status == -1)
+		return (-1);
+	return (parse_cursor_position(response, row, col));
 }

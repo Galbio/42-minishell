@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/10 18:12:39 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/11 18:56:02 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_readline_data
 	int				offset;
 	int				is_pipe;
 	int				tab_pressed;
+	t_array	occurences;
 }	t_readline_data;
 
 typedef struct s_readline_event
@@ -75,7 +76,8 @@ typedef struct s_readline
 }	t_readline;
 
 //autocompletion/display.c
-void			display_autocomplatable_commands(char *prefix);
+void			display_autocompletion(t_readline_data *data);
+char			*research_autocompletion(t_readline_data *data, char *prefix);
 
 //char/list.c
 void			add_char_back(t_readline_char *head, t_readline_char *c);
@@ -156,6 +158,7 @@ int				count_hard_newlines(t_readline_data data, t_readline_char *to);
 
 //process/converter.c
 char			*list_to_string(t_readline_data data, t_readline_char *to);
+int				is_first_argument(t_readline_char *position);
 char			*get_argument_before(t_readline_char *position);
 
 //process/handler.c
