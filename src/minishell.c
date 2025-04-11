@@ -27,9 +27,17 @@ static void	init(char *home)
 
 static void	init_execution(t_list *envp, t_main_envp *imp, t_list **cmds)
 {
+	t_list	*temp;
 	char	*res;
 	int		exit_status;
 
+	if ((*cmds)->content == NULL)
+	{
+		temp = *cmds;
+		*cmds = temp->next;
+		free(temp);
+		return ;
+	}
 	imp->output_fd = 1;
 	imp->input_fd = 0;
 	imp->actual_pos = 0;
@@ -37,7 +45,9 @@ static void	init_execution(t_list *envp, t_main_envp *imp, t_list **cmds)
 	exit_status = get_exit_status();
 	if (exit_status >= 256)
 		set_exit_status(exit_status - 256);
+	ft_readline_set_check_format(0);
 	res = identify_heredoc((*cmds)->content, cmds, imp);
+	ft_readline_set_check_format(1);
 	if (ft_strchr(res, '`'))
 		res = handle_bquotes(res);
 	execute_line(res, &envp, imp);
