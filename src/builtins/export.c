@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:04:41 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/11 17:21:03 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/09 20:24:01 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	match_value(t_list *cur, char *name, int i)
 	return (0);
 }
 
-int	add_envp(char *name, t_list **envp)
+static int	add_envp(char *name, t_list **envp)
 {
 	t_list	*cur;
 	int		i;
