@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 15:53:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/19 17:25:28 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/08 22:31:45 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,8 @@ static int	get_return_size(char *str, char quote)
 	i = -1;
 	while (str[++i])
 	{
-		if (str[i] == '\\')
-			ret++;
-		else if (quote && ft_strchr(" \n\t", str[i]))
+		if ((str[i] == '\\') || (quote && ft_strchr(" \n\t", str[i]))
+			|| ft_strchr(" \n\t", str[i]))
 			ret++;
 	}
 	return (ret + i);
@@ -64,7 +63,8 @@ char	*parse_var_return(char *str, char quote)
 	i = -1;
 	while (str[++i])
 	{
-		if ((str[i] == '\\') || (quote && ft_strchr(" \t\n", str[i])))
+		if ((str[i] == '\\') || (quote && ft_strchr(" \t\n", str[i]))
+			|| ft_strchr("*[?", str[i]))
 			dest[ret++] = '\\';
 		dest[ret++] = str[i];
 	}

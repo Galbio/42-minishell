@@ -8,19 +8,25 @@ LIBFT = libft
 LIBFTA = $(LIBFT)/libft.a
 LIBFTI = $(LIBFT)
 
-FILES = main.c		\
+FILES =	main.c		\
 	minishell.c	\
-	bquotes_handler.c \
-	signals.c		\
-	split_separators.c \
 	argv/create_argv.c \
 	argv/argv_utils.c \
 	argv/var_parser.c \
+	argv/local_var_handling.c \
 	argv/add_splitted.c \
 	argv/parse_cmd_return.c \
+	parsers/split_separators.c \
+	parsers/splitters_utils.c \
+	parsers/bquotes_handler.c \
+	parsers/handle_aliases.c \
 	redirections/redirect_stdin.c \
 	redirections/redirect_stdout.c \
 	redirections/add_redir_argv.c \
+	redirections/heredoc/handle_heredoc.c \
+	redirections/heredoc/parse_heredocs.c \
+	redirections/heredoc/heredoc_quote_parser.c \
+	redirections/heredoc/handle_heredoc_utils.c \
 	builtins/echo.c \
 	builtins/cd.c \
 	builtins/change_pwd.c \
@@ -30,6 +36,7 @@ FILES = main.c		\
 	builtins/export_no_args.c \
 	builtins/exit.c \
 	builtins/env.c \
+	builtins/alias.c \
 	builtins/lang.c \
 	commands/execute_line.c \
 	commands/execute_command.c \
@@ -37,54 +44,20 @@ FILES = main.c		\
 	commands/execute_subshell.c \
 	commands/execute_pipes.c \
 	commands/execute_bin.c \
+	commands/execute_subcmd.c \
 	envp/parser.c \
 	envp/create_envp_cpy.c \
-	readline/history/manager.c	\
-	readline/history/reader.c	\
-	readline/history/writer.c	\
-	readline/history/file.c	\
-	readline/history/path.c	\
-	readline/history/state.c	\
-	readline/special_key/move.c	\
-	readline/special_key/history.c	\
-	readline/special_key/breakline.c	\
-	readline/special_key/delete.c	\
-	readline/special_key/factory.c	\
-	readline/special_key/interrupt.c	\
-	readline/special_key/invalid.c	\
-	readline/special_key/teleport.c	\
-	readline/special_key/stash.c	\
-	readline/special_key/stash_word.c	\
-	readline/special_key/clear.c	\
-	readline/special_key/swap.c	\
-	readline/special_key/five_tilde.c	\
-	readline/char_utils.c	\
-	readline/cursor_position.c	\
-	readline/cursor_manager.c	\
-	readline/cursor_view.c	\
-	readline/ft_readline.c	\
-	readline/handle.c	\
-	readline/termios_manager.c	\
-	readline/char_list.c	\
-	readline/clean_readed.c	\
-	readline/edition/write.c	\
-	readline/edition/delete.c	\
-	readline/edition/utils.c	\
-	readline/processing.c	\
-	readline/size.c	\
-	readline/format.c	\
-	readline/stdin.c	\
-	readline/ft_readline_core.c	\
-	readline/exit.c		\
-	readline/char_position.c	\
-	readline/lines.c		\
-	readline/stash.c	\
 	research/research.c		\
 	research/parser.c		\
+	research/free.c			\
 	utils/init_int_tab.c \
 	utils/var_names_utils.c \
+	utils/cwd_errors.c \
 	utils/is_only_nb.c \
 	utils/free_cmd.c \
+	utils/token_errors.c \
+	utils/get_subcmd.c \
+	utils/get_cmd_depth.c \
 	utils/trim_whitespaces.c \
 	utils/check_special_char.c	\
 	translations/args/manager.c	\
@@ -103,9 +76,68 @@ FILES = main.c		\
 	regex/items/factory.c		\
 	regex/items/utils.c		\
 	regex/cleaner.c			\
-	regex/regex.c
+	regex/regex.c	\
+	signals/exit_status.c	\
+	signals/handler.c
 
-OFILES = $(FILES:%.c=$(OBJS)/%.o)
+
+READLINE_FILES =	ft_readline/autocompletion/commands.c		\
+					ft_readline/autocompletion/display.c		\
+					ft_readline/autocompletion/research.c		\
+					ft_readline/autocompletion/utils.c			\
+					ft_readline/autocompletion/variables.c			\
+					ft_readline/char/list.c						\
+					ft_readline/char/position.c					\
+					ft_readline/char/utils.c					\
+					ft_readline/clean/backslashes.c				\
+					ft_readline/cursor/position/position.c		\
+					ft_readline/cursor/position/stdin.c			\
+					ft_readline/cursor/position/tty.c			\
+					ft_readline/cursor/movements.c				\
+					ft_readline/cursor/view.c					\
+					ft_readline/edition/delete.c				\
+					ft_readline/edition/utils.c					\
+					ft_readline/edition/write.c					\
+					ft_readline/extra/env/envp.c					\
+					ft_readline/extra/env/path.c				\
+					ft_readline/extra/erase.c					\
+					ft_readline/extra/fd.c						\
+					ft_readline/extra/raw_mode.c				\
+					ft_readline/extra/size.c					\
+					ft_readline/format/checker.c				\
+					ft_readline/format/lines_count.c			\
+					ft_readline/history/file.c					\
+					ft_readline/history/manager.c				\
+					ft_readline/history/path.c					\
+					ft_readline/history/reader.c				\
+					ft_readline/history/state.c					\
+					ft_readline/history/writer.c				\
+					ft_readline/process/converter.c				\
+					ft_readline/process/processor.c				\
+					ft_readline/process/handler.c				\
+					ft_readline/process/reader.c				\
+					ft_readline/process/stash.c					\
+					ft_readline/events/default/autocompletion.c	\
+					ft_readline/events/default/breakline.c		\
+					ft_readline/events/default/clear.c			\
+					ft_readline/events/default/delete.c			\
+					ft_readline/events/default/five_tilde.c		\
+					ft_readline/events/default/history.c		\
+					ft_readline/events/default/interrupt.c		\
+					ft_readline/events/default/invalid.c		\
+					ft_readline/events/default/move.c			\
+					ft_readline/events/default/stash_word.c		\
+					ft_readline/events/default/stash.c			\
+					ft_readline/events/default/swap.c			\
+					ft_readline/events/default/teleport.c		\
+					ft_readline/events/default_events.c			\
+					ft_readline/events/factory.c				\
+					ft_readline/exit.c							\
+					ft_readline/ft_readline.c					\
+					ft_readline/initialization.c				\
+					ft_readline/main.c
+
+OFILES = $(FILES:%.c=$(OBJS)/%.o) $(READLINE_FILES:%.c=$(OBJS)/%.o)
 
 HISTORY_SIZE ?= 500
 

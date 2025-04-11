@@ -6,19 +6,22 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:09:54 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/13 23:08:38 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/12 01:04:28 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ms_pwd(void)
+int	ms_pwd(t_cmd_params *cmd)
 {
-	char	*temp;
+	char	*cwd;
 
-	temp = getcwd(NULL, 0);
-	write(1, temp, ft_strlen(temp));
-	write(1, "\n", 1);
-	free(temp);
+	cwd = cmd->imp->cwd;
+	if (!cwd)
+	{
+		cwd_error("pwd: ");
+		return (1);
+	}
+	printf("%s\n", cwd);
 	return (0);
 }

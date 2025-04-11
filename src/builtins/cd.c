@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 18:19:55 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/06 22:20:59 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 01:35:57 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,25 @@ static int	cd_to_home(t_cmd_params *cmd)
 	char	*home_val;
 	t_array	args;
 
-	home_val = get_var_value("HOME", *(cmd->envp), 0);
+	res = 0;
+	home_val = get_var_value("HOME", *(cmd->envp));
 	if (home_val)
-		chdir(home_val);
+		res = chdir(home_val);
 	else
 	{
 		args = base_command_args("minishell", "cd");
 		display_translation(2, "command.cd.homenotset", &args, 1);
 	}
+	if (res)
+	{
+		args = base_command_args("minishell", "cd");
+		add_translation_arg(&args, home_val);
+		display_translation(2, "command.cd.filedirnotfound", &args, 1);
+		free(home_val);
+		return (1);
+	}
 	res = home_val != NULL;
-	change_envp_pwd(cmd->envp, getcwd(NULL, 0));
+	change_envp_pwd(cmd, getcwd(NULL, 0));
 	free(home_val);
 	return (res);
 }
@@ -45,7 +54,7 @@ static int	cd_absolute(t_cmd_params *cmd)
 		display_translation(2, "command.cd.filedirnotfound", &args, 1);
 		return (1);
 	}
-	change_envp_pwd(cmd->envp, getcwd(NULL, 0));
+	change_envp_pwd(cmd, getcwd(NULL, 0));
 	return (0);
 }
 
@@ -55,7 +64,7 @@ static int	cd_oldpwd(t_cmd_params *cmd)
 	int		res;
 	t_array	args;
 
-	old_pwd = get_var_value("OLDPWD", *(cmd->envp), 0);
+	old_pwd = get_var_value("OLDPWD", *(cmd->envp));
 	args = base_command_args("minishell", "cd");
 	if (old_pwd)
 	{
@@ -72,7 +81,7 @@ static int	cd_oldpwd(t_cmd_params *cmd)
 	else
 		display_translation(2, "command.cd.oldpwdnotset", &args, 1);
 	res = old_pwd != NULL;
-	change_envp_pwd(cmd->envp, getcwd(NULL, 0));
+	change_envp_pwd(cmd, getcwd(NULL, 0));
 	free(old_pwd);
 	return (res);
 }
@@ -117,6 +126,6 @@ int	ms_cd(t_cmd_params *cmd)
 		display_translation(2, "command.cd.filedirnotfound", &args, 1);
 		return (1);
 	}
-	change_envp_pwd(cmd->envp, getcwd(NULL, 0));
+	change_envp_pwd(cmd, getcwd(NULL, 0));
 	return (0);
 }

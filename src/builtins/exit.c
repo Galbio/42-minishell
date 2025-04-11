@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:05:06 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/06 22:30:17 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 01:25:49 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ static char	parse_exit(t_cmd_params *cmd)
 		res = ft_atoi(cmd->argv[1]);
 		free_cmd(cmd, 1);
 		free_envp(cmd->envp, cmd->imp);
-		if (!cmd->imp->is_bquoted)
+		if (!get_depth(0))
 		{
-			free_readline_core();
+			free_readline();
 			free_regex_items();
 			free_translations();
 		}
@@ -84,17 +84,17 @@ int	ms_exit(t_cmd_params *cmd)
 	int		res;
 	char	av1;
 
-	res = cmd->imp->exit_status;
+	res = get_exit_status();
 	av1 = cmd->argv[1] != NULL;
-	if (!cmd->imp->is_bquoted)
+	if (!get_depth(0))
 		display_translation(2, "exit", NULL, 1);
 	if (!av1 || (parse_exit(cmd) == 1))
 	{
 		free_cmd(cmd, 1);
 		free_envp(cmd->envp, cmd->imp);
-		if (!cmd->imp->is_bquoted)
+		if (!get_depth(0))
 		{
-			free_readline_core();
+			free_readline();
 			free_regex_items();
 			free_translations();
 		}

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 20:51:10 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/03/22 02:54:00 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/08 22:03:19 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ char	check_special_char(char *str, t_int_tab *itab)
 		return (0);
 	if (!itab->backslash && (str[itab->i] == '\\')
 		&& ft_strchr("$\"", str[itab->i + 1]))
+		return (1);
+	if (!itab->backslash && !itab->cur_quote && (str[itab->i] == '\\')
+		&& ft_strchr("*[?", str[itab->i + 1]))
 		return (1);
 	if (!itab->backslash && itab->cur_quote && (str[itab->i] == '\\')
 		&& (str[itab->i + 1] == '\\'))

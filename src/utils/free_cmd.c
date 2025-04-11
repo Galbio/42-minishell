@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:17:38 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/06 19:51:23 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 01:34:27 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,24 @@
 
 char	free_redir(t_list *cur, char res)
 {
-	t_list	*temp;
-	int		i;
+	t_list			*temp;
+	t_redirection	*redir;
+	int				i;
 
 	i = 0;
 	while (cur)
 	{
+		redir = cur->content;
+		i = -1;
+		while (redir->values[++i])
+			free(redir->values[i]);
+		free(redir->values);
+		free(redir->method);
+		free(redir->og_str);
+		free(redir);
 		temp = cur;
 		cur = cur->next;
-		if (i % 2)
-			free(((char **)(temp->content))[1]);
-		free(temp->content);
 		free(temp);
-		i++;
 	}
 	return (res);
 }
@@ -37,17 +42,19 @@ void	free_envp(t_list **envp, t_main_envp *imp)
 	int		i;
 
 	ft_lstclear(envp, free);
-	if (imp->is_bquoted)
+	if (get_depth(0))
 	{
-		free_readline_core();
+		free_readline();
 		free_regex_items();
 		free_translations();
 	}
 	i = -1;
 	while (imp->path && imp->path[++i])
 		free(imp->path[i]);
+	ft_lstclear(&imp->aliases, free);
 	free(imp->path);
 	free(imp->home);
+	free(imp->cwd);
 }
 
 void	free_cmd(t_cmd_params *cmd, char mode)

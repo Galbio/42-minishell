@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:43:25 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/06 23:02:35 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 01:34:14 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,14 @@ static char	redirect_fd_adress(char *src, char *dest)
 	return (0);
 }
 
-static char	redirect_tofile(char *method, char **name)
+static char	redirect_tofile(char *method, char **value, int is_fd)
 {
 	int		fd;
 
-	if (name[0])
-		return (redirect_fd_adress(method, name[1]));
-	fd = open(name[1], O_WRONLY | O_CREAT, 0644);
+	if (is_fd)
+		return (redirect_fd_adress(method, value[0]));
+	unlink(value[0]);
+	fd = open(value[0], O_WRONLY | O_CREAT, 0644);
 	if (fd < 0)
 		return (1);
 	if (method[0] == '>')
@@ -82,7 +83,7 @@ static char	redirect_appendfile(char *method, char **name)
 {
 	int		fd;
 
-	fd = open(name[1], O_WRONLY | O_APPEND | O_CREAT, 0644);
+	fd = open(name[0], O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (fd < 0)
 		return (1);
 	if (method[0] == '>')
@@ -95,23 +96,30 @@ static char	redirect_appendfile(char *method, char **name)
 	return (0);
 }
 
-char	redirect_stdout(char *method, char **value)
+char	redirect_stdout(t_redirection *redir)
 {
 	int			i;
 	t_array		args;
 
-	if (!value[1])
+	if (!redir->values[0])
 	{
 		args = simple_arg("minishell");
 		display_translation(2, "redirections.syntaxenl", &args, 1);
 		return (1);
 	}
+	if (redir->values[1])
+	{
+		write(2, "minishell: ", 11);
+		ft_putstr_fd(redir->og_str, 2);
+		write(2, ": ambiguous redirect\n", 21);
+		return (1);
+	}
 	i = 0;
-	while (!ft_strchr("<>", method[i]))
+	while (!ft_strchr("<>", redir->method[i]))
 		i++;
-	if (!method[i + 1])
-		return (redirect_tofile(method, value));
-	if (!ft_strncmp(">>", method + i, 3))
-		return (redirect_appendfile(method, value));
+	if (!redir->method[i + 1])
+		return (redirect_tofile(redir->method, redir->values, redir->is_fd));
+	if (!ft_strncmp(">>", redir->method + i, 3))
+		return (redirect_appendfile(redir->method, redir->values));
 	return (0);
 }
