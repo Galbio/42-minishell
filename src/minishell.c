@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/11 14:47:18 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/11 14:55:39 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ static void	init_execution(t_list *envp, t_main_envp *imp, t_list **cmds)
 	exit_status = get_exit_status();
 	if (exit_status >= 256)
 		set_exit_status(exit_status - 256);
+	ft_readline_set_check_format(0);
 	res = identify_heredoc((*cmds)->content, cmds, imp);
+	ft_readline_set_check_format(1);
 	if (ft_strchr(res, '`'))
 		res = handle_bquotes(res);
 	execute_line(res, &envp, imp);
