@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 16:06:31 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/11 15:22:57 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/11 16:15:15 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,36 +15,40 @@
 
 static void	add_and_sort(t_array *res, char *value, int *size)
 {
-	int	a;
-	int	b;
-	int	c;
+	int	i;
+	int	index;
 	int	len;
-	int	v;
+	int	diff;
 
 	value = ft_strdup(value);
 	if (!value)
 		return ;
 	if (*size == 0)
 	{
+		(*size)++;
 		ft_array_push(res, value);
 		return ;
 	}
-	a = 0;
-	b = *size;
-	c = b / 2;
 	len = ft_strlen(value);
-	v = ft_strncmp((*res)[c], value, ft_max(len, ft_strlen((char *)(*res)[c])));
-	while (b - a > 0)
+	i = 0;
+	index = *size;
+	while (i < *size)
 	{
-		if (v == 0)
+		diff = ft_strncmp((*res)[i], value, ft_max(len, ft_strlen((char *)(*res)[i])));
+		if (diff == 0)
 			return ;
-		if (v < 0)
-			b = c;
-		else
-			a = c;
-		c = (b - a) / 2;
+		if (diff > 0)
+		{
+			index = i;
+			break ;
+		}
+		i++;
 	}
-	ft_array_add(res, c, value);
+	if (index == *size)
+		ft_array_push(res, value);
+	else
+		ft_array_add(res, index, value);
+	(*size)++;
 }
 
 static void	add_path_values(char *prefix, char *path, t_array *res, int *size)
@@ -61,7 +65,7 @@ static void	add_path_values(char *prefix, char *path, t_array *res, int *size)
 	{
 		if (entry->d_name[0] != '.' && ft_strncmp(entry->d_name, prefix, ft_strlen(prefix)) == 0)
 		{
-			joined = ft_pathjoin(path, ft_strdup(entry->d_name));
+			joined = ft_pathjoin(path, entry->d_name);
 			if (access(joined, X_OK) == 0 && !ft_isdir(joined))
 				add_and_sort(res, entry->d_name, size);
 			free(joined);
