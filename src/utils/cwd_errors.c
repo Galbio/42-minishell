@@ -1,27 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   cwd_errors.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/23 17:09:54 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 01:04:28 by lroussel         ###   ########.fr       */
+/*   Created: 2025/04/12 00:58:41 by lroussel          #+#    #+#             */
+/*   Updated: 2025/04/12 01:05:53 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	ms_pwd(t_cmd_params *cmd)
+void	cwd_error(char *title)
 {
-	char	*cwd;
-
-	cwd = cmd->imp->cwd;
-	if (!cwd)
-	{
-		cwd_error("pwd: ");
-		return (1);
-	}
-	printf("%s\n", cwd);
-	return (0);
+	write(2, title, ft_strlen(title));
+	write(2, "error retrieving current directory: getcwd: cannot", 50);
+	write(2, " access parent directories: No such file or directory\n", 54);
 }

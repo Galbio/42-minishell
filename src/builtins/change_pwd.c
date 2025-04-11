@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 10:55:36 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 00:32:26 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 01:03:56 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ static int	update_pwd(t_main_envp *imp, char **new_path, char **arg)
 	{
 		if (!imp->cwd)
 		{
-			printf("chdir: error retrieving current directory: getcwd: cannot");
-			printf(" access parent directories: No such file or directory\n");
+			cwd_error("chdir: ");
 			if (ft_iscurrent_dirpath(*arg))
 				*new_path = ft_strdup(".");
 			else

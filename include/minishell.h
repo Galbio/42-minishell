@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 00:22:29 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 01:03:06 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,10 @@ void			init_signals(void);
 void			set_exit_status(int status);
 int				get_exit_status(void);
 int				get_depth(int v);
+
 void			token_error(char *str);
+
+void			cwd_error(char *title);
 
 //misc
 t_int_tab		init_int_tab(void);
