@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 13:27:37 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/11 18:48:58 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 00:07:09 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	get_cursor_position_from_stdin(int *row, int *col)
 	int				status;
 
 	set_tcsamow(&old_term);
-	write(STDOUT_FILENO, "\033[6n", 4);
+	write(STDOUT_FILENO, DISPLAY_CURSOR_POSITION, 4);
 	status = read_terminal_response(response, sizeof(response));
 	tcsetattr(STDIN_FILENO, TCSANOW, &old_term);
 	if (status == -1)
