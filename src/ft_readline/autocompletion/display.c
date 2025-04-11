@@ -6,14 +6,14 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 16:06:31 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/11 23:50:28 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/11 23:53:19 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_readline.h"
 #include "dirent.h"
 
-static void	add_and_sort(t_array *res, char *value, int *size)
+static void	add_and_sort(t_array *occurences, char *value, int *size)
 {
 	int	a;
 	int	b;
@@ -24,7 +24,10 @@ static void	add_and_sort(t_array *res, char *value, int *size)
 	value = ft_strdup(value);
 	if (!value)
 		return ;
-	if (*size == 0)
+	len = ft_strlen(value);
+	if (len > *((int *)(*occurences)[0]))
+		*((int *)(*occurences)[0]) = len;
+	if (*size == 1)
 	{
 		ft_array_push(res, value);
 		return ;
@@ -47,7 +50,7 @@ static void	add_and_sort(t_array *res, char *value, int *size)
 	ft_array_add(res, c, value);
 }
 
-static void	add_path_values(char *prefix, char *path, t_array *res, int *size)
+static void	add_path_values(char *prefix, char *path, t_array *occurences, int *size)
 {
 	DIR				*dir;
 	struct dirent	*entry;
@@ -63,7 +66,7 @@ static void	add_path_values(char *prefix, char *path, t_array *res, int *size)
 		{
 			joined = ft_pathjoin(path, ft_strdup(entry->d_name));
 			if (access(joined, X_OK) == 0 && !ft_isdir(joined))
-				add_and_sort(res, entry->d_name, size);
+				add_and_sort(occurences, entry->d_name, size);
 			free(joined);
 		}
 		entry = readdir(dir);
@@ -72,26 +75,20 @@ static void	add_path_values(char *prefix, char *path, t_array *res, int *size)
 	closedir(dir);
 }
 
-static t_array	get_paths_values(char *prefix)
+static void	get_paths_values(char *prefix, t_array *occurences, int *size)
 {
 	char	***path;
-	t_array	res;
-	int	size;
 	int	i;
 
 	path = ft_readline_get_path_ptr();
-	res = ft_array();
 	if (!path || !(*path))
-		return (res);
-	size = 0;
+		return ;
 	i = 0;
 	while ((*path)[i])
 	{
-		add_path_values(prefix, (*path)[i], &res, &size);
+		add_path_values(prefix, (*path)[i], occurences, size);
 		i++;
 	}
-	(void)size;
-	return (res);
 }
 
 static void	print_values(t_array occurences, int size, int col, int max)
