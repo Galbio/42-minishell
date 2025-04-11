@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/11 18:56:02 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/11 21:12:48 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ typedef struct s_readline_data
 	int				offset;
 	int				is_pipe;
 	int				tab_pressed;
-	t_array	occurences;
+	t_array			occurences;
 }	t_readline_data;
 
 typedef struct s_readline_event
@@ -75,9 +75,21 @@ typedef struct s_readline
 	t_array			history;
 }	t_readline;
 
+//autocompletion/commands.c
+void			add_builtins_occurences(char *prefix, t_array *occurences,
+					int *size);
+void			add_path_occurences(char *prefix, char *path,
+					t_array *occurences, int *size);
+
 //autocompletion/display.c
 void			display_autocompletion(t_readline_data *data);
+
+//autocompletion/research.c
 char			*research_autocompletion(t_readline_data *data, char *prefix);
+
+//autocompletion/utils.c
+void			add_and_sort_occurence(t_array *occurences, char *value,
+					int *size);
 
 //char/list.c
 void			add_char_back(t_readline_char *head, t_readline_char *c);
@@ -127,7 +139,11 @@ void			print_build(char *build);
 //edition/write.c
 void			on_write(t_readline_data *data);
 
-//extra/env.c
+//extra/env/env.c
+void			ft_readline_set_envp_ptr(t_list ***envp);
+t_list			***ft_readline_get_envp_ptr(void);
+
+//extra/env/path.c
 void			ft_readline_set_path_ptr(char ***path);
 char			***ft_readline_get_path_ptr(void);
 

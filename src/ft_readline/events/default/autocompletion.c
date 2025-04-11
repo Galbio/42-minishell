@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:23:53 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/11 19:12:52 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/11 19:48:19 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ static void	autocomplete(t_readline_data *data, char *value, char *res)
 	}
 	process_default_key(data, " ");
 	on_write(data);
+	free(value);
+	free(res);
 }
 
 void	tab_key(t_readline_data *data)
@@ -44,7 +46,7 @@ void	tab_key(t_readline_data *data)
 		data->pos.y = data->cursor.y - count_low_newlines(data, data->current)
 			- count_hard_newlines(*data, data->current);
 		on_write(data);
-		return;
+		return ;
 	}
 	value = get_argument_before(data->current);
 	if (!value)
@@ -53,8 +55,6 @@ void	tab_key(t_readline_data *data)
 	if (res)
 	{
 		autocomplete(data, value, res);
-		free(value);
-		free(res);
 		return ;
 	}
 	free(value);

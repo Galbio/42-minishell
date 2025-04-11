@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:30 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/11 18:58:02 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/11 19:24:33 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,10 @@ static int	calculate_len(t_readline_data data, t_readline_char *to)
 	return (len);
 }
 
-static void	paste_on(char **result, t_readline_char *c, int *i, int incr)
+static t_readline_char	*paste_on(char **result, t_readline_char *c,
+	int *i, int incr)
 {
-	int		j;
+	int	j;
 
 	j = 0;
 	while (c->sequence[j])
@@ -52,12 +53,15 @@ static void	paste_on(char **result, t_readline_char *c, int *i, int incr)
 		j++;
 	}
 	*i += incr * j;
+	if (incr > 0)
+		return (c->next);
+	return (c->previous);
 }
 
 char	*list_to_string(t_readline_data data, t_readline_char *to)
 {
 	char			*result;
-	t_readline_char	*c;
+	t_readline_char	*cur;
 	int				i;
 	int				len;
 
@@ -70,13 +74,10 @@ char	*list_to_string(t_readline_data data, t_readline_char *to)
 	if (!result)
 		return (NULL);
 	ft_bzero(result, len + 2);
-	c = data.first;
+	cur = data.first;
 	i = 0;
-	while (c && (!to || c != to->next))
-	{
-		paste_on(&result, c, &i, 1);
-		c = c->next;
-	}
+	while (cur && (!to || cur != to->next))
+		cur = paste_on(&result, cur, &i, 1);
 	return (result);
 }
 
@@ -94,9 +95,9 @@ int	is_first_argument(t_readline_char *position)
 
 char	*get_argument_before(t_readline_char *position)
 {
-	int	i;
+	int				i;
 	t_readline_char	*cur;
-	char	*result;
+	char			*result;
 
 	if (!position)
 		return (NULL);
@@ -116,9 +117,6 @@ char	*get_argument_before(t_readline_char *position)
 	result[i] = '\0';
 	i--;
 	while (i >= 0)
-	{
-		paste_on(&result, cur, &i, -1);
-		cur = cur->previous;
-	}
+		cur = paste_on(&result, cur, &i, -1);
 	return (result);
 }

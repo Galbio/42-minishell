@@ -72,7 +72,10 @@ FILES =	main.c		\
 	signals/handler.c
 
 
-READLINE_FILES =	ft_readline/autocompletion/display.c		\
+READLINE_FILES =	ft_readline/autocompletion/commands.c		\
+					ft_readline/autocompletion/display.c		\
+					ft_readline/autocompletion/research.c		\
+					ft_readline/autocompletion/utils.c			\
 					ft_readline/char/list.c						\
 					ft_readline/char/position.c					\
 					ft_readline/char/utils.c					\
@@ -85,7 +88,8 @@ READLINE_FILES =	ft_readline/autocompletion/display.c		\
 					ft_readline/edition/delete.c				\
 					ft_readline/edition/utils.c					\
 					ft_readline/edition/write.c					\
-					ft_readline/extra/env.c						\
+					ft_readline/extra/env/envp.c					\
+					ft_readline/extra/env/path.c				\
 					ft_readline/extra/erase.c					\
 					ft_readline/extra/fd.c						\
 					ft_readline/extra/raw_mode.c				\
