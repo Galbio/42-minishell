@@ -6,32 +6,11 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 19:06:57 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/08 14:34:54 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/11 22:36:21 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static char	*get_subshell(char *str)
-{
-	t_int_tab	itab;
-
-	itab = init_int_tab();
-	while (str[++itab.i])
-	{
-		itab.backslash = itab.i && (str[itab.i - 1] == '\\') && !itab.backslash;
-		check_special_char(str, &itab);
-		if (!itab.backslash && !itab.cur_quote && (str[itab.i] == '$'))
-			itab.i += go_to_var_end(str + itab.i) - 1;
-		else if (!itab.backslash && !itab.cur_quote && (str[itab.i] == '('))
-			itab.ret++;
-		else if (!itab.backslash && !itab.cur_quote && (str[itab.i] == ')'))
-			itab.ret--;
-		if (!itab.ret)
-			break ;
-	}
-	return (ft_substr(str, 1, itab.i - 1));
-}
 
 static void	check_heredocs(char *str, t_int_tab *itab,
 		t_list **heredocs, t_main_envp *imp)
@@ -41,7 +20,7 @@ static void	check_heredocs(char *str, t_int_tab *itab,
 	char	*content;
 
 	ignore_tab = 0;
-	if (advance_itab(str, itab, &ignore_tab))
+	if (advance_itab(str, itab, &ignore_tab, str[itab->i]))
 		return ;
 	ft_lstadd_back(&imp->heredocs_infos,
 		ft_lstnew((void *)imp->actual_pos + itab->i));
@@ -70,12 +49,15 @@ static void	add_heredocs_subcmd(char *str, t_list **heredocs, t_main_envp *imp)
 			&& (str[itab.i + 1] == '('))
 		{
 			imp->actual_pos += itab.i + 2;
-			add_heredocs_subcmd(get_subshell(str + itab.i + 1), heredocs, imp);
+			add_heredocs_subcmd(get_subcmd(str + itab.i + 1), heredocs, imp);
 			imp->actual_pos -= itab.i + 2;
 			itab.i += go_to_var_end(str + itab.i) - 1;
 		}
-		else if (!itab.backslash && !itab.cur_quote && (str[itab.i] == '<'))
+		else if (!itab.backslash && !itab.cur_quote
+			&& ft_strchr("<>", str[itab.i]))
 			check_heredocs(str, &itab, heredocs, imp);
+		if (get_exit_status() >= 256)
+			break ;
 	}
 	free(str);
 }
@@ -105,6 +87,29 @@ static char	*replace_heredocs(char *str, t_list *infos)
 	return (str);
 }
 
+static int	check_line_end(char *str, t_list **heredocs, t_main_envp *imp,
+		t_int_tab	*itab)
+{
+	itab->backslash = itab->i && (str[itab->i - 1] == '\\') && !itab->backslash;
+	check_special_char(str, itab);
+	if (!itab->cur_quote && (str[itab->i] == '\n'))
+		return (1);
+	if (!itab->backslash && (itab->cur_quote != '\'') && (str[itab->i] == '$')
+		&& (str[itab->i + 1] == '('))
+	{
+		imp->actual_pos += itab->i + 2;
+		add_heredocs_subcmd(get_subcmd(str + itab->i + 1), heredocs, imp);
+		imp->actual_pos -= itab->i + 2;
+		itab->i += go_to_var_end(str + itab->i) - 1;
+	}
+	else if (!itab->backslash && !itab->cur_quote
+		&& ft_strchr("<>", str[itab->i]))
+		check_heredocs(str, itab, heredocs, imp);
+	if (get_exit_status() >= 256)
+		return (1);
+	return (0);
+}
+
 char	*identify_heredoc(char *str, t_list **heredocs, t_main_envp *imp)
 {
 	t_int_tab	itab;
@@ -114,22 +119,8 @@ char	*identify_heredoc(char *str, t_list **heredocs, t_main_envp *imp)
 	head = *heredocs;
 	itab.ptr1 = ft_strdup(head->content);
 	while (str[++itab.i])
-	{
-		itab.backslash = itab.i && (str[itab.i - 1] == '\\') && !itab.backslash;
-		check_special_char(str, &itab);
-		if (!itab.cur_quote && (str[itab.i] == '\n'))
+		if (check_line_end(str, heredocs, imp, &itab))
 			break ;
-		if (!itab.backslash && (itab.cur_quote != '\'') && (str[itab.i] == '$')
-			&& (str[itab.i + 1] == '('))
-		{
-			imp->actual_pos += itab.i + 2;
-			add_heredocs_subcmd(get_subshell(str + itab.i + 1), heredocs, imp);
-			imp->actual_pos -= itab.i + 2;
-			itab.i += go_to_var_end(str + itab.i) - 1;
-		}
-		else if (!itab.backslash && !itab.cur_quote && (str[itab.i] == '<'))
-			check_heredocs(str, &itab, heredocs, imp);
-	}
 	add_heredoc_history(head, heredocs);
 	return (replace_heredocs(itab.ptr1, imp->heredocs_infos));
 }
