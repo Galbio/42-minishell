@@ -6,24 +6,45 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 14:11:56 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/08 01:07:43 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/11 00:47:44 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	check_error(char **argv)
+static char	**replace_argv(char **argv, int start)
+{
+	char	**dest;
+	int		i;
+
+	i = start;
+	while (argv[i])
+		i++;
+	dest = malloc(sizeof(char *) * ((i - start) + 1));
+	if (!dest)
+		return (argv);
+	i = start - 1;
+	while (argv[++i])
+		dest[i - start] = argv[i];
+	dest[i - start] = 0;
+	i = -1;
+	while (++i < start)
+		free(argv[i]);
+	free(argv);
+	return (dest);
+}
+
+static char	check_error(t_cmd_params *cmd)
 {
 	int		i;
 
 	i = 0;
-	while (argv[++i])
+	while (cmd->argv[++i])
 	{
-		if (!ft_strchr(argv[i], '='))
+		if (!ft_strchr(cmd->argv[i], '='))
 		{
-			ft_putstr_fd("env: ‘", 2);
-			ft_putstr_fd(argv[i], 2);
-			ft_putstr_fd("’: No such file or directory", 2);
+			cmd->argv = replace_argv(cmd->argv, i);
+			set_exit_status(execute_single_bin(cmd, 1));
 			return (1);
 		}
 	}
@@ -56,11 +77,9 @@ static void	print_envp(t_cmd_params *cmd)
 
 int	ms_env(t_cmd_params *cmd)
 {
-	if (cmd->argv[1] && check_error(cmd->argv))
-	{
-		write(1, "\n", 1);
-		return (127);
-	}
+	if (cmd->argv[1])
+		if (check_error(cmd))
+			return (get_exit_status());
 	print_envp(cmd);
 	return (0);
 }

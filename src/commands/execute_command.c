@@ -6,13 +6,13 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 22:39:33 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/11 00:34:00 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	execute_single_bin(t_cmd_params *cmd)
+int	execute_single_bin(t_cmd_params *cmd, int is_env)
 {
 	pid_t		pid;
 	int			stat;
@@ -23,7 +23,7 @@ static int	execute_single_bin(t_cmd_params *cmd)
 		return (1);
 	set_exit_status(1);
 	if (!pid)
-		execute_bin(cmd);
+		execute_bin(cmd, is_env);
 	waitpid(pid, &stat, 0);
 	ret = get_exit_status();
 	if (ret >= 256)
@@ -76,7 +76,7 @@ static int	execute_single_command(t_cmd_params *cmd)
 			return (2);
 		temp = check_builtins(cmd->argv[0]);
 		if (!temp)
-			res = execute_single_bin(cmd);
+			res = execute_single_bin(cmd, 0);
 		else
 			res = handle_builtins(temp, cmd);
 	}

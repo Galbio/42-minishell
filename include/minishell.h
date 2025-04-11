@@ -153,7 +153,8 @@ int				execute_command(t_list *commands, t_cmd_params *params,
 					t_list *cmd_lst, t_list *sep);
 int				execute_pipes(t_cmd_params *cmd);
 int				execute_subshell(t_cmd_params *cmd);
-void			execute_bin(t_cmd_params *cmd);
+int				execute_single_bin(t_cmd_params *cmd, int is_env);
+void			execute_bin(t_cmd_params *cmd, int is_env);
 
 //argv
 t_cmd_params	*create_command_argv(t_cmd_params *cmd);
