@@ -6,19 +6,26 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 00:17:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/08 15:45:52 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/10 17:52:12 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	init_herefiles(char *filename, int pipes[2], int *fd)
+static char	init_herefiles(t_redirection *redir, int pipes[2], int *fd)
 {
-	*fd = open(filename, O_RDONLY);
+	if (redir->values[0] && redir->values[1])
+	{
+		write(2, "minishell: ", 11);
+		ft_putstr_fd(redir->og_str, 2);
+		write(2, ": ambiguous redirect\n", 21);
+		return (1);
+	}
+	*fd = open(redir->values[0], O_RDONLY);
 	if (*fd < 0)
 	{
 		write(2, "minishell: ", 11);
-		write(2, filename, ft_strlen(filename));
+		write(2, redir->values[0], ft_strlen(redir->values[0]));
 		write(2, ": No such file or directory\n", 28);
 		return (1);
 	}
@@ -30,13 +37,13 @@ static char	init_herefiles(char *filename, int pipes[2], int *fd)
 	return (0);
 }
 
-static char	redirect_herefile(char *filename, t_cmd_params *cmd)
+static char	redirect_herefile(t_redirection *redir, t_cmd_params *cmd)
 {
 	int		fd;
 	int		pipes[2];
 	char	*tmp;
 
-	if (init_herefiles(filename, pipes, &fd))
+	if (init_herefiles(redir, pipes, &fd))
 		return (1);
 	if (ZSH && cmd->imp->input_fd)
 	{
@@ -80,42 +87,42 @@ static char	redirect_herestring(char *value, t_cmd_params *cmd, int is_heredoc)
 	return (0);
 }
 
-static char	redirect_stdin(char *method, char **value, t_cmd_params *cmd)
+static char	redirect_stdin(t_redirection *redir, t_cmd_params *cmd)
 {
 	int		len;
 
-	len = ft_strlen(method);
+	len = ft_strlen(redir->method);
 	if (len == 1)
-		return (redirect_herefile(value[1], cmd));
-	else if ((len == 3) && (method[2] == '<'))
-		return (redirect_herestring(value[1], cmd, 0));
-	return (redirect_herestring(value[1], cmd, 1));
+		return (redirect_herefile(redir, cmd));
+	else if ((len == 3) && (redir->method[2] == '<'))
+		return (redirect_herestring(redir->values[0], cmd, 0));
+	return (redirect_herestring(redir->values[0], cmd, 1));
 }
 
 char	handle_redirections(t_cmd_params *cmd)
 {
-	t_list	*cur;
-	char	*ret;
-	int		i;
+	t_list			*cur;
+	t_redirection	*ret;
+	int				i;
 
 	cur = cmd->redir;
 	while (cur)
 	{
-		ret = (char *)cur->content;
-		if (!cur->next)
+		ret = cur->content;
+		if (!ret->values[0])
 			return (free_redir(cmd->redir, 1));
 		i = 0;
-		while (!ft_strchr("<>", ret[i]))
+		while (!ft_strchr("<>", ret->method[i]))
 			i++;
-		if (ret[i] == '<')
+		if (ret->method[i] == '<')
 		{
-			if (redirect_stdin(ret, cur->next->content, cmd))
+			if (redirect_stdin(ret, cmd))
 				return (free_redir(cmd->redir, 1));
 		}
-		else if (ret[i] == '>')
-			if (redirect_stdout(ret, cur->next->content))
+		else if (ret->method[i] == '>')
+			if (redirect_stdout(ret))
 				return (free_redir(cmd->redir, 1));
-		cur = cur->next->next;
+		cur = cur->next;
 	}
 	return (free_redir(cmd->redir, 0));
 }

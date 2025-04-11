@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 23:57:32 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/10 15:38:32 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 00:15:26 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,9 @@ t_list	*parse_envp(char **envp, t_main_envp *imp)
 	void	*temp;
 	int		i;
 
+	imp->aliases = NULL;
+	imp->home = NULL;
+	imp->path = NULL;
 	if (!envp || !envp[0])
 		return (NULL);
 	dest = NULL;
@@ -112,6 +115,5 @@ t_list	*parse_envp(char **envp, t_main_envp *imp)
 			ft_lstadd_back(&dest, ft_lstnew(ft_strdup(envp[i])));
 		handle_important(envp[i], imp);
 	}
-	imp->aliases = NULL;
 	return (dest);
 }

@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/09 22:41:58 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/11 15:47:09 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,17 @@ static void	init(char *home)
 
 static void	init_execution(t_list *envp, t_main_envp *imp, t_list **cmds)
 {
+	t_list	*temp;
 	char	*res;
 	int		exit_status;
 
+	if ((*cmds)->content == NULL)
+	{
+		temp = *cmds;
+		*cmds = temp->next;
+		free(temp);
+		return ;
+	}
 	imp->output_fd = 1;
 	imp->input_fd = 0;
 	imp->actual_pos = 0;
@@ -37,7 +45,9 @@ static void	init_execution(t_list *envp, t_main_envp *imp, t_list **cmds)
 	exit_status = get_exit_status();
 	if (exit_status >= 256)
 		set_exit_status(exit_status - 256);
+	ft_readline_set_check_format(0);
 	res = identify_heredoc((*cmds)->content, cmds, imp);
+	ft_readline_set_check_format(1);
 	if (ft_strchr(res, '`'))
 		res = handle_bquotes(res);
 	execute_line(res, &envp, imp);
@@ -65,5 +75,6 @@ void	launch(t_list *envp, t_main_envp *imp)
 		while (cmds)
 			init_execution(envp, imp, &cmds);
 	}
-	write(STDIN_FILENO, "\n", 1);
+	free_readline();
+	write(STDOUT_FILENO, "\nexit\n", 6);
 }

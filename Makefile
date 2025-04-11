@@ -13,6 +13,7 @@ FILES =	main.c		\
 	argv/create_argv.c \
 	argv/argv_utils.c \
 	argv/var_parser.c \
+	argv/local_var_handling.c \
 	argv/add_splitted.c \
 	argv/parse_cmd_return.c \
 	parsers/split_separators.c \
@@ -52,6 +53,7 @@ FILES =	main.c		\
 	utils/var_names_utils.c \
 	utils/is_only_nb.c \
 	utils/free_cmd.c \
+	utils/token_errors.c \
 	utils/get_subcmd.c \
 	utils/get_cmd_depth.c \
 	utils/trim_whitespaces.c \

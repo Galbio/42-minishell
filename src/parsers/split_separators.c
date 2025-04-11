@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 19:39:43 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/08 18:11:24 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/11 01:34:04 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,11 @@ t_list	*split_pipes(char *str)
 			itab.i += get_subcmd_size(str + itab.i) - 1;
 		else if ((str[itab.i] == '|') && !itab.backslash && !itab.cur_quote
 			&& (str[itab.i + 1] != '|'))
-		{
-			itab.ptr1 = ft_substr(str, itab.ret, itab.i - itab.ret);
-			itab.ret = itab.i + 1;
-			ft_lstadd_back(&dest, ft_lstnew(trim_ws(itab.ptr1)));
-		}
+			if (add_cmd(str, &dest, &itab))
+				return (dest);
 	}
-	if (!str[itab.ret])
-		return (dest);
-	ft_lstadd_back(&dest, ft_lstnew(trim_ws(ft_substr(str, itab.ret, itab.i))));
+	ft_lstadd_back(&dest, ft_lstnew(trim_ws(
+				ft_substr(str, itab.ret, itab.i - itab.ret))));
 	return (dest);
 }
 
@@ -58,14 +54,11 @@ t_list	*split_separators(char *str, t_list **sep)
 			itab.i += get_subcmd_size(str + itab.i) - 1;
 		else if (!itab.backslash && !itab.cur_quote
 			&& handle_separator(str + itab.i, sep))
-		{
-			add_cmd(str, &dest, &itab);
-			itab.ret += (str[itab.i] != ';');
-		}
+			if (add_cmd(str, &dest, &itab))
+				return (dest);
 	}
-	if (str[itab.ret])
-		ft_lstadd_back(&dest, ft_lstnew(
-				trim_ws(ft_substr(str, itab.ret, itab.i))));
+	ft_lstadd_back(&dest, ft_lstnew(trim_ws(
+				ft_substr(str, itab.ret, itab.i - itab.ret))));
 	return (dest);
 }
 
@@ -86,5 +79,6 @@ void	split_cmds(char *res, t_list **cmds)
 			add_cmd(res, cmds, &itab);
 	}
 	if (res[itab.ret])
-		add_cmd(res, cmds, &itab);
+		ft_lstadd_back(cmds, ft_lstnew(trim_ws(
+					ft_substr(res, itab.ret, itab.i - itab.ret))));
 }

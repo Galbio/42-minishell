@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/10 14:54:23 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/12 00:14:34 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,14 @@ typedef struct s_cmd_params
 	t_list		**extra;
 }	t_cmd_params;
 
+typedef struct s_redirection
+{
+	int			is_fd;
+	char		*og_str;
+	char		*method;
+	char		**values;
+}	t_redirection;
+
 typedef struct s_int_tab
 {
 	int		i;
@@ -90,6 +98,7 @@ void			init_signals(void);
 void			set_exit_status(int status);
 int				get_exit_status(void);
 int				get_depth(int v);
+void			token_error(char *str);
 
 //misc
 t_int_tab		init_int_tab(void);
@@ -106,7 +115,7 @@ char			*handle_bquotes(char *res);
 void			split_cmds(char *res, t_list **cmds);
 t_list			*split_pipes(char *str);
 t_list			*split_separators(char *str, t_list **sep);
-void			add_cmd(char *str, t_list **dest, t_int_tab *itab);
+int				add_cmd(char *str, t_list **dest, t_int_tab *itab);
 char			*get_subcmd(char *str);
 int				get_subcmd_size(char *str);
 int				handle_separator(char *str, t_list **sep);
@@ -114,7 +123,7 @@ char			*handle_aliases(char *input, t_list *aliases);
 
 //redirections
 char			handle_redirections(t_cmd_params *cmd);
-char			redirect_stdout(char *method, char **value);
+char			redirect_stdout(t_redirection *ret);
 char			is_only_nb(char *str);
 char			*get_var_value(char *name, t_list *cur);
 
@@ -125,7 +134,8 @@ char			*identify_heredoc(char *str, t_list **heredocs,
 char			*parse_heredoc_quote(char *str);
 void			free_heredocs(t_list *cur);
 void			add_heredoc_history(t_list *cur, t_list **end);
-char			advance_itab(char *str, t_int_tab *itab, char *ignore_tab);
+char			advance_itab(char *str, t_int_tab *itab,
+					char *ignore_tab, char save);
 char			*wait_value(t_list **heredocs, char *value, char ignore_tab);
 char			*add_line(char *content, char *line);
 
@@ -146,10 +156,13 @@ int				execute_command(t_list *commands, t_cmd_params *params,
 					t_list *cmd_lst, t_list *sep);
 int				execute_pipes(t_cmd_params *cmd);
 int				execute_subshell(t_cmd_params *cmd);
-void			execute_bin(t_cmd_params *cmd);
+int				execute_single_bin(t_cmd_params *cmd, int is_env);
+void			execute_bin(t_cmd_params *cmd, int is_env);
 
 //argv
 t_cmd_params	*create_command_argv(t_cmd_params *cmd);
+t_list			*fill_argv(char *str, t_cmd_params *cmd);
+char			**fill_return_argv(t_list *argv);
 void			handle_var(char *str, t_int_tab *itab, t_list **cmd_outputs,
 					t_cmd_params *cmd);
 void			add_to_argv(t_list **dest, char *str, t_int_tab *itab,
@@ -160,6 +173,8 @@ char			*parse_quotes(char *str, t_cmd_params *cmd);
 char			*make_splitted_str(char **str, int *i, char is_sep);
 void			add_redirection(char *str, t_int_tab *itab,
 					t_cmd_params *cmd, t_list **dest);
+void			handle_local_appending(char *str, t_int_tab *itab,
+					t_cmd_params *cmd);
 char			*handle_commands(t_int_tab *itab, t_cmd_params *cmd,
 					t_list **outputs);
 
