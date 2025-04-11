@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/09 20:09:04 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/11 23:56:24 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ typedef struct s_readline_data
 	int				display_prompt;
 	int				offset;
 	int				is_pipe;
+	int				tab_pressed;
+	t_array			occurences;
 }	t_readline_data;
 
 typedef struct s_readline_event
@@ -72,6 +74,26 @@ typedef struct s_readline
 	int				cat_stash;
 	t_array			history;
 }	t_readline;
+
+//autocompletion/commands.c
+void			add_builtins_occurences(char *prefix, t_array *occurences,
+					int *size);
+void			add_path_occurences(char *prefix, char *path,
+					t_array *occurences, int *size);
+
+//autocompletion/display.c
+void			display_autocompletion(t_readline_data *data);
+
+//autocompletion/research.c
+char			*research_autocompletion(t_readline_data *data, char *prefix);
+
+//autocompletion/utils.c
+void			add_and_sort_occurence(t_array *occurences, char *value,
+					int *size);
+
+//autocompletion/variables.c
+void			add_variables_occurences(char *prefix, char *variable,
+					t_array *occurences, int *size);
 
 //char/list.c
 void			add_char_back(t_readline_char *head, t_readline_char *c);
@@ -121,6 +143,14 @@ void			print_build(char *build);
 //edition/write.c
 void			on_write(t_readline_data *data);
 
+//extra/env/env.c
+void			ft_readline_set_envp_ptr(t_list **envp);
+t_list			**ft_readline_get_envp_ptr(void);
+
+//extra/env/path.c
+void			ft_readline_set_path_ptr(char ***path);
+char			***ft_readline_get_path_ptr(void);
+
 //extra/erase.c
 void			erase_after_cursor(int fd, int new_line);
 
@@ -148,6 +178,8 @@ int				count_hard_newlines(t_readline_data data, t_readline_char *to);
 
 //process/converter.c
 char			*list_to_string(t_readline_data data, t_readline_char *to);
+int				is_first_argument(t_readline_char *position);
+char			*get_argument_before(t_readline_char *position);
 
 //process/handler.c
 int				handle_key_input(t_readline_data *data, char *buffer);
@@ -163,6 +195,9 @@ int				read_stdin_keys(char *buffer);
 void			add_to_stash(t_readline_char **stashed, t_readline_char *node,
 					int type);
 void			clean_stash(t_readline *main, int check_cat);
+
+//events/default/autocompletion.c
+void			tab_key(t_readline_data *data);
 
 //events/default/breakline.c
 void			breakline_key(t_readline_data *data);

@@ -40,6 +40,7 @@ typedef struct s_main_envp
 {
 	char			**path;
 	char			*home;
+	char			*cwd;
 	int				shell_level;
 	int				output_fd;
 	int				input_fd;
@@ -98,6 +99,10 @@ void			set_exit_status(int status);
 int				get_exit_status(void);
 int				get_depth(int v);
 
+void			token_error(char *str);
+
+void			cwd_error(char *title);
+
 //misc
 t_int_tab		init_int_tab(void);
 char			check_special_char(char *str, t_int_tab *itab);
@@ -143,7 +148,8 @@ char			*identify_heredoc(char *str, t_list **heredocs,
 char			*parse_heredoc_quote(char *str);
 void			free_heredocs(t_list *cur);
 void			add_heredoc_history(t_list *cur, t_list **end);
-char			advance_itab(char *str, t_int_tab *itab, char *ignore_tab);
+char			advance_itab(char *str, t_int_tab *itab,
+					char *ignore_tab, char save);
 char			*wait_value(t_list **heredocs, char *value, char ignore_tab);
 char			*add_line(char *content, char *line);
 
@@ -196,7 +202,7 @@ char			*trim_ws(char *str);
 //builtins
 int				ms_cd(t_cmd_params *cmd);
 int				ms_echo(t_cmd_params *cmd);
-int				ms_pwd(void);
+int				ms_pwd(t_cmd_params *cmd);
 int				ms_unset(t_cmd_params *cmd);
 int				ms_exit(t_cmd_params *cmd);
 int				ms_export(t_cmd_params *cmd);
@@ -206,7 +212,7 @@ int				ms_alias(t_cmd_params *cmd);
 //builtins additional
 void			export_vars(t_list *envp);
 void			unset_var(char *name, t_list **envp, t_main_envp *imp);
-void			change_envp_pwd(t_list **envp, char *name);
+void			change_envp_pwd(t_cmd_params *cmd, char *new_path);
 
 void			init_regexs(void);
 t_list			*search_pattern(char *path, char *pattern);

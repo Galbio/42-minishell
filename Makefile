@@ -53,8 +53,10 @@ FILES =	main.c		\
 	research/free.c			\
 	utils/init_int_tab.c \
 	utils/var_names_utils.c \
+	utils/cwd_errors.c \
 	utils/is_only_nb.c \
 	utils/free_cmd.c \
+	utils/token_errors.c \
 	utils/get_subcmd.c \
 	utils/get_cmd_depth.c \
 	utils/trim_whitespaces.c \
@@ -74,52 +76,60 @@ FILES =	main.c		\
 	signals/handler.c
 
 
-READLINE_FILES =	ft_readline/char/list.c					\
-					ft_readline/char/position.c				\
-					ft_readline/char/utils.c				\
-					ft_readline/clean/backslashes.c			\
-					ft_readline/cursor/position/position.c	\
-					ft_readline/cursor/position/stdin.c		\
-					ft_readline/cursor/position/tty.c		\
-					ft_readline/cursor/movements.c			\
-					ft_readline/cursor/view.c				\
-					ft_readline/edition/delete.c			\
-					ft_readline/edition/utils.c				\
-					ft_readline/edition/write.c				\
-					ft_readline/extra/erase.c				\
-					ft_readline/extra/fd.c					\
-					ft_readline/extra/raw_mode.c			\
-					ft_readline/extra/size.c				\
-					ft_readline/format/checker.c			\
-					ft_readline/format/lines_count.c		\
-					ft_readline/history/file.c				\
-					ft_readline/history/manager.c			\
-					ft_readline/history/path.c				\
-					ft_readline/history/reader.c			\
-					ft_readline/history/state.c				\
-					ft_readline/history/writer.c			\
-					ft_readline/process/converter.c			\
-					ft_readline/process/processor.c			\
-					ft_readline/process/handler.c			\
-					ft_readline/process/reader.c			\
-					ft_readline/process/stash.c				\
-					ft_readline/events/default/breakline.c	\
-					ft_readline/events/default/clear.c		\
-					ft_readline/events/default/delete.c		\
-					ft_readline/events/default/five_tilde.c	\
-					ft_readline/events/default/history.c	\
-					ft_readline/events/default/interrupt.c	\
-					ft_readline/events/default/invalid.c	\
-					ft_readline/events/default/move.c		\
-					ft_readline/events/default/stash_word.c	\
-					ft_readline/events/default/stash.c		\
-					ft_readline/events/default/swap.c		\
-					ft_readline/events/default/teleport.c	\
-					ft_readline/events/default_events.c		\
-					ft_readline/events/factory.c			\
-					ft_readline/exit.c						\
-					ft_readline/ft_readline.c				\
-					ft_readline/initialization.c			\
+READLINE_FILES =	ft_readline/autocompletion/commands.c		\
+					ft_readline/autocompletion/display.c		\
+					ft_readline/autocompletion/research.c		\
+					ft_readline/autocompletion/utils.c			\
+					ft_readline/autocompletion/variables.c			\
+					ft_readline/char/list.c						\
+					ft_readline/char/position.c					\
+					ft_readline/char/utils.c					\
+					ft_readline/clean/backslashes.c				\
+					ft_readline/cursor/position/position.c		\
+					ft_readline/cursor/position/stdin.c			\
+					ft_readline/cursor/position/tty.c			\
+					ft_readline/cursor/movements.c				\
+					ft_readline/cursor/view.c					\
+					ft_readline/edition/delete.c				\
+					ft_readline/edition/utils.c					\
+					ft_readline/edition/write.c					\
+					ft_readline/extra/env/envp.c					\
+					ft_readline/extra/env/path.c				\
+					ft_readline/extra/erase.c					\
+					ft_readline/extra/fd.c						\
+					ft_readline/extra/raw_mode.c				\
+					ft_readline/extra/size.c					\
+					ft_readline/format/checker.c				\
+					ft_readline/format/lines_count.c			\
+					ft_readline/history/file.c					\
+					ft_readline/history/manager.c				\
+					ft_readline/history/path.c					\
+					ft_readline/history/reader.c				\
+					ft_readline/history/state.c					\
+					ft_readline/history/writer.c				\
+					ft_readline/process/converter.c				\
+					ft_readline/process/processor.c				\
+					ft_readline/process/handler.c				\
+					ft_readline/process/reader.c				\
+					ft_readline/process/stash.c					\
+					ft_readline/events/default/autocompletion.c	\
+					ft_readline/events/default/breakline.c		\
+					ft_readline/events/default/clear.c			\
+					ft_readline/events/default/delete.c			\
+					ft_readline/events/default/five_tilde.c		\
+					ft_readline/events/default/history.c		\
+					ft_readline/events/default/interrupt.c		\
+					ft_readline/events/default/invalid.c		\
+					ft_readline/events/default/move.c			\
+					ft_readline/events/default/stash_word.c		\
+					ft_readline/events/default/stash.c			\
+					ft_readline/events/default/swap.c			\
+					ft_readline/events/default/teleport.c		\
+					ft_readline/events/default_events.c			\
+					ft_readline/events/factory.c				\
+					ft_readline/exit.c							\
+					ft_readline/ft_readline.c					\
+					ft_readline/initialization.c				\
 					ft_readline/main.c
 
 OFILES = $(FILES:%.c=$(OBJS)/%.o) $(READLINE_FILES:%.c=$(OBJS)/%.o)
