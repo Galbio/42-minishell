@@ -51,6 +51,7 @@ FILES =	main.c		\
 	research/free.c			\
 	utils/init_int_tab.c \
 	utils/var_names_utils.c \
+	utils/cwd_errors.c \
 	utils/is_only_nb.c \
 	utils/free_cmd.c \
 	utils/token_errors.c \

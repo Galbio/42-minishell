@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/11 22:39:28 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/12 01:03:06 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_main_envp
 {
 	char			**path;
 	char			*home;
+	char			*cwd;
 	int				shell_level;
 	int				output_fd;
 	int				input_fd;
@@ -97,7 +98,10 @@ void			init_signals(void);
 void			set_exit_status(int status);
 int				get_exit_status(void);
 int				get_depth(int v);
+
 void			token_error(char *str);
+
+void			cwd_error(char *title);
 
 //misc
 t_int_tab		init_int_tab(void);
@@ -187,7 +191,7 @@ char			*trim_ws(char *str);
 //builtins
 int				ms_cd(t_cmd_params *cmd);
 int				ms_echo(t_cmd_params *cmd);
-int				ms_pwd(void);
+int				ms_pwd(t_cmd_params *cmd);
 int				ms_unset(t_cmd_params *cmd);
 int				ms_exit(t_cmd_params *cmd);
 int				ms_export(t_cmd_params *cmd);
@@ -197,7 +201,7 @@ int				ms_alias(t_cmd_params *cmd);
 //builtins additional
 void			export_vars(t_list *envp);
 void			unset_var(char *name, t_list **envp, t_main_envp *imp);
-void			change_envp_pwd(t_list **envp, char *name);
+void			change_envp_pwd(t_cmd_params *cmd, char *new_path);
 
 void			init_regexs(void);
 t_list			*search_pattern(char *path, char *pattern);
