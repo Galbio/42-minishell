@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/11 18:53:48 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/11 19:36:28 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,11 +121,13 @@ char			*handle_aliases(char *input, t_list *aliases);
 
 //braces
 char			*handle_brace_option(char *str, t_cmd_params *cmd, char *src);
-char			*if_not_defined(char *src, char *default_str, t_cmd_params *cmd);
-char			*assign_if_not_defined(char *src, char *default_str,
+char			*brace_if_not_defined(char *src, char *default_str,
 					t_cmd_params *cmd);
-char			*if_defined(char *src, char *default_str, t_cmd_params *cmd);
-char			*error_if_not_defined(char *src, char *default_str,
+char			*brace_assign_if_not_defined(char *src, char *default_str,
+					t_cmd_params *cmd);
+char			*brace_if_defined(char *src, char *default_str,
+					t_cmd_params *cmd);
+char			*brace_error_if_not_defined(char *src, char *default_str,
 					t_cmd_params *cmd);
 
 //redirections

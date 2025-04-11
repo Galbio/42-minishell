@@ -6,13 +6,13 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 18:36:16 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/11 18:38:23 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/11 19:35:24 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*if_not_defined(char *src, char *default_str, t_cmd_params *cmd)
+char	*brace_if_not_defined(char *src, char *default_str, t_cmd_params *cmd)
 {
 	char	*name;
 	char	*value;
@@ -27,7 +27,7 @@ char	*if_not_defined(char *src, char *default_str, t_cmd_params *cmd)
 	return (value);
 }
 
-char	*assign_if_not_defined(char *src, char *default_str,
+char	*brace_assign_if_not_defined(char *src, char *default_str,
 		t_cmd_params *cmd)
 {
 	char	*temp;
@@ -52,7 +52,7 @@ char	*assign_if_not_defined(char *src, char *default_str,
 	return (value);
 }
 
-char	*if_defined(char *src, char *default_str, t_cmd_params *cmd)
+char	*brace_if_defined(char *src, char *default_str, t_cmd_params *cmd)
 {
 	char	*name;
 	char	*value;
@@ -71,7 +71,7 @@ char	*if_defined(char *src, char *default_str, t_cmd_params *cmd)
 	return (ft_strdup(""));
 }
 
-char	*error_if_not_defined(char *src, char *default_str,
+char	*brace_error_if_not_defined(char *src, char *default_str,
 		t_cmd_params *cmd)
 {
 	char	*name;

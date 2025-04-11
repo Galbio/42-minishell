@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 16:43:48 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/11 18:38:13 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/11 19:35:54 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ static char	*(*get_function(char *method))(char *src,
 		char *default_str, t_cmd_params *cmd)
 {
 	if (method[1] == '-')
-		return (if_not_defined);
+		return (brace_if_not_defined);
 	if (method[1] == '=')
-		return (assign_if_not_defined);
+		return (brace_assign_if_not_defined);
 	if (method[1] == '?')
-		return (error_if_not_defined);
+		return (brace_error_if_not_defined);
 	if (method[1] == '+')
-		return (if_defined);
+		return (brace_if_defined);
 	return (NULL);
 }
 
