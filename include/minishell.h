@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 01:15:43 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 01:38:14 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,17 @@ char			*get_subcmd(char *str);
 int				get_subcmd_size(char *str);
 int				handle_separator(char *str, t_list **sep);
 char			*handle_aliases(char *input, t_list *aliases);
+
+//braces
+char			*handle_brace_option(char *str, t_cmd_params *cmd, char *src);
+char			*brace_if_not_defined(char *src, char *default_str,
+					t_cmd_params *cmd);
+char			*brace_assign_if_not_defined(char *src, char *default_str,
+					t_cmd_params *cmd);
+char			*brace_if_defined(char *src, char *default_str,
+					t_cmd_params *cmd);
+char			*brace_error_if_not_defined(char *src, char *default_str,
+					t_cmd_params *cmd);
 
 //redirections
 char			handle_redirections(t_cmd_params *cmd);
