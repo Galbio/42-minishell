@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/11 01:43:00 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/11 18:37:52 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,15 @@ int				get_subcmd_size(char *str);
 int				handle_separator(char *str, t_list **sep);
 char			*handle_aliases(char *input, t_list *aliases);
 
+//braces
+char			*handle_brace_option(char *str, t_cmd_params *cmd, char *src);
+char			*if_not_defined(char *src, char *default_str, t_cmd_params *cmd);
+char			*assign_if_not_defined(char *src, char *default_str,
+					t_cmd_params *cmd);
+char			*if_defined(char *src, char *default_str, t_cmd_params *cmd);
+char			*error_if_not_defined(char *src, char *default_str,
+					t_cmd_params *cmd);
+
 //redirections
 char			handle_redirections(t_cmd_params *cmd);
 char			redirect_stdout(t_redirection *ret);
@@ -196,6 +205,7 @@ int				ms_alias(t_cmd_params *cmd);
 void			export_vars(t_list *envp);
 void			unset_var(char *name, t_list **envp, t_main_envp *imp);
 void			change_envp_pwd(t_list **envp, char *name);
+int				add_envp(char *name, t_list **envp);
 
 void			init_regexs(void);
 t_list			*search_pattern(char *path, char *pattern);
