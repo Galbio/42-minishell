@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 20:09:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/11 23:57:06 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 00:11:25 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static char	*research_variables(t_readline_data *data, char *prefix, int *size,
 	t_list	*cur;
 
 	if (!envp || !(*envp))
-		return (NULL);
+		return (check_occurence(data, *size));
 	cur = *envp;
 	while (cur)
 	{
@@ -58,7 +58,7 @@ static char	*research_commands(t_readline_data *data, char *prefix, int *size,
 
 	add_builtins_occurences(prefix, &data->occurences, size);
 	if (!path || !(*path))
-		return (NULL);
+		return (check_occurence(data, *size));
 	i = 0;
 	while ((*path)[i])
 	{
