@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:23:53 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/11 19:48:19 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/11 22:29:40 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 static void	autocomplete(t_readline_data *data, char *value, char *res)
 {
 	int	i;
+	int	len;
 
 	i = ft_strlen(value);
-	if (i <= (int)ft_strlen(res))
+	len = ft_strlen(res);
+	if (i <= len)
 	{
 		while (res[i])
 		{
@@ -25,7 +27,8 @@ static void	autocomplete(t_readline_data *data, char *value, char *res)
 			i++;
 		}
 	}
-	process_default_key(data, " ");
+	if (res[len - 1] != '/')
+		process_default_key(data, " ");
 	on_write(data);
 	free(value);
 	free(res);

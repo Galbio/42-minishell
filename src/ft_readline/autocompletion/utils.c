@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 20:30:43 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/11 20:31:27 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/11 22:46:02 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	check_all(t_array *occurences, char **value, int *size, int len)
 	if (!(*value))
 		return (0);
 	if (len > *((int *)(*occurences)[0]))
-		*((int *)(*occurences)[0]) = len;
+		*((int *)(*occurences)[0]) = len - ((*value)[len - 1] == '/');
 	if (*size == 1)
 	{
 		(*size)++;

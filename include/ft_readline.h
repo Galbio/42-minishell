@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/11 21:12:48 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/11 21:15:04 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,8 +140,8 @@ void			print_build(char *build);
 void			on_write(t_readline_data *data);
 
 //extra/env/env.c
-void			ft_readline_set_envp_ptr(t_list ***envp);
-t_list			***ft_readline_get_envp_ptr(void);
+void			ft_readline_set_envp_ptr(t_list **envp);
+t_list			**ft_readline_get_envp_ptr(void);
 
 //extra/env/path.c
 void			ft_readline_set_path_ptr(char ***path);

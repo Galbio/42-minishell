@@ -6,20 +6,57 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 20:09:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/11 21:11:13 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/11 23:14:39 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_readline.h"
 
-static char	*research_variables(t_readline_data *data, char *prefix, int *size)
+static char	*check_occurence(t_readline_data *data, int size)
 {
-	(void)data;
-	(void)prefix;
-	(void)size;
+	char	*value;
+
+	if (size == 2)
+	{
+		value = ft_strdup((char *)data->occurences[1]);
+		ft_array_unset(&data->occurences, ft_array_free_entry);
+		data->tab_pressed = 0;
+		return (value);
+	}
 	return (NULL);
 }
 
+static char	*research_variables(t_readline_data *data, char *prefix, int *size,
+	t_list **envp)
+{
+	t_list	*cur;
+	int		i;
+	char	*value;
+
+	if (!envp || !(*envp))
+		return (NULL);
+	cur = *envp;
+	while (cur)
+	{
+		if (!prefix[1]
+			|| ft_strncmp(cur->content, prefix + 1, ft_strlen(prefix) - 1) == 0)
+		{
+			value = ft_strjoin("$", cur->content);
+			i = 0;
+			while (value[i] && value[i] != '=')
+				i++;
+			if (value[i] && value[i + 1] && ft_isdir(value + i + 1))
+				value[i++] = '/';
+			value[i] = '\0';
+			add_and_sort_occurence(&data->occurences, value, size);
+			free(value);
+		}
+		cur = cur->next;
+	}
+	return (check_occurence(data, *size));
+}
+
+//TODO; for later
 static char	*research_files(t_readline_data *data, char *prefix, int *size)
 {
 	(void)data;
@@ -28,14 +65,12 @@ static char	*research_files(t_readline_data *data, char *prefix, int *size)
 	return (NULL);
 }
 
-static char	*research_commands(t_readline_data *data, char *prefix, int *size)
+static char	*research_commands(t_readline_data *data, char *prefix, int *size,
+	char ***path)
 {
-	char	***path;
 	int		i;
-	char	*value;
 
 	add_builtins_occurences(prefix, &data->occurences, size);
-	path = ft_readline_get_path_ptr();
 	if (!path || !(*path))
 		return (NULL);
 	i = 0;
@@ -44,14 +79,7 @@ static char	*research_commands(t_readline_data *data, char *prefix, int *size)
 		add_path_occurences(prefix, (*path)[i], &data->occurences, size);
 		i++;
 	}
-	if (*size == 2)
-	{
-		value = ft_strdup((char *)data->occurences[1]);
-		ft_array_unset(&data->occurences, ft_array_free_entry);
-		data->tab_pressed = 0;
-		return (value);
-	}
-	return (NULL);
+	return (check_occurence(data, *size));
 }
 
 char	*research_autocompletion(t_readline_data *data, char *prefix)
@@ -67,9 +95,13 @@ char	*research_autocompletion(t_readline_data *data, char *prefix)
 	ft_array_push(&data->occurences, max_len);
 	size = 1;
 	data->tab_pressed = 1;
-	if (is_first_argument(data->current))
-		return (research_commands(data, prefix, &size));
 	if (prefix[0] == '$')
-		return (research_variables(data, prefix, &size));
+		return (research_variables(data, prefix, &size,
+				ft_readline_get_envp_ptr()));
+	if (prefix[0] == '.')
+		return (research_files(data, prefix, &size));
+	if (is_first_argument(data->current))
+		return (research_commands(data, prefix, &size,
+				ft_readline_get_path_ptr()));
 	return (research_files(data, prefix, &size));
 }

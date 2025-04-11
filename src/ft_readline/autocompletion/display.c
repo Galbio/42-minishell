@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 16:06:31 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/11 21:11:24 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/11 23:05:28 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,22 @@
 
 static void	print_values(t_array occurences, int size, int col, int max)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
+	char	*value;
+	int		len;
 
 	printf("\n");
 	i = 1;
 	while (i < size)
 	{
+		value = (char *)occurences[i];
+		len = ft_strlen(value);
+		if (value[len - 1] == '/')
+			value[len - 1] = '\0';
 		printf("%s", (char *)occurences[i]);
 		j = 0;
-		while (j < (int)(max - ft_strlen((char *)occurences[i])))
+		while (j < max - len)
 		{
 			printf(" ");
 			j++;
@@ -47,7 +53,10 @@ void	display_autocompletion(t_readline_data *data)
 	data->tab_pressed = 0;
 	size = ft_array_count(data->occurences);
 	if (size == 1)
+	{
+		ft_array_unset(&data->occurences, ft_array_free_entry);
 		return ;
+	}
 	tsize = get_terminal_size(data, 1);
 	max = *((int *)data->occurences[0]) + 1;
 	col = tsize.x / max;
