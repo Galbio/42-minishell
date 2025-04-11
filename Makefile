@@ -53,6 +53,7 @@ FILES =	main.c		\
 	utils/var_names_utils.c \
 	utils/is_only_nb.c \
 	utils/free_cmd.c \
+	utils/errors.c \
 	utils/get_subcmd.c \
 	utils/get_cmd_depth.c \
 	utils/trim_whitespaces.c \
