@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:20:18 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/10 00:42:07 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 00:16:32 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	env = parse_envp(envp, &imp);
-	if (!imp.pwd)
+	if (!imp.cwd)
 	{
 		printf("shell-init: error retrieving current directory: getcwd:");
 		printf("cannot access parent directories: No such file or directory\n");

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 10:55:36 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/10 15:28:41 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 00:32:26 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	update_pwd(t_main_envp *imp, char **new_path, char **arg)
 {
 	if ((*new_path) == NULL)
 	{
-		if (!imp->pwd)
+		if (!imp->cwd)
 		{
 			printf("chdir: error retrieving current directory: getcwd: cannot");
 			printf(" access parent directories: No such file or directory\n");
@@ -46,46 +46,51 @@ static int	update_pwd(t_main_envp *imp, char **new_path, char **arg)
 		}
 		else if (ft_iscurrent_dirpath(*arg))
 			return (0);
-		else if (imp->pwd[0] == '.' && !imp->pwd[1])
+		else if (imp->cwd[0] == '.' && !imp->cwd[1])
 			*new_path = ft_cleanpath(*arg);
 		else
 		{
 			*arg = ft_cleanpath(*arg);
-			*new_path = ft_pathjoin(imp->pwd, *arg);
+			*new_path = ft_pathjoin(imp->cwd, *arg);
 			free(*arg);
 		}
 	}
-	free(imp->pwd);
-	imp->pwd = ft_strdup(*new_path);
+	free(imp->cwd);
+	imp->cwd = ft_strdup(*new_path);
 	return (1);
 }
 
-void	change_envp_pwd(t_list **envp, t_main_envp *imp,
-	char *new_path, char *arg)
+static void	change_when_isset(t_cmd_params *cmd, t_list *pwd, t_list *old_pwd,
+	char *new_path)
+{
+	void	*temp;
+
+	temp = pwd->content;
+	if (old_pwd)
+	{
+		free(old_pwd->content);
+		old_pwd->content = ft_strjoin("OLD", pwd->content);
+	}
+	else
+		ft_lstadd_back(cmd->envp, ft_lstnew(
+				ft_strjoin("OLD", pwd->content)));
+	pwd->content = ft_strjoin("PWD=", new_path);
+	free(temp);
+}
+
+void	change_envp_pwd(t_cmd_params *cmd, char *new_path)
 {
 	t_list	*pwd;
 	t_list	*old_pwd;
-	void	*temp;
+	char	*arg;
 
-	if (!update_pwd(imp, &new_path, &arg))
+	arg = cmd->argv[1];
+	if (!update_pwd(cmd->imp, &new_path, &arg))
 		return ;
-	get_pwd_nodes(envp, &old_pwd, &pwd);
-	temp = NULL;
+	get_pwd_nodes(cmd->envp, &old_pwd, &pwd);
 	if (pwd)
-	{
-		temp = pwd->content;
-		if (old_pwd)
-		{
-			free(old_pwd->content);
-			old_pwd->content = ft_strjoin("OLD", pwd->content);
-		}
-		else
-			ft_lstadd_back(envp, ft_lstnew(
-					ft_strjoin("OLD", pwd->content)));
-		pwd->content = ft_strjoin("PWD=", new_path);
-		free(temp);
-	}
+		change_when_isset(cmd, pwd, old_pwd, new_path);
 	else
-		ft_lstadd_back(envp, ft_lstnew(ft_strjoin("PWD=", new_path)));
+		ft_lstadd_back(cmd->envp, ft_lstnew(ft_strjoin("PWD=", new_path)));
 	free(new_path);
 }
