@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/09 22:41:58 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/11 14:47:18 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,17 @@ static void	init(char *home)
 
 static void	init_execution(t_list *envp, t_main_envp *imp, t_list **cmds)
 {
+	t_list	*temp;
 	char	*res;
 	int		exit_status;
 
+	if ((*cmds)->content == NULL)
+	{
+		temp = *cmds;
+		*cmds = temp->next;
+		free(temp);
+		return ;
+	}
 	imp->output_fd = 1;
 	imp->input_fd = 0;
 	imp->actual_pos = 0;
