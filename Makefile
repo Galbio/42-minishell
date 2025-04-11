@@ -16,6 +16,8 @@ FILES =	main.c		\
 	argv/local_var_handling.c \
 	argv/add_splitted.c \
 	argv/parse_cmd_return.c \
+	argv/braces/expansion.c \
+	argv/braces/methods.c \
 	parsers/split_separators.c \
 	parsers/splitters_utils.c \
 	parsers/bquotes_handler.c \
