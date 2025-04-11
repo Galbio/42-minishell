@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/11 21:15:04 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/11 23:25:45 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,10 @@ char			*research_autocompletion(t_readline_data *data, char *prefix);
 //autocompletion/utils.c
 void			add_and_sort_occurence(t_array *occurences, char *value,
 					int *size);
+
+//autocompletion/variables.c
+void			add_variables_occurences(char *prefix, char *variable,
+					t_array *occurences, int *size);
 
 //char/list.c
 void			add_char_back(t_readline_char *head, t_readline_char *c);

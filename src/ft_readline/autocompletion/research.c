@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 20:09:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/11 23:14:39 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/11 23:26:11 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,27 +30,13 @@ static char	*research_variables(t_readline_data *data, char *prefix, int *size,
 	t_list **envp)
 {
 	t_list	*cur;
-	int		i;
-	char	*value;
 
 	if (!envp || !(*envp))
 		return (NULL);
 	cur = *envp;
 	while (cur)
 	{
-		if (!prefix[1]
-			|| ft_strncmp(cur->content, prefix + 1, ft_strlen(prefix) - 1) == 0)
-		{
-			value = ft_strjoin("$", cur->content);
-			i = 0;
-			while (value[i] && value[i] != '=')
-				i++;
-			if (value[i] && value[i + 1] && ft_isdir(value + i + 1))
-				value[i++] = '/';
-			value[i] = '\0';
-			add_and_sort_occurence(&data->occurences, value, size);
-			free(value);
-		}
+		add_variables_occurences(prefix, cur->content, &data->occurences, size);
 		cur = cur->next;
 	}
 	return (check_occurence(data, *size));

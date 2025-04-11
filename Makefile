@@ -76,6 +76,7 @@ READLINE_FILES =	ft_readline/autocompletion/commands.c		\
 					ft_readline/autocompletion/display.c		\
 					ft_readline/autocompletion/research.c		\
 					ft_readline/autocompletion/utils.c			\
+					ft_readline/autocompletion/variables.c			\
 					ft_readline/char/list.c						\
 					ft_readline/char/position.c					\
 					ft_readline/char/utils.c					\
