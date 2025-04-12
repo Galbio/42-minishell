@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 20:58:48 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 22:29:52 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/12 22:34:31 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	handle_events(char *start, char **src,
 	else if (start[1] == '#')
 		value = ft_substr(*src, 0, actual_pos);
 	else if (is_only_nb(start + 1 + (start[1] == '-')))
-		value = get_history_x(ft_atoi(start + 1));
+		value = get_nth_command(ft_atoi(start + 1));
 	else
 		value = match_history_start(start + 1);
 	if (!value)
