@@ -22,6 +22,8 @@ FILES =	main.c		\
 	parsers/splitters_utils.c \
 	parsers/bquotes_handler.c \
 	parsers/handle_aliases.c \
+	events/parser.c \
+	events/handle_replacing.c \
 	redirections/redirect_stdin.c \
 	redirections/redirect_stdout.c \
 	redirections/add_redir_argv.c \
