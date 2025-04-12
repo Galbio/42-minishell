@@ -1,44 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   arguments.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/06 21:36:52 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/06 22:42:12 by lroussel         ###   ########.fr       */
+/*   Created: 2025/04/12 13:12:13 by lroussel          #+#    #+#             */
+/*   Updated: 2025/04/12 14:27:25 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "translations.h"
 
-void	add_translation_arg(t_array *args, char *value)
-{
-	ft_array_push(args, value);
-}
-
-int	is_translation_arg(char *value)
+int	is_translation_argument(char *value)
 {
 	return (value[0] == '{'
 		&& value[1] && value[1] == '%'
 		&& value[2] && value[2] == '}');
 }
 
-t_array	base_command_args(char *program_name, char *command_name)
+t_list	*new_arg(void *value, t_list *next)
 {
-	t_array	args;
+	t_list	*res;
 
-	args = ft_array();
-	add_translation_arg(&args, program_name);
-	add_translation_arg(&args, command_name);
-	return (args);
+	res = ft_lstnew(value);
+	res->next = next;
+	return (res);
 }
 
-t_array	simple_arg(char *v)
+t_list	*program_arg(char *value, t_list *next)
 {
-	t_array	args;
-
-	args = ft_array();
-	add_translation_arg(&args, v);
-	return (args);
+	if (value == NULL)
+		return (new_arg("minishell", NULL));
+	return (new_arg("minishell", new_arg(value, next)));
 }

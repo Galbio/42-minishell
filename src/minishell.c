@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/12 01:32:22 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 14:24:56 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static void	init(t_main_envp *imp, t_list **envp)
 	init_signals();
 	init_regexs();
 	set_exit_status(0);
-	init_translations();
 }
 
 static void	init_execution(t_list *envp, t_main_envp *imp, t_list **cmds)
@@ -80,6 +79,5 @@ void	launch(t_list *envp, t_main_envp *imp)
 			init_execution(envp, imp, &cmds);
 	}
 	free_readline();
-	write(STDOUT_FILENO, "\n", 1);
-	display_translation(STDOUT_FILENO, "exit", NULL, 1);
+	translate(STDOUT_FILENO, "exit", new_arg("\n", NULL), 1);
 }

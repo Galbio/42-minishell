@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:05:06 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 01:25:49 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 14:25:33 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,12 @@
 
 static void	display_error(char code, char *name)
 {
-	t_array	args;
-
-	args = base_command_args("minishell", "exit");
 	if (!code)
 	{
-		display_translation(2, "command.toomanyargs", &args, 1);
+		translate(2, "command.toomanyargs", program_arg("exit", NULL), 1);
 		return ;
 	}
-	add_translation_arg(&args, name);
-	display_translation(2, "command.numargrequired", &args, 1);
+	translate(2, "command.numargrequired", program_arg("exit", new_arg(name, NULL)), 1);
 }
 
 static char	check_exit_error(char **argv)
@@ -87,7 +83,7 @@ int	ms_exit(t_cmd_params *cmd)
 	res = get_exit_status();
 	av1 = cmd->argv[1] != NULL;
 	if (!get_depth(0))
-		display_translation(2, "exit", NULL, 1);
+		translate(2, "exit", new_arg("", NULL), 1);
 	if (!av1 || (parse_exit(cmd) == 1))
 	{
 		free_cmd(cmd, 1);

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 20:09:48 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 01:27:45 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 14:14:40 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,12 @@ static char	*get_command_path(char *str, char **paths)
 
 static void	cmd_not_found(t_cmd_params *cmd, int is_env)
 {
-	t_array	args;
-
 	if (!is_env)
 	{
 		if (!cmd->imp->path)
-			ft_putstr_fd("minishell: ", 2);
-		args = simple_arg(cmd->argv[0]);
-		display_translation(2, "command.notfound", &args, 1);
+			translate(2, "command.notfound", program_arg(cmd->argv[0], NULL), 1);
+		else
+			translate(2, "command.notfound", new_arg(cmd->argv[0], new_arg("", NULL)), 1);
 	}
 	else
 	{

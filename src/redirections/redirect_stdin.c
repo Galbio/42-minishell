@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 00:17:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 01:36:47 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 13:52:26 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,15 @@
 
 static char	init_herefiles(t_redirection *redir, int pipes[2], int *fd)
 {
-	t_array	args;
-
 	if (redir->values[0] && redir->values[1])
 	{
-		write(2, "minishell: ", 11);
-		ft_putstr_fd(redir->og_str, 2);
-		write(2, ": ambiguous redirect\n", 21);
+		translate(2, "redirections.ambigous", program_arg(redir->og_str, NULL), 1);
 		return (1);
 	}
 	*fd = open(redir->values[0], O_RDONLY);
 	if (*fd < 0)
 	{
-		args = simple_arg("minishell");
-		add_translation_arg(&args, redir->values[0]);
-		display_translation(2, "herefiles.filedirnotfound", &args, 1);
+		translate(2, "herefiles.filedirnotfound", program_arg(redir->values[0], NULL), 1);
 		return (1);
 	}
 	if (pipe(pipes))

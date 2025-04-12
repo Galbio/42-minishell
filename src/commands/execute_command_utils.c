@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:22:50 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 01:29:05 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 14:33:30 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	check_builtins(char *name)
 		return (7);
 	else if (ft_strncmp(name, "alias", 6) == 0)
 		return (8);
-	else if (ft_strncmp(name, "lang", 4) == 0)
+	else if (ft_strncmp(name, "lang", 5) == 0)
 		return (9);
 	return (0);
 }

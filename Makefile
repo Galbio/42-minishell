@@ -62,12 +62,11 @@ FILES =	main.c		\
 	utils/get_cmd_depth.c \
 	utils/trim_whitespaces.c \
 	utils/check_special_char.c	\
-	translations/args/manager.c	\
-	translations/args/utils.c	\
-	translations/initialization.c	\
+	translations/arguments.c	\
+	translations/keys.c	\
 	translations/manager.c	\
 	translations/parser.c	\
-	translations/free.c	\
+	translations/translator.c	\
 	regex/checkers/bounds.c		\
 	regex/checkers/inside.c		\
 	regex/checkers/lengths.c		\

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:43:25 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 01:34:14 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 13:56:16 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static char	redirect_fd(char *str, int fd)
 {
 	int		nb;
-	t_array	args;
 	char	*v;
 
 	if (*str == '&')
@@ -29,10 +28,8 @@ static char	redirect_fd(char *str, int fd)
 	nb = ft_atoi(str);
 	if (nb >= 1024)
 	{
-		args = simple_arg("minishell");
 		v = ft_itoa(nb);
-		add_translation_arg(&args, v);
-		display_translation(2, "redirections.badfiledesc", &args, 1);
+		translate(2, "redirections.badfiledesc", program_arg(v, NULL), 1);
 		free(v);
 		return (1);
 	}
@@ -99,19 +96,15 @@ static char	redirect_appendfile(char *method, char **name)
 char	redirect_stdout(t_redirection *redir)
 {
 	int			i;
-	t_array		args;
 
 	if (!redir->values[0])
 	{
-		args = simple_arg("minishell");
-		display_translation(2, "redirections.syntaxenl", &args, 1);
+		translate(2, "redirections.syntaxenl", program_arg(NULL, NULL), 1);
 		return (1);
 	}
 	if (redir->values[1])
 	{
-		write(2, "minishell: ", 11);
-		ft_putstr_fd(redir->og_str, 2);
-		write(2, ": ambiguous redirect\n", 21);
+		translate(2, "redirections.ambigous", program_arg(redir->og_str, NULL), 1);
 		return (1);
 	}
 	i = 0;

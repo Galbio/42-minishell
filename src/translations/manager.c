@@ -5,83 +5,40 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/06 19:39:01 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/06 21:44:01 by lroussel         ###   ########.fr       */
+/*   Created: 2025/04/12 02:11:58 by lroussel          #+#    #+#             */
+/*   Updated: 2025/04/12 13:41:11 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "translations.h"
 
+static void	init_language(t_language *language)
+{
+	read_lang_file(&language);
+	language->init = 1;
+}
+
 int	set_language(char *name)
 {
 	t_translations	*translations;
-	t_array			languages;
-	int				size;
-	int				i;
+	t_list			*languages;
 	t_language		*language;
 
 	translations = get_translations();
 	languages = translations->languages;
-	size = ft_array_count(languages);
-	i = 0;
-	while (i < size)
+	while (languages)
 	{
-		language = (t_language *)(languages[i]);
+		language = (t_language *)(languages->content);
 		if (ft_strncmp(name, language->name, ft_strlen(name) + 1) == 0)
 		{
-			translations->language = language;
+			if (!language->init)
+				init_language(language);
+			translations->active = languages;
 			return (1);
 		}
-		i++;
+		languages = languages->next;
 	}
 	return (0);
-}
-
-char	*translate(char *key, t_array *args)
-{
-	t_key	*keys;
-
-	keys = get_translations()->language->keys;
-	while (keys)
-	{
-		if (ft_strncmp(keys->key, key, ft_strlen(key)) == 0)
-			return (apply_args(keys->content, args));
-		keys = keys->next;
-	}
-	return (ft_strdup(key));
-}
-
-void	display_translation(int fd, char *key, t_array *args, int new_line)
-{
-	char	*message;
-
-	message = translate(key, args);
-	if (args)
-		ft_array_unset(args, ft_array_nothing_entry);
-	write(fd, message, ft_strlen(message));
-	free(message);
-	if (new_line)
-		write(fd, "\n", 1);
-}
-
-static t_language	*get_default_language(t_translations *translations)
-{
-	t_array	languages;
-	int		i;
-	int		size;
-
-	languages = translations->languages;
-	i = 0;
-	size = ft_array_count(languages);
-	if (size == 0)
-		return (NULL);
-	while (i < size)
-	{
-		if (ft_strncmp(((t_language *)languages[i])->name, "en", 3) == 0)
-			return ((t_language *)languages[i]);
-		i++;
-	}
-	return ((t_language *)languages[0]);
 }
 
 t_translations	*get_translations(void)
@@ -92,7 +49,36 @@ t_translations	*get_translations(void)
 	{
 		translations = malloc(sizeof(t_translations));
 		translations->languages = parse_languages();
-		translations->language = get_default_language(translations);
+		translations->active = NULL;
+		set_language("en");
 	}
 	return (translations);
+}
+
+static void	free_language(void *value)
+{
+	t_language	*language;
+	t_key		*temp;
+
+	language = (t_language *)value;
+	free(language->name);
+	free(language->file);
+	while (language->keys)
+	{
+		temp = language->keys->next;
+		free(language->keys->key);
+		free(language->keys->content);
+		free(language->keys);
+		language->keys = temp;
+	}
+	free(language);
+}
+
+void	free_translations(void)
+{
+	t_translations	*translations;
+
+	translations = get_translations();
+	ft_lstclear(&translations->languages, free_language);
+	free(translations);
 }
