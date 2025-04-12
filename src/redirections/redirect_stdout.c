@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:43:25 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/10 17:46:02 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/12 17:15:56 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,19 +55,21 @@ static char	redirect_fd_adress(char *src, char *dest)
 	return (0);
 }
 
-static char	redirect_tofile(char *method, char **value, int is_fd)
+static char	redirect_tofile(t_redirection *redir)
 {
 	int		fd;
 
-	if (is_fd)
-		return (redirect_fd_adress(method, value[0]));
-	unlink(value[0]);
-	fd = open(value[0], O_WRONLY | O_CREAT, 0644);
+	if (redir->is_fd)
+		return (redirect_fd_adress(redir->method, redir->values[0]));
+	if (redirection_file_errors(redir->values, redir->og_str))
+		return (1);
+	unlink(redir->values[0]);
+	fd = open(redir->values[0], O_WRONLY | O_CREAT, 0644);
 	if (fd < 0)
 		return (1);
-	if (method[0] == '>')
+	if (redir->method[0] == '>')
 		dup2(fd, 1);
-	if (redirect_fd(method, fd))
+	if (redirect_fd(redir->method, fd))
 	{
 		close(fd);
 		return (1);
@@ -75,11 +77,13 @@ static char	redirect_tofile(char *method, char **value, int is_fd)
 	return (0);
 }
 
-static char	redirect_appendfile(char *method, char **name)
+static char	redirect_appendfile(char *method, char **values)
 {
 	int		fd;
 
-	fd = open(name[0], O_WRONLY | O_APPEND | O_CREAT, 0644);
+	if (redirection_file_errors(values, ""))
+		return (1);
+	fd = open(values[0], O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (fd < 0)
 		return (1);
 	if (method[0] == '>')
@@ -96,24 +100,11 @@ char	redirect_stdout(t_redirection *redir)
 {
 	int		i;
 
-	if (!redir->values[0])
-	{
-		write(2, "minishell: syntax error ", 24);
-		write(2, "near unexpected token `newline'\n", 32);
-		return (1);
-	}
-	if (redir->values[1])
-	{
-		write(2, "minishell: ", 11);
-		ft_putstr_fd(redir->og_str, 2);
-		write(2, ": ambiguous redirect\n", 21);
-		return (1);
-	}
 	i = 0;
 	while (!ft_strchr("<>", redir->method[i]))
 		i++;
 	if (!redir->method[i + 1])
-		return (redirect_tofile(redir->method, redir->values, redir->is_fd));
+		return (redirect_tofile(redir));
 	if (!ft_strncmp(">>", redir->method + i, 3))
 		return (redirect_appendfile(redir->method, redir->values));
 	return (0);
