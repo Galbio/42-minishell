@@ -25,6 +25,7 @@ FILES =	main.c		\
 	redirections/redirect_stdin.c \
 	redirections/redirect_stdout.c \
 	redirections/add_redir_argv.c \
+	redirections/errors.c \
 	redirections/heredoc/handle_heredoc.c \
 	redirections/heredoc/parse_heredocs.c \
 	redirections/heredoc/heredoc_quote_parser.c \
