@@ -6,33 +6,29 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 20:58:48 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 21:38:15 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/12 22:25:00 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*get_history_x(int nb)
+static char	*get_history_x(int key)
 {
-	t_array	history;
-	int		len;
+	char	*dest;
 
-	if (nb == 0)
+	if (key == 0)
 	{
 		set_exit_status(257);
 		write(2, "minishell: !0: event not found\n", 31);
 		return (NULL);
 	}
-	history = get_history();
-	len = ft_array_count(history);
-	if ((nb > 0) && (nb < len))
-		return (ft_strdup(history[len - nb]));
-	else if ((nb < 0) && (-nb < len))
-		return (ft_strdup(history[-nb - 1]));
+	dest = get_history_value(key);
+	if (dest)
+		return (dest);
 	set_exit_status(257);
 	write(2, "minishell: !", 12);
-	ft_putnbr_fd(nb, 2);
-	write(2, ": event not found\n", 19);
+	ft_putnbr_fd(key, 2);
+	write(2, ": event not found\n", 18);
 	return (NULL);
 }
 

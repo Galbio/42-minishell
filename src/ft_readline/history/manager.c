@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:06:31 by lroussel          #+#    #+#             */
-/*   Updated: 2025/03/27 07:22:24 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 22:19:31 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,22 @@ void	add_to_history(char *line)
 t_array	get_history(void)
 {
 	return (get_readline_struct()->history);
+}
+
+char	*get_history_value(int key)
+{
+	t_array	history;
+	int		len;
+
+	if (key == 0)
+		return (NULL);
+	history = get_history();
+	len = ft_array_count(history);
+	if ((key > 0) && (key < len))
+		return (ft_strdup(history[len - key]));
+	else if ((key < 0) && (-key < len))
+		return (ft_strdup(history[-key - 1]));
+	return (NULL);
 }
 
 int	get_history_maxsize(void)
