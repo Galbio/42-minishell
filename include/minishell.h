@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 14:28:59 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/12 21:02:27 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,11 @@ int				get_subcmd_size(char *str);
 int				handle_separator(char *str, t_list **sep);
 char			*handle_aliases(char *input, t_list *aliases);
 
+//bash events
+char			*replace_events(char *str, t_main_envp *imp);
+int				handle_events(char *start, char **src,
+					long actual_pos, char *replaced);
+
 //braces
 char			*handle_brace_option(char *str, t_cmd_params *cmd, char *src);
 char			*brace_if_not_defined(char *src, char *default_str,
@@ -218,7 +223,5 @@ void			init_regexs(void);
 t_list			*search_pattern(char *path, char *pattern);
 t_list			*search_pattern_recursive(char *base_path, char **path);
 t_research		*parse_research(char *value);
-
-char			*replace_events(char *str, t_main_envp *imp);
 
 #endif
