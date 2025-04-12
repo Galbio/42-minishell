@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/12 22:27:14 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/12 22:31:33 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static void	init_execution_values(t_list **cmds, t_main_envp *imp)
 	imp->input_fd = 0;
 	imp->actual_pos = 0;
 	imp->heredocs_infos = NULL;
+	imp->cmd_queue = (*cmds)->next;
 }
 
 static void	init_execution(t_list *envp, t_main_envp *imp, t_list **cmds)
@@ -80,7 +81,6 @@ void	launch(t_list *envp, t_main_envp *imp)
 	while (1)
 	{
 		cmds = NULL;
-		imp->cmd_queue = NULL;
 		res = ft_readline("$> ");
 		if (!res)
 			break ;
