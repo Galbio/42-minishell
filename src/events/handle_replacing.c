@@ -6,13 +6,13 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 20:58:48 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 22:25:00 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/12 22:29:52 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*get_history_x(int key)
+static char	*get_nth_command(int key)
 {
 	char	*dest;
 
@@ -65,7 +65,7 @@ int	handle_events(char *start, char **src,
 	int		len;
 
 	if (start[1] == '!')
-		value = get_history_x(-1);
+		value = get_nth_command(-1);
 	else if (start[1] == '#')
 		value = ft_substr(*src, 0, actual_pos);
 	else if (is_only_nb(start + 1 + (start[1] == '-')))
