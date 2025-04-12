@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 20:58:48 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 21:14:24 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/12 21:38:15 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,10 @@ static char	*match_history_start(char *str)
 	history_size = ft_array_count(history);
 	i = -1;
 	while (++i < history_size)
+	{
 		if (!ft_strncmp(str, history[i], word_len))
 			return (ft_strdup(history[i]));
+	}
 	write(2, "minishell: !", 12);
 	write(2, str, word_len);
 	write(2, ": event not found\n", 18);
@@ -60,7 +62,7 @@ static char	*match_history_start(char *str)
 }
 
 int	handle_events(char *start, char **src,
-		long actual_pos, char *replaced)
+		long actual_pos, int *replaced)
 {
 	char	*value;
 	void	*temp;

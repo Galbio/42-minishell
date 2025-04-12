@@ -6,15 +6,15 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:46:45 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 21:13:15 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/12 21:36:25 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*replace_events_subcmd(char *str, char *replaced);
+static char	*replace_events_subcmd(char *str, int *replaced);
 
-static void	replace_subcmd(char **src, t_int_tab *itab, char *replaced)
+static void	replace_subcmd(char **src, t_int_tab *itab, int *replaced)
 {
 	char	*temp;
 	char	*replaced_subcmd;
@@ -33,7 +33,7 @@ static void	replace_subcmd(char **src, t_int_tab *itab, char *replaced)
 	itab->i += subcmd_len;
 }
 
-static int	iterate(char *str, char **src, t_int_tab *itab, char *replaced)
+static int	iterate(char *str, char **src, t_int_tab *itab, int *replaced)
 {
 	itab->backslash = itab->i && (str[itab->i - 1] == '\\') && !itab->backslash;
 	check_special_char(str, itab);
@@ -51,7 +51,7 @@ static int	iterate(char *str, char **src, t_int_tab *itab, char *replaced)
 	return (0);
 }
 
-char	*replace_events_subcmd(char *str, char *replaced)
+static char	*replace_events_subcmd(char *str, int *replaced)
 {
 	t_int_tab	itab;
 
@@ -64,12 +64,11 @@ char	*replace_events_subcmd(char *str, char *replaced)
 	return (str);
 }
 
-char	*replace_events(char *str, t_main_envp *imp)
+char	*replace_events(char *str)
 {
 	t_int_tab	itab;
-	char		replaced;
+	int			replaced;
 
-	(void)imp;
 	replaced = 0;
 	itab = init_int_tab();
 	while (str[++itab.i])

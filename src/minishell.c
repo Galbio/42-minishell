@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/12 21:25:15 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/12 21:36:59 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	init_execution(t_list *envp, t_main_envp *imp, t_list **cmds)
 	char	*res;
 
 	init_execution_values(cmds, imp);
-	(*cmds)->content = replace_events((*cmds)->content, imp);
+	(*cmds)->content = replace_events((*cmds)->content);
 	if (get_exit_status() > 255)
 	{
 		temp = *cmds;
