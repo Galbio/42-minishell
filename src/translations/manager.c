@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 02:11:58 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/12 13:41:11 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 16:19:57 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,15 @@ int	set_language(char *name)
 	t_translations	*translations;
 	t_list			*languages;
 	t_language		*language;
+	int				len;
 
 	translations = get_translations();
 	languages = translations->languages;
+	len = ft_strlen(name);
 	while (languages)
 	{
 		language = (t_language *)(languages->content);
-		if (ft_strncmp(name, language->name, ft_strlen(name) + 1) == 0)
+		if (ft_strncmp(name, language->name, len + 1) == 0)
 		{
 			if (!language->init)
 				init_language(language);

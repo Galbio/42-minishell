@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 19:18:13 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/12 14:48:07 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 16:21:26 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	check_args(char **argv, t_list *args)
 	}
 	if (argv[2])
 	{
-		translate(2, "command.lang.usage", args, 1);
+		translate(2, "command.toomanyargs", args, 1);
 		return (0);
 	}
 	return (1);
@@ -50,7 +50,7 @@ int	ms_lang(t_cmd_params *cmd)
 
 	args = program_arg("lang", NULL);
 	if (!check_args(cmd->argv, args))
-		return (0);
+		return (1);
 	value = cmd->argv[1];
 	if (ft_strncmp(value, "list", ft_strlen(value) + 1) == 0)
 	{
@@ -64,7 +64,7 @@ int	ms_lang(t_cmd_params *cmd)
 	if (!set_language(value))
 	{
 		translate(2, "command.lang.invalid", args, 1);
-		return (0);
+		return (1);
 	}
 	ft_lstadd_back(&args, ft_lstnew(value));
 	translate(1, "command.lang.success", args, 1);
