@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:43:25 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 14:47:35 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 15:26:16 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,6 @@ char	redirect_stdout(t_redirection *redir)
 {
 	int			i;
 
-	if (!redir->values[0])
-	{
-		translate(2, "redirections.syntaxenl", program_arg(NULL, NULL), 1);
-		return (1);
-	}
 	if (redir->values[1])
 	{
 		translate(2, "redirections.ambigous",

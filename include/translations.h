@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 17:07:24 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/12 14:49:53 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 16:14:47 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <fcntl.h>
 
 # include "libft.h"
+
+# define LANGS_PATH "./vendor/42-minishell/langs/"
 
 typedef struct s_key
 {

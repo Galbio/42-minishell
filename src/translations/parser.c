@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 02:07:29 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/12 13:36:26 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 16:15:08 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_list	*parse_languages(void)
 	char	*ext;
 
 	languages = NULL;
-	files = ft_scandir("./langs/", SCANDIR_SORT_NONE, 0, 0);
+	files = ft_scandir(LANGS_PATH, SCANDIR_SORT_NONE, 0, 0);
 	i = 0;
 	size = ft_array_count(files);
 	while (i < size)

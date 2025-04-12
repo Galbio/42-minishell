@@ -169,4 +169,10 @@ $(OBJS)/%.o: $(SRC)/%.c
 
 re: fclean all
 
+composer/install:
+	composer install
+
+composer/update:
+	composer install
+
 .PHONY: all clean fclean re

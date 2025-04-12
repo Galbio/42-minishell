@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/11 16:55:26 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/12 15:16:39 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,7 @@ static char	*handle_braces(char *str, t_cmd_params *cmd, char *src)
 {
 	if (ft_strchr("0123456789!@$%^&*()[]{},./?\\ \t\n", str[0]))
 	{
-		write(2, "minishell: ", 11);
-		ft_putstr_fd(src, 2);
-		write(2, ": bad substitution\n", 19);
+		translate(2, "braces.badsub", program_arg(src, NULL), 1);
 		set_exit_status(257);
 		return (NULL);
 	}

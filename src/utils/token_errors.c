@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   token_errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 21:03:59 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/11 22:41:14 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/12 15:45:16 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void	token_error(char *str)
 {
 	int		i;
 
-	write(2, "minishell: syntax error near unexpected token `", 47);
+	if (!translate(2, "token.error.start", program_arg(NULL, NULL), 0))
+		return ;
 	if (!str[0])
 		write(2, "newline", 7);
 	else if (ft_strchr("()", str[0]))
@@ -33,6 +34,6 @@ void	token_error(char *str)
 	}
 	else
 		write(2, str, 1 + (str[0] == str[1]));
-	write(2, "'\n", 2);
+	translate(2, "token.error.end", NULL, 1);
 	set_exit_status(258);
 }

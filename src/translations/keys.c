@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:20:14 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/12 13:21:45 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 16:15:23 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	read_lang_file(t_language **language)
 	char	**splited;
 	int		i;
 
-	joined = ft_pathjoin("./langs/", (*language)->file);
+	joined = ft_pathjoin(LANGS_PATH, (*language)->file);
 	fd = open(joined, O_RDONLY);
 	if (fd == -1)
 		return ;

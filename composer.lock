@@ -1,0 +1,49 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "3c4218a01ac48c4039cb7c76f7cb69a8",
+    "packages": [
+        {
+            "name": "42-minishell/langs",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SunsetTadpole78/minishell-langs.git",
+                "reference": "4cf9c82e1853fd80f73cb6692c096cc5e174aa50"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SunsetTadpole78/minishell-langs/zipball/4cf9c82e1853fd80f73cb6692c096cc5e174aa50",
+                "reference": "4cf9c82e1853fd80f73cb6692c096cc5e174aa50",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "langs\\": "./"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Langs for Minishell project",
+            "support": {
+                "source": "https://github.com/SunsetTadpole78/minishell-langs/tree/v1.0.0",
+                "issues": "https://github.com/SunsetTadpole78/minishell-langs/issues"
+            },
+            "time": "2025-04-12T14:04:55+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {},
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {},
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
+}

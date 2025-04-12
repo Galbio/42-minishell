@@ -1,0 +1,16 @@
+{
+    "name": "42-minishell/minishell",
+    "description": "A Mini Shell projet from 42",
+    "autoload": {
+        "psr-4": {
+            "42Minishell\\Minishell\\": "src/"
+        }
+    },
+    "require": {
+        "42-minishell/langs": "^1.0.0"
+    },
+    "repositories": [{
+        "type": "github",
+        "url": "https://github.com/SunsetTadpole78/minishell-langs.git"
+    }]
+}
