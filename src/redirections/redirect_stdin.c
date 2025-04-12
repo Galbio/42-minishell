@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 00:17:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/10 17:52:12 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/12 17:14:20 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,16 @@
 
 static char	init_herefiles(t_redirection *redir, int pipes[2], int *fd)
 {
-	if (redir->values[0] && redir->values[1])
-	{
-		write(2, "minishell: ", 11);
-		ft_putstr_fd(redir->og_str, 2);
-		write(2, ": ambiguous redirect\n", 21);
+	if (pipe(pipes))
 		return (1);
-	}
+	if (redirection_file_errors(redir->values, redir->og_str))
+		return (1);
 	*fd = open(redir->values[0], O_RDONLY);
 	if (*fd < 0)
 	{
 		write(2, "minishell: ", 11);
 		write(2, redir->values[0], ft_strlen(redir->values[0]));
 		write(2, ": No such file or directory\n", 28);
-		return (1);
-	}
-	if (pipe(pipes))
-	{
-		close(*fd);
 		return (1);
 	}
 	return (0);

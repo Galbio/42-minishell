@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:17:38 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 21:02:49 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 22:37:00 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	free_envp(t_list **envp, t_main_envp *imp)
 	while (imp->path && imp->path[++i])
 		free(imp->path[i]);
 	ft_lstclear(&imp->aliases, free);
+	ft_lstclear(&imp->cmd_queue, free);
 	free(imp->path);
 	free(imp->home);
 	free(imp->user);

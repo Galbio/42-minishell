@@ -1,16 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   brace_expansion.c                                  :+:      :+:    :+:   */
+/*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 16:43:48 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/11 19:35:54 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/12 18:13:48 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	is_invalid_name(char *str, char *limit, char *src)
+{
+	int		i;
+
+	if (str[0] == ':')
+	{
+		write(2, "minishell: ", 11);
+		ft_putstr_fd(src, 2);
+		write(2, ": bad substitution\n", 19);
+		set_exit_status(257);
+		return (1);
+	}
+	i = -1;
+	while (str[++i] && ((str + i) != limit))
+	{
+		if ((str[i] != '_') && !ft_isalnum(str[i]))
+		{
+			write(2, "minishell: ", 11);
+			ft_putstr_fd(src, 2);
+			write(2, ": bad substitution\n", 19);
+			set_exit_status(257);
+			return (1);
+		}
+	}
+	return (0);
+}
 
 static char	*(*get_function(char *method))(char *src,
 		char *default_str, t_cmd_params *cmd)
@@ -43,6 +70,8 @@ char	*handle_brace_option(char *str, t_cmd_params *cmd, char *src)
 		return (dest);
 	}
 	temp = ft_strchr(str, ':');
+	if (is_invalid_name(str, temp, src))
+		return (NULL);
 	function = NULL;
 	if (temp)
 		function = get_function(temp);

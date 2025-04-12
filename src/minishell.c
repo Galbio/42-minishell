@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/12 21:42:33 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 22:36:44 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static void	init_execution(t_list *envp, t_main_envp *imp, t_list **cmds)
 	imp->input_fd = 0;
 	imp->actual_pos = 0;
 	imp->heredocs_infos = NULL;
+	imp->cmd_queue = (*cmds)->next;
 	exit_status = get_exit_status();
 	if (exit_status >= 256)
 		set_exit_status(exit_status - 256);
