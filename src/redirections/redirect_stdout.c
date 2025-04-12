@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:43:25 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 13:56:16 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 14:47:35 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,8 @@ char	redirect_stdout(t_redirection *redir)
 	}
 	if (redir->values[1])
 	{
-		translate(2, "redirections.ambigous", program_arg(redir->og_str, NULL), 1);
+		translate(2, "redirections.ambigous",
+			program_arg(redir->og_str, NULL), 1);
 		return (1);
 	}
 	i = 0;

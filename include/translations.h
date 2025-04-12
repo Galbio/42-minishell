@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 17:07:24 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/12 14:28:12 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 14:49:53 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ typedef struct s_language
 	char	*name;
 	char	*file;
 	t_key	*keys;
-	int	init;
+	int		init;
 }	t_language;
 
 typedef struct s_translations
 {
-	t_list	*active;
+	t_list		*active;
 	t_list		*languages;
 }	t_translations;
 
@@ -57,6 +57,6 @@ t_list			*parse_languages(void);
 
 //translator.c
 t_key			*get_translation_key(char *key);
-int			translate(int fd, char *key, t_list *args, int new_line);
+int				translate(int fd, char *key, t_list *args, int new_line);
 
 #endif

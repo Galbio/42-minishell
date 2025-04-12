@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 19:18:13 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/12 14:32:08 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 14:48:07 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int	ms_lang(t_cmd_params *cmd)
 		translate(2, "command.lang.invalid", args, 1);
 		return (0);
 	}
-
 	ft_lstadd_back(&args, ft_lstnew(value));
 	translate(1, "command.lang.success", args, 1);
 	return (0);

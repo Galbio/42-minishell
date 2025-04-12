@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 20:09:48 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 14:14:40 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 14:44:48 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,16 @@ static void	cmd_not_found(t_cmd_params *cmd, int is_env)
 	if (!is_env)
 	{
 		if (!cmd->imp->path)
-			translate(2, "command.notfound", program_arg(cmd->argv[0], NULL), 1);
+			translate(2, "command.notfound.invalidpath",
+				program_arg(cmd->argv[0], NULL), 1);
 		else
-			translate(2, "command.notfound", new_arg(cmd->argv[0], new_arg("", NULL)), 1);
+			translate(2, "command.notfound",
+				new_arg(cmd->argv[0], NULL), 1);
 	}
 	else
 	{
-		write(2, "env: ‘", 6);
-		ft_putstr_fd(cmd->argv[0], 2);
-		write(2, ": No such file or directory\n", 28);
+		translate(2, "env.command.notfound",
+			new_arg(cmd->argv[0], NULL), 1);
 	}
 	free_cmd(cmd, 1);
 	free_envp(cmd->envp, cmd->imp);

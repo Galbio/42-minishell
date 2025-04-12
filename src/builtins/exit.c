@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:05:06 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 14:25:33 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 14:48:33 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ static void	display_error(char code, char *name)
 		translate(2, "command.toomanyargs", program_arg("exit", NULL), 1);
 		return ;
 	}
-	translate(2, "command.numargrequired", program_arg("exit", new_arg(name, NULL)), 1);
+	translate(2, "command.numargrequired",
+		program_arg("exit", new_arg(name, NULL)), 1);
 }
 
 static char	check_exit_error(char **argv)

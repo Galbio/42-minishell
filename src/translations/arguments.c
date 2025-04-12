@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:12:13 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/12 14:27:25 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 14:36:12 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 int	is_translation_argument(char *value)
 {
-	return (value[0] == '{'
-		&& value[1] && value[1] == '%'
-		&& value[2] && value[2] == '}');
+	return (value[0] == '{' && value[1] == '%' && value[2] == '}');
 }
 
 t_list	*new_arg(void *value, t_list *next)
