@@ -6,19 +6,11 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 22:54:49 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/11 02:29:37 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/12 15:48:45 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	print_error(char *str, t_int_tab *itab)
-{
-	write(2, "minishell: syntax error near unexpected token `", 47);
-	write(2, str + itab->i, 1 + (str[itab->i + 1] == str[itab->i]));
-	write(2, "'\n", 2);
-	set_exit_status(258);
-}
 
 int	handle_separator(char *str, t_list **sep)
 {
@@ -49,7 +41,7 @@ int	add_cmd(char *str, t_list **dest, t_int_tab *itab)
 		|| ft_isonlywhitespaces(str + itab->i))
 	{
 		free(temp);
-		print_error(str, itab);
+		token_error(str);
 		return (1);
 	}
 	ft_lstadd_back(dest, ft_lstnew(trim_ws(temp)));
@@ -60,7 +52,7 @@ int	add_cmd(char *str, t_list **dest, t_int_tab *itab)
 	{
 		if (str[itab->ret])
 			itab->i += 2;
-		print_error(str, itab);
+		token_error(str);
 		return (1);
 	}
 	itab->i += (str[itab->i] != ';');

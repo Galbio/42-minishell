@@ -6,11 +6,12 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/11 23:57:41 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 14:24:56 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "translations.h"
 #include "ft_readline_keys.h"
 
 static void	init(t_main_envp *imp, t_list **envp)
@@ -78,5 +79,5 @@ void	launch(t_list *envp, t_main_envp *imp)
 			init_execution(envp, imp, &cmds);
 	}
 	free_readline();
-	write(STDOUT_FILENO, "\nexit\n", 6);
+	translate(STDOUT_FILENO, "exit", new_arg("\n", NULL), 1);
 }

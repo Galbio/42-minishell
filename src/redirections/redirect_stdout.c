@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:43:25 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/10 17:46:02 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/12 15:26:16 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static char	redirect_fd(char *str, int fd)
 {
 	int		nb;
+	char	*v;
 
 	if (*str == '&')
 	{
@@ -27,9 +28,9 @@ static char	redirect_fd(char *str, int fd)
 	nb = ft_atoi(str);
 	if (nb >= 1024)
 	{
-		write(2, "minishell: ", 12);
-		ft_putnbr_fd(nb, 2);
-		write(2, ": Bad file descriptor\n", 22);
+		v = ft_itoa(nb);
+		translate(2, "redirections.badfiledesc", program_arg(v, NULL), 1);
+		free(v);
 		return (1);
 	}
 	dup2(fd, nb);
@@ -94,19 +95,12 @@ static char	redirect_appendfile(char *method, char **name)
 
 char	redirect_stdout(t_redirection *redir)
 {
-	int		i;
+	int			i;
 
-	if (!redir->values[0])
-	{
-		write(2, "minishell: syntax error ", 24);
-		write(2, "near unexpected token `newline'\n", 32);
-		return (1);
-	}
 	if (redir->values[1])
 	{
-		write(2, "minishell: ", 11);
-		ft_putstr_fd(redir->og_str, 2);
-		write(2, ": ambiguous redirect\n", 21);
+		translate(2, "redirections.ambigous",
+			program_arg(redir->og_str, NULL), 1);
 		return (1);
 	}
 	i = 0;

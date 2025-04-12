@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:04:41 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 20:24:01 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/12 14:48:18 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 static void	display_error(char *name)
 {
-	ft_putstr_fd("minishell: export: `", 2);
-	ft_putstr_fd(name, 2);
-	ft_putstr_fd("': not a valid identifier\n", 2);
+	translate(2, "command.export.notvalid",
+		program_arg("export", new_arg(name, NULL)), 1);
 }
 
 static int	check_invalid_name(char *name, int *i)

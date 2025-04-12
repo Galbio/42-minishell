@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   brace_methods.c                                    :+:      :+:    :+:   */
+/*   methods.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 18:36:16 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/11 19:35:24 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/12 15:52:26 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,8 @@ char	*brace_error_if_not_defined(char *src, char *default_str,
 	value = get_var_value(name, *(cmd->envp));
 	if (!value)
 	{
-		write(2, "minishell: ", 11);
-		ft_putstr_fd(name, 2);
-		write(2, ": ", 2);
-		ft_putstr_fd(default_str + 1, 2);
-		write(2, "\n", 1);
+		translate(2, "brace.notdef",
+			program_arg(name, new_arg(default_str + 1, NULL)), 1);
 		set_exit_status(257);
 		free(name);
 		return (ft_strdup(""));

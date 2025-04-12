@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 02:21:06 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 14:49:10 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/12 15:51:53 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,16 @@ static void	display_error(char *name, int code)
 
 	if (code == 0)
 	{
-		write(2, "minishell: alias: ", 18);
-		write(2, name, ft_strlen(name));
-		write(2, ": not found\n", 12);
+		translate(2, "command.alias.notfound",
+			program_arg("alias", new_arg(name, NULL)), 1);
 		return ;
 	}
 	i = 0;
 	while (name[i] && name[i] != '=')
 		i++;
-	write(2, "minishell: alias: `", 19);
-	write(2, name, i);
-	write(2, "': invalid alias name\n", 22);
+	name[i] = '\0';
+	translate(2, "command.alias.invalid",
+		program_arg("alias", new_arg(name, NULL)), 1);
 }
 
 static int	add_alias(char *name, t_main_envp *imp)

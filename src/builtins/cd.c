@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 18:19:55 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 00:22:41 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 14:54:10 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,11 @@ static int	cd_to_home(t_cmd_params *cmd)
 	if (home_val)
 		res = chdir(home_val);
 	else
-		write(2, "minishell: cd: HOME not set\n", 28);
+		translate(2, "command.cd.homenotset", program_arg("cd", NULL), 1);
 	if (res)
 	{
-		write(2, "minishell: cd: ", 15);
-		ft_putstr_fd(home_val, 2);
-		write(2, ": No such file or directory\n", 28);
+		translate(2, "command.cd.filedirnotfound",
+			program_arg("cd", new_arg(home_val, NULL)), 1);
 		free(home_val);
 		return (1);
 	}
@@ -44,9 +43,8 @@ static int	cd_absolute(t_cmd_params *cmd)
 	res = chdir(cmd->argv[2]);
 	if (res < 0)
 	{
-		write(2, "minishell: cd: ", 15);
-		ft_putstr_fd(cmd->argv[1], 2);
-		write(2, ": No such file or directory\n", 28);
+		translate(2, "command.cd.filedirnotfound",
+			program_arg("cd", new_arg(cmd->argv[1], NULL)), 1);
 		return (1);
 	}
 	change_envp_pwd(cmd, getcwd(NULL, 0));
@@ -64,16 +62,15 @@ static int	cd_oldpwd(t_cmd_params *cmd)
 		res = chdir(old_pwd);
 		if (res < 0)
 		{
-			write(2, "minishell: cd: ", 15);
-			ft_putstr_fd(old_pwd, 2);
-			write(2, ": No such file or directory\n", 28);
+			translate(2, "command.cd.filedirnotfound",
+				program_arg("cd", new_arg(old_pwd, NULL)), 1);
 			return (1);
 		}
 		write(1, old_pwd, ft_strlen(old_pwd));
 		write(1, "\n", 1);
 	}
 	else
-		write(2, "minishell: cd: OLDPWD not set\n", 30);
+		translate(2, "command.cd.oldpwdnotset", program_arg("cd", NULL), 1);
 	res = old_pwd != NULL;
 	change_envp_pwd(cmd, getcwd(NULL, 0));
 	free(old_pwd);
@@ -82,13 +79,16 @@ static int	cd_oldpwd(t_cmd_params *cmd)
 
 static int	handle_dash(t_cmd_params *cmd)
 {
+	char	v[2];
+
 	if (!cmd->argv[1][1])
 		return (cd_oldpwd(cmd));
 	if ((cmd->argv[1][1] != '-') || (cmd->argv[1][2]))
 	{
-		write(2, "minishell: cd: -", 16);
-		ft_putchar_fd(cmd->argv[1][1], 2);
-		write(2, ": invalid option\n", 17);
+		v[0] = cmd->argv[1][1];
+		v[1] = '\0';
+		translate(2, "command.cd.invaliddash",
+			program_arg("cd", new_arg(v, NULL)), 1);
 		return (1);
 	}
 	if ((cmd->argv[1][1] == '-') && !cmd->argv[2])
@@ -102,6 +102,12 @@ int	ms_cd(t_cmd_params *cmd)
 
 	if (!cmd->argv[1])
 		return (cd_to_home(cmd));
+	if (cmd->argv[2])
+	{
+		translate(2, "command.toomanyargs",
+			program_arg("cd", new_arg(cmd->argv[1], NULL)), 1);
+		return (1);
+	}
 	if (!cmd->argv[1][0])
 		return (0);
 	if (cmd->argv[1][0] == '-')
@@ -109,9 +115,8 @@ int	ms_cd(t_cmd_params *cmd)
 	res = chdir(cmd->argv[1]);
 	if (res < 0)
 	{
-		write(2, "minishell: cd: ", 15);
-		ft_putstr_fd(cmd->argv[1], 2);
-		write(2, ": No such file or directory\n", 28);
+		translate(2, "command.cd.filedirnotfound",
+			program_arg("cd", new_arg(cmd->argv[1], NULL)), 1);
 		return (1);
 	}
 	change_envp_pwd(cmd, getcwd(NULL, 0));

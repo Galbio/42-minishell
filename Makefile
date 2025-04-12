@@ -39,6 +39,7 @@ FILES =	main.c		\
 	builtins/exit.c \
 	builtins/env.c \
 	builtins/alias.c \
+	builtins/lang.c \
 	commands/execute_line.c \
 	commands/execute_command.c \
 	commands/execute_command_utils.c \
@@ -61,6 +62,11 @@ FILES =	main.c		\
 	utils/get_cmd_depth.c \
 	utils/trim_whitespaces.c \
 	utils/check_special_char.c	\
+	translations/arguments.c	\
+	translations/keys.c	\
+	translations/manager.c	\
+	translations/parser.c	\
+	translations/translator.c	\
 	regex/checkers/bounds.c		\
 	regex/checkers/inside.c		\
 	regex/checkers/lengths.c		\
@@ -162,5 +168,11 @@ $(OBJS)/%.o: $(SRC)/%.c
 	@$(COMPILATOR) $(FLAGS) $< -c -o $@ -I $(INCLUDE) -I $(LIBFTI) $(EXTRA_FLAGS)
 
 re: fclean all
+
+composer/install:
+	composer install
+
+composer/update:
+	composer install
 
 .PHONY: all clean fclean re
