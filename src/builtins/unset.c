@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 19:34:13 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 20:29:04 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/13 01:13:33 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,25 @@ static void	check_is_imp(char *name, t_main_envp *imp)
 {
 	int		i;
 
-	if (ft_strncmp(name, "SHLVL", 6) == 0)
+	if (ft_strncmp(name, "SHLVL", 7) == 0)
 		imp->shell_level = 0;
-	else if (ft_strncmp(name, "PATH", 5) == 0)
+	else if (ft_strncmp(name, "PATH", 6) == 0)
 	{
 		i = -1;
 		while (imp->path[++i])
 			free(imp->path[i]);
 		free(imp->path[i]);
 		imp->path = NULL;
+	}
+	else if (ft_strncmp(name, "HOME", 5) == 0)
+	{
+		free(imp->current_home);
+		imp->current_home = NULL;
+	}
+	else if (ft_strncmp(name, "PWD", 4) == 0)
+	{
+		free(imp->env_pwd);
+		imp->env_pwd = NULL;
 	}
 }
 

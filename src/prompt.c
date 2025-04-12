@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 17:14:27 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/12 22:18:41 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/13 01:39:43 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,30 +22,41 @@ static void	define_variables(t_main_envp *imp, char **user, char **cwd)
 	*user = imp->user;
 	if (!(*user))
 		*user = "unknown";
-	*cwd = imp->cwd;
-	if (!(*cwd))
-		*cwd = ft_strdup(".");
-	else if (imp->home)
-	{
-		if (ft_strncmp(*cwd, imp->home, ft_strlen(imp->home)) == 0)
-			*cwd = ft_strreplace_part(*cwd, 0, ft_strlen(imp->home), "~");
-		else
-			*cwd = ft_strdup(*cwd);
-	}
+	if (imp->env_pwd)
+		*cwd = imp->env_pwd;
 	else
-		*cwd = ft_strdup(*cwd);
+		*cwd = imp->cwd;
+}
+
+static void	update_variables(t_main_envp *imp, char **user, char **cwd)
+{
+	char	*home;
+	int		len;
+
+	define_variables(imp, user, cwd);
+	if (!(*cwd) || (!ft_isdir(*cwd) && !imp->env_pwd))
+	{
+		*cwd = ft_strdup(".");
+		return ;
+	}
+	home = imp->current_home;
+	if (home)
+	{
+		len = ft_strlen(home);
+		if (home[len - 1] != '/'
+			&& ft_strncmp(*cwd, home, len) == 0 && ft_isdir(home))
+		{
+			*cwd = ft_strreplace_part(*cwd, 0, len, "~");
+			return ;
+		}
+	}
+	*cwd = ft_strdup(*cwd);
 }
 
 static void	init_lenghts(int *ulen, int v1, int *clen, int v2)
 {
 	*ulen = v1;
 	*clen = v2;
-}
-
-static char	*free_and_return(void *freeable, char *returned)
-{
-	free(freeable);
-	return (returned);
 }
 
 char	*get_prompt(t_main_envp *imp)
@@ -56,7 +67,7 @@ char	*get_prompt(t_main_envp *imp)
 	int		ulen;
 	int		clen;
 
-	define_variables(imp, &user, &cwd);
+	update_variables(imp, &user, &cwd);
 	init_lenghts(&ulen, ft_strlen(user), &clen, ft_strlen(cwd));
 	res = malloc(sizeof(char) * (ulen + clen + 11 + 3 * 16 + 17 + 4 * 2));
 	if (!res)
@@ -73,6 +84,6 @@ char	*get_prompt(t_main_envp *imp)
 	ft_strlcpy(res + 64 + ulen, cwd, clen + 1);
 	ft_strlcpy(res + 64 + ulen + clen, RESET_COLOR, 5);
 	ft_strlcpy(res + 68 + ulen + clen, " $> \033[0m", 9);
-	res[68 + ulen + clen + 8] = '\0';
-	return (free_and_return(cwd, res));
+	free(cwd);
+	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 22:43:38 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/13 01:23:26 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ typedef struct s_main_envp
 	char			*home;
 	char			*user;
 	char			*cwd;
+	char			*current_home;
+	char			*env_pwd;
 	int				shell_level;
 	int				output_fd;
 	int				input_fd;
@@ -167,6 +169,7 @@ char			*add_line(char *content, char *line);
 t_list			*parse_envp(char **envp, t_main_envp *imp);
 char			**create_envp_cpy(t_list **envp, t_main_envp *imp);
 char			**parse_path(char *str);
+void			update_imp_values(char *name, t_main_envp *imp);
 
 //variables
 char			*parse_var(char *var_name, t_list **envp, t_main_envp *imp);

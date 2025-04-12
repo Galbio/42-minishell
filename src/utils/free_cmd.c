@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:17:38 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 22:37:00 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/13 01:14:31 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	free_envp(t_list **envp, t_main_envp *imp)
 	free(imp->home);
 	free(imp->user);
 	free(imp->cwd);
+	free(imp->current_home);
+	free(imp->env_pwd);
 }
 
 void	free_cmd(t_cmd_params *cmd, char mode)

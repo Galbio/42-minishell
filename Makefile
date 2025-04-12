@@ -53,6 +53,7 @@ FILES =	main.c		\
 	envp/create_envp_cpy.c \
 	envp/path.c \
 	envp/parser.c \
+	envp/update.c	\
 	research/research.c		\
 	research/parser.c		\
 	research/free.c			\

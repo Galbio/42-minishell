@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 00:16:33 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 18:13:10 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/13 01:22:48 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void	add_local(char *str, t_int_tab *itab,
 	char	*value;
 	char	*to_add;
 	int		i;
+	char	*joined;
 
 	value = parse_quotes(ft_substr(str, equal_pos + 1, itab->i), cmd);
 	i = 0;
@@ -50,7 +51,9 @@ static void	add_local(char *str, t_int_tab *itab,
 	free(value);
 	i = equal_pos;
 	value = ft_substr(str, 0, equal_pos + 1);
-	add_to_envp(ft_strjoin(value, to_add), cmd->envp, equal_pos);
+	joined = ft_strjoin(value, to_add);
+	update_imp_values(joined, cmd->imp);
+	add_to_envp(joined, cmd->envp, equal_pos);
 	free(value);
 	free(to_add);
 	while (str[itab->i] && ft_strchr(" \n\t", str[itab->i]))

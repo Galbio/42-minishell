@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 23:57:32 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 22:29:02 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/13 01:30:15 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,12 @@ void	handle_important(char *str, t_main_envp *imp)
 		imp->home = ft_strdup(str + 5);
 	else if (check_value(str, "PATH=", 5, &important[2]))
 		imp->path = parse_path(str + 5);
-	else if (!imp->cwd && check_value(str, "PWD=", 4, &important[3]) && str[4])
-		imp->cwd = ft_strdup(str + 5);
+	else if (check_value(str, "PWD=", 4, &important[3]) && str[4])
+	{
+		if (!imp->cwd)
+			imp->cwd = ft_strdup(str + 4);
+		imp->env_pwd = ft_strdup(str + 4);
+	}
 	else if (check_value(str, "USER=", 5, &important[4]))
 		imp->user = ft_strdup(str + 5);
 }
@@ -43,6 +47,9 @@ static void	init_imp(t_main_envp *imp)
 	imp->home = NULL;
 	imp->user = NULL;
 	imp->cwd = getcwd(NULL, 0);
+	imp->current_home = NULL;
+	imp->env_pwd = NULL;
+	imp->cmd_queue = NULL;
 }
 
 t_list	*parse_envp(char **envp, t_main_envp *imp)
@@ -68,5 +75,6 @@ t_list	*parse_envp(char **envp, t_main_envp *imp)
 			ft_lstadd_back(&dest, ft_lstnew(ft_strdup(envp[i])));
 		handle_important(envp[i], imp);
 	}
+	imp->current_home = ft_strdup(imp->home);
 	return (dest);
 }
