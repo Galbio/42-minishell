@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/12 20:21:33 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/12 21:20:02 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,9 @@ static void	init(t_main_envp *imp, t_list **envp)
 	set_exit_status(0);
 }
 
-static void	init_execution(t_list *envp, t_main_envp *imp, t_list **cmds)
+static void	init_execution_values(t_list **cmds, t_main_envp *imp)
 {
 	t_list	*temp;
-	char	*res;
 	int		exit_status;
 
 	if ((*cmds)->content == NULL)
@@ -46,7 +45,23 @@ static void	init_execution(t_list *envp, t_main_envp *imp, t_list **cmds)
 	imp->output_fd = 1;
 	imp->input_fd = 0;
 	imp->actual_pos = 0;
+}
+
+static void	init_execution(t_list *envp, t_main_envp *imp, t_list **cmds)
+{
+	t_list	*temp;
+	char	*res;
+
+	init_execution_values(cmds, imp);
 	(*cmds)->content = replace_events((*cmds)->content, imp);
+	if (get_exit_status() > 255)
+	{
+		temp = *cmds;
+		*cmds = temp->next;
+		free(temp->content);
+		free(temp);
+		return ;
+	}
 	ft_readline_set_check_format(0);
 	res = identify_heredoc((*cmds)->content, cmds, imp);
 	ft_readline_set_check_format(1);

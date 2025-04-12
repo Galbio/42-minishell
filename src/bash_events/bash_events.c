@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:46:45 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 21:00:42 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/12 21:13:15 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ static void	replace_subcmd(char **src, t_int_tab *itab, char *replaced)
 	subcmd_len = get_subcmd_size(*src + itab->i + 1);
 	replaced_subcmd = replace_events_subcmd(
 			get_subcmd(*src + itab->i + 1), replaced);
+	if (!replaced_subcmd)
+		return ;
 	temp = *src;
 	*src = ft_strreplace_part(*src, itab->i + 2, subcmd_len - 2,
 			replaced_subcmd);
@@ -57,6 +59,8 @@ char	*replace_events_subcmd(char *str, char *replaced)
 	while (str[++itab.i])
 		if (iterate(str, &str, &itab, replaced))
 			break ;
+	if (get_exit_status() > 255)
+		return (NULL);
 	return (str);
 }
 

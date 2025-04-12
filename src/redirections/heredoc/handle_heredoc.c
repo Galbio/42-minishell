@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 19:06:57 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 20:58:27 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/12 21:15:57 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,8 @@ char	*identify_heredoc(char *str, t_list **heredocs, t_main_envp *imp)
 	t_int_tab	itab;
 	t_list		*head;
 
+	if (get_exit_status() > 255)
+		return (str);
 	itab = init_int_tab();
 	head = *heredocs;
 	itab.ptr1 = ft_strdup(head->content);
