@@ -1,0 +1,10 @@
+{
+    "name": "42-minishell/langs",
+    "description": "Langs for Minishell project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "langs\\": "./"
+        }
+    }
+}

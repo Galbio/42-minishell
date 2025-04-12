@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/11 19:36:28 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/12 17:24:52 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_main_envp
 	int				output_fd;
 	int				input_fd;
 	long			actual_pos;
+	t_list			*cmd_queue;
 	t_list			*heredocs_infos;
 	t_list			*aliases;
 }	t_main_envp;
@@ -100,6 +101,7 @@ int				get_exit_status(void);
 int				get_depth(int v);
 
 void			token_error(char *str);
+int				redirection_file_errors(char **values, char *og_str);
 
 void			cwd_error(char *title);
 

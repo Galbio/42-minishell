@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 08:00:35 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/10 17:55:40 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/12 18:15:39 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,17 @@ static void	handle_argv_filling(char *str, t_cmd_params *cmd, t_list **dest,
 	if (!itab->cur_quote && !itab->backslash
 		&& ft_strchr(" \n\t", str[itab->i]))
 		add_to_argv(dest, str, itab, cmd);
-	if (!itab->backslash && (str[itab->i] == '$')
+	else if (!itab->backslash && (str[itab->i] == '$')
 		&& (itab->cur_quote != '\''))
 		itab->i += go_to_var_end(str + itab->i) - 1;
-	if (!itab->backslash && !itab->cur_quote && ft_strchr("<>", str[itab->i]))
+	else if (!itab->backslash && !itab->cur_quote
+		&& ft_strchr("<>", str[itab->i]))
 	{
 		add_redirection(str, itab, cmd, dest);
 		if (!str[itab->i])
 			itab->i--;
 	}
-	if (!itab->backslash && !itab->cur_quote && (str[itab->i] == '=')
+	else if (!itab->backslash && !itab->cur_quote && (str[itab->i] == '=')
 		&& (*dest == NULL))
 		handle_local_appending(str, itab, cmd);
 }
