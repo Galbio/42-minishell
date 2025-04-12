@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 22:36:30 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 22:43:38 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,11 @@ char			*get_subcmd(char *str);
 int				get_subcmd_size(char *str);
 int				handle_separator(char *str, t_list **sep);
 char			*handle_aliases(char *input, t_list *aliases);
+
+//bash events
+char			*replace_events(char *str);
+int				handle_events(char *start, char **src,
+					long actual_pos, int *replaced);
 
 //braces
 char			*handle_brace_option(char *str, t_cmd_params *cmd, char *src);
