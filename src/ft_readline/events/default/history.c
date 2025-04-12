@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 10:17:19 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/09 17:17:19 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 19:37:41 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	update_prompt_position(t_readline_data *data, char *value)
 		i++;
 	}
 	size = get_terminal_size(data, 0);
-	count += (ft_strlen(ft_getlast_newline(value)) / size.x);
+	count += (ft_strlen_utf8(ft_getlast_newline(value)) / size.x);
 	v = data->pos.y + count;
 	if (v >= size.y)
 		data->pos.y -= v - size.y;

@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:24 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/09 15:25:55 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 19:50:55 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	on_write(t_readline_data *data)
 	t_vector2	size;
 
 	hide_cursor();
+	size = get_terminal_size(data, 1);
 	build = list_to_string(*data, 0);
 	teleport_cursor(data->pos);
 	print_build(build);
-	size = get_terminal_size(data, 1);
 	update_position(data, size, build);
 	free(build);
 	data->cursor = get_char_pos(data, data->current);
