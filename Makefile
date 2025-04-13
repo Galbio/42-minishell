@@ -49,7 +49,7 @@ FILES =	main.c		\
 	commands/execute_pipes.c \
 	commands/execute_bin.c \
 	commands/execute_subcmd.c \
-	commands/get_similar_commands.c \
+	commands/similar_commands.c \
 	envp/parser.c \
 	envp/create_envp_cpy.c \
 	research/research.c		\

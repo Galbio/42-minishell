@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 20:09:48 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/13 02:47:41 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/13 03:07:30 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static char	*get_command_path(char *str, char **paths)
 	return (NULL);
 }
 
-static int	cmd_not_found(t_cmd_params *cmd, int is_env)
+static void	cmd_not_found(t_cmd_params *cmd, int is_env)
 {
 	char	*similar;
 
