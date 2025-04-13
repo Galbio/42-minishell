@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/13 18:19:35 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/13 20:08:51 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ typedef struct s_research
 	struct s_research	*next;
 }	t_research;
 
-void			launch(t_list *envp, t_main_envp *imp);
+void			launch(t_list **envp, t_main_envp *imp);
 
 char			*get_prompt(t_main_envp *imp);
 
