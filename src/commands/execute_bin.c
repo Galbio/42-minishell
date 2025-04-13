@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 20:09:48 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/14 01:00:24 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/14 01:24:35 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static char	*get_command_path(char *str, char **paths)
 	char	*dest;
 	int		i;
 
+	if (!str[0])
+		return (NULL);
 	if (ft_isdir(str))
 		return (NULL);
 	if (!access(str, X_OK))

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/13 20:15:26 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/13 22:53:02 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ static char	*handle_var_replacing(char *str, t_int_tab *itab, t_cmd_params *cmd)
 		temp = ft_strdup("");
 	dest = ft_strreplace_part(str, itab->i,
 			ft_strlen(itab->ptr1) + is_cmd + 1, temp);
+	itab->i += ft_strlen(temp) - 1;
 	free(itab->ptr1);
 	free(str);
 	free(temp);

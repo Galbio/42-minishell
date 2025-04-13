@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 22:20:19 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/10 17:44:49 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/13 23:54:41 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,11 @@ static char	**parse_redirect_value(char *to_add, t_int_tab *itab,
 	if (to_add[0])
 	{
 		dest = fill_return_argv(fill_argv(to_add, cmd));
+		if (dest[0] && dest[1])
+		{
+			display_error("minishell: ", to_add, ": ambiguous redirect\n", 0);
+			set_exit_status(257);
+		}
 	}
 	else
 	{
