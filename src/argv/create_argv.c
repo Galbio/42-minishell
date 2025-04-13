@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 08:00:35 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 18:15:39 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/13 21:38:24 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,15 @@ t_list	*fill_argv(char *str, t_cmd_params *cmd)
 
 	dest = NULL;
 	itab = init_int_tab();
+	str = replace_var(ft_strdup(str), cmd);
+	itab.i = 0;
+	while (ft_strchr(" \t\n", str[itab.i]))
+		itab.i++;
+	itab.i--;
 	while (str[++itab.i])
 		handle_argv_filling(str, cmd, &dest, &itab);
 	add_to_argv(&dest, str, &itab, cmd);
+	free(str);
 	return (dest);
 }
 

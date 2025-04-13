@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 20:57:20 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/13 18:01:29 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/13 21:14:12 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,12 @@ static void	fill_dest(char *dest, t_int_tab *itab, char *str)
 		return ;
 }
 
-char	*parse_quotes(char *str, t_cmd_params *cmd)
+char	*parse_quotes(char *str)
 {
 	char		*dest;
 	t_int_tab	itab;
 
 	itab = init_int_tab();
-	str = replace_var(str, cmd);
 	itab.ret = get_parsed_size(str);
 	dest = malloc(sizeof(char) * (itab.ret + 1));
 	if (!dest)
@@ -79,7 +78,7 @@ void	add_to_argv(t_list **dest, char *str, t_int_tab *itab,
 		return ;
 	cmd->extra = dest;
 	add_splitted_to_add(parse_quotes(
-			ft_substr(str, itab->ret, itab->i - itab->ret), cmd), dest);
+			ft_substr(str, itab->ret, itab->i - itab->ret)), dest);
 	while (str[itab->i] && ft_strchr(" \n\t", str[itab->i]))
 		itab->i++;
 	itab->ret = itab->i--;
