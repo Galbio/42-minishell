@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 23:57:32 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/13 01:30:15 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/13 02:09:20 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ void	handle_important(char *str, t_main_envp *imp)
 	if (check_value(str, "SHLVL=", 6, &important[0]))
 		imp->shell_level = ft_atoi(str + 6);
 	else if (check_value(str, "HOME=", 5, &important[1]))
+	{
 		imp->home = ft_strdup(str + 5);
+		imp->current_home = ft_strdup(str + 5);
+	}
 	else if (check_value(str, "PATH=", 5, &important[2]))
 		imp->path = parse_path(str + 5);
 	else if (check_value(str, "PWD=", 4, &important[3]) && str[4])
@@ -75,6 +78,5 @@ t_list	*parse_envp(char **envp, t_main_envp *imp)
 			ft_lstadd_back(&dest, ft_lstnew(ft_strdup(envp[i])));
 		handle_important(envp[i], imp);
 	}
-	imp->current_home = ft_strdup(imp->home);
 	return (dest);
 }
