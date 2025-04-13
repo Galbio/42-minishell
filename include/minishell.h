@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/13 20:08:51 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/14 00:59:01 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,8 @@ int				execute_subshell(t_cmd_params *cmd);
 int				execute_single_bin(t_cmd_params *cmd, int is_env);
 void			execute_bin(t_cmd_params *cmd, int is_env);
 char			*get_similar_commands(char *cmd_name);
+int				command_path_errors(char *path, int check_dir);
+int				env_errors(char *path);
 
 //argv
 t_cmd_params	*create_command_argv(t_cmd_params *cmd);
