@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 23:57:32 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 00:18:15 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/13 15:16:15 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,20 +71,20 @@ void	handle_important(char *str, t_main_envp *imp)
 		important[0]++;
 		imp->shell_level = ft_atoi(str + 6);
 	}
-	else if (!important[2] && !ft_strncmp("HOME=", str, 5))
+	else if (!important[1] && !ft_strncmp("HOME=", str, 5))
 	{
-		important[2]++;
+		important[1]++;
 		imp->home = ft_strdup(str + 5);
 	}
-	else if (!important[3] && !ft_strncmp("PATH=", str, 5))
+	else if (!important[2] && !ft_strncmp("PATH=", str, 5))
 	{
-		important[3]++;
+		important[2]++;
 		imp->path = parse_path(str + 5);
 	}
-	else if (!imp->cwd && !important[4]
+	else if (!imp->cwd && !important[3]
 		&& !ft_strncmp("PWD=", str, 4) && str[4] != '\0')
 	{
-		important[4]++;
+		important[3]++;
 		imp->cwd = ft_strdup(str + 5);
 	}
 }
