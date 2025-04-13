@@ -6,25 +6,11 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 20:09:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/13 13:34:47 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/13 15:17:09 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_readline.h"
-
-static char	*check_occurence(t_readline_data *data, int size)
-{
-	char	*value;
-
-	if (size == 2)
-	{
-		value = ft_strdup((char *)data->occurences[1]);
-		ft_array_unset(&data->occurences, ft_array_free_entry);
-		data->tab_pressed = 0;
-		return (value);
-	}
-	return (NULL);
-}
 
 static char	*research_variables(t_readline_data *data, char *prefix, int *size,
 	t_list **envp)
@@ -49,14 +35,11 @@ static char	*research_files_and_dirs(t_readline_data *data, char *prefix,
 	int				i;
 	char			*path;
 	char			*value;
+	char			*res;
 
-	if (prefix[0] == '.' && !prefix[1] && is_first_argument(data->current))
-		return (ft_strdup("./"));
-	if (prefix[0] != '/' && !(prefix[0] == '.'
-			&& (prefix[1] == '/' || (prefix[1] == '.' && prefix[2] == '/'))))
-		prefix = ft_pathjoin(".", prefix);
-	else
-		prefix = ft_strdup(prefix);
+	res = fix_path_prefix(data, &prefix);
+	if (res)
+		return (res);
 	len = ft_strlen(prefix);
 	i = len;
 	while (i >= 0 && prefix[i] != '/')
@@ -91,6 +74,7 @@ char	*research_autocompletion(t_readline_data *data, char *prefix)
 {
 	int		size;
 	int		*max_len;
+	char	*slash;
 
 	if (data->tab_pressed)
 		ft_array_unset(&data->occurences, ft_array_free_entry);
@@ -100,10 +84,11 @@ char	*research_autocompletion(t_readline_data *data, char *prefix)
 	ft_array_push(&data->occurences, max_len);
 	size = 1;
 	data->tab_pressed = 1;
-	if (prefix[0] == '$')
+	slash = ft_strchr(prefix, '/');
+	if (prefix[0] == '$' && !slash)
 		return (research_variables(data, prefix, &size,
 				ft_readline_get_envp_ptr()));
-	if (!prefix[0] || prefix[0] == '.' || prefix[0] == '/')
+	if (!prefix[0] || prefix[0] == '.' || slash)
 		return (research_files_and_dirs(data, prefix, &size));
 	if (is_first_argument(data->current))
 		return (research_commands(data, prefix, &size,
