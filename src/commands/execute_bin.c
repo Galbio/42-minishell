@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 20:09:48 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/13 21:24:09 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/13 21:27:41 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,16 @@ static void	cmd_not_found(t_cmd_params *cmd, int is_env)
 	char	*similar;
 	int		is_dir;
 	char	*slash;
+	int		code;
 
 	slash = ft_strchr(cmd->argv[0], '/');
 	is_dir = ft_isdir(cmd->argv[0]) && slash;
+	code = 127;
 	if (!is_env && is_dir)
+	{
 		display_error("minishell: ", cmd->argv[0], ": Is a directory\n", 0);
+		code = 126;
+	}
 	else if (!cmd->imp->path || slash)
 		display_error("minishell: ", cmd->argv[0],
 			": No such file or directory\n", 0);
@@ -74,7 +79,7 @@ static void	cmd_not_found(t_cmd_params *cmd, int is_env)
 	free_cmd(cmd, 1);
 	free_envp(cmd->envp, cmd->imp);
 	free(cmd);
-	exit(126 + !is_dir);
+	exit(code);
 }
 
 void	execute_bin(t_cmd_params *cmd, int is_env)
