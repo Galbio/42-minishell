@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:04:41 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/13 02:39:19 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/13 16:05:22 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,25 @@ static int	match_value(t_list *cur, char *name, int i)
 		if (is_local)
 			cur->content = ft_strdup(value + 1);
 		else
+		{
+			if (!name[i])
+				return (1);
 			cur->content = ft_strdup(name);
+		}
 		free(value);
 		return (1);
 	}
 	return (0);
 }
 
-static int	add_envp(char *name, t_list **envp)
+static int	add_envp(char *name, t_list **envp, t_main_envp *imp)
 {
 	t_list	*cur;
 	int		i;
 
 	if (check_invalid_name(name, &i))
 		return (1);
+	update_imp_values(name, imp);
 	cur = *envp;
 	while (cur)
 	{
@@ -80,6 +85,6 @@ int	ms_export(t_cmd_params *cmd)
 	res = 0;
 	i = 0;
 	while (cmd->argv[++i])
-		res += add_envp(cmd->argv[i], cmd->envp);
+		res += add_envp(cmd->argv[i], cmd->envp, cmd->imp);
 	return (res && 1);
 }

@@ -6,87 +6,54 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 23:57:32 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 00:18:15 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/13 15:18:11 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	get_path_count(char *str)
+static int	check_value(char *str, char *value, int len, int *already_set)
 {
-	int		res;
-	int		i;
-
-	res = 0;
-	i = -1;
-	while (str[++i])
-		if ((str[i] == ':') && (str[i - 1] != '\\'))
-			res++;
-	return (res + 1);
-}
-
-char	*malloc_pathname(char **str)
-{
-	char	*dest;
-	int		size;
-	int		i;
-
-	i = -1;
-	size = 0;
-	while (str[0][++size])
-		if ((str[0][size] == ':') && (str[0][size - 1] != '\\'))
-			break ;
-	dest = malloc(sizeof(char) * (size + 1));
-	if (!dest)
-		return (NULL);
-	dest[size] = 0;
-	i = -1;
-	while (++i < size)
-		dest[i] = str[0][i];
-	*str += size + 1;
-	return (dest);
-}
-
-char	**parse_path(char *str)
-{
-	char	**dest;
-	int		size;
-
-	size = get_path_count(str);
-	dest = malloc(sizeof(char *) * (size + 1));
-	if (!dest)
-		return (NULL);
-	dest[size] = 0;
-	while (--size >= 0)
-		dest[size] = malloc_pathname(&str);
-	return (dest);
+	if (*already_set || ft_strncmp(value, str, len) != 0)
+		return (0);
+	*already_set = 1;
+	return (1);
 }
 
 void	handle_important(char *str, t_main_envp *imp)
 {
-	static char	important[4] = {0, 0, 0, 0};
+	static int	important[5] = {0, 0, 0, 0, 0};
 
-	if (!important[0] && !ft_strncmp("SHLVL=", str, 6))
-	{
-		important[0]++;
+	if (check_value(str, "SHLVL=", 6, &important[0]))
 		imp->shell_level = ft_atoi(str + 6);
-	}
-	else if (!important[2] && !ft_strncmp("HOME=", str, 5))
+	else if (check_value(str, "HOME=", 5, &important[1]))
 	{
-		important[2]++;
 		imp->home = ft_strdup(str + 5);
+		imp->current_home = ft_strdup(str + 5);
 	}
-	else if (!important[3] && !ft_strncmp("PATH=", str, 5))
-	{
-		important[3]++;
+	else if (check_value(str, "PATH=", 5, &important[2]))
 		imp->path = parse_path(str + 5);
-	}
-	else if (!imp->cwd && !important[4]
-		&& !ft_strncmp("PWD=", str, 4) && str[4] != '\0')
+	else if (check_value(str, "PWD=", 4, &important[3]) && str[4])
 	{
-		important[4]++;
-		imp->cwd = ft_strdup(str + 5);
+		if (!imp->cwd)
+			imp->cwd = ft_strdup(str + 4);
+		imp->env_pwd = ft_strdup(str + 4);
 	}
+	else if (check_value(str, "USER=", 5, &important[4]))
+		imp->user = ft_strdup(str + 5);
+}
+
+static void	init_imp(t_main_envp *imp)
+{
+	imp->aliases = NULL;
+	imp->path = NULL;
+	imp->home = NULL;
+	imp->user = NULL;
+	imp->cwd = getcwd(NULL, 0);
+	imp->current_home = NULL;
+	imp->env_pwd = NULL;
+	imp->cmd_queue = NULL;
+	imp->shell_level = 0;
 }
 
 t_list	*parse_envp(char **envp, t_main_envp *imp)
@@ -95,14 +62,11 @@ t_list	*parse_envp(char **envp, t_main_envp *imp)
 	void	*temp;
 	int		i;
 
-	imp->aliases = NULL;
-	imp->home = NULL;
-	imp->path = NULL;
+	init_imp(imp);
 	if (!envp || !envp[0])
 		return (NULL);
 	dest = NULL;
 	i = -1;
-	imp->cwd = getcwd(NULL, 0);
 	while (envp[++i])
 	{
 		if (!ft_strncmp(envp[i], "SHLVL=", 6))
