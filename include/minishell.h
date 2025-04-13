@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/13 16:05:08 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:19:35 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,20 +192,18 @@ char			*get_similar_commands(char *cmd_name);
 t_cmd_params	*create_command_argv(t_cmd_params *cmd);
 t_list			*fill_argv(char *str, t_cmd_params *cmd);
 char			**fill_return_argv(t_list *argv);
-void			handle_var(char *str, t_int_tab *itab, t_list **cmd_outputs,
-					t_cmd_params *cmd);
+char			*replace_var(char *str, t_cmd_params *cmd);
 void			add_to_argv(t_list **dest, char *str, t_int_tab *itab,
 					t_cmd_params *cmd);
 void			add_splitted_to_add(char *str, t_list **dest);
-char			*parse_var_return(char *str, char quote);
+char			*parse_var_return(char *str);
 char			*parse_quotes(char *str, t_cmd_params *cmd);
 char			*make_splitted_str(char **str, int *i, char is_sep);
 void			add_redirection(char *str, t_int_tab *itab,
 					t_cmd_params *cmd, t_list **dest);
 void			handle_local_appending(char *str, t_int_tab *itab,
 					t_cmd_params *cmd);
-char			*handle_commands(t_int_tab *itab, t_cmd_params *cmd,
-					t_list **outputs);
+char			*handle_commands(t_int_tab *itab, t_cmd_params *cmd);
 
 //pipe utils
 t_cmd_params	*make_cmd(void *argv_ptr, t_list **envp, t_main_envp *imp);

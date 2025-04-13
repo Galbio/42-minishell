@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 00:16:33 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/13 01:22:48 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:22:52 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,10 @@ static void	add_local(char *str, t_int_tab *itab,
 {
 	char	*value;
 	char	*to_add;
-	int		i;
 	char	*joined;
 
-	value = parse_quotes(ft_substr(str, equal_pos + 1, itab->i), cmd);
-	i = 0;
-	to_add = make_splitted_str(&value, &i, 1);
-	free(value);
-	i = equal_pos;
+	cmd->extra = NULL;
+	to_add = parse_quotes(ft_substr(str, equal_pos + 1, itab->i), cmd);
 	value = ft_substr(str, 0, equal_pos + 1);
 	joined = ft_strjoin(value, to_add);
 	update_imp_values(joined, cmd->imp);
@@ -59,6 +55,23 @@ static void	add_local(char *str, t_int_tab *itab,
 	while (str[itab->i] && ft_strchr(" \n\t", str[itab->i]))
 		itab->i++;
 	itab->ret = itab->i--;
+}
+
+static void	go_to_sep(char *str, t_int_tab *itab)
+{
+	while (str[++itab->i])
+	{
+		itab->backslash = itab->i && (str[itab->i - 1] == '\\')
+			&& !itab->backslash;
+		check_special_char(str, itab);
+		if (itab->cur_quote == '\'')
+			continue ;
+		if (!itab->backslash && (str[itab->i] == '$'))
+			itab->i += go_to_var_end(str + itab->i) - 1;
+		if (!itab->backslash && !itab->cur_quote
+			&& ft_strchr(" \n\t", str[itab->i]))
+			break ;
+	}
 }
 
 void	handle_local_appending(char *str, t_int_tab *itab, t_cmd_params *cmd)
@@ -78,14 +91,6 @@ void	handle_local_appending(char *str, t_int_tab *itab, t_cmd_params *cmd)
 	}
 	itab->i = i;
 	equal_pos = itab->i;
-	while (str[++itab->i])
-	{
-		itab->backslash = itab->i && (str[itab->i - 1] == '\\')
-			&& !itab->backslash;
-		check_special_char(str, itab);
-		if (!itab->backslash && !itab->cur_quote
-			&& ft_strchr(" \n\t", str[itab->i]))
-			break ;
-	}
+	go_to_sep(str, itab);
 	add_local(str, itab, cmd, equal_pos);
 }

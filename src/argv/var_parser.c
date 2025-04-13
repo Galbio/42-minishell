@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/11 16:55:26 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:24:54 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*get_var_value(char *name, t_list *cur)
 		if (value[0] == '\\')
 			value++;
 		if (!ft_strncmp(name, value, len) && (value[len] == '='))
-			return (parse_var_return(ft_strdup(value + len + 1), 1));
+			return (parse_var_return(ft_strdup(value + len + 1)));
 		cur = cur->next;
 	}
 	return (NULL);
@@ -43,15 +43,14 @@ static char	*handle_braces(char *str, t_cmd_params *cmd, char *src)
 	return (handle_brace_option(str, cmd, src));
 }
 
-static char	*get_var_output(char *str, t_int_tab *itab, t_list **cmd_outputs,
-		t_cmd_params *cmd)
+static char	*get_var_output(char *str, t_int_tab *itab, t_cmd_params *cmd)
 {
 	if (ft_strchr("{(", str[itab->i + 1]))
 	{
 		itab->ptr1 = get_subcmd(str + itab->i + 1);
 		itab->ptr2 = str;
 		if (str[itab->i + 1] == '(')
-			return (handle_commands(itab, cmd, cmd_outputs));
+			return (handle_commands(itab, cmd));
 		return (handle_braces(itab->ptr1, cmd, str));
 	}
 	else
@@ -66,23 +65,44 @@ static char	*get_var_output(char *str, t_int_tab *itab, t_list **cmd_outputs,
 	return (NULL);
 }
 
-void	handle_var(char *str, t_int_tab *itab, t_list **cmd_outputs,
-		t_cmd_params *cmd)
+static char	*handle_var_replacing(char *str, t_int_tab *itab, t_cmd_params *cmd)
 {
-	char	*output;
+	int		is_cmd;
+	char	*dest;
+	void	*temp;
 
-	if (ft_strchr("~%+=]}./\\:\0", str[itab->i + 1]))
+	is_cmd = 0;
+	if (ft_strchr("({", str[itab->i + 1]))
 	{
-		output = ft_strdup("$");
-		itab->ptr1 = ft_strdup("");
+		is_cmd = 2;
+		itab->ptr1 = get_subcmd(str + itab->i + 1);
 	}
 	else
-		output = get_var_output(str, itab, cmd_outputs, cmd);
-	if (!output)
-		output = ft_strdup("");
-	ft_lstadd_back(cmd_outputs, ft_lstnew(output));
-	itab->res += ft_strlen(output);
-	itab->i += ft_strlen(itab->ptr1)
-		+ (2 * (ft_strchr("({", str[itab->i + 1]) != 0));
+		itab->ptr1 = get_var_name(str + itab->i + 1);
+	temp = get_var_output(str, itab, cmd);
+	if (!temp)
+		temp = ft_strdup("");
+	dest = ft_strreplace_part(str, itab->i,
+			ft_strlen(itab->ptr1) + is_cmd + 1, temp);
 	free(itab->ptr1);
+	free(str);
+	free(temp);
+	return (dest);
+}
+
+char	*replace_var(char *str, t_cmd_params *cmd)
+{
+	t_int_tab	itab;
+
+	itab = init_int_tab();
+	while (str[++itab.i])
+	{
+		itab.backslash = itab.i && (str[itab.i - 1] == '\\') && !itab.backslash;
+		if (check_special_char(str, &itab))
+			continue ;
+		if (!itab.backslash && (itab.cur_quote != '\'') && (str[itab.i] == '$')
+			&& str[itab.i + 1] && !ft_strchr(" \n\t", str[itab.i + 1]))
+			str = handle_var_replacing(str, &itab, cmd);
+	}
+	return (str);
 }
