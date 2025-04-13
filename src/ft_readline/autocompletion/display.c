@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 16:06:31 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/12 01:07:32 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/13 02:13:03 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ void	display_autocompletion(t_readline_data *data)
 
 	if (!data->tab_pressed)
 		return ;
-	data->tab_pressed = 0;
 	size = ft_array_count(data->occurences);
 	if (size == 1)
 	{
+		data->tab_pressed = 0;
 		ft_array_unset(&data->occurences, ft_array_free_entry);
 		return ;
 	}
@@ -57,5 +57,4 @@ void	display_autocompletion(t_readline_data *data)
 	data->cursor.y += size / col + 2;
 	if (data->cursor.y > tsize.y)
 		data->cursor.y = tsize.y;
-	ft_array_unset(&data->occurences, ft_array_free_entry);
 }
