@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 19:39:43 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/11 01:34:04 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/13 16:43:15 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,13 @@ void	split_cmds(char *res, t_list **cmds)
 		else if (!itab.backslash && !itab.cur_quote && (res[itab.i] == '('))
 			itab.i += get_subcmd_size(res + itab.i) - 1;
 		if (!itab.cur_quote && (res[itab.i] == '\n'))
-			add_cmd(res, cmds, &itab);
+		{
+			ft_lstadd_back(cmds, ft_lstnew(trim_ws(
+						ft_substr(res, itab.ret, itab.i - itab.ret))));
+			itab.ret = itab.i;
+		}
 	}
-	if (res[itab.ret])
+	if (res[itab.ret] && (res[itab.ret] != '\n'))
 		ft_lstadd_back(cmds, ft_lstnew(trim_ws(
 					ft_substr(res, itab.ret, itab.i - itab.ret))));
 }
