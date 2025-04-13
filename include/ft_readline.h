@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/13 15:18:42 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:12:15 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,7 @@ int				process_input(t_readline_data *data, char last_c);
 int				process_default_key(t_readline_data *data, char *buffer);
 
 //process/reader.c
-int				read_stdin_keys(char *buffer);
+int				read_stdin_keys(char *buffer, int is_pipe);
 
 //process/stash.c
 void			add_to_stash(t_readline_char **stashed, t_readline_char *node,
