@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 18:19:55 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/13 02:47:51 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/13 19:51:23 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,11 @@ int	ms_cd(t_cmd_params *cmd)
 {
 	int		res;
 
+	if (cmd->argv[2])
+	{
+		return (display_error("minishell: cd: ", cmd->argv[1],
+				": too many arguments\n", 1));
+	}
 	if (!cmd->argv[1])
 		return (cd_to_home(cmd));
 	if (!cmd->argv[1][0])

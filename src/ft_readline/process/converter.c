@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:12:30 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/12 00:44:37 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:37:07 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	is_first_argument(t_readline_char *position)
 	if (!position)
 		return (1);
 	cur = position;
-	while (cur && !ft_strchr(" \t\n;&|", cur->sequence[0]))
+	while (cur && !ft_strchr(" \t\n;&|<>", cur->sequence[0]))
 		cur = cur->previous;
 	return (!cur);
 }
@@ -103,7 +103,7 @@ char	*get_argument_before(t_readline_char *position)
 		return (NULL);
 	cur = position;
 	i = 0;
-	while (cur && !ft_strchr(" \t\n;&|", cur->sequence[0]))
+	while (cur && !ft_strchr(" \t\n;&|<>", cur->sequence[0]))
 	{
 		i += ft_strlen(cur->sequence);
 		cur = cur->previous;
