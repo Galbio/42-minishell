@@ -6,20 +6,19 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 22:01:47 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/10 14:35:11 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:19:46 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	execute_sub_cmd(t_int_tab *itab, t_cmd_params *cmd,
-		int pipes[2], t_list **outputs)
+		int pipes[2])
 {
 	int			res;
 	t_list		**envp;
 	t_main_envp	*imp;
 
-	ft_lstclear(outputs, free);
 	ft_lstclear(cmd->extra, free);
 	cmd->extra = NULL;
 	free(itab->ptr2);
@@ -36,8 +35,7 @@ static void	execute_sub_cmd(t_int_tab *itab, t_cmd_params *cmd,
 	exit(res);
 }
 
-char	*handle_commands(t_int_tab *itab, t_cmd_params *cmd,
-		t_list **outputs)
+char	*handle_commands(t_int_tab *itab, t_cmd_params *cmd)
 {
 	pid_t	pid;
 	int		pipes[2];
@@ -48,12 +46,12 @@ char	*handle_commands(t_int_tab *itab, t_cmd_params *cmd,
 		return (NULL);
 	pid = fork();
 	if (!pid)
-		execute_sub_cmd(itab, cmd, pipes, outputs);
+		execute_sub_cmd(itab, cmd, pipes);
 	close(pipes[1]);
 	waitpid(pid, &stat, 0);
 	if ((get_exit_status() < 256) && WIFEXITED(stat))
 		set_exit_status(WEXITSTATUS(stat));
 	dest = ft_get_contents(pipes[0]);
 	close(pipes[0]);
-	return (parse_var_return(dest, itab->cur_quote));
+	return (parse_var_return(dest));
 }

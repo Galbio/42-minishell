@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 13:11:34 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/11 15:32:55 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:11:17 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*ft_readline(const char *prompt)
 	init_readline_data(prompt, &data);
 	while (1)
 	{
-		data.interrupt = !read_stdin_keys(buffer);
+		data.interrupt = !read_stdin_keys(buffer, data.is_pipe);
 		if (data.interrupt)
 			return (leave_readline(&data, NULL));
 		i = 0;

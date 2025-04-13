@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:20:18 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 01:04:47 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/13 17:41:11 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,5 @@ int	main(int argc, char **argv, char **envp)
 	launch(env, &imp);
 	free_envp(&env, &imp);
 	free_regex_items();
-	return (2);
+	return (get_exit_status());
 }
