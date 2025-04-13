@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:05:06 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/13 19:47:03 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/13 19:57:10 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ static char	check_exit_error(char **argv)
 	i = -1;
 	if ((argv[1][0] == '-') && !ft_isdigit(argv[1][1]))
 		return (display_error("minishell: exit: ", argv[1],
-				": numeric argument required", 1));
-	else if (argv[1][0] == '-')
+				": numeric argument required\n", 1));
+	else if (argv[1][0] == '-' || argv[1][0] == '+')
 		i++;
 	while (argv[1][++i])
 	{
 		if (!ft_isdigit(argv[1][i]))
 			return (display_error("minishell: exit: ", argv[1],
-					": numeric argument required", 1));
+					": numeric argument required\n", 1));
 	}
 	if (argv[2])
 		return (display_error("minishell: exit: too many arguments\n",
