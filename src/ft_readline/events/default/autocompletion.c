@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:23:53 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/11 23:57:30 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/13 13:49:34 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,18 @@
 
 static void	autocomplete(t_readline_data *data, char *value, char *res)
 {
-	int	i;
-	int	len;
+	int		i;
+	int		len;
+	char	*slash;
 
-	i = ft_strlen(value);
+	slash = ft_strrchr(value, '/');
+	if (slash)
+		i = ft_strlen(slash + 1);
+	else
+		i = ft_strlen(value);
 	len = ft_strlen(res);
+	if (res[len - 1] == '/' && res[len - 2] == '/')
+		res[len-- - 1] = '\0';
 	if (i <= len)
 	{
 		while (res[i])
@@ -53,7 +60,7 @@ void	tab_key(t_readline_data *data)
 	}
 	value = get_argument_before(data->current);
 	if (!value)
-		return ;
+		value = ft_strdup("");
 	res = research_autocompletion(data, value);
 	if (res)
 	{
