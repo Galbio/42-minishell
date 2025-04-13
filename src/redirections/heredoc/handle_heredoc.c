@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 19:06:57 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/11 22:36:21 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/14 00:41:09 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	check_heredocs(char *str, t_int_tab *itab,
 	imp->actual_pos += itab->i;
 	value = parse_heredoc_value(str + itab->i, imp);
 	imp->actual_pos -= itab->i;
-	content = wait_value(heredocs, value, ignore_tab);
+	content = wait_value(heredocs, value, ignore_tab, imp->cmd_count);
 	ft_lstadd_back(&imp->heredocs_infos,
 		ft_lstnew(parse_heredoc_quote(content)));
 	free(value);
@@ -121,6 +121,6 @@ char	*identify_heredoc(char *str, t_list **heredocs, t_main_envp *imp)
 	while (str[++itab.i])
 		if (check_line_end(str, heredocs, imp, &itab))
 			break ;
-	add_heredoc_history(head, heredocs);
+	add_heredoc_history(head, heredocs, imp);
 	return (replace_heredocs(itab.ptr1, imp->heredocs_infos));
 }

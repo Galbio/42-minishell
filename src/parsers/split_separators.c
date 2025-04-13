@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 19:39:43 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/13 23:05:41 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/14 00:35:32 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	split_cmds(char *res, t_list **cmds)
 		{
 			ft_lstadd_back(cmds, ft_lstnew(trim_ws(
 						ft_substr(res, itab.ret, itab.i - itab.ret))));
-			itab.ret = itab.i;
+			itab.ret = itab.i + 1;
 		}
 	}
 	if (res[itab.ret] && (res[itab.ret] != '\n'))

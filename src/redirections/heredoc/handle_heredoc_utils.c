@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 02:02:39 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/13 02:48:58 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/14 00:49:36 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ char	*add_line(char *content, char *line)
 	return (dest);
 }
 
-char	*wait_value(t_list **heredocs, char *value, char ignore_tab)
+char	*wait_value(t_list **heredocs, char *value,
+		char ignore_tab, int cmd_count)
 {
 	char	*content;
 	char	*line;
@@ -53,7 +54,7 @@ char	*wait_value(t_list **heredocs, char *value, char ignore_tab)
 		if (!(*heredocs)->next)
 			(*heredocs)->next = ft_lstnew(ft_readline("> "));
 		if (!(*heredocs)->next->content)
-			return (content);
+			return (early_heredoc(value, cmd_count, content));
 		*heredocs = (*heredocs)->next;
 		line = ft_strdup((char *)(*heredocs)->content);
 		while (ignore_tab && line[i] && (line[i] == '\t'))
@@ -93,7 +94,7 @@ char	advance_itab(char *str, t_int_tab *itab, char *ignore_tab, char save)
 	return ((save == '>') || (count != 2));
 }
 
-void	add_heredoc_history(t_list *cur, t_list **end)
+void	add_heredoc_history(t_list *cur, t_list **end, t_main_envp *imp)
 {
 	char	*cmd;
 	void	*temp;
@@ -102,8 +103,7 @@ void	add_heredoc_history(t_list *cur, t_list **end)
 	{
 		add_to_history(cur->content);
 		*end = cur->next;
-		free(cur->content);
-		free(cur);
+		ft_lstdelone(cur, free);
 		return ;
 	}
 	cmd = NULL;
@@ -118,6 +118,8 @@ void	add_heredoc_history(t_list *cur, t_list **end)
 	add_to_history(cmd);
 	free(cmd);
 	*end = cur->next;
+	if (cur->next)
+		imp->cmd_queue = (*end)->next;
 	free(cur);
 }
 
