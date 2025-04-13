@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 21:37:14 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/13 02:32:41 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,5 +225,8 @@ void			init_regexs(void);
 t_list			*search_pattern(char *path, char *pattern);
 t_list			*search_pattern_recursive(char *base_path, char **path);
 t_research		*parse_research(char *value);
+
+char			*get_similar_commands(char *cmd_name);
+int				display_error(char *s1, char *argv, char *s2, int res);
 
 #endif

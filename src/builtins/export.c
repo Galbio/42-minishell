@@ -6,36 +6,25 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:04:41 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 20:24:01 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/13 02:39:19 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	display_error(char *name)
-{
-	ft_putstr_fd("minishell: export: `", 2);
-	ft_putstr_fd(name, 2);
-	ft_putstr_fd("': not a valid identifier\n", 2);
-}
-
 static int	check_invalid_name(char *name, int *i)
 {
 	*i = -1;
 	if (!name[0] || (name[0] == '=') || ft_isdigit(name[0]))
-	{
-		display_error(name);
-		return (1);
-	}
+		return (display_error("minishell: export: `", name,
+				"': not a valid identifier\n", 1));
 	while (name[++(*i)])
 	{
 		if (name[*i] == '=')
 			break ;
 		if ((name[*i] != '_') && !ft_isalnum(name[*i]))
-		{
-			display_error(name);
-			return (1);
-		}
+			return (display_error("minishell: export: `", name,
+					"': not a valid identifier\n", 1));
 	}
 	return (0);
 }
