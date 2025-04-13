@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 13:04:04 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/12 22:26:18 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/13 17:38:42 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	init_environnement(const char *prompt, t_readline_data *data)
 	data->is_pipe = !isatty(STDIN_FILENO);
 	init_terminal_size(&data->old_tsize);
 	if (!data->is_pipe)
-		write(2, prompt, ft_strlen(prompt));
+		write(STDERR_FILENO, prompt, ft_strlen(prompt));
 	data->display_prompt = isatty(STDERR_FILENO);
 	data->offset = data->pos.x - 1;
 	if (data->display_prompt)
