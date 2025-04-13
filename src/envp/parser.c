@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 23:57:32 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/13 15:18:11 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/14 00:02:22 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static void	init_imp(t_main_envp *imp)
 	imp->env_pwd = NULL;
 	imp->cmd_queue = NULL;
 	imp->shell_level = 0;
+	imp->cmd_count = 0;
 }
 
 t_list	*parse_envp(char **envp, t_main_envp *imp)

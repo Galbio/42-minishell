@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/13 22:55:30 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/14 01:09:48 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_main_envp
 	int				shell_level;
 	int				output_fd;
 	int				input_fd;
+	int				cmd_count;
 	long			actual_pos;
 	t_list			*cmd_queue;
 	t_list			*heredocs_infos;
@@ -107,6 +108,7 @@ int				get_depth(int v);
 
 void			token_error(char *str);
 int				display_error(char *s1, char *argv, char *s2, int res);
+char			*early_heredoc(char *str, int cmd_count, char *res);
 int				redirection_file_errors(char **values, char *og_str);
 void			cwd_error(char *title);
 
@@ -159,10 +161,12 @@ char			*identify_heredoc(char *str, t_list **heredocs,
 					t_main_envp *imp);
 char			*parse_heredoc_quote(char *str);
 void			free_heredocs(t_list *cur);
-void			add_heredoc_history(t_list *cur, t_list **end);
+void			add_heredoc_history(t_list *cur, t_list **end,
+					t_main_envp *imp);
 char			advance_itab(char *str, t_int_tab *itab,
 					char *ignore_tab, char save);
-char			*wait_value(t_list **heredocs, char *value, char ignore_tab);
+char			*wait_value(t_list **heredocs, char *value,
+					char ignore_tab, int cmd_count);
 char			*add_line(char *content, char *line);
 
 //envp
