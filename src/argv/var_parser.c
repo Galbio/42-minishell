@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/13 18:24:54 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:41:35 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static char	*get_var_output(char *str, t_int_tab *itab, t_cmd_params *cmd)
 {
 	if (ft_strchr("{(", str[itab->i + 1]))
 	{
-		itab->ptr1 = get_subcmd(str + itab->i + 1);
 		itab->ptr2 = str;
 		if (str[itab->i + 1] == '(')
 			return (handle_commands(itab, cmd));
@@ -55,7 +54,6 @@ static char	*get_var_output(char *str, t_int_tab *itab, t_cmd_params *cmd)
 	}
 	else
 	{
-		itab->ptr1 = get_var_name(str + itab->i + 1);
 		if (itab->ptr1[0] == '?')
 			return (ft_itoa(get_exit_status()));
 		else if (itab->ptr1[0] == '#')
