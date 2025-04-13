@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 08:00:35 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/13 21:38:24 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/13 22:59:36 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,9 @@ t_list	*fill_argv(char *str, t_cmd_params *cmd)
 
 	dest = NULL;
 	itab = init_int_tab();
-	str = replace_var(ft_strdup(str), cmd);
-	itab.i = 0;
-	while (ft_strchr(" \t\n", str[itab.i]))
-		itab.i++;
-	itab.i--;
 	while (str[++itab.i])
 		handle_argv_filling(str, cmd, &dest, &itab);
 	add_to_argv(&dest, str, &itab, cmd);
-	free(str);
 	return (dest);
 }
 
@@ -61,15 +55,13 @@ char	**fill_return_argv(t_list *argv)
 	int		size;
 	t_list	*temp;
 
+	if (!argv)
+		return (NULL);
 	size = ft_lstsize(argv);
-	if (!size)
-		size = 1;
 	dest = malloc(sizeof(char *) * (size + 1));
 	if (!dest)
 		return (NULL);
 	dest[size] = 0;
-	if (!argv)
-		dest[0] = ft_strdup("");
 	while (argv)
 	{
 		dest[--size] = argv->content;

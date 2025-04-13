@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 17:17:33 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/13 22:50:03 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	manage_saves(int saves[3], char mode)
 
 static int	init_single_command_execution(t_cmd_params *cmd, int *res)
 {
-	if (ft_isonlywhitespaces(cmd->argv[0]))
+	if (!cmd->argv)
 	{
 		free_cmd(cmd, 'c');
 		free(cmd);
