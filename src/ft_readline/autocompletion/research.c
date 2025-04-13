@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 20:09:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/12 00:11:25 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/13 02:49:45 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,30 @@ static char	*research_variables(t_readline_data *data, char *prefix, int *size,
 	return (check_occurence(data, *size));
 }
 
-//TODO; for later
 static char	*research_files(t_readline_data *data, char *prefix, int *size)
 {
-	(void)data;
-	(void)prefix;
-	(void)size;
+	int				len;
+	int				i;
+	char			*path;
+	char			*value;
+
+	len = ft_strlen(prefix);
+	i = len;
+	if (prefix[0] == '.' && (!prefix[1] || (prefix[1] == '.' && !prefix[2])))
+		return (ft_strjoin(prefix, "/"));
+	if (prefix[0] != '.' && prefix[0] != '/')
+	{
+		value = prefix;
+		prefix = ft_pathjoin(".", prefix);
+		free(value);
+	}
+	while (i >= 0 && prefix[i] != '/')
+		i--;
+	path = ft_substr(prefix, 0, i + 1);
+	value = ft_substr(prefix, i + 1, len - i - 1);
+	add_files_and_dirs_occurences(path, value, data->occurences, size);
+	free(path);
+	free(value);
 	return (NULL);
 }
 
