@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/13 17:06:11 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:17:29 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,20 @@ static void	init_execution(t_list *envp, t_main_envp *imp, t_list **cmds)
 	execute_line(res, &envp, imp);
 }
 
+static int	check_readed(char *readed)
+{
+	if (ft_isonlywhitespaces(readed))
+	{
+		free(readed);
+		return (0);
+	}
+	return (1);
+}
+
 void	launch(t_list *envp, t_main_envp *imp)
 {
 	char	*prompt;
-	char	*res;
+	char	*readed;
 	t_list	*cmds;
 
 	init(imp, &envp);
@@ -83,17 +93,14 @@ void	launch(t_list *envp, t_main_envp *imp)
 	{
 		cmds = NULL;
 		prompt = get_prompt(imp);
-		res = ft_readline(prompt);
+		readed = ft_readline(prompt);
 		free(prompt);
-		if (!res)
+		if (!readed)
 			break ;
-		if (ft_isonlywhitespaces(res))
-		{
-			free(res);
+		if (!check_readed(readed))
 			continue ;
-		}
-		split_cmds(res, &cmds);
-		free(res);
+		split_cmds(readed, &cmds);
+		free(readed);
 		while (cmds)
 			init_execution(envp, imp, &cmds);
 	}

@@ -6,13 +6,13 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 15:16:08 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/09 17:21:41 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:12:01 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_readline.h"
 
-int	read_stdin_keys(char *buffer)
+int	read_stdin_keys(char *buffer, int is_pipe)
 {
 	int		byte_read;
 
@@ -23,5 +23,5 @@ int	read_stdin_keys(char *buffer)
 		return (0);
 	}
 	buffer[byte_read] = '\0';
-	return (1);
+	return (!is_pipe || buffer[0]);
 }

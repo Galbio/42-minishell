@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 20:09:48 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/13 03:07:30 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/13 15:13:02 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static char	*get_command_path(char *str, char **paths)
 	char	*dest;
 	int		i;
 
+	if (ft_isdir(str))
+		return (NULL);
 	if (!access(str, X_OK))
 		return (ft_strdup(str));
 	if (!paths)
@@ -51,14 +53,19 @@ static void	cmd_not_found(t_cmd_params *cmd, int is_env)
 {
 	char	*similar;
 
-	if (!cmd->imp->path)
+	if (!cmd->imp->path || (cmd->argv[0][0] == '/'))
 		display_error("minishell: ", cmd->argv[0],
 			": No such file or directory\n", 0);
 	else if (!is_env)
 	{
-		similar = get_similar_commands(cmd->argv[0]);
-		ft_putstr_fd(similar, 2);
-		free(similar);
+		if (!ft_isdir(cmd->argv[0]))
+		{
+			similar = get_similar_commands(cmd->argv[0]);
+			ft_putstr_fd(similar, 2);
+			free(similar);
+		}
+		else
+			display_error("minishell: ", cmd->argv[0], ": Is a directory\n", 0);
 	}
 	else
 		display_error("env: ‘", cmd->argv[0],
