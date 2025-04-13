@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 20:09:48 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/13 21:20:05 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/13 21:24:09 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ static void	cmd_not_found(t_cmd_params *cmd, int is_env)
 	int		is_dir;
 	char	*slash;
 
-	is_dir = ft_isdir(cmd->argv[0]);
 	slash = ft_strchr(cmd->argv[0], '/');
-	if (!is_env && is_dir && slash)
+	is_dir = ft_isdir(cmd->argv[0]) && slash;
+	if (!is_env && is_dir)
 		display_error("minishell: ", cmd->argv[0], ": Is a directory\n", 0);
 	else if (!cmd->imp->path || slash)
 		display_error("minishell: ", cmd->argv[0],
