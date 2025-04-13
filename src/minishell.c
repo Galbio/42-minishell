@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/13 18:17:29 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/13 20:09:58 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	init_execution_values(t_list **cmds, t_main_envp *imp)
 	imp->cmd_queue = (*cmds)->next;
 }
 
-static void	init_execution(t_list *envp, t_main_envp *imp, t_list **cmds)
+static void	init_execution(t_list **envp, t_main_envp *imp, t_list **cmds)
 {
 	t_list	*temp;
 	char	*res;
@@ -69,7 +69,7 @@ static void	init_execution(t_list *envp, t_main_envp *imp, t_list **cmds)
 	ft_readline_set_check_format(1);
 	if (ft_strchr(res, '`'))
 		res = handle_bquotes(res);
-	execute_line(res, &envp, imp);
+	execute_line(res, envp, imp);
 }
 
 static int	check_readed(char *readed)
@@ -82,13 +82,13 @@ static int	check_readed(char *readed)
 	return (1);
 }
 
-void	launch(t_list *envp, t_main_envp *imp)
+void	launch(t_list **envp, t_main_envp *imp)
 {
 	char	*prompt;
 	char	*readed;
 	t_list	*cmds;
 
-	init(imp, &envp);
+	init(imp, envp);
 	while (1)
 	{
 		cmds = NULL;

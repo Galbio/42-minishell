@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:20:18 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/13 17:41:11 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/13 20:08:24 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int argc, char **argv, char **envp)
 	env = parse_envp(envp, &imp);
 	if (!imp.cwd)
 		cwd_error("shell-init: ");
-	launch(env, &imp);
+	launch(&env, &imp);
 	free_envp(&env, &imp);
 	free_regex_items();
 	return (get_exit_status());
