@@ -6,24 +6,12 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:05:06 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 22:05:59 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/13 02:35:22 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "regex.h"
-
-static void	display_error(char code, char *name)
-{
-	if (!code)
-	{
-		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-		return ;
-	}
-	ft_putstr_fd("minishell: exit: ", 2);
-	ft_putstr_fd(name, 2);
-	ft_putstr_fd(": numertic argument required\n", 2);
-}
 
 static char	check_exit_error(char **argv)
 {
@@ -31,25 +19,19 @@ static char	check_exit_error(char **argv)
 
 	i = -1;
 	if ((argv[1][0] == '-') && !ft_isdigit(argv[1][1]))
-	{
-		display_error(1, argv[1]);
-		return (1);
-	}
+		return (display_error("minishell: exit: ", argv[1],
+				": numeric argument required", 1));
 	else if (argv[1][0] == '-')
 		i++;
 	while (argv[1][++i])
 	{
 		if (!ft_isdigit(argv[1][i]))
-		{
-			display_error(1, argv[1]);
-			return (1);
-		}
+			return (display_error("minishell: exit: ", argv[1],
+					": numeric argument required", 1));
 	}
 	if (argv[2])
-	{
-		display_error(0, NULL);
-		return (0);
-	}
+		return (display_error("minishell: exit: too many arguments\n",
+				"", "", 0));
 	return (2);
 }
 

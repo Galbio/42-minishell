@@ -50,6 +50,7 @@ FILES =	main.c		\
 	commands/execute_pipes.c \
 	commands/execute_bin.c \
 	commands/execute_subcmd.c \
+	commands/similar_commands.c \
 	envp/create_envp_cpy.c \
 	envp/path.c \
 	envp/parser.c \
@@ -63,6 +64,7 @@ FILES =	main.c		\
 	utils/is_only_nb.c \
 	utils/free_cmd.c \
 	utils/token_errors.c \
+	utils/display_errors.c \
 	utils/get_subcmd.c \
 	utils/get_cmd_depth.c \
 	utils/trim_whitespaces.c \

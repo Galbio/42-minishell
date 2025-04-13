@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/13 01:23:26 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/13 16:02:57 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,8 @@ int				get_exit_status(void);
 int				get_depth(int v);
 
 void			token_error(char *str);
+int				display_error(char *s1, char *argv, char *s2, int res);
 int				redirection_file_errors(char **values, char *og_str);
-
 void			cwd_error(char *title);
 
 //misc
@@ -186,6 +186,7 @@ int				execute_pipes(t_cmd_params *cmd);
 int				execute_subshell(t_cmd_params *cmd);
 int				execute_single_bin(t_cmd_params *cmd, int is_env);
 void			execute_bin(t_cmd_params *cmd, int is_env);
+char			*get_similar_commands(char *cmd_name);
 
 //argv
 t_cmd_params	*create_command_argv(t_cmd_params *cmd);

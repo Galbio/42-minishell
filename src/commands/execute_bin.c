@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 20:09:48 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/11 00:36:48 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/13 03:07:30 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,19 +49,20 @@ static char	*get_command_path(char *str, char **paths)
 
 static void	cmd_not_found(t_cmd_params *cmd, int is_env)
 {
-	if (!is_env)
+	char	*similar;
+
+	if (!cmd->imp->path)
+		display_error("minishell: ", cmd->argv[0],
+			": No such file or directory\n", 0);
+	else if (!is_env)
 	{
-		if (!cmd->imp->path)
-			ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(cmd->argv[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
+		similar = get_similar_commands(cmd->argv[0]);
+		ft_putstr_fd(similar, 2);
+		free(similar);
 	}
 	else
-	{
-		write(2, "env: ‘", 6);
-		ft_putstr_fd(cmd->argv[0], 2);
-		write(2, ": No such file or directory\n", 28);
-	}
+		display_error("env: ‘", cmd->argv[0],
+			": No such file or directory\n", 1);
 	free_cmd(cmd, 1);
 	free_envp(cmd->envp, cmd->imp);
 	free(cmd);

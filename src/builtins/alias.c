@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 02:21:06 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 14:49:10 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/13 02:38:37 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,10 @@ static void	list_aliases(t_list *cur, int len)
 	}
 }
 
-static void	display_error(char *name, int code)
+static void	display_invalid_alias(char *name)
 {
 	int		i;
 
-	if (code == 0)
-	{
-		write(2, "minishell: alias: ", 18);
-		write(2, name, ft_strlen(name));
-		write(2, ": not found\n", 12);
-		return ;
-	}
 	i = 0;
 	while (name[i] && name[i] != '=')
 		i++;
@@ -60,17 +53,12 @@ static int	add_alias(char *name, t_main_envp *imp)
 
 	i = -1;
 	if (name[0] == '=')
-	{
-		display_error(name, 0);
-		return (1);
-	}
+		return (display_error("minishell: alias: ", name, ":not found\n", 1));
 	while (name[++i] && (name[i] != '='))
 	{
 		if (ft_strchr("$&()\"'/\\ \t`", name[i]))
-		{
-			display_error(name, 1);
-			return (1);
-		}
+			return (display_error("minishell: alias: ",
+					name, ":not found\n", 1));
 	}
 	ft_lstadd_front(&imp->aliases, ft_lstnew(ft_strdup(name)));
 	return (0);
@@ -94,7 +82,7 @@ static int	print_single_alias(char *name, t_main_envp *imp)
 		}
 		cur = cur->next;
 	}
-	display_error(name, 0);
+	display_invalid_alias(name);
 	return (1);
 }
 
