@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:05:06 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/13 19:36:30 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/13 19:47:03 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ int	ms_exit(t_cmd_params *cmd)
 
 	res = get_exit_status();
 	av1 = cmd->argv[1] != NULL;
-	if (!get_depth(0))
-		write(STDOUT_FILENO, "exit\n", 5);
+	if (!get_depth(0) && isatty(STDIN_FILENO))
+		write(STDERR_FILENO, "exit\n", 5);
 	if (!av1 || (parse_exit(cmd) == 1))
 	{
 		free_cmd(cmd, 1);
