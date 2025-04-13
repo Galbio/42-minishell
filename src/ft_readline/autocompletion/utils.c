@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 20:30:43 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/11 22:46:02 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/13 15:19:35 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,41 @@ void	add_and_sort_occurence(t_array *occurences, char *value, int *size)
 			index = i;
 	}
 	add_value(occurences, value, index, size);
+}
+
+char	*check_occurence(t_readline_data *data, int size)
+{
+	char	*value;
+
+	if (size == 2)
+	{
+		value = ft_strdup((char *)data->occurences[1]);
+		ft_array_unset(&data->occurences, ft_array_free_entry);
+		data->tab_pressed = 0;
+		return (value);
+	}
+	return (NULL);
+}
+
+char	*fix_path_prefix(t_readline_data *data, char **prefix)
+{
+	char			*tmp;
+
+	*prefix = replace_variables(*prefix, ft_readline_get_envp_ptr());
+	if ((*prefix)[0] == '.' && !(*prefix)[1]
+		&& is_first_argument(data->current))
+	{
+		tmp = ft_strjoin(*prefix, "/");
+		free(*prefix);
+		return (tmp);
+	}
+	if ((*prefix)[0] != '/' && !((*prefix)[0] == '.'
+			&& ((*prefix)[1] == '/'
+				|| ((*prefix)[1] == '.' && (*prefix)[2] == '/'))))
+	{
+		tmp = *prefix;
+		*prefix = ft_pathjoin(".", *prefix);
+		free(tmp);
+	}
+	return (NULL);
 }

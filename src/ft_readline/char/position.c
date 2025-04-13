@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 17:10:32 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/09 13:10:20 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/12 22:27:13 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,11 @@ t_vector2	get_char_pos(t_readline_data *data, t_readline_char *c)
 
 	build = list_to_string(*data, c);
 	size = get_terminal_size(data, 0);
-	prompt_len = (ft_strlen_utf8(ft_getlast_newline((char *)data->prompt))
+	prompt_len = (ft_strlen_utf8_without_ansi(
+				ft_getlast_newline((char *)data->prompt))
 			* data->display_prompt) + data->offset;
-	line_len = ft_strlen_utf8(ft_getlast_newline(build));
-	if (line_len == (int)ft_strlen_utf8(build))
+	line_len = ft_strlen_utf8_without_ansi(ft_getlast_newline(build));
+	if (line_len == (int)ft_strlen_utf8_without_ansi(build))
 		line_len += prompt_len;
 	free(build);
 	v.x = ((line_len % size.x)) + 1;

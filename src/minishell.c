@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:50:10 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/13 16:40:22 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/13 16:47:35 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ static void	init_execution(t_list *envp, t_main_envp *imp, t_list **cmds)
 
 void	launch(t_list *envp, t_main_envp *imp)
 {
+	char	*prompt;
 	char	*res;
 	t_list	*cmds;
 
@@ -81,7 +82,9 @@ void	launch(t_list *envp, t_main_envp *imp)
 	while (1)
 	{
 		cmds = NULL;
-		res = ft_readline("$> ");
+		prompt = get_prompt(imp);
+		res = ft_readline(prompt);
+		free(prompt);
 		if (!res)
 			break ;
 		if (ft_isonlywhitespaces(res))
@@ -95,5 +98,5 @@ void	launch(t_list *envp, t_main_envp *imp)
 			init_execution(envp, imp, &cmds);
 	}
 	free_readline();
-	write(STDOUT_FILENO, "\nexit\n", 6);
+	write(STDERR_FILENO, "\nexit\n", 6);
 }

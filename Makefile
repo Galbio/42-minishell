@@ -10,6 +10,7 @@ LIBFTI = $(LIBFT)
 
 FILES =	main.c		\
 	minishell.c	\
+	prompt.c	\
 	argv/create_argv.c \
 	argv/argv_utils.c \
 	argv/var_parser.c \
@@ -50,8 +51,10 @@ FILES =	main.c		\
 	commands/execute_bin.c \
 	commands/execute_subcmd.c \
 	commands/similar_commands.c \
-	envp/parser.c \
 	envp/create_envp_cpy.c \
+	envp/path.c \
+	envp/parser.c \
+	envp/update.c	\
 	research/research.c		\
 	research/parser.c		\
 	research/free.c			\
@@ -83,9 +86,10 @@ FILES =	main.c		\
 
 READLINE_FILES =	ft_readline/autocompletion/commands.c		\
 					ft_readline/autocompletion/display.c		\
+					ft_readline/autocompletion/files_and_dirs.c	\
 					ft_readline/autocompletion/research.c		\
 					ft_readline/autocompletion/utils.c			\
-					ft_readline/autocompletion/variables.c			\
+					ft_readline/autocompletion/variables.c		\
 					ft_readline/char/list.c						\
 					ft_readline/char/position.c					\
 					ft_readline/char/utils.c					\
@@ -98,7 +102,7 @@ READLINE_FILES =	ft_readline/autocompletion/commands.c		\
 					ft_readline/edition/delete.c				\
 					ft_readline/edition/utils.c					\
 					ft_readline/edition/write.c					\
-					ft_readline/extra/env/envp.c					\
+					ft_readline/extra/env/envp.c				\
 					ft_readline/extra/env/path.c				\
 					ft_readline/extra/erase.c					\
 					ft_readline/extra/fd.c						\

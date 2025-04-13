@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:17:38 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/13 16:45:01 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/13 16:47:43 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,10 @@ void	free_envp(t_list **envp, t_main_envp *imp)
 	ft_lstclear(&imp->cmd_queue, free);
 	free(imp->path);
 	free(imp->home);
+	free(imp->user);
 	free(imp->cwd);
+	free(imp->current_home);
+	free(imp->env_pwd);
 }
 
 void	free_cmd(t_cmd_params *cmd, char mode)

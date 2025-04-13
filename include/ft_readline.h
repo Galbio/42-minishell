@@ -6,7 +6,7 @@
 /*   By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:08:22 by lroussel          #+#    #+#             */
-/*   Updated: 2025/04/11 23:56:24 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/13 15:18:42 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,19 @@ void			add_path_occurences(char *prefix, char *path,
 //autocompletion/display.c
 void			display_autocompletion(t_readline_data *data);
 
+//autocompletion/files_and_dirs.c
+char			*replace_variables(char *path, t_list **envp);
+void			add_files_and_dirs_occurences(char *path, char *value,
+					t_array *occurences, int *size);
+
 //autocompletion/research.c
 char			*research_autocompletion(t_readline_data *data, char *prefix);
 
 //autocompletion/utils.c
 void			add_and_sort_occurence(t_array *occurences, char *value,
 					int *size);
+char			*check_occurence(t_readline_data *data, int size);
+char			*fix_path_prefix(t_readline_data *data, char **prefix);
 
 //autocompletion/variables.c
 void			add_variables_occurences(char *prefix, char *variable,

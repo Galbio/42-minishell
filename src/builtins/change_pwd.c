@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 10:55:36 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 01:03:56 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/13 01:27:08 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,20 @@ void	change_envp_pwd(t_cmd_params *cmd, char *new_path)
 	t_list	*pwd;
 	t_list	*old_pwd;
 	char	*arg;
+	char	*joined;
 
 	arg = cmd->argv[1];
 	if (!update_pwd(cmd->imp, &new_path, &arg))
 		return ;
 	get_pwd_nodes(cmd->envp, &old_pwd, &pwd);
+	joined = ft_strjoin("PWD=", new_path);
+	update_imp_values(joined, cmd->imp);
 	if (pwd)
+	{
 		change_when_isset(cmd, pwd, old_pwd, new_path);
+		free(joined);
+	}
 	else
-		ft_lstadd_back(cmd->envp, ft_lstnew(ft_strjoin("PWD=", new_path)));
+		ft_lstadd_back(cmd->envp, ft_lstnew(joined));
 	free(new_path);
 }
