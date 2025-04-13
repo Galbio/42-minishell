@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 20:57:20 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/13 22:41:46 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/13 22:52:42 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	fill_dest(char *dest, t_int_tab *itab, char *str)
 		return ;
 }
 
-char	*parse_quotes(char *str, t_cmd_params *cmd)
+char	*parse_quotes(char *str)
 {
 	char		*dest;
 	t_int_tab	itab;
