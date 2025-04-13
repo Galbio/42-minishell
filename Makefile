@@ -51,6 +51,7 @@ FILES =	main.c		\
 	commands/execute_bin.c \
 	commands/execute_subcmd.c \
 	commands/similar_commands.c \
+	commands/commands_errors.c	\
 	envp/create_envp_cpy.c \
 	envp/path.c \
 	envp/parser.c \

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 20:09:48 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/13 22:44:06 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/14 01:24:35 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,30 +51,45 @@ static char	*get_command_path(char *str, char **paths)
 	return (NULL);
 }
 
-static void	cmd_not_found(t_cmd_params *cmd, int is_env)
+static void	display_errors(int is_env, char *command, int *code,
+	t_main_envp *imp)
 {
 	char	*similar;
-	int		is_dir;
+	char	*slash;
+	int		res;
 
-	is_dir = ft_isdir(cmd->argv[0]);
-	if (!is_env && is_dir)
-		display_error("minishell: ", cmd->argv[0], ": Is a directory\n", 0);
-	else if (!cmd->imp->path || (cmd->argv[0][0] == '/'))
-		display_error("minishell: ", cmd->argv[0],
-			": No such file or directory\n", 0);
+	slash = ft_strchr(command, '/');
+	if (!is_env && ft_isdir(command) && slash)
+	{
+		display_error("minishell: ", command, ": Is a directory\n", 0);
+		*code = 126;
+	}
+	else if (!is_env && (!imp->path || slash))
+	{
+		res = command_path_errors(command, 0);
+		if (res == 2)
+			*code = 126;
+	}
 	else if (!is_env)
 	{
-		similar = get_similar_commands(cmd->argv[0]);
+		similar = get_similar_commands(command);
 		ft_putstr_fd(similar, 2);
 		free(similar);
 	}
 	else
-		display_error("env: ‘", cmd->argv[0],
-			": No such file or directory\n", 1);
+		env_errors(command);
+}
+
+static void	cmd_not_found(t_cmd_params *cmd, int is_env)
+{
+	int		code;
+
+	code = 127;
+	display_errors(is_env, cmd->argv[0], &code, cmd->imp);
 	free_cmd(cmd, 1);
 	free_envp(cmd->envp, cmd->imp);
 	free(cmd);
-	exit(126 + !is_dir);
+	exit(code);
 }
 
 void	execute_bin(t_cmd_params *cmd, int is_env)
