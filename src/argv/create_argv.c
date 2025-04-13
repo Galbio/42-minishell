@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 08:00:35 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/12 18:15:39 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/13 22:48:55 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,13 @@ char	**fill_return_argv(t_list *argv)
 	int		size;
 	t_list	*temp;
 
+	if (!argv)
+		return (NULL);
 	size = ft_lstsize(argv);
-	if (!size)
-		size = 1;
 	dest = malloc(sizeof(char *) * (size + 1));
 	if (!dest)
 		return (NULL);
 	dest[size] = 0;
-	if (!argv)
-		dest[0] = ft_strdup("");
 	while (argv)
 	{
 		dest[--size] = argv->content;
