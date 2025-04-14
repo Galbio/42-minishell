@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:21:27 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/07 22:10:23 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/14 07:12:53 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@ static int	is_closing_bracket(char bracket, char c)
 		return (c == '}');
 	else if (bracket == '[')
 		return (c == ']');
+	else if (bracket == '"')
+		return (c == '"');
+	else if (bracket == '\'')
+		return (c == '\'');
 	return (0);
 }
 
@@ -35,7 +39,7 @@ int	get_subcmd_size(char *str)
 		if (itab.i && !itab.cur_quote && !itab.backslash
 			&& ft_strchr("([{", str[itab.i]))
 			itab.i += get_subcmd_size(str + itab.i) - 1;
-		else if (!itab.backslash && !itab.cur_quote
+		else if (itab.i && !itab.backslash && !itab.cur_quote
 			&& is_closing_bracket(*str, str[itab.i]))
 			return (itab.i + 1);
 		else if (!itab.backslash && (itab.cur_quote != '\'')

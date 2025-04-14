@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 18:17:51 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/09 00:50:10 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/14 09:07:46 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	replace_wildcard(char **src, char **str, int *tried_wildcard)
 		sep = 0;
 		while (str[0][sep] && !ft_strchr(" \n\t", str[0][sep]))
 			sep++;
-		temp = join_matched(ret->matches, 0, 0);
+		temp = parse_anti_wildcard(join_matched(ret->matches, 0, 0));
 		joined = ft_strreplace_part(*str, 0, sep, temp);
 		free(temp);
 		diff = (*str - *src);
