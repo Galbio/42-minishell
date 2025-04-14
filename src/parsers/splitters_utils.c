@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 22:54:49 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/13 16:17:21 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/14 02:31:01 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,28 +18,41 @@ static void	print_error(char *str, t_int_tab *itab)
 	if (!str[itab->i])
 		write(2, "newline", 7);
 	else
-		write(2, str + itab->i, 1 + (str[itab->i + 1] == str[itab->i]));
+	{
+		if (!ft_strncmp("&|", str + itab->i, 2))
+			write(2, "&", 1);
+		else if (!ft_strncmp("|&", str + itab->i, 2))
+			write(2, "|&", 2);
+		else
+			write(2, str + itab->i, 1 + (str[itab->i + 1] == str[itab->i]));
+	}
 	write(2, "'\n", 2);
 	set_exit_status(258);
 }
 
-int	handle_separator(char *str, t_list **sep)
+int	handle_separator(char *str, t_list **sep, int i)
 {
-	if (*str == ';')
+	if (str[i] == ';')
 	{
 		ft_lstadd_back(sep, ft_lstnew(ft_strdup(";")));
 		return (1);
 	}
-	if (!ft_strncmp(str, "||", 2))
+	if (!ft_strncmp(str + i, "||", 2))
 	{
 		ft_lstadd_back(sep, ft_lstnew(ft_strdup("|")));
 		return (1);
 	}
-	if (!ft_strncmp(str, "&&", 2))
+	if (!ft_strncmp(str + i, "&&", 2))
 	{
 		ft_lstadd_back(sep, ft_lstnew(ft_strdup("&")));
 		return (1);
 	}
+	if (!ft_strncmp(str + i, "|&", 2) || !ft_strncmp(str, "&|", 2))
+		return (1);
+	if ((str[i] == '&') && !i)
+		return (1);
+	if ((str[i] == '&') && !((str[i + 1] == '>') || (str[i - 1] == '>')))
+		return (1);
 	return (0);
 }
 

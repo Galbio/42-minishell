@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 02:02:39 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/14 00:49:36 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/14 02:24:41 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,12 @@ char	advance_itab(char *str, t_int_tab *itab, char *ignore_tab, char save)
 	i = itab->i + count + *ignore_tab;
 	while (str[i] && ft_strchr(" \t", str[i]))
 		i++;
-	if (ft_strchr("<>()|;", str[i]) || (count > limit))
+	if (ft_strchr("<>()|;&", str[i]) || (count > limit))
 	{
 		if (count > limit)
 			i = itab->i + limit;
-		token_error(str + i);
+		if ((str[i] != '&') || (str[i - 1] != '>'))
+			token_error(str + i);
 		return (1);
 	}
 	itab->i = i;

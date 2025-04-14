@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/14 01:24:12 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/14 02:28:37 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ t_list			*split_separators(char *str, t_list **sep);
 int				add_cmd(char *str, t_list **dest, t_int_tab *itab);
 char			*get_subcmd(char *str);
 int				get_subcmd_size(char *str);
-int				handle_separator(char *str, t_list **sep);
+int				handle_separator(char *str, t_list **sep, int i);
 char			*handle_aliases(char *input, t_list *aliases);
 
 //bash events
