@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 22:54:49 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/14 02:38:33 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/14 05:07:37 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	handle_separator(char *str, t_list **sep, int i)
 	return (0);
 }
 
-int	add_cmd(char *str, t_list **dest, t_int_tab *itab)
+int	add_cmd(char *str, t_list **dest, t_int_tab *itab, int is_pipe)
 {
 	char	*temp;
 
@@ -68,7 +68,8 @@ int	add_cmd(char *str, t_list **dest, t_int_tab *itab)
 		free(temp);
 		return (print_error(str, itab));
 	}
-	else if ((str[itab->i] != ';') && (str[itab->i] != str[itab->i + 1]))
+	else if ((str[itab->i] != ';') && (str[itab->i] != '|' && !is_pipe)
+		&& (str[itab->i] != str[itab->i + 1]))
 	{
 		free(temp);
 		return (print_error(str, itab));
