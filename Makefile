@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/04/14 03:36:16 by lroussel          #+#    #+#              #
+#    Updated: 2025/04/14 03:50:28 by lroussel         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = minishell
 
 INCLUDE = include
@@ -8,80 +20,80 @@ LIBFT = libft
 LIBFTA = $(LIBFT)/libft.a
 LIBFTI = $(LIBFT)
 
-FILES =	main.c		\
-	minishell.c	\
-	prompt.c	\
-	argv/create_argv.c \
-	argv/argv_utils.c \
-	argv/var_parser.c \
-	argv/local_var_handling.c \
-	argv/add_splitted.c \
-	argv/parse_cmd_return.c \
-	argv/braces/expansion.c \
-	argv/braces/methods.c \
-	parsers/split_separators.c \
-	parsers/splitters_utils.c \
-	parsers/bquotes_handler.c \
-	parsers/handle_aliases.c \
-	events/parser.c \
-	events/handle_replacing.c \
-	redirections/redirect_stdin.c \
-	redirections/redirect_stdout.c \
-	redirections/add_redir_argv.c \
-	redirections/errors.c \
-	redirections/heredoc/handle_heredoc.c \
-	redirections/heredoc/parse_heredocs.c \
+FILES =	main.c									\
+	minishell.c									\
+	prompt.c									\
+	argv/create_argv.c 							\
+	argv/argv_utils.c 							\
+	argv/var_parser.c 							\
+	argv/local_var_handling.c 					\
+	argv/add_splitted.c 						\
+	argv/parse_cmd_return.c 					\
+	argv/braces/expansion.c 					\
+	argv/braces/methods.c 						\
+	parsers/split_separators.c 					\
+	parsers/splitters_utils.c 					\
+	parsers/bquotes_handler.c 					\
+	parsers/handle_aliases.c 					\
+	events/parser.c 							\
+	events/handle_replacing.c 					\
+	redirections/redirect_stdin.c				\
+	redirections/redirect_stdout.c				\
+	redirections/add_redir_argv.c				\
+	redirections/errors.c 						\
+	redirections/heredoc/handle_heredoc.c 		\
+	redirections/heredoc/parse_heredocs.c		\
 	redirections/heredoc/heredoc_quote_parser.c \
 	redirections/heredoc/handle_heredoc_utils.c \
-	builtins/echo.c \
-	builtins/cd.c \
-	builtins/change_pwd.c \
-	builtins/pwd.c \
-	builtins/unset.c \
-	builtins/export.c \
-	builtins/export_no_args.c \
-	builtins/exit.c \
-	builtins/env.c \
-	builtins/alias.c \
-	commands/execute_line.c \
-	commands/execute_command.c \
-	commands/execute_command_utils.c \
-	commands/execute_subshell.c \
-	commands/execute_pipes.c \
-	commands/execute_bin.c \
-	commands/execute_subcmd.c \
-	commands/similar_commands.c \
-	commands/commands_errors.c	\
-	envp/create_envp_cpy.c \
-	envp/path.c \
-	envp/parser.c \
-	envp/update.c	\
-	research/research.c		\
-	research/parser.c		\
-	research/free.c			\
-	utils/init_int_tab.c \
-	utils/var_names_utils.c \
-	utils/cwd_errors.c \
-	utils/is_only_nb.c \
-	utils/free_cmd.c \
-	utils/token_errors.c \
-	utils/display_errors.c \
-	utils/get_subcmd.c \
-	utils/get_cmd_depth.c \
-	utils/trim_whitespaces.c \
-	utils/check_special_char.c	\
-	regex/checkers/bounds.c		\
-	regex/checkers/inside.c		\
-	regex/checkers/lengths.c		\
-	regex/checkers/first_occurence.c	\
-	regex/items/len.c	\
-	regex/items/brackets.c	\
-	regex/items/manager.c		\
-	regex/items/factory.c		\
-	regex/items/utils.c		\
-	regex/cleaner.c			\
-	regex/regex.c	\
-	signals/exit_status.c	\
+	builtins/echo.c								\
+	builtins/cd.c								\
+	builtins/change_pwd.c						\
+	builtins/pwd.c								\
+	builtins/unset.c							\
+	builtins/export.c							\
+	builtins/export_no_args.c					\
+	builtins/exit.c								\
+	builtins/env.c								\
+	builtins/alias.c							\
+	commands/execute_line.c						\
+	commands/execute_command.c					\
+	commands/execute_command_utils.c			\
+	commands/execute_subshell.c					\
+	commands/execute_pipes.c					\
+	commands/execute_bin.c						\
+	commands/execute_subcmd.c					\
+	commands/similar_commands.c					\
+	commands/commands_errors.c					\
+	envp/create_envp_cpy.c						\
+	envp/path.c									\
+	envp/parser.c								\
+	envp/update.c								\
+	research/research.c							\
+	research/parser.c							\
+	research/free.c								\
+	utils/init_int_tab.c 						\
+	utils/var_names_utils.c 					\
+	utils/cwd_errors.c 							\
+	utils/is_only_nb.c 							\
+	utils/free_cmd.c 							\
+	utils/token_errors.c 						\
+	utils/display_errors.c 						\
+	utils/get_subcmd.c 							\
+	utils/get_cmd_depth.c 						\
+	utils/trim_whitespaces.c 					\
+	utils/check_special_char.c					\
+	regex/checkers/bounds.c						\
+	regex/checkers/inside.c						\
+	regex/checkers/lengths.c					\
+	regex/checkers/first_occurence.c			\
+	regex/items/len.c							\
+	regex/items/brackets.c						\
+	regex/items/manager.c						\
+	regex/items/factory.c						\
+	regex/items/utils.c							\
+	regex/cleaner.c								\
+	regex/regex.c								\
+	signals/exit_status.c						\
 	signals/handler.c
 
 
@@ -150,27 +162,63 @@ FLAGS = -Wall -Wextra -Werror -D HISTORY_SIZE=$(HISTORY_SIZE)
 EXTRA_FLAGS = -g
 COMPILATOR = cc
 
-all: $(NAME)
+C1=\033[38;2;0;220;206m
+C2=\033[38;2;0;202;173m
+C3=\033[38;2;0;183;139m
+C4=\033[38;2;0;165;106m
+C5=\033[38;2;0;148;73m
+C6=\033[38;2;0;131;20m
+CR=\033[0m
+FLASH=\033[1m\033[5m
+ERASE_AFTER=\033[K
+HIDE_CURSOR=\e[?25l
+SHOW_CURSOR=\e[?25h
+MOVE_UP=\033[F
+CLS=\033[2J\033[0;0H
+
+all: header $(NAME)
+
+header:
+	@echo "$(CLS)========================================================================="
+	@echo "$(C1)      ____       __ __ ___        __  ____       _ _____ __         ____\033[0m"
+	@sleep .05
+	@echo "$(C2)    _/ /\ \     / // /|__ \      /  |/  (_)___  (_) ___// /_  ___  / / /\033[0m"
+	@sleep .05
+	@echo "$(C3)   / __/ \ \   / // /___/ /_____/ /|_/ / / __ \/ /\__ \/ __ \/ _ \/ / / \033[0m"
+	@sleep .05
+	@echo "$(C4)  (_  )  / /  /__  __/ __/_____/ /  / / / / / / /___/ / / / /  __/ / /  \033[0m"
+	@sleep .05
+	@echo "$(C5) /  _/  /_/     /_/ /____/    /_/  /_/_/_/ /_/_//____/_/ /_/\___/_/_(_) \033[0m"
+	@sleep .05
+	@echo "$(C6) /_/                                                                   \033[0m"
+	@echo "=================================================== gakarbou && lroussel."
 
 $(NAME): $(LIBFTA) $(OFILES)
-	$(COMPILATOR) $(FLAGS) $(OFILES) $(LIBFTA) -o $(NAME) -I $(INCLUDE) -I $(LIBFTI) $(EXTRA_FLAGS)
+	@echo "\r$(ERASE_AFTER)$(C4)- Files compilation $(C1)done$(C4).$(CR)\n"
+	@$(COMPILATOR) $(FLAGS) $(OFILES) $(LIBFTA) -o $(NAME) -I $(INCLUDE) -I $(LIBFTI) $(EXTRA_FLAGS)
+	@echo "$(ERASE_AFTER)$(C4)Done compiling executable. You can now run minishell with $(C1)./$(NAME)$(ERASE_AFTER)$(CR)"
 
 $(LIBFTA):
+	@echo -n "$(C4)$(FLASH)- Compiling $(C1)libft$(C4)..$(CR)"
 	@make -C $(LIBFT) bonus > /dev/null
+	@echo "\n$(MOVE_UP)$(ERASE_AFTER)$(C4)- Libft compilation $(C1)done$(C4).$(CR)"
 
 clean:
 	@rm -rf $(OFILES)
 	@rm -rf $(OBJS)
 	@make -C $(LIBFT) clean > /dev/null
+	@echo "$(ERASE_AFTER)$(C4)- Cleaning objects files $(C1)done$(C4).$(CR)"
 
 fclean: clean
 	@rm -rf $(NAME)
 	@make -C $(LIBFT) fclean > /dev/null
+	@echo "$(ERASE_AFTER)$(C4)- Cleaning executables files $(C1)done$(C4).$(CR)"
 
 $(OBJS)/%.o: $(SRC)/%.c
 	@mkdir -p $(dir $@)
+	@printf "\r$(C4)$(FLASH)- Compiling $(C1)%s$(C4)..$(CR)$(ERASE_AFTER)" "$<"
 	@$(COMPILATOR) $(FLAGS) $< -c -o $@ -I $(INCLUDE) -I $(LIBFTI) $(EXTRA_FLAGS)
 
-re: fclean all
+re: header fclean $(NAME)
 
 .PHONY: all clean fclean re
