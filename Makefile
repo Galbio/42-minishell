@@ -6,7 +6,7 @@
 #    By: lroussel <lroussel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 03:36:16 by lroussel          #+#    #+#              #
-#    Updated: 2025/04/14 03:50:28 by lroussel         ###   ########.fr        #
+#    Updated: 2025/04/14 04:45:33 by lroussel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -168,6 +168,7 @@ C3=\033[38;2;0;183;139m
 C4=\033[38;2;0;165;106m
 C5=\033[38;2;0;148;73m
 C6=\033[38;2;0;131;20m
+C7=\033[38;2;205;127;50m
 CR=\033[0m
 FLASH=\033[1m\033[5m
 ERASE_AFTER=\033[K
@@ -179,7 +180,7 @@ CLS=\033[2J\033[0;0H
 all: header $(NAME)
 
 header:
-	@echo "$(CLS)========================================================================="
+	@echo "$(CR)$(CLS)========================================================================="
 	@echo "$(C1)      ____       __ __ ___        __  ____       _ _____ __         ____\033[0m"
 	@sleep .05
 	@echo "$(C2)    _/ /\ \     / // /|__ \      /  |/  (_)___  (_) ___// /_  ___  / / /\033[0m"
@@ -220,5 +221,34 @@ $(OBJS)/%.o: $(SRC)/%.c
 	@$(COMPILATOR) $(FLAGS) $< -c -o $@ -I $(INCLUDE) -I $(LIBFTI) $(EXTRA_FLAGS)
 
 re: header fclean $(NAME)
+
+valgrind.supp: header
+	@echo "$(C6)Hi dude, there's no need for $(C1)that $(C4)here :)"
+	@sleep 1
+	@echo "We remade readline so $(C1)no leaks are possible $(C4)¯\_(ツ)_/¯"
+	@sleep 1
+	@echo "\nIf you want a little more info, try to $(C1)$(FLASH)flex Makefile $(CR)$(C4);)$(CR)"
+
+flex : header
+	@echo "$(C4)You wanna feel bad about yourself ?... Sure!" ; sleep .8
+	@echo "Here's our little $(C1)$(FLASH)\"bonuses\"$(CR)$(C4)\n" ; sleep 1.2
+	@echo "$(C7)-$(C4) Backslashes" ; sleep 1 ; echo "$(C7)-$(C4) Full bash regex" ; sleep 1 ; echo "$(C7)-$(C4) Bquotes"
+	@sleep 1 ; echo "$(C7)-$(C4) Bash events" ; sleep 1 ; echo "$(C7)-$(C4) Aliases" ; sleep 1
+	@echo "$(C7)-$(C4) Our own autocompletion system" ; sleep 1 ; echo "$(C7)-$(C4) Every bash control shortcut"
+	@sleep 1 ; echo "$(C7)-$(C4) Local variables" ; sleep 1 ; echo "$(C7)-$(C4) Dynamic Prompt" ; sleep 1
+	@echo "$(C7)-$(C4) Funky redirections" ; sleep 1 ; echo "$(C7)-$(C4) Heredoc variable handling" ; sleep 1
+	@echo "$(C7)-$(C4) Subshells" ; sleep 1 ; echo "$(C7)-$(C4) A prettier Makefile than yours" ; sleep 1
+	@echo "$(C7)-$(C4) Global History" ; sleep 1 ; echo "$(C7)-$(C4) Prompt and standart error" ; sleep 1
+	@echo "$(C7)-$(C4) Env builtin arguments" ; sleep 1 ; echo "$(C7)-$(C4) Navigation in deleted directories" ; sleep 1
+	@echo "$(C7)-$(C4) Herestrings" ; sleep 1 ; echo "$(C7)-$(C4) Bash variable expansion" ; sleep 1
+	@echo "$(C7)-$(C4) Similar commands" ; sleep 1 ; echo "$(C7)-$(C4) Semicolon" ; sleep 1 ; echo "$(C7)-$(C4) Command substitution"
+	@sleep 1 ; echo "$(C7)-$(C4) Dynamic variables" ; sleep 1 ; echo "$(C7)-$(C4) Ambigous redirections" ; sleep 1
+	@echo "$(C7)-$(C4) Redirection's file name too long" ; sleep 1 ; echo "$(C7)-$(C4) CD options" ; sleep 1
+	@echo "$(C7)-$(C4) File permission management" ; sleep 1 ; echo "$(C7)-$(C4) An amazing argv parsing" ; sleep 1
+	@echo "$(C7)-$(C4) Perfect envp management" ; sleep 1.2 ; echo "\nAnd most importantly..."
+	@sleep 1;
+	@echo "$(CR)\n=============="
+	@echo "$(C7)~~~$(C4)COMMENTS$(C7)~~~"
+	@echo "$(CR)=============="
 
 .PHONY: all clean fclean re
