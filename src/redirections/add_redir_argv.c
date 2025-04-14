@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 22:20:19 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/14 02:20:04 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/14 06:44:52 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static char	*get_redirect_text(char *str)
 		itab.backslash = itab.i && (str[itab.i - 1] == '\\') && !itab.backslash;
 		check_special_char(str, &itab);
 		if (!itab.backslash && !itab.cur_quote
-			&& ft_strchr(" \n\t", str[itab.i]))
+			&& ft_strchr(" \n\t<>", str[itab.i]))
 			return (ft_substr(str, 0, itab.i));
 		if (!itab.backslash && (itab.cur_quote != '\'') && (str[itab.i] == '$')
 			&& ft_strchr("({", str[itab.i + 1]))
@@ -67,7 +67,7 @@ static char	**parse_redirect_value(char *to_add, t_int_tab *itab,
 		to_add = NULL;
 		dest = NULL;
 	}
-	itab->ret = itab->i;
+	itab->ret = itab->i--;
 	return (dest);
 }
 

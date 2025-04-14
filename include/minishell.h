@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/14 07:30:34 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/14 09:19:56 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,7 @@ char			*parse_var(char *var_name, t_list **envp, t_main_envp *imp);
 char			*parse_commands(char *str, t_list *envp, t_main_envp *imp);
 char			*get_var_str(char *str);
 char			*get_var_name(char *str);
+char			*handle_var_quote(char *str, t_int_tab *itab);
 
 //commands
 void			execute_line(char *str, t_list **envp,
@@ -207,6 +208,7 @@ char			*parse_quotes(char *str, t_cmd_params *cmd);
 char			*make_splitted_str(char **str, int *i, char is_sep);
 void			add_redirection(char *str, t_int_tab *itab,
 					t_cmd_params *cmd, t_list **dest);
+char			*parse_anti_wildcard(char *str);
 void			handle_local_appending(char *str, t_int_tab *itab,
 					t_cmd_params *cmd);
 char			*handle_commands(t_int_tab *itab, t_cmd_params *cmd);
@@ -232,6 +234,7 @@ int				ms_alias(t_cmd_params *cmd);
 void			export_vars(t_list *envp);
 void			unset_var(char *name, t_list **envp, t_main_envp *imp);
 void			change_envp_pwd(t_cmd_params *cmd, char *new_path);
+char			**replace_argv(char **argv, int start);
 
 void			init_regexs(void);
 t_list			*search_pattern(char *path, char *pattern);

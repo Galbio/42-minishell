@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 20:09:48 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/14 01:24:35 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/14 08:41:50 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,20 @@ static void	cmd_not_found(t_cmd_params *cmd, int is_env)
 {
 	int		code;
 
+	if (!ft_strncmp(cmd->argv[0], ".", 2) && !cmd->argv[1])
+	{
+		write(2, "minishell: .: filename argument required\n", 41);
+		free_cmd(cmd, 1);
+		free_envp(cmd->envp, cmd->imp);
+		free(cmd);
+		exit(2);
+	}
+	if (!ft_strncmp(cmd->argv[0], ".", 2))
+	{
+		cmd->argv = replace_argv(cmd->argv, 1);
+		execute_bin(cmd, is_env);
+		exit(2);
+	}
 	code = 127;
 	display_errors(is_env, cmd->argv[0], &code, cmd->imp);
 	free_cmd(cmd, 1);

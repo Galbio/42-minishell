@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 18:19:55 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/14 01:21:56 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/14 05:51:34 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	cd_to_home(t_cmd_params *cmd)
 		free(home_val);
 		return (1);
 	}
-	res = home_val != NULL;
+	res = home_val == NULL;
 	change_envp_pwd(cmd, getcwd(NULL, 0));
 	free(home_val);
 	return (res);
