@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/14 02:28:37 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/14 05:07:50 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ char			*handle_bquotes(char *res);
 void			split_cmds(char *res, t_list **cmds);
 t_list			*split_pipes(char *str);
 t_list			*split_separators(char *str, t_list **sep);
-int				add_cmd(char *str, t_list **dest, t_int_tab *itab);
+int				add_cmd(char *str, t_list **dest, t_int_tab *itab, int is_pipe);
 char			*get_subcmd(char *str);
 int				get_subcmd_size(char *str);
 int				handle_separator(char *str, t_list **sep, int i);
