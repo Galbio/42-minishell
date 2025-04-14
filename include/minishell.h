@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/14 05:07:50 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/14 07:06:45 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,7 @@ char			*parse_var(char *var_name, t_list **envp, t_main_envp *imp);
 char			*parse_commands(char *str, t_list *envp, t_main_envp *imp);
 char			*get_var_str(char *str);
 char			*get_var_name(char *str);
+char			*handle_var_quote(char *str, t_int_tab *itab);
 
 //commands
 void			execute_line(char *str, t_list **envp,

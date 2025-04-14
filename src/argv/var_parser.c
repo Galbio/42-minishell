@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:46:01 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/13 22:53:02 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/14 07:45:13 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,13 @@ static char	*handle_var_replacing(char *str, t_int_tab *itab, t_cmd_params *cmd)
 	char	*dest;
 	void	*temp;
 
-	if (ft_strchr(" \n\t~@^%=+]}'\":,./", str[itab->i + 1]))
+	if (ft_strchr(" \n\t~@^%=+]}:,./", str[itab->i + 1]))
 		return (str);
-	is_cmd = 0;
+	else if (ft_strchr("'\"", str[itab->i + 1]))
+		return (handle_var_quote(str, itab));
+	is_cmd = 2 * ((str[itab->i + 1] == '(') || (str[itab->i + 1] == '{'));
 	if (ft_strchr("({", str[itab->i + 1]))
-	{
-		is_cmd = 2;
 		itab->ptr1 = get_subcmd(str + itab->i + 1);
-	}
 	else
 		itab->ptr1 = get_var_name(str + itab->i + 1);
 	temp = get_var_output(str, itab, cmd);
