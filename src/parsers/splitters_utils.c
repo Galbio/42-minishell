@@ -6,13 +6,13 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 22:54:49 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/14 02:31:01 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/14 02:38:33 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	print_error(char *str, t_int_tab *itab)
+static int	print_error(char *str, t_int_tab *itab)
 {
 	write(2, "minishell: syntax error near unexpected token `", 47);
 	if (!str[itab->i])
@@ -20,7 +20,7 @@ static void	print_error(char *str, t_int_tab *itab)
 	else
 	{
 		if (!ft_strncmp("&|", str + itab->i, 2))
-			write(2, "&", 1);
+			write(2, "|", 1);
 		else if (!ft_strncmp("|&", str + itab->i, 2))
 			write(2, "|&", 2);
 		else
@@ -28,6 +28,7 @@ static void	print_error(char *str, t_int_tab *itab)
 	}
 	write(2, "'\n", 2);
 	set_exit_status(258);
+	return (1);
 }
 
 int	handle_separator(char *str, t_list **sep, int i)
@@ -47,7 +48,7 @@ int	handle_separator(char *str, t_list **sep, int i)
 		ft_lstadd_back(sep, ft_lstnew(ft_strdup("&")));
 		return (1);
 	}
-	if (!ft_strncmp(str + i, "|&", 2) || !ft_strncmp(str, "&|", 2))
+	if (!ft_strncmp(str + i, "|&", 2) || !ft_strncmp(str + i, "&|", 2))
 		return (1);
 	if ((str[i] == '&') && !i)
 		return (1);
@@ -65,8 +66,12 @@ int	add_cmd(char *str, t_list **dest, t_int_tab *itab)
 		|| ft_isonlywhitespaces(str + itab->i))
 	{
 		free(temp);
-		print_error(str, itab);
-		return (1);
+		return (print_error(str, itab));
+	}
+	else if ((str[itab->i] != ';') && (str[itab->i] != str[itab->i + 1]))
+	{
+		free(temp);
+		return (print_error(str, itab));
 	}
 	ft_lstadd_back(dest, ft_lstnew(trim_ws(temp)));
 	itab->ret = (itab->i + 1 + (str[itab->i] != ';'));
@@ -74,10 +79,7 @@ int	add_cmd(char *str, t_list **dest, t_int_tab *itab)
 	if (!str[itab->ret - 1])
 		itab->ret--;
 	if (!str[itab->ret] || ft_strchr("|&", str[itab->ret]))
-	{
-		print_error(str, itab);
-		return (1);
-	}
+		return (print_error(str, itab));
 	itab->i--;
 	return (0);
 }
