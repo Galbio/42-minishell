@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 04:04:40 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/14 05:10:54 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/14 06:54:52 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ int	execute_command(t_list *commands, t_cmd_params *params,
 	if (get_exit_status() > 255)
 	{
 		ft_lstclear(&commands, free);
+		free(params);
 		return (get_exit_status());
 	}
 	params->pipes = commands;

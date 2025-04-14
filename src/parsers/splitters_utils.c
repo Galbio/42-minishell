@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 22:54:49 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/14 05:07:37 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/14 08:11:42 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@ static int	print_error(char *str, t_int_tab *itab)
 			write(2, str + itab->i, 1 + (str[itab->i + 1] == str[itab->i]));
 	}
 	write(2, "'\n", 2);
+	if (!isatty(STDIN_FILENO))
+	{
+		write(2, " `", 2);
+		write(2, str, ft_strlen(str));
+		write(2, "'\n", 2);
+	}
 	set_exit_status(258);
 	return (1);
 }
@@ -79,7 +85,7 @@ int	add_cmd(char *str, t_list **dest, t_int_tab *itab, int is_pipe)
 	itab->i += (str[itab->i] != ';') + 1;
 	if (!str[itab->ret - 1])
 		itab->ret--;
-	if (!str[itab->ret] || ft_strchr("|&", str[itab->ret]))
+	if ((!str[itab->ret] || ft_strchr("|&", str[itab->ret])) && !ft_strchr("<>", str[0]))
 		return (print_error(str, itab));
 	itab->i--;
 	return (0);
