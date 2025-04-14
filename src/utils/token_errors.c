@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 21:03:59 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/14 09:09:00 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/14 09:14:13 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	token_error(char *str, int i)
 	write(2, "minishell: syntax error near unexpected token `", 47);
 	if (str[0] == '|')
 		write(2, "|", 1);
-	else if (!str[i])
+	else if (!str[i] || ft_strncmp(str, "<>", 3) == 0)
 		write(2, "newline", 7);
 	else if (ft_strchr("()", str[i]))
 		write(2, str, 1);
