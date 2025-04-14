@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 21:07:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/14 09:12:14 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/14 09:19:56 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void			set_exit_status(int status);
 int				get_exit_status(void);
 int				get_depth(int v);
 
-void			token_error(char *str);
+void			token_error(char *str, int i);
 int				display_error(char *s1, char *argv, char *s2, int res);
 char			*early_heredoc(char *str, int cmd_count, char *res);
 int				redirection_file_errors(char **values, char *og_str);
