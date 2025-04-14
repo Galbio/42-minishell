@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 22:54:49 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/14 08:11:42 by lroussel         ###   ########.fr       */
+/*   Updated: 2025/04/14 09:33:42 by lroussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ int	add_cmd(char *str, t_list **dest, t_int_tab *itab, int is_pipe)
 	itab->i += (str[itab->i] != ';') + 1;
 	if (!str[itab->ret - 1])
 		itab->ret--;
-	if ((!str[itab->ret] || ft_strchr("|&", str[itab->ret])) && !ft_strchr("<>", str[0]))
+	if ((!str[itab->ret] || ft_strchr("|&", str[itab->ret]))
+		&& !ft_strchr("<>", str[0]))
 		return (print_error(str, itab));
 	itab->i--;
 	return (0);
