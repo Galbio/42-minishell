@@ -6,13 +6,13 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 14:11:56 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/04/11 00:47:44 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/04/14 08:41:10 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	**replace_argv(char **argv, int start)
+char	**replace_argv(char **argv, int start)
 {
 	char	**dest;
 	int		i;
